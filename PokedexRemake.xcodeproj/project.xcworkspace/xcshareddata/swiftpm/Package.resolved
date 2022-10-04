@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "swiftpokeapi",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tinotusa/SwiftPokeAPI",
+      "state" : {
+        "branch" : "main",
+        "revision" : "a8481254a93ebaece36130abb7b27b73a3b9cce2"
+      }
+    }
+  ],
+  "version" : 2
+}

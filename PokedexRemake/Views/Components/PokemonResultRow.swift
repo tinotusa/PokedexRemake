@@ -27,18 +27,15 @@ struct PokemonResultRow: View {
             
             VStack(alignment: .leading) {
                 HStack {
-                    Text(viewModel.localizedName(for: pokemonSpecies, language: language))
+                    Text(pokemonSpecies.localizedName(for: language))
                     Spacer()
-                    Text(viewModel.localizedGenerationName(generation, language: language))
+                    Text(generation.localizedName(for: language))
                         .foregroundColor(.gray)
                 }
                 
                 HStack {
                     ForEach(types) { type in
-                        Text(viewModel.localizedTypeName(type, language: language))
-                            .padding(.horizontal)
-                            .background(Color(type.name))
-                            .cornerRadius(5)
+                        TypeTag(type: type)
                     }
                 }
                 .bodyStyle2()

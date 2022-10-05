@@ -32,6 +32,10 @@ extension Bundle {
 }
 
 extension Generation {
+    func localizedName(for language: String) -> String {
+        self.names.localizedName(language: language, default: self.name)
+    }
+    
     static var example: Generation {
         do {
             return try Bundle.main.loadJSON("generation")

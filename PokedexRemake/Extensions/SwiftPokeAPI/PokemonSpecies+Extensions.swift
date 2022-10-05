@@ -9,6 +9,10 @@ import Foundation
 import SwiftPokeAPI
 
 extension PokemonSpecies {
+    func localizedName(for language: String) -> String {
+        self.names.localizedName(language: language, default: self.name)
+    }
+    
     static var example: PokemonSpecies {
         let url = Bundle.main.url(forResource: "pokemonSpecies", withExtension: "json")!
         let data = try! Data(contentsOf: url)

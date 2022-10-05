@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct CategoryGrid: View {
+    @EnvironmentObject private var pokemonCategoryViewViewModel: PokemonCategoryViewViewModel
+    
     var body: some View {
         Grid(horizontalSpacing: 20, verticalSpacing: 10) {
             GridRow {
                 NavigationLink {
-                    Text("Pokemon detail")
+                    PokemonCategoryView(viewModel: pokemonCategoryViewViewModel)
                 } label: {
                     CategoryGridCard(title: "Pokemon")
                 }
@@ -53,5 +55,6 @@ struct CategoryGrid: View {
 struct CategoryGrid_Previews: PreviewProvider {
     static var previews: some View {
         CategoryGrid()
+            .environmentObject(PokemonCategoryViewViewModel())
     }
 }

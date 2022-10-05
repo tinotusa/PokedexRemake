@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct PokedexRemakeApp: App {
+    
+    // View models
+    @StateObject private var pokemonSearchResultsViewModel = PokemonSearchResultsViewViewModel()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(pokemonSearchResultsViewModel)
         }
     }
 }

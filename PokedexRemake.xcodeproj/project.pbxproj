@@ -28,6 +28,7 @@
 		21EB594928EC2FCD009E201A /* SwiftPokeAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 21EB594828EC2FCD009E201A /* SwiftPokeAPI */; };
 		21EB594B28EC3496009E201A /* PokemonResultRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EB594A28EC3496009E201A /* PokemonResultRow.swift */; };
 		21EB594F28EC377C009E201A /* pokemon.json in Resources */ = {isa = PBXBuildFile; fileRef = 21EB594E28EC377C009E201A /* pokemon.json */; };
+		21EB595128EC507A009E201A /* TODO.md in Resources */ = {isa = PBXBuildFile; fileRef = 21EB595028EC507A009E201A /* TODO.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		21EB594528EC2E97009E201A /* PokemonSearchResultsViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonSearchResultsViewViewModel.swift; sourceTree = "<group>"; };
 		21EB594A28EC3496009E201A /* PokemonResultRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonResultRow.swift; sourceTree = "<group>"; };
 		21EB594E28EC377C009E201A /* pokemon.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pokemon.json; sourceTree = "<group>"; };
+		21EB595028EC507A009E201A /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 				219198E528EACC9D002C6379 /* ContentView.swift */,
 				219198E728EACC9F002C6379 /* Assets.xcassets */,
 				219198E928EACC9F002C6379 /* Preview Content */,
+				21EB595028EC507A009E201A /* TODO.md */,
 			);
 			path = PokedexRemake;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21EB595128EC507A009E201A /* TODO.md in Resources */,
 				219198EB28EACC9F002C6379 /* Preview Assets.xcassets in Resources */,
 				21EB594F28EC377C009E201A /* pokemon.json in Resources */,
 				219198E828EACC9F002C6379 /* Assets.xcassets in Resources */,

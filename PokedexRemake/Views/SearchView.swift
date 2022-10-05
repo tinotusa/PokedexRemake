@@ -41,9 +41,7 @@ struct SearchView: View {
     @State private var searchText = ""
     @State private var searchScope: SearchScope = .pokemon
     @FocusState private var focusedField: FocusedField?
-    
-    // View models
-    @StateObject private var pokemonSearchResultsViewModel = PokemonSearchResultsViewViewModel()
+    @EnvironmentObject private var pokemonSearchResultsViewModel: PokemonSearchResultsViewViewModel
     
     var body: some View {
         VStack {
@@ -115,5 +113,6 @@ private extension SearchView {
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         SearchView(showingSearchView: .constant(false), namespace: Namespace().wrappedValue)
+            .environmentObject(PokemonSearchResultsViewViewModel())
     }
 }

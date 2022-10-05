@@ -13,6 +13,15 @@ struct PokemonSearchResultsView: View {
     var body: some View {
         if viewModel.pokemon.isEmpty {
             VStack {
+                if viewModel.isSearchLoading {
+                    ProgressView()
+                        .transition(
+                            .asymmetric(
+                                insertion: .move(edge: .top).combined(with: .opacity),
+                                removal: .move(edge: .top).combined(with: .opacity)
+                            )
+                        )
+                }
                 Spacer()
                 Text("No recent searches. Search for a pokemon.")
                     
@@ -46,7 +55,15 @@ struct PokemonSearchResultsView: View {
                     }
                     
                     Divider()
-                    
+                    if viewModel.isSearchLoading {
+                        ProgressView()
+                            .transition(
+                                .asymmetric(
+                                    insertion: .move(edge: .top).combined(with: .opacity),
+                                    removal: .move(edge: .top).combined(with: .opacity)
+                                )
+                            )
+                    }
                     ForEach(viewModel.pokemon) { pokemon in
                         PokemonResultRow(pokemon: pokemon)
                     }

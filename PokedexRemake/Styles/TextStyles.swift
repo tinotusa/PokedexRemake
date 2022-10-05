@@ -67,7 +67,7 @@ struct BodyStyle2: ViewModifier {
 }
 
 struct BodyStyle: ViewModifier {
-    @ScaledMetric private var size = 20
+    @ScaledMetric private var size = 16
     
     func body(content: Content) -> some View {
         content

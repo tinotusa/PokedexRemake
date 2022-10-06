@@ -21,6 +21,7 @@ final class PokemonDataStore: ObservableObject {
     enum PokemonDataStoreError: Error {
         case speciesNotFound
         case typesNotFound
+        case generationNotFound
     }
 }
 
@@ -84,7 +85,16 @@ extension PokemonDataStore {
             throw PokemonDataStoreError.typesNotFound
         }
         
-        return PokemonData(pokemon: pokemon, pokemonSpecies: pokemonSpecies, types: Array(types))
+        guard let generation = generations.first(where: { $0.name == pokemonSpecies.generation.name }) else {
+            throw PokemonDataStoreError.generationNotFound
+        }
+        
+        return PokemonData(
+            pokemon: pokemon,
+            pokemonSpecies: pokemonSpecies,
+            types: Array(types),
+            generation: generation
+        )
     }
 }
 

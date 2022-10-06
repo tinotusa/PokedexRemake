@@ -9,19 +9,11 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct PokemonDetail: View {
-    let pokemon: Pokemon
-    let pokemonSpecies: PokemonSpecies
-    let types: [`Type`]
-    
-    init(pokemonData: PokemonData) {
-        self.pokemon = pokemonData.pokemon
-        self.pokemonSpecies = pokemonData.pokemonSpecies
-        self.types = pokemonData.types
-    }
+    let pokemonData: PokemonData
     
     var body: some View {
         VStack {
-            Text("TODO \(pokemon.name)")
+            Text("TODO \(pokemonData.pokemon.name)")
         }
 //        .bodyStyle()
     }
@@ -32,7 +24,8 @@ struct PokemonDetail_Previews: PreviewProvider {
         PokemonDetail(pokemonData: .init(
             pokemon: .example,
             pokemonSpecies: .example,
-            types: [.grassExample, .poisonExample]
+            types: [.grassExample, .poisonExample],
+            generation: .example
             )
         )
     }

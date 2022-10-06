@@ -70,7 +70,8 @@ struct PokemonCardView_Previews: PreviewProvider {
             pokemonData: .init(
                 pokemon: .example,
                 pokemonSpecies: .example,
-                types: [.grassExample, .poisonExample]
+                types: [.grassExample, .poisonExample],
+                generation: .example
             )
         )
     }

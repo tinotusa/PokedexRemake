@@ -16,6 +16,9 @@ struct PokemonData {
     let pokemonSpecies: PokemonSpecies
     /// The pokemon's type(s).
     let types: [`Type`]
+    /// The generation the pokemon belongs to.
+    let generation: Generation
+    // TODO: Maybe make the properties optional (some views might not need certain things?)
 }
 
 // MARK: - Protocol conformances

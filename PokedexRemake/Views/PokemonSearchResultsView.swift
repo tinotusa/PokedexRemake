@@ -82,9 +82,8 @@ private extension PokemonSearchResultsView {
                         )
                 }
                 ForEach(pokemonDataStore.pokemon.sorted()) { pokemon in
-                    if let pokemonData = try? pokemonDataStore.pokemonData(for: pokemon),
-                       let generation = pokemonDataStore.generations.first(where: {$0.name == pokemonData.pokemonSpecies.generation.name}) {
-                        PokemonResultRow(pokemonData: pokemonData, generation: generation)
+                    if let pokemonData = try? pokemonDataStore.pokemonData(for: pokemon) {
+                        PokemonResultRow(pokemonData: pokemonData)
                     }
                 }
             }

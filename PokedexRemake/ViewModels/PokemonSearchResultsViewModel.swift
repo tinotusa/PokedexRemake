@@ -1,5 +1,5 @@
 //
-//  PokemonSearchResultsViewViewModel.swift
+//  PokemonSearchResultsViewModel.swift
 //  PokedexRemake
 //
 //  Created by Tino on 4/10/2022.
@@ -9,20 +9,16 @@ import SwiftUI
 import os
 import SwiftPokeAPI
 
-final class PokemonSearchResultsViewViewModel: ObservableObject {
-    @Published private(set) var pokemon: [Pokemon] = []
-    @Published private(set) var pokemonSpecies: [PokemonSpecies] = []
-    @Published private(set) var generations: [Generation] = []
-    @Published private(set) var types: Set<`Type`> = []
-    
+final class PokemonSearchResultsViewModel: ObservableObject {
+    @Published private(set) var recentlySearched: [Int] = []
     @Published private(set) var errorText: String?
     private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonSearchResultsViewViewModel")
     @Published private(set) var isSearchLoading = false
 }
 
-extension PokemonSearchResultsViewViewModel {
+extension PokemonSearchResultsViewModel {
     @MainActor
-    func searchForPokemon(named name: String) async {
+    func searchForPokemon(named name: String, pokemonDataStore: PokemonDataStore) async {
         withAnimation {
             isSearchLoading = true
         }
@@ -69,10 +65,10 @@ extension PokemonSearchResultsViewViewModel {
                 
                 return types
             }
-            self.pokemon.insert(pokemon, at: 0)
-            self.pokemonSpecies.append(pokemonSpecies)
-            self.generations.append(generation)
-            self.types.formUnion(types)
+            pokemonDataStore.addPokemon(pokemon)
+            pokemonDataStore.addPokemonSpecies(pokemonSpecies)
+            pokemonDataStore.addGeneration(generation)
+            pokemonDataStore.addTypes(types)
         } catch {
             logger.error("Failed to get pokemon with name: \(name). \(error)")
             withAnimation {
@@ -81,21 +77,9 @@ extension PokemonSearchResultsViewViewModel {
         }
     }
     
-    func getTypes(for pokemon: Pokemon) -> [`Type`] {
-        let types = types.filter { type in
-            for pokemonType in pokemon.types {
-                if pokemonType.type.name == type.name {
-                    return true
-                }
-            }
-            return false
-        }
-        return types.sorted()
-    }
-    
     // TODO: use confirmation dialog here?
     @MainActor
     func clearRecentlySearched() {
-        pokemon = []
+        recentlySearched = []
     }
 }

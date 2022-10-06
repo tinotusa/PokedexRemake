@@ -9,7 +9,9 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct PokemonCategoryView: View {
-    @ObservedObject var viewModel: PokemonCategoryViewViewModel
+    @ObservedObject var viewModel: PokemonCategoryViewModel
+    @EnvironmentObject private var pokemonDataStore: PokemonDataStore
+    
     private let columns: [GridItem] = [.init(.adaptive(minimum: 200))]
     
     var body: some View {
@@ -17,25 +19,20 @@ struct PokemonCategoryView: View {
         case .loading:
             ProgressView()
                 .task {
-                    await viewModel.loadData()
+                    await viewModel.loadData(pokemonDataStore: pokemonDataStore)
                 }
         case .loaded:
             ScrollView {
                 LazyVGrid(columns: columns) {
-                    ForEach(viewModel.pokemon) { pokemon in
-                        if let pokemonSpecies = viewModel.pokemonSpecies(for: pokemon),
-                           let types = viewModel.types(for: pokemon) {
-                            PokemonCardView(
-                                pokemon: pokemon,
-                                pokemonSpecies: pokemonSpecies,
-                                types: types
-                            )
+                    ForEach(pokemonDataStore.pokemon.sorted()) { pokemon in
+                        if let pokemonData = try? pokemonDataStore.pokemonData(for: pokemon) {
+                            PokemonCardView(pokemonData: pokemonData)
                         }
                     }
                     if viewModel.hasNextPage {
                         ProgressView()
                             .task {
-                                await viewModel.loadNextPage()
+                                await viewModel.loadNextPage(pokemonDataStore: pokemonDataStore)
                             }
                     }
                 }
@@ -48,6 +45,7 @@ struct PokemonCategoryView: View {
 
 struct PokemonCategoryView_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonCategoryView(viewModel: PokemonCategoryViewViewModel())
+        PokemonCategoryView(viewModel: PokemonCategoryViewModel())
+            .environmentObject(PokemonDataStore())
     }
 }

@@ -1,5 +1,5 @@
 //
-//  PokemonCategoryViewViewModel.swift
+//  PokemonCategoryViewModel.swift
 //  PokedexRemake
 //
 //  Created by Tino on 5/10/2022.
@@ -9,13 +9,8 @@ import Foundation
 import SwiftPokeAPI
 import os
 
-final class PokemonCategoryViewViewModel: ObservableObject {
+final class PokemonCategoryViewModel: ObservableObject {
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
-    @Published private(set) var pokemon = [Pokemon]()
-    @Published private(set) var pokemonSpecies = [PokemonSpecies]()
-    @Published private(set) var types = Set<`Type`>()
-    
-    private var logger = Logger(subsystem: "com.tinotusa.Pokedex", category: "PokemonCategoryViewViewModel")
     @Published private(set) var hasNextPage = true
     @Published private(set) var nextPageURL: URL? {
         didSet {
@@ -24,12 +19,25 @@ final class PokemonCategoryViewViewModel: ObservableObject {
             }
         }
     }
+
+    private var logger = Logger(subsystem: "com.tinotusa.Pokedex", category: "PokemonCategoryViewViewModel")
+    let id = UUID().uuidString
+}
+
+extension PokemonCategoryViewModel: Equatable, Hashable {
+    static func == (lhs: PokemonCategoryViewModel, rhs: PokemonCategoryViewModel) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
 }
 
 // MARK: - Public functions
-extension PokemonCategoryViewViewModel {
+extension PokemonCategoryViewModel {
     @MainActor
-    func loadData() async {
+    func loadData(pokemonDataStore: PokemonDataStore) async {
         do {
             let pokemonResourceList = try await NamedAPIResourceList(.pokemon, limit: 20)
             nextPageURL = pokemonResourceList.next
@@ -38,9 +46,10 @@ extension PokemonCategoryViewViewModel {
             let pokemonSpecies = await getPokemonSpecies(from: pokemon)
             let types = await getTypes(from: pokemon)
             
-            self.pokemon = pokemon
-            self.pokemonSpecies = pokemonSpecies
-            self.types = types
+            pokemonDataStore.addPokemon(pokemon)
+            pokemonDataStore.addPokemonSpecies(pokemonSpecies)
+            // TODO: refactor addtypes function to return array
+            pokemonDataStore.addTypes(Array(types))
             
             viewLoadingState = .loaded
         } catch {
@@ -49,7 +58,7 @@ extension PokemonCategoryViewViewModel {
     }
     
     @MainActor
-    func loadNextPage() async {
+    func loadNextPage(pokemonDataStore: PokemonDataStore) async {
         logger.debug("Loading next page.")
         if !hasNextPage {
             logger.debug("Failed to load next page. View model doesn't have a next page.")
@@ -67,33 +76,19 @@ extension PokemonCategoryViewViewModel {
             let pokemonSpecies = await getPokemonSpecies(from: pokemon)
             let types = await getTypes(from: pokemon)
             
-            self.pokemon.append(contentsOf: pokemon)
-            self.pokemonSpecies.append(contentsOf: pokemonSpecies)
-            self.types.formUnion(types)
+            pokemonDataStore.addPokemon(pokemon)
+            pokemonDataStore.addPokemonSpecies(pokemonSpecies)
+            // TODO: refactor addtypes function to return array
+            pokemonDataStore.addTypes(Array(types))
             logger.debug("Successfully loaded the next page. Loaded \(pokemon.count) pokemon.")
         } catch {
             logger.error("Failed to load next page. \(error)")
         }
     }
-    
-    func pokemonSpecies(for pokemon: Pokemon) -> PokemonSpecies? {
-        self.pokemonSpecies.first { $0.name == pokemon.species.name }
-    }
-    
-    func types(for pokemon: Pokemon) -> [`Type`] {
-        self.types.filter { type in
-            for pokemonType in pokemon.types {
-                if pokemonType.type.name == type.name {
-                    return true
-                }
-            }
-            return false
-        }
-    }
 }
 
 // MARK: - Private functions
-private extension PokemonCategoryViewViewModel {
+private extension PokemonCategoryViewModel {
     func getResources(from resourceList: NamedAPIResourceList) async -> [Pokemon] {
         let pokemon = await withTaskGroup(of: Pokemon?.self) { group in
             for resource in resourceList.results {

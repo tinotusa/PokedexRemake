@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct PokemonSearchResultsView: View {
-    @ObservedObject var viewModel: PokemonSearchResultsViewViewModel
+    @ObservedObject var viewModel: PokemonSearchResultsViewModel
+    @EnvironmentObject private var pokemonDataStore: PokemonDataStore
     
     var body: some View {
         VStack {
-            if viewModel.pokemon.isEmpty {
+            if pokemonDataStore.pokemon.isEmpty {
                 emptyPokemonListView
             } else {
                 pokemonListView
@@ -80,18 +81,10 @@ private extension PokemonSearchResultsView {
                             )
                         )
                 }
-                // TODO: Clean up. move to functions in view model
-                ForEach(viewModel.pokemon) { pokemon in
-                    if let pokemonSpecies = viewModel.pokemonSpecies.first(where: { $0.id == pokemon.id }),
-                       let generation = viewModel.generations.first(where: { $0.name == pokemonSpecies.generation.name }),
-                       let types = viewModel.getTypes(for: pokemon)
-                    {
-                        PokemonResultRow(
-                            pokemon: pokemon,
-                            pokemonSpecies: pokemonSpecies,
-                            generation: generation,
-                            types: types
-                        )
+                ForEach(pokemonDataStore.pokemon.sorted()) { pokemon in
+                    if let pokemonData = try? pokemonDataStore.pokemonData(for: pokemon),
+                       let generation = pokemonDataStore.generations.first(where: {$0.name == pokemonData.pokemonSpecies.generation.name}) {
+                        PokemonResultRow(pokemonData: pokemonData, generation: generation)
                     }
                 }
             }
@@ -101,6 +94,7 @@ private extension PokemonSearchResultsView {
 
 struct PokemonSearchResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonSearchResultsView(viewModel: PokemonSearchResultsViewViewModel())
+        PokemonSearchResultsView(viewModel: PokemonSearchResultsViewModel())
+            .environmentObject(PokemonDataStore())
     }
 }

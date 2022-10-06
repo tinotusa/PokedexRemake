@@ -18,6 +18,13 @@ struct PokemonResultRow: View {
     let generation: Generation
     let types: [`Type`]
     
+    init(pokemonData: PokemonData, generation: Generation) {
+        self.pokemon = pokemonData.pokemon
+        self.pokemonSpecies = pokemonData.pokemonSpecies
+        self.types = pokemonData.types
+        self.generation = generation
+    }
+    
     @StateObject private var viewModel = PokemonResultRowViewModel()
     @AppStorage(SettingKey.language.rawValue) private var language = "en"
     
@@ -72,10 +79,8 @@ private extension PokemonResultRow {
 struct PokemonResultRow_Previews: PreviewProvider {
     static var previews: some View {
         PokemonResultRow(
-            pokemon: .example,
-            pokemonSpecies: .example,
-            generation: .example,
-            types: [.grassExample, .poisonExample]
-        )
+            pokemonData: .init(pokemon: .example, pokemonSpecies: .example, types: [.grassExample, .poisonExample]),
+            generation: .example
+            )
     }
 }

@@ -50,8 +50,8 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             HomeView()
-                .environmentObject(PokemonSearchResultsViewViewModel())
-                .environmentObject(PokemonCategoryViewViewModel())
+                .environmentObject(PokemonSearchResultsViewModel())
+                .environmentObject(PokemonCategoryViewModel())
         }
     }
 }

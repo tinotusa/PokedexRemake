@@ -44,3 +44,13 @@ extension Generation {
         }
     }
 }
+
+extension Generation: Equatable, Hashable {
+    public static func == (lhs: Generation, rhs: Generation) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
+}

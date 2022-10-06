@@ -8,6 +8,12 @@
 import Foundation
 import SwiftPokeAPI
 
+extension Pokemon: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
+}
+
 extension Pokemon: Comparable {
     public static func == (lhs: Pokemon, rhs: Pokemon) -> Bool {
         lhs.id == rhs.id

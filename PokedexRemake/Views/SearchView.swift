@@ -41,7 +41,8 @@ struct SearchView: View {
     @State private var searchText = ""
     @State private var searchScope: SearchScope = .pokemon
     @FocusState private var focusedField: FocusedField?
-    @EnvironmentObject private var pokemonSearchResultsViewModel: PokemonSearchResultsViewViewModel
+    @EnvironmentObject private var pokemonSearchResultsViewModel: PokemonSearchResultsViewModel
+    @EnvironmentObject private var pokemonDataStore: PokemonDataStore
     
     var body: some View {
         VStack {
@@ -53,7 +54,7 @@ struct SearchView: View {
                         Task {
                             switch searchScope {
                             case .pokemon:
-                                await pokemonSearchResultsViewModel.searchForPokemon(named: searchText)
+                                await pokemonSearchResultsViewModel.searchForPokemon(named: searchText, pokemonDataStore: pokemonDataStore)
                             default:
                                 print("TODO!")
                             }
@@ -113,6 +114,7 @@ private extension SearchView {
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         SearchView(showingSearchView: .constant(false), namespace: Namespace().wrappedValue)
-            .environmentObject(PokemonSearchResultsViewViewModel())
+            .environmentObject(PokemonSearchResultsViewModel())
+            .environmentObject(PokemonDataStore())
     }
 }

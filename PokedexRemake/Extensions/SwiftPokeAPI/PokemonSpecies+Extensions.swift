@@ -22,3 +22,12 @@ extension PokemonSpecies {
     }
 }
 
+extension PokemonSpecies: Equatable, Hashable {
+    public static func == (lhs: PokemonSpecies, rhs: PokemonSpecies) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
+}

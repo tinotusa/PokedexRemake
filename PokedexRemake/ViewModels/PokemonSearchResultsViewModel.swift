@@ -69,6 +69,7 @@ extension PokemonSearchResultsViewModel {
             pokemonDataStore.addPokemonSpecies(pokemonSpecies)
             pokemonDataStore.addGeneration(generation)
             pokemonDataStore.addTypes(types)
+            recentlySearched.insert(pokemon.id, at: 0)
         } catch {
             logger.error("Failed to get pokemon with name: \(name). \(error)")
             withAnimation {

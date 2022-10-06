@@ -81,7 +81,7 @@ private extension PokemonSearchResultsView {
                             )
                         )
                 }
-                ForEach(pokemonDataStore.pokemon.sorted()) { pokemon in
+                ForEach(pokemonDataStore.pokemon(ids: viewModel.recentlySearched)) { pokemon in
                     if let pokemonData = try? pokemonDataStore.pokemonData(for: pokemon) {
                         PokemonResultRow(pokemonData: pokemonData)
                     }

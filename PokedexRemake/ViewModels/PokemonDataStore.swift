@@ -81,6 +81,25 @@ extension PokemonDataStore {
 
 // MARK: Getters
 extension PokemonDataStore {
+    func pokemon(ids: [Int]) -> [Pokemon] {
+        let filteredPokemon = pokemon.filter { pokemon in
+            for id in ids {
+                if id == pokemon.id {
+                    return true
+                }
+            }
+            return true
+        }
+        var correctedOrder = [Pokemon]()
+        for id in ids {
+            guard let pokemon = filteredPokemon.first(where: { $0.id == id } ) else {
+                continue
+            }
+            correctedOrder.append(pokemon)
+        }
+        return correctedOrder
+    }
+    
     func pokemonData(for pokemon: Pokemon) throws -> PokemonData {
         guard let pokemonSpecies = pokemonSpecies.first(where: { $0.name == pokemon.species.name } ) else {
             logger.error("Species not found for \(pokemon.name).")

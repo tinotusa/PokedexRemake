@@ -78,6 +78,14 @@ extension PokemonSearchResultsViewModel {
         }
     }
     
+    func moveIDToTop(_ id: Int) {
+        guard let index = recentlySearched.firstIndex(of: id) else {
+            logger.error("Failed to find index for pokemon id: \(id)")
+            return
+        }
+        recentlySearched.move(fromOffsets: IndexSet(integer: index), toOffset: 0)
+    }
+    
     // TODO: use confirmation dialog here?
     @MainActor
     func clearRecentlySearched() {

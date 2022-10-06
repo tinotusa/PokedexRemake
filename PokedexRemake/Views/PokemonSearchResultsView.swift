@@ -84,8 +84,12 @@ private extension PokemonSearchResultsView {
                 ForEach(pokemonDataStore.pokemon(ids: viewModel.recentlySearched)) { pokemon in
                     if let pokemonData = try? pokemonDataStore.pokemonData(for: pokemon) {
                         PokemonResultRow(pokemonData: pokemonData)
+                            .simultaneousGesture(TapGesture().onEnded {
+                                viewModel.moveIDToTop(pokemon.id)
+                            })
                     }
                 }
+                .animation(nil, value: viewModel.isSearchLoading)
             }
         }
     }

@@ -17,43 +17,47 @@ struct PokemonResultRow: View {
     let pokemonSpecies: PokemonSpecies
     let generation: Generation?
     let types: [`Type`]
+    let pokemonData: PokemonData
     
     init(pokemonData: PokemonData) {
         self.pokemon = pokemonData.pokemon
         self.pokemonSpecies = pokemonData.pokemonSpecies
         self.types = pokemonData.types.sorted()
         self.generation = pokemonData.generation
+        self.pokemonData = pokemonData
     }
     
     @StateObject private var viewModel = PokemonResultRowViewModel()
     @AppStorage(SettingKey.language.rawValue) private var language = "en"
     
     var body: some View {
-        HStack {
-            pokemonImage
-            
-            VStack(alignment: .leading) {
-                HStack {
-                    Text(pokemonSpecies.localizedName(for: language))
-                    Spacer()
-                    if let generation {
-                        Text(generation.localizedName(for: language))
-                            .foregroundColor(.gray)
-                    }
-                }
+        NavigationLink(value: pokemonData) {
+            HStack {
+                pokemonImage
                 
-                HStack {
-                    ForEach(types) { type in
-                        TypeTag(type: type)
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(pokemonSpecies.localizedName(for: language))
+                        Spacer()
+                        if let generation {
+                            Text(generation.localizedName(for: language))
+                                .foregroundColor(.gray)
+                        }
                     }
+                    
+                    HStack {
+                        ForEach(types) { type in
+                            TypeTag(type: type)
+                        }
+                    }
+                    .bodyStyle2()
+                    
+                    Text(formattedID(pokemon.id))
+                        .foregroundColor(.gray)
                 }
-                .bodyStyle2()
-                
-                Text(formattedID(pokemon.id))
-                    .foregroundColor(.gray)
             }
+            .bodyStyle()
         }
-        .bodyStyle()
     }
 }
 

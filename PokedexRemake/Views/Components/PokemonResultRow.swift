@@ -21,7 +21,7 @@ struct PokemonResultRow: View {
     init(pokemonData: PokemonData) {
         self.pokemon = pokemonData.pokemon
         self.pokemonSpecies = pokemonData.pokemonSpecies
-        self.types = pokemonData.types
+        self.types = pokemonData.types.sorted()
         self.generation = pokemonData.generation
     }
     

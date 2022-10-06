@@ -92,6 +92,7 @@ private extension PokemonSearchResultsView {
                 .animation(nil, value: viewModel.isSearchLoading)
             }
         }
+        .scrollDismissesKeyboard(.immediately)
     }
 }
 

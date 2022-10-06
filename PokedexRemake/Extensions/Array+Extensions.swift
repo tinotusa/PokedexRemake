@@ -19,3 +19,12 @@ extension Array where Element == Name {
         return defaultValue
     }
 }
+
+extension Array where Element == FlavorText {
+    func localizedEntries(language: String) -> [FlavorText] {
+        let flavorTexts = self.filter { flavorText in
+            flavorText.language.name == language
+        }
+        return flavorTexts
+    }
+}

@@ -15,6 +15,8 @@ final class PokemonDataStore: ObservableObject {
     @Published private(set) var pokemonSpecies: Set<PokemonSpecies> = []
     @Published private(set) var generations: Set<Generation> = []
     @Published private(set) var types: Set<`Type`> = []
+    @Published private(set) var versions: Set<Version> = []
+    @Published private(set) var items = Set<Item>()
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonDataStore")
     
@@ -26,42 +28,54 @@ final class PokemonDataStore: ObservableObject {
 }
 
 extension PokemonDataStore {
-    func addPokemonData(_ pokemonData: PokemonData) {
-        addPokemon(pokemonData.pokemon)
-        addPokemonSpecies(pokemonData.pokemonSpecies)
-        pokemonData.types.forEach(addType)
+    @MainActor
+    func addPokemon(_ pokemon: Set<Pokemon>) {
+        self.pokemon.formUnion(pokemon)
     }
-    
+//
+    @MainActor
     func addPokemon(_ pokemon: Pokemon) {
         self.pokemon.insert(pokemon)
     }
     
-    func addPokemon(_ pokemon: [Pokemon]) {
-        self.pokemon.formUnion(pokemon)
+    @MainActor
+    func addPokemonSpecies(_ pokemonSpecies: Set<PokemonSpecies>) {
+        self.pokemonSpecies.formUnion(pokemonSpecies)
     }
     
+    @MainActor
     func addPokemonSpecies(_ pokemonSpecies: PokemonSpecies) {
         self.pokemonSpecies.insert(pokemonSpecies)
     }
     
-    func addPokemonSpecies(_ pokemonSpecies: [PokemonSpecies]) {
-        self.pokemonSpecies.formUnion(pokemonSpecies)
+    @MainActor
+    func addGenerations(_ generations: Set<Generation>) {
+        self.generations.formUnion(generations)
     }
     
+    @MainActor
     func addGeneration(_ generation: Generation) {
         self.generations.insert(generation)
     }
     
-    func addGenerations(_ generations: [Generation]) {
-        self.generations.formUnion(generations)
+    @MainActor
+    func addTypes(_ types: Set<`Type`>) {
+        self.types.formUnion(types)
     }
     
+    @MainActor
     func addType(_ type: `Type`) {
         self.types.insert(type)
     }
     
-    func addTypes(_ types: [`Type`]) {
-        self.types.formUnion(types)
+    @MainActor
+    func addVersions(_ versions: Set<Version>) {
+        self.versions.formUnion(versions)
+    }
+    
+    @MainActor
+    func addItems(_ items: Set<Item>) {
+        self.items.formUnion(items)
     }
 }
 
@@ -69,6 +83,7 @@ extension PokemonDataStore {
 extension PokemonDataStore {
     func pokemonData(for pokemon: Pokemon) throws -> PokemonData {
         guard let pokemonSpecies = pokemonSpecies.first(where: { $0.name == pokemon.species.name } ) else {
+            logger.error("Species not found for \(pokemon.name).")
             throw PokemonDataStoreError.speciesNotFound
         }
         
@@ -82,12 +97,11 @@ extension PokemonDataStore {
         }
         
         guard types.count > 0 else {
+            logger.error("Types not found for \(pokemon.name).")
             throw PokemonDataStoreError.typesNotFound
         }
         
-        guard let generation = generations.first(where: { $0.name == pokemonSpecies.generation.name }) else {
-            throw PokemonDataStoreError.generationNotFound
-        }
+        let generation = generations.first(where: { $0.name == pokemonSpecies.generation.name })
         
         return PokemonData(
             pokemon: pokemon,
@@ -95,6 +109,17 @@ extension PokemonDataStore {
             types: Array(types),
             generation: generation
         )
+    }
+    
+    func items(for pokemon: Pokemon) -> Set<Item> {
+        self.items.filter { item in
+            for heldItem in pokemon.heldItems {
+                if heldItem.item.name == item.name {
+                    return true
+                }
+            }
+            return false
+        }
     }
 }
 

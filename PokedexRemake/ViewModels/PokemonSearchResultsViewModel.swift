@@ -57,10 +57,10 @@ extension PokemonSearchResultsViewModel {
                     }
                 }
                 
-                var types = [`Type`]()
+                var types = Set<`Type`>()
                 for await type in group {
                     guard let type else { continue }
-                    types.append(type)
+                    types.insert(type)
                 }
                 
                 return types

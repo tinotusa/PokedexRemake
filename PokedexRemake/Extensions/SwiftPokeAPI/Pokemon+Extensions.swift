@@ -9,6 +9,10 @@ import Foundation
 import SwiftPokeAPI
 
 extension Pokemon: Hashable {
+    var weightInKG: Double {
+        Double(self.weight) / 10.0
+    }
+    
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.id)
     }

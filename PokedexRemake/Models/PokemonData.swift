@@ -17,8 +17,9 @@ struct PokemonData {
     /// The pokemon's type(s).
     let types: [`Type`]
     /// The generation the pokemon belongs to.
-    let generation: Generation
+    let generation: Generation?
     // TODO: Maybe make the properties optional (some views might not need certain things?)
+    // TODO: Maybe have the first parameter be the pokemon and the rest are optional (look up calendar components)
 }
 
 // MARK: - Protocol conformances

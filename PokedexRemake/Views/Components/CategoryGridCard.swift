@@ -13,7 +13,7 @@ struct CategoryGridCard: View {
     var body: some View {
         Text(title)
             .lineLimit(1)
-            .titleStyle()
+            .title2Style()
             .frame(maxWidth: .infinity)
             .padding()
             .background(.white)

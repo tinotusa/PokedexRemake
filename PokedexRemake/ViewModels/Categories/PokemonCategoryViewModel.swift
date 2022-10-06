@@ -22,6 +22,10 @@ final class PokemonCategoryViewModel: ObservableObject {
 
     private var logger = Logger(subsystem: "com.tinotusa.Pokedex", category: "PokemonCategoryViewViewModel")
     let id = UUID().uuidString
+    
+    enum PokemonCategoryError: Error {
+        case noNextPage
+    }
 }
 
 extension PokemonCategoryViewModel: Equatable, Hashable {
@@ -48,8 +52,7 @@ extension PokemonCategoryViewModel {
             
             pokemonDataStore.addPokemon(pokemon)
             pokemonDataStore.addPokemonSpecies(pokemonSpecies)
-            // TODO: refactor addtypes function to return array
-            pokemonDataStore.addTypes(Array(types))
+            pokemonDataStore.addTypes(types)
             
             viewLoadingState = .loaded
         } catch {
@@ -78,8 +81,7 @@ extension PokemonCategoryViewModel {
             
             pokemonDataStore.addPokemon(pokemon)
             pokemonDataStore.addPokemonSpecies(pokemonSpecies)
-            // TODO: refactor addtypes function to return array
-            pokemonDataStore.addTypes(Array(types))
+            pokemonDataStore.addTypes(types)
             logger.debug("Successfully loaded the next page. Loaded \(pokemon.count) pokemon.")
         } catch {
             logger.error("Failed to load next page. \(error)")
@@ -89,7 +91,7 @@ extension PokemonCategoryViewModel {
 
 // MARK: - Private functions
 private extension PokemonCategoryViewModel {
-    func getResources(from resourceList: NamedAPIResourceList) async -> [Pokemon] {
+    func getResources(from resourceList: NamedAPIResourceList) async -> Set<Pokemon> {
         let pokemon = await withTaskGroup(of: Pokemon?.self) { group in
             for resource in resourceList.results {
                 group.addTask { [weak self] in
@@ -105,17 +107,17 @@ private extension PokemonCategoryViewModel {
                 }
             }
             
-            var tempPokemon = [Pokemon]()
+            var tempPokemon = Set<Pokemon>()
             for await pokemon in group {
                 guard let pokemon else { continue }
-                tempPokemon.append(pokemon)
+                tempPokemon.insert(pokemon)
             }
             return tempPokemon
         }
-        return pokemon.sorted()
+        return pokemon
     }
     
-    func getPokemonSpecies(from pokemon: [Pokemon]) async -> [PokemonSpecies] {
+    func getPokemonSpecies(from pokemon: Set<Pokemon>) async -> Set<PokemonSpecies> {
         let pokemonSpecies = await withTaskGroup(of: PokemonSpecies?.self) { group in
             for pokemon in pokemon {
                 group.addTask { [weak self] in
@@ -131,10 +133,10 @@ private extension PokemonCategoryViewModel {
                 }
             }
             
-            var tempPokemonSpecies = [PokemonSpecies]()
+            var tempPokemonSpecies = Set<PokemonSpecies>()
             for await pokemonSpecies in group {
                 guard let pokemonSpecies else { continue }
-                tempPokemonSpecies.append(pokemonSpecies)
+                tempPokemonSpecies.insert(pokemonSpecies)
             }
             return tempPokemonSpecies
         }
@@ -142,7 +144,7 @@ private extension PokemonCategoryViewModel {
         return pokemonSpecies
     }
     
-    func getTypes(from pokemon: [Pokemon]) async -> Set<`Type`> {
+    func getTypes(from pokemon: Set<Pokemon>) async -> Set<`Type`> {
         let types = await withTaskGroup(of: `Type`?.self) { group in
             for pokemon in pokemon {
                 for type in pokemon.types {

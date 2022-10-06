@@ -15,7 +15,7 @@ func formattedID(_ id: Int) -> String {
 struct PokemonResultRow: View {
     let pokemon: Pokemon
     let pokemonSpecies: PokemonSpecies
-    let generation: Generation
+    let generation: Generation?
     let types: [`Type`]
     
     init(pokemonData: PokemonData) {
@@ -36,8 +36,10 @@ struct PokemonResultRow: View {
                 HStack {
                     Text(pokemonSpecies.localizedName(for: language))
                     Spacer()
-                    Text(generation.localizedName(for: language))
-                        .foregroundColor(.gray)
+                    if let generation {
+                        Text(generation.localizedName(for: language))
+                            .foregroundColor(.gray)
+                    }
                 }
                 
                 HStack {

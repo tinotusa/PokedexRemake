@@ -22,6 +22,7 @@ struct SearchBar: View {
             Image(systemName: "magnifyingglass")
             TextField(placeholder, text: $searchText)
                 .autocorrectionDisabled(true)
+                .submitLabel(.search)
         }
         .foregroundColor(.gray)
         .padding()

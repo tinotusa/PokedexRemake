@@ -153,9 +153,9 @@ private extension StatsTabViewModel {
                         guard let name = resource.name else {
                             return nil
                         }
-                        if pokemonDataStore.items.contains(where: { $0.name == name }) {
+                        if let type = pokemonDataStore.types.first(where: { $0.name == name }) {
                             self?.logger.debug("Type named: \(name) is already in data store.")
-                            return nil
+                            return type
                         }
                         return try await Type(name)
                     } catch {

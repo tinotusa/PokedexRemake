@@ -8,16 +8,6 @@
 import Foundation
 import SwiftPokeAPI
 
-extension `Type`: Equatable, Hashable {
-    public static func == (lhs: `Type`, rhs: `Type`) -> Bool {
-        lhs.id == rhs.id
-    }
-    
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
-
 extension `Type`: Comparable {
     public static func < (lhs: `Type`, rhs: `Type`) -> Bool {
         lhs.id < rhs.id

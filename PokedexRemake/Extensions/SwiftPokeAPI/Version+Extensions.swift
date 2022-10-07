@@ -13,13 +13,3 @@ extension Version {
         self.names.localizedName(language: language, default: self.name)
     }
 }
-
-extension Version: Equatable, Hashable {
-    public static func == (lhs: Version, rhs: Version) -> Bool {
-        lhs.id == rhs.id
-    }
-    
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.id)
-    }
-}

@@ -49,6 +49,8 @@
 		21CD84BA28ED4F42008B2611 /* ViewLoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CD84B928ED4F42008B2611 /* ViewLoadingState.swift */; };
 		21CD84BC28ED67B7008B2611 /* PokemonCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CD84BB28ED67B7008B2611 /* PokemonCardView.swift */; };
 		21CD84BE28ED6A63008B2611 /* TypeTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CD84BD28ED6A63008B2611 /* TypeTag.swift */; };
+		21D0C33A28EFCFDC00E8D18C /* StatsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D0C33928EFCFDC00E8D18C /* StatsTab.swift */; };
+		21D0C33C28EFD07600E8D18C /* StatsTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D0C33B28EFD07600E8D18C /* StatsTabViewModel.swift */; };
 		21EB594128EC05C1009E201A /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EB594028EC05C1009E201A /* SearchBar.swift */; };
 		21EB594328EC2E78009E201A /* PokemonSearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EB594228EC2E78009E201A /* PokemonSearchResultsView.swift */; };
 		21EB594628EC2E97009E201A /* PokemonSearchResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EB594528EC2E97009E201A /* PokemonSearchResultsViewModel.swift */; };
@@ -121,6 +123,8 @@
 		21CD84B928ED4F42008B2611 /* ViewLoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewLoadingState.swift; sourceTree = SOURCE_ROOT; };
 		21CD84BB28ED67B7008B2611 /* PokemonCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCardView.swift; sourceTree = "<group>"; };
 		21CD84BD28ED6A63008B2611 /* TypeTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTag.swift; sourceTree = SOURCE_ROOT; };
+		21D0C33928EFCFDC00E8D18C /* StatsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsTab.swift; sourceTree = "<group>"; };
+		21D0C33B28EFD07600E8D18C /* StatsTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsTabViewModel.swift; sourceTree = "<group>"; };
 		21EB594028EC05C1009E201A /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		21EB594228EC2E78009E201A /* PokemonSearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonSearchResultsView.swift; sourceTree = "<group>"; };
 		21EB594528EC2E97009E201A /* PokemonSearchResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonSearchResultsViewModel.swift; sourceTree = "<group>"; };
@@ -160,6 +164,7 @@
 			children = (
 				217E7CE128EE708F005B3A05 /* PokemonDetail.swift */,
 				21757CF228EECFFF004217D1 /* AboutTab.swift */,
+				21D0C33928EFCFDC00E8D18C /* StatsTab.swift */,
 			);
 			path = Pokemon;
 			sourceTree = "<group>";
@@ -168,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				21757CF928EEE044004217D1 /* AboutTabViewModel.swift */,
+				21D0C33B28EFD07600E8D18C /* StatsTabViewModel.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -499,6 +505,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21757CF028EECB12004217D1 /* FlavorText+Extensions.swift in Sources */,
+				21D0C33C28EFD07600E8D18C /* StatsTabViewModel.swift in Sources */,
 				21CD84B428ED4E39008B2611 /* PokemonCategoryView.swift in Sources */,
 				2191991A28EAD3A9002C6379 /* TextStyles.swift in Sources */,
 				217E7CE228EE708F005B3A05 /* PokemonDetail.swift in Sources */,
@@ -519,6 +526,7 @@
 				217E7CE928EEC428005B3A05 /* ExpandableTab.swift in Sources */,
 				21CD84AD28ED3879008B2611 /* Type+Extensions.swift in Sources */,
 				21CD84AB28ED3603008B2611 /* Generation+Extension.swift in Sources */,
+				21D0C33A28EFCFDC00E8D18C /* StatsTab.swift in Sources */,
 				21CD84A428ED214D008B2611 /* PokemonResultRowViewModel.swift in Sources */,
 				21CD849E28ED2014008B2611 /* PokemonSpecies+Extensions.swift in Sources */,
 				219198E428EACC9D002C6379 /* PokedexRemakeApp.swift in Sources */,

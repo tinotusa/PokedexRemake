@@ -13,13 +13,3 @@ extension Item {
         self.names.localizedName(language: language, default: self.name)
     }
 }
-
-extension Item: Equatable, Hashable {
-    static public func == (lhs: Item, rhs: Item) -> Bool {
-        lhs.id == rhs.id
-    }
-    
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.id)
-    }
-}

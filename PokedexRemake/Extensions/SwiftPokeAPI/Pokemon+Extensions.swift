@@ -8,7 +8,7 @@
 import Foundation
 import SwiftPokeAPI
 
-extension Pokemon: Hashable {
+extension Pokemon {
     var weightInKG: Double {
         Double(self.weight) / 10.0
     }

@@ -28,7 +28,7 @@ struct PokemonDetail: View {
                 nameAndID
              
                 AboutTab(pokemonData: pokemonData)
-                statsTab
+                StatsTab(pokemonData: pokemonData)
                 evolutionsTab
                 movesTab
                 abilitiesTab
@@ -64,12 +64,6 @@ private extension PokemonDetail {
                 .fontWeight(.light)
         }
         .titleStyle()
-    }
-    
-    var statsTab: some View {
-        ExpandableTab(title: "Stats") {
-            Text("TODO!")
-        }
     }
     
     var evolutionsTab: some View {

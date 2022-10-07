@@ -128,6 +128,13 @@ private extension StatsTabViewModel {
             async let halfDamageFrom = getTypes(from: type.damageRelations.halfDamageFrom, pokemonDataStore: pokemonDataStore)
             async let doubleDamageFrom = getTypes(from: type.damageRelations.doubleDamageFrom, pokemonDataStore: pokemonDataStore)
             
+            await pokemonDataStore.addTypes(noDamageTo)
+            await pokemonDataStore.addTypes(halfDamageTo)
+            await pokemonDataStore.addTypes(doubleDamageTo)
+            await pokemonDataStore.addTypes(noDamageFrom)
+            await pokemonDataStore.addTypes(halfDamageFrom)
+            await pokemonDataStore.addTypes(doubleDamageFrom)
+            
             damageRelations[.noDamageTo, default: []].append(contentsOf: await noDamageTo.sorted())
             damageRelations[.halfDamageTo, default: []].append(contentsOf: await halfDamageTo.sorted())
             damageRelations[.doubleDamageTo, default: []].append(contentsOf: await doubleDamageTo.sorted())

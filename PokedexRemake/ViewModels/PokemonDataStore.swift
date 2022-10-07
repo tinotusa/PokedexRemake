@@ -17,7 +17,7 @@ final class PokemonDataStore: ObservableObject {
     @Published private(set) var types: Set<`Type`> = []
     @Published private(set) var versions: Set<Version> = []
     @Published private(set) var items = Set<Item>()
-    
+    @Published private(set) var stats = Set<Stat>()
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonDataStore")
     
     enum PokemonDataStoreError: Error {
@@ -77,6 +77,11 @@ extension PokemonDataStore {
     func addItems(_ items: Set<Item>) {
         self.items.formUnion(items)
     }
+    
+    @MainActor
+    func addStats(_ stats: Set<Stat>) {
+        self.stats.formUnion(stats)
+    }
 }
 
 // MARK: Getters
@@ -134,6 +139,20 @@ extension PokemonDataStore {
         self.items.filter { item in
             for heldItem in pokemon.heldItems {
                 if heldItem.item.name == item.name {
+                    return true
+                }
+            }
+            return false
+        }
+    }
+    
+    func stats(for pokemon: Pokemon) -> Set<Stat> {
+        stats.filter { stat in
+            for pokemonStat in pokemon.stats {
+                guard let name = pokemonStat.stat.name else {
+                    continue
+                }
+                if stat.name == name {
                     return true
                 }
             }

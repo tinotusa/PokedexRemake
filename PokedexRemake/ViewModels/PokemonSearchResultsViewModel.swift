@@ -31,6 +31,13 @@ extension PokemonSearchResultsViewModel {
         withAnimation {
             errorText = nil
         }
+
+        if let pokemon = pokemonDataStore.pokemon.first(where: { $0.name == PokeAPI.filteredName(name) }) {
+            moveIDToTop(pokemon.id)
+            logger.debug("Pokemon is already in the data store.")
+            return
+        }
+        
         do {
             let pokemon = try await Pokemon(name)
             guard let speciesName = pokemon.species.name else {

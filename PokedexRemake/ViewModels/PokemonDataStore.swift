@@ -130,7 +130,7 @@ extension PokemonDataStore {
         return PokemonData(
             pokemon: pokemon,
             pokemonSpecies: pokemonSpecies,
-            types: Array(types),
+            types: types,
             generation: generation
         )
     }

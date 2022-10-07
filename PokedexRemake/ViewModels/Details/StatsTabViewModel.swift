@@ -118,7 +118,7 @@ private extension StatsTabViewModel {
         return data
     }
     
-    func getDamageRelations(for types: [`Type`], pokemonDataStore: PokemonDataStore) async -> [TypeRelationKey: [`Type`]] {
+    func getDamageRelations(for types: Set<`Type`>, pokemonDataStore: PokemonDataStore) async -> [TypeRelationKey: [`Type`]] {
         var damageRelations = [TypeRelationKey: [`Type`]]()
         for type in types {
             async let noDamageTo = getTypes(from: type.damageRelations.noDamageTo, pokemonDataStore: pokemonDataStore)

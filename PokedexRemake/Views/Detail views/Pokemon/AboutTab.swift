@@ -44,7 +44,7 @@ struct AboutTab: View {
                                 switch aboutInfoKey {
                                 case .types:
                                     HStack {
-                                        ForEach(pokemonData.types) { type in
+                                        ForEach(pokemonData.types.sorted()) { type in
                                             TypeTag(type: type)
                                         }
                                     }

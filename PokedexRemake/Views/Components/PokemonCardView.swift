@@ -11,7 +11,7 @@ import SwiftPokeAPI
 struct PokemonCardView: View {
     let pokemon: Pokemon
     let pokemonSpecies: PokemonSpecies
-    let types: [`Type`]
+    let types: Set<`Type`>
     let pokemonData: PokemonData
     @AppStorage(SettingKey.language.rawValue) var language = "en"
     
@@ -37,7 +37,7 @@ struct PokemonCardView: View {
                 .lineLimit(1)
                 
                 HStack {
-                    ForEach(types) { type in
+                    ForEach(types.sorted()) { type in
                         TypeTag(type: type)
                     }
                 }

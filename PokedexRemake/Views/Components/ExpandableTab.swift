@@ -44,6 +44,7 @@ private extension ExpandableTab {
     var icon: some View {
         Image(systemName: "chevron.down")
             .rotationEffect(isExpanded ? .degrees(180) : .degrees(0))
+            .foregroundColor(.accentColor)
     }
 }
 

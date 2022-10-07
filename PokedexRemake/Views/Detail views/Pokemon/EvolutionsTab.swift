@@ -23,12 +23,27 @@ struct EvolutionsTab: View {
                     }
             case .loaded:
                 ForEach(viewModel.chainLinks, id: \.self) { chainLink in
-                    Text(chainLink.species.name!)
+                    if let pokemon = pokemonDataStore.pokemon.first(where: {$0.name == chainLink.species.name}) {
+                        pokemonImage(url: pokemon.sprites.other.officialArtwork.frontDefault)
+                    }
                 }
             case .error(let error):
                 ErrorView(text: error.localizedDescription)
             }
         }
+    }
+}
+
+private extension EvolutionsTab {
+    func pokemonImage(url: URL?) -> some View {
+        AsyncImage(url: url) { image in
+            image
+                .resizable()
+                .scaledToFit()
+        } placeholder: {
+            ProgressView()
+        }
+        .frame(width: 100, height: 100)
     }
 }
 

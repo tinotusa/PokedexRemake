@@ -31,8 +31,13 @@ extension EvolutionsTabViewModel {
             pokemonDataStore.addEvolutionChain(evolutionChain)
             
             self.chainLinks = getChainLinks(from: evolutionChain)
+            let pokemonSpecies = await getPokemonSpecies(for: chainLinks, pokemonDataStore: pokemonDataStore)
+            let pokemon = await getPokemon(from: pokemonSpecies, pokemonDataStore: pokemonDataStore)
             
             viewLoadingState = .loaded
+            
+            pokemonDataStore.addPokemonSpecies(pokemonSpecies)
+            pokemonDataStore.addPokemon(pokemon)
             
             logger.debug("Successfully loaded data.")
         } catch {
@@ -71,5 +76,59 @@ private extension EvolutionsTabViewModel {
             queue.append(contentsOf: current.evolvesTo)
         }
         return chainLinks
+    }
+    
+    func getPokemonSpecies(for chainLinks: [ChainLink], pokemonDataStore: PokemonDataStore) async -> Set<PokemonSpecies> {
+        await withTaskGroup(of: PokemonSpecies?.self) { group in
+            for chainLink in chainLinks {
+                group.addTask { [weak self] in
+                    do {
+                        guard let speciesName = chainLink.species.name else {
+                            self?.logger.debug("Failed to get species name from chain link. \(chainLink.species.url)")
+                            return nil
+                        }
+                        if let pokemonSpecies = pokemonDataStore.pokemonSpecies.first(where: { $0.name == speciesName }) {
+                            self?.logger.debug("Returning pokmeon species from pokemon data store.")
+                            return pokemonSpecies
+                        }
+                        return try await PokemonSpecies(speciesName)
+                    } catch {
+                        self?.logger.error("Failed to get pokemon species. \(error)")
+                    }
+                    return nil
+                }
+            }
+            var pokemonSpeciesSet = Set<PokemonSpecies>()
+            for await pokemonSpecies in group {
+                guard let pokemonSpecies else { continue }
+                pokemonSpeciesSet.insert(pokemonSpecies)
+            }
+            return pokemonSpeciesSet
+        }
+    }
+    
+    func getPokemon(from pokemonSpeciesArray: Set<PokemonSpecies>, pokemonDataStore: PokemonDataStore) async -> Set<Pokemon> {
+        await withTaskGroup(of: Pokemon?.self) { group in
+            for pokemonSpecies in pokemonSpeciesArray {
+                group.addTask { [weak self] in
+                    do {
+                        if let pokemon = pokemonDataStore.pokemon.first(where: { $0.name == pokemonSpecies.name }) {
+                            self?.logger.debug("Returning pokmeon from pokemon data store.")
+                            return pokemon
+                        }
+                        return try await Pokemon(pokemonSpecies.name)
+                    } catch {
+                        self?.logger.error("Failed to get pokemon. \(error)")
+                    }
+                    return nil
+                }
+            }
+            var pokemonSet = Set<Pokemon>()
+            for await pokemon in group {
+                guard let pokemon else { continue }
+                pokemonSet.insert(pokemon)
+            }
+            return pokemonSet
+        }
     }
 }

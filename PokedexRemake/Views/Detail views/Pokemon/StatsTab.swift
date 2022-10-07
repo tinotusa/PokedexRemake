@@ -47,12 +47,28 @@ struct StatsTab: View {
                     ])
                     .frame(height: 250)
                     
-                    Text("Strong against")
+                    Text("Damage relations")
                         .subtitleStyle()
-                    Divider()
-                    Text("Weak against")
-                        .subtitleStyle()
-                    Divider()
+                    
+                    Grid(alignment: .topLeading, verticalSpacing: 15) {
+                        ForEach(StatsTabViewModel.TypeRelationKey.allCases) { typeRelationKey in
+                            GridRow {
+                                Text(typeRelationKey.title)
+                                    .foregroundColor(.gray)
+                                LazyVGrid(columns: [.init(.adaptive(minimum: 70))], alignment: .leading, spacing: 5) {
+                                    let types = viewModel.damageRelations[typeRelationKey, default: []]
+                                    if types.isEmpty {
+                                        Text("No types.")
+                                            .foregroundColor(.gray)
+                                    } else {
+                                        ForEach(types) { damageRelation in
+                                            TypeTag(type: damageRelation)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             case .error(let error):
                 ErrorView(text: error.localizedDescription)

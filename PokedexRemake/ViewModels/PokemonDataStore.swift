@@ -18,6 +18,8 @@ final class PokemonDataStore: ObservableObject {
     @Published private(set) var versions: Set<Version> = []
     @Published private(set) var items = Set<Item>()
     @Published private(set) var stats = Set<Stat>()
+    @Published private(set) var evolutionChains = Set<EvolutionChain>()
+    
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonDataStore")
     
     enum PokemonDataStoreError: Error {
@@ -32,7 +34,7 @@ extension PokemonDataStore {
     func addPokemon(_ pokemon: Set<Pokemon>) {
         self.pokemon.formUnion(pokemon)
     }
-//
+
     @MainActor
     func addPokemon(_ pokemon: Pokemon) {
         self.pokemon.insert(pokemon)
@@ -81,6 +83,11 @@ extension PokemonDataStore {
     @MainActor
     func addStats(_ stats: Set<Stat>) {
         self.stats.formUnion(stats)
+    }
+    
+    @MainActor
+    func addEvolutionChain(_ chain: EvolutionChain) {
+        self.evolutionChains.insert(chain)
     }
 }
 

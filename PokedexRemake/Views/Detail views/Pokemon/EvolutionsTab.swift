@@ -9,11 +9,24 @@ import SwiftUI
 
 struct EvolutionsTab: View {
     let pokemonData: PokemonData
+    @StateObject private var viewModel = EvolutionsTabViewModel()
+    @EnvironmentObject private var pokemonDataStore: PokemonDataStore
     
     var body: some View {
         ExpandableTab(title: "Evolutions") {
-            VStack {
-                Text("todo!")
+            switch viewModel.viewLoadingState {
+            case .loading:
+                ProgressView()
+                    .task {
+                        await viewModel.loadData(
+                            pokemonSpecies: pokemonData.pokemonSpecies, pokemonDataStore: pokemonDataStore)
+                    }
+            case .loaded:
+                ForEach(viewModel.chainLinks, id: \.self) { chainLink in
+                    Text(chainLink.species.name!)
+                }
+            case .error(let error):
+                ErrorView(text: error.localizedDescription)
             }
         }
     }
@@ -27,5 +40,6 @@ struct EvolutionsTab_Previews: PreviewProvider {
             types: Set([.grassExample, .poisonExample]),
             generation: .example)
         )
+        .environmentObject(PokemonDataStore())
     }
 }

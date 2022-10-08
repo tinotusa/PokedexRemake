@@ -24,7 +24,7 @@ struct PokemonDetail: View {
     var body: some View {
         ScrollView {
             VStack {
-                pokemonImage
+                PokemonImage(url: pokemonData.pokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
                 nameAndID
              
                 AboutTab(pokemonData: pokemonData)
@@ -42,17 +42,6 @@ struct PokemonDetail: View {
 private extension PokemonDetail {
     enum Constants {
         static let imageSize = 300.0
-    }
-    
-    var pokemonImage: some View {
-        AsyncImage(url: pokemonData.pokemon.sprites.other.officialArtwork.frontDefault) { image in
-            image
-                .resizable()
-                .scaledToFit()
-        } placeholder: {
-            ProgressView()
-        }
-        .frame(width: Constants.imageSize, height: Constants.imageSize)
     }
     
     var nameAndID: some View {

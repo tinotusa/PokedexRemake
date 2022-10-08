@@ -25,7 +25,7 @@ struct PokemonCardView: View {
     var body: some View {
         NavigationLink(value: pokemonData) {
             VStack(alignment: .leading) {
-                pokemonImage
+                PokemonImage(url: pokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
                 
                 HStack {
                     Text(pokemonSpecies.localizedName(for: language))
@@ -50,17 +50,6 @@ struct PokemonCardView: View {
 private extension PokemonCardView {
     enum Constants {
         static let imageSize = 120.0
-    }
-    
-    var pokemonImage: some View {
-        AsyncImage(url: pokemon.sprites.other.officialArtwork.frontDefault) { image in
-            image
-                .resizable()
-                .scaledToFit()
-        } placeholder: {
-            ProgressView()
-        }
-        .frame(width: Constants.imageSize, height: Constants.imageSize)
     }
 }
 

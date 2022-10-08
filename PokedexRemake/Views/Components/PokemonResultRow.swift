@@ -33,7 +33,7 @@ struct PokemonResultRow: View {
     var body: some View {
         NavigationLink(value: pokemonData) {
             HStack {
-                pokemonImage
+                PokemonImage(url: pokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
                 
                 VStack(alignment: .leading) {
                     HStack {
@@ -65,20 +65,6 @@ private extension PokemonResultRow {
     enum Constants {
         static let cornerRadius = 10.0
         static let imageSize = 100.0
-    }
-}
-
-private extension PokemonResultRow {
-    var pokemonImage: some View {
-        AsyncImage(url: pokemon.sprites.other.officialArtwork.frontDefault) { image in
-            image
-                .resizable()
-                .scaledToFit()
-                .cornerRadius(Constants.cornerRadius)
-        } placeholder: {
-            ProgressView()
-        }
-        .frame(width: Constants.imageSize, height: Constants.imageSize)
     }
 }
 

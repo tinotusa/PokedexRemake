@@ -5,7 +5,7 @@
 //  Created by Tino on 8/10/2022.
 //
 
-import Foundation
+import SwiftUI
 import SwiftPokeAPI
 import os
 

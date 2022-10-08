@@ -22,16 +22,13 @@ struct ChainLinkView: View {
                 }
         case .loaded:
             HStack {
-                // TODO: Use the pokemon card view
+                // TODO: Use the pokemon card view (might have to refactor pokemon card to have just a pokemon)
                 PokemonImage(url: viewModel.evolvesFromPokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
                 Spacer()
                 VStack {
                     Image(systemName: "chevron.right")
-                    Text("one")
-                    Text("one")
-                    Text("one")
                     ForEach(chainLink.evolutionDetails, id: \.self) { evolutionDetail in
-                        Text(evolutionDetail.trigger.name!)
+                        EvolutionDetailView(evolutionDetail: evolutionDetail)
                     }
                 }
                 Spacer()

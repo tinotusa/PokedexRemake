@@ -22,28 +22,17 @@ struct EvolutionsTab: View {
                             pokemonSpecies: pokemonData.pokemonSpecies, pokemonDataStore: pokemonDataStore)
                     }
             case .loaded:
-                ForEach(viewModel.chainLinks, id: \.self) { chainLink in
-                    if let pokemon = pokemonDataStore.pokemon.first(where: {$0.name == chainLink.species.name}) {
-                        pokemonImage(url: pokemon.sprites.other.officialArtwork.frontDefault)
+                VStack{
+                    ForEach(viewModel.chainLinks, id: \.self) { chainLink in
+                        if !chainLink.evolutionDetails.isEmpty { // don't show the base pokemon
+                            ChainLinkView(chainLink: chainLink)
+                        }
                     }
                 }
             case .error(let error):
                 ErrorView(text: error.localizedDescription)
             }
         }
-    }
-}
-
-private extension EvolutionsTab {
-    func pokemonImage(url: URL?) -> some View {
-        AsyncImage(url: url) { image in
-            image
-                .resizable()
-                .scaledToFit()
-        } placeholder: {
-            ProgressView()
-        }
-        .frame(width: 100, height: 100)
     }
 }
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		212AB02028F2F4EE004067ED /* PokemonCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */; };
 		21757CF028EECB12004217D1 /* FlavorText+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21757CEF28EECB12004217D1 /* FlavorText+Extensions.swift */; };
 		21757CF328EECFFF004217D1 /* AboutTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21757CF228EECFFF004217D1 /* AboutTab.swift */; };
 		21757CF528EED44E004217D1 /* Version+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21757CF428EED44E004217D1 /* Version+Extensions.swift */; };
@@ -87,6 +88,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCardViewModel.swift; sourceTree = "<group>"; };
 		21757CEF28EECB12004217D1 /* FlavorText+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FlavorText+Extensions.swift"; sourceTree = "<group>"; };
 		21757CF228EECFFF004217D1 /* AboutTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTab.swift; sourceTree = "<group>"; };
 		21757CF428EED44E004217D1 /* Version+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Version+Extensions.swift"; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 				21CD84B628ED4E82008B2611 /* Categories */,
 				21EB594528EC2E97009E201A /* PokemonSearchResultsViewModel.swift */,
 				21CD84A328ED214D008B2611 /* PokemonResultRowViewModel.swift */,
+				212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				21D0C33C28EFD07600E8D18C /* StatsTabViewModel.swift in Sources */,
 				21CD84B428ED4E39008B2611 /* PokemonCategoryView.swift in Sources */,
 				2191991A28EAD3A9002C6379 /* TextStyles.swift in Sources */,
+				212AB02028F2F4EE004067ED /* PokemonCardViewModel.swift in Sources */,
 				217E7CE228EE708F005B3A05 /* PokemonDetail.swift in Sources */,
 				21CD84A228ED2081008B2611 /* Array+Extensions.swift in Sources */,
 				2191992028EAE799002C6379 /* SearchView.swift in Sources */,

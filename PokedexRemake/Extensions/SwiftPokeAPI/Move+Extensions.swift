@@ -13,8 +13,8 @@ extension Move {
         self.names.localizedName(language: language, default: self.name)
     }
     
-    func localizedEffectEntry(for language: String, shortVersion: Bool) -> String {
-        self.effectEntries.localizedEntry(language: language, shortVersion: shortVersion)
+    func localizedEffectEntry(for language: String, shortVersion: Bool, effectChance: Int? = nil) -> String {
+        self.effectEntries.localizedEntry(language: language, shortVersion: shortVersion, effectChance: effectChance)
     }
     
     static var example: Move {

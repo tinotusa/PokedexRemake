@@ -30,7 +30,7 @@ extension Array where Element == FlavorText {
 }
 
 extension Array where Element == VerboseEffect {
-    func localizedEntry(language: String, shortVersion: Bool) -> String {
+    func localizedEntry(language: String, shortVersion: Bool, effectChance: Int?) -> String {
         var effect: VerboseEffect?
         effect = self.first(where: { $0.language.name == language })
         
@@ -43,12 +43,20 @@ extension Array where Element == VerboseEffect {
         if effect == nil {
             effect = self.first(where: { $0.language.name == "en" })
         }
-        if let effect {
-            if shortVersion {
-                return effect.shortEffect
-            }
-            return effect.effect
+        
+        guard let effect else {
+            return "Error"
         }
-        return "Error"
+        
+        var effectText = ""
+        if shortVersion {
+            effectText = effect.shortEffect
+        } else {
+            effectText = effect.effect
+        }
+        if let effectChance {
+            return effectText.replacingOccurrences(of: "$effect_chance", with: "\(effectChance)")
+        }
+        return effectText
     }
 }

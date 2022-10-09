@@ -29,9 +29,15 @@ struct MoveCard: View {
                         .foregroundColor(.gray)
                 }
                 .subtitleStyle()
-                Text(move.localizedEffectEntry(for: language, shortVersion: true))
-                    .lineLimit(1)
-                    .foregroundColor(.gray)
+                Text(
+                    move.localizedEffectEntry(
+                        for: language,
+                        shortVersion: true,
+                        effectChance: move.effectChance
+                    )
+                )
+                .lineLimit(1)
+                .foregroundColor(.gray)
                 HStack {
                     TypeTag(type: viewModel.type)
                     Text(viewModel.damageClass.localizedName(for: language))

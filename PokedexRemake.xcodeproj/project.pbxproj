@@ -179,13 +179,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		21757CF128EECFE1004217D1 /* Pokemon */ = {
+		212AB02128F2F859004067ED /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
-				217E7CE128EE708F005B3A05 /* PokemonDetail.swift */,
 				21757CF228EECFFF004217D1 /* AboutTab.swift */,
 				21D0C33928EFCFDC00E8D18C /* StatsTab.swift */,
 				21D0C33F28F03B7B00E8D18C /* EvolutionsTab.swift */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
+		21757CF128EECFE1004217D1 /* Pokemon */ = {
+			isa = PBXGroup;
+			children = (
+				212AB02128F2F859004067ED /* Tabs */,
+				217E7CE128EE708F005B3A05 /* PokemonDetail.swift */,
 				21F3CA0C28F16801000BD757 /* ChainLinkView.swift */,
 				21F3CA1428F18B14000BD757 /* EvolutionDetailView.swift */,
 			);

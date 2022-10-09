@@ -9,7 +9,6 @@ import SwiftUI
 
 @main
 struct PokedexRemakeApp: App {
-    @StateObject private var pokemonDataStore = PokemonDataStore()
     // View models
     @StateObject private var pokemonSearchResultsViewModel = PokemonSearchResultsViewModel()
     // category view models
@@ -20,7 +19,6 @@ struct PokedexRemakeApp: App {
             ContentView()
                 .environmentObject(pokemonSearchResultsViewModel)
                 .environmentObject(pokemonCategoryViewModel)
-                .environmentObject(pokemonDataStore)
         }
     }
 }

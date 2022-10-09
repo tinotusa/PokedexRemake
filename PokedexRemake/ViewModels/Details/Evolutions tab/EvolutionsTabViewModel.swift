@@ -72,7 +72,7 @@ private extension EvolutionsTabViewModel {
         return chainLinks
     }
     
-    func getPokemonSpecies(for chainLinks: [ChainLink], pokemonDataStore: PokemonDataStore) async -> Set<PokemonSpecies> {
+    func getPokemonSpecies(for chainLinks: [ChainLink]) async -> Set<PokemonSpecies> {
         await withTaskGroup(of: PokemonSpecies?.self) { group in
             for chainLink in chainLinks {
                 group.addTask { [weak self] in
@@ -80,10 +80,6 @@ private extension EvolutionsTabViewModel {
                         guard let speciesName = chainLink.species.name else {
                             self?.logger.debug("Failed to get species name from chain link. \(chainLink.species.url)")
                             return nil
-                        }
-                        if let pokemonSpecies = pokemonDataStore.pokemonSpecies.first(where: { $0.name == speciesName }) {
-                            self?.logger.debug("Returning pokmeon species from pokemon data store.")
-                            return pokemonSpecies
                         }
                         return try await PokemonSpecies(speciesName)
                     } catch {
@@ -101,15 +97,11 @@ private extension EvolutionsTabViewModel {
         }
     }
     
-    func getPokemon(from pokemonSpeciesArray: Set<PokemonSpecies>, pokemonDataStore: PokemonDataStore) async -> Set<Pokemon> {
+    func getPokemon(from pokemonSpeciesArray: Set<PokemonSpecies>) async -> Set<Pokemon> {
         await withTaskGroup(of: Pokemon?.self) { group in
             for pokemonSpecies in pokemonSpeciesArray {
                 group.addTask { [weak self] in
                     do {
-                        if let pokemon = pokemonDataStore.pokemon.first(where: { $0.name == pokemonSpecies.name }) {
-                            self?.logger.debug("Returning pokmeon from pokemon data store.")
-                            return pokemon
-                        }
                         return try await Pokemon(pokemonSpecies.name)
                     } catch {
                         self?.logger.error("Failed to get pokemon. \(error)")

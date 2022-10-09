@@ -10,6 +10,8 @@ import SwiftPokeAPI
 import os
 
 final class PokemonCategoryViewModel: ObservableObject {
+    @Published private(set) var pokemon = Set<Pokemon>()
+    
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     @Published private(set) var hasNextPage = true
     @Published private(set) var nextPageURL: URL? {
@@ -41,18 +43,14 @@ extension PokemonCategoryViewModel: Equatable, Hashable {
 // MARK: - Public functions
 extension PokemonCategoryViewModel {
     @MainActor
-    func loadData(pokemonDataStore: PokemonDataStore) async {
+    func loadData() async {
         do {
             let pokemonResourceList = try await NamedAPIResourceList(.pokemon, limit: 20)
             nextPageURL = pokemonResourceList.next
             
             let pokemon = await getResources(from: pokemonResourceList)
-            let pokemonSpecies = await getPokemonSpecies(from: pokemon)
-            let types = await getTypes(from: pokemon)
             
-            pokemonDataStore.addPokemon(pokemon)
-            pokemonDataStore.addPokemonSpecies(pokemonSpecies)
-            pokemonDataStore.addTypes(types)
+            self.pokemon = pokemon
             
             viewLoadingState = .loaded
         } catch {
@@ -61,7 +59,7 @@ extension PokemonCategoryViewModel {
     }
     
     @MainActor
-    func loadNextPage(pokemonDataStore: PokemonDataStore) async {
+    func loadNextPage() async {
         logger.debug("Loading next page.")
         if !hasNextPage {
             logger.debug("Failed to load next page. View model doesn't have a next page.")
@@ -76,12 +74,9 @@ extension PokemonCategoryViewModel {
             self.nextPageURL = resourceList.next
             
             let pokemon = await getResources(from: resourceList)
-            let pokemonSpecies = await getPokemonSpecies(from: pokemon)
-            let types = await getTypes(from: pokemon)
             
-            pokemonDataStore.addPokemon(pokemon)
-            pokemonDataStore.addPokemonSpecies(pokemonSpecies)
-            pokemonDataStore.addTypes(types)
+            self.pokemon.formUnion(pokemon)
+            
             logger.debug("Successfully loaded the next page. Loaded \(pokemon.count) pokemon.")
         } catch {
             logger.error("Failed to load next page. \(error)")

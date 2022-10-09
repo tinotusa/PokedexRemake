@@ -9,11 +9,10 @@ import SwiftUI
 
 struct PokemonSearchResultsView: View {
     @ObservedObject var viewModel: PokemonSearchResultsViewModel
-    @EnvironmentObject private var pokemonDataStore: PokemonDataStore
     
     var body: some View {
         VStack {
-            if pokemonDataStore.pokemon.isEmpty {
+            if viewModel.pokemon.isEmpty {
                 emptyPokemonListView
             } else {
                 pokemonListView
@@ -56,7 +55,7 @@ private extension PokemonSearchResultsView {
                         .foregroundColor(.gray)
                     Spacer()
                     Button {
-                        viewModel.clearRecentlySearched()
+                        viewModel.clearPokemon()
                     } label: {
                         Text("Clear")
                             .foregroundColor(.accentColor)
@@ -81,11 +80,11 @@ private extension PokemonSearchResultsView {
                             )
                         )
                 }
-                ForEach(pokemonDataStore.pokemon(ids: viewModel.recentlySearched)) { pokemon in
+                ForEach(viewModel.pokemon) { pokemon in
                     PokemonResultRow(pokemon: pokemon)
                         .simultaneousGesture(TapGesture().onEnded {
                             viewModel.moveIDToTop(pokemon.id)
-                        })   
+                        })
                 }
                 .animation(nil, value: viewModel.isSearchLoading)
             }
@@ -97,6 +96,5 @@ private extension PokemonSearchResultsView {
 struct PokemonSearchResultsView_Previews: PreviewProvider {
     static var previews: some View {
         PokemonSearchResultsView(viewModel: PokemonSearchResultsViewModel())
-            .environmentObject(PokemonDataStore())
     }
 }

@@ -44,6 +44,5 @@ struct EvolutionsTab: View {
 struct EvolutionsTab_Previews: PreviewProvider {
     static var previews: some View {
         EvolutionsTab(pokemon: .example)
-            .environmentObject(PokemonDataStore())
     }
 }

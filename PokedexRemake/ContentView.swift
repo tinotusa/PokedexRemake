@@ -31,6 +31,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environmentObject(PokemonSearchResultsViewModel())
             .environmentObject(PokemonCategoryViewModel())
-            .environmentObject(PokemonDataStore())
     }
 }

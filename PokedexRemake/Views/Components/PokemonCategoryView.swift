@@ -10,7 +10,6 @@ import SwiftPokeAPI
 
 struct PokemonCategoryView: View {
     @ObservedObject var viewModel: PokemonCategoryViewModel
-    @EnvironmentObject private var pokemonDataStore: PokemonDataStore
     
     private let columns: [GridItem] = [.init(.adaptive(minimum: 200))]
     
@@ -19,18 +18,18 @@ struct PokemonCategoryView: View {
         case .loading:
             ProgressView()
                 .task {
-                    await viewModel.loadData(pokemonDataStore: pokemonDataStore)
+                    await viewModel.loadData()
                 }
         case .loaded:
             ScrollView {
                 LazyVGrid(columns: columns) {
-                    ForEach(pokemonDataStore.pokemon.sorted()) { pokemon in
+                    ForEach(viewModel.pokemon.sorted()) { pokemon in
                         PokemonCardView(pokemon: pokemon)
                     }
                     if viewModel.hasNextPage {
                         ProgressView()
                             .task {
-                                await viewModel.loadNextPage(pokemonDataStore: pokemonDataStore)
+                                await viewModel.loadNextPage()
                             }
                     }
                 }
@@ -44,6 +43,5 @@ struct PokemonCategoryView: View {
 struct PokemonCategoryView_Previews: PreviewProvider {
     static var previews: some View {
         PokemonCategoryView(viewModel: PokemonCategoryViewModel())
-            .environmentObject(PokemonDataStore())
     }
 }

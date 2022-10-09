@@ -93,6 +93,5 @@ private extension PokemonDetail {
 struct PokemonDetail_Previews: PreviewProvider {
     static var previews: some View {
         PokemonDetail(pokemon: .example)
-            .environmentObject(PokemonDataStore())
     }
 }

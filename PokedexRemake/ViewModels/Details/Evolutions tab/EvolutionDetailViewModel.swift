@@ -25,31 +25,27 @@ final class EvolutionDetailViewModel: ObservableObject {
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "EvolutionDetailViewModel")
     
-    enum EvolutionDetailKey: String, CaseIterable, Identifiable {
+    enum EvolutionDetailKey: CaseIterable, Identifiable {
         case trigger
+        case minLevel
         case item
-        case gender
-        case heldItem = "held item"
-        case knownMove = "known move"
-        case knownMoveType = "known move type"
+        case heldItem
+        case knownMove
+        case knownMoveType
         case location
-        case minLevel = "min level"
-        case minHappiness = "min happiness"
-        case minBeauty = "min beauty"
-        case minAffection = "min affection"
-        case needsOverworldRain = "with overworld rain"
-        case partySpecies = "party species"
-        case partyType = "party type"
-        case relativePhysicalStats = "stats"
-        case timeOfDay = "time of day"
-        case tradeSpecies = "trade species"
-        case turnUpsideDown = "turn upside down"
+        case gender
+        case minHappiness
+        case minBeauty
+        case minAffection
+        case needsOverworldRain
+        case partySpecies
+        case partyType
+        case relativePhysicalStats
+        case timeOfDay
+        case tradeSpecies
+        case turnUpsideDown
         
         var id: Self { self }
-        
-        var title: LocalizedStringKey {
-            LocalizedStringKey(self.rawValue.localizedCapitalized)
-        }
     }
 }
 
@@ -115,44 +111,44 @@ extension EvolutionDetailViewModel {
         }
         if let gender = evolutionDetail.gender {
             switch gender {
-            case 1: details[.gender] = "female"
-            case 2: details[.gender] = "male"
+            case 1: details[.gender] = "(Female)"
+            case 2: details[.gender] = "(Male)"
             case 3: details[.gender] = "genderless"
             default: details[.gender] = "error"
             }
         }
         if let heldItem {
-            details[.heldItem] = heldItem.localizedName(for: language)
+            details[.heldItem] = "Holding \(heldItem.localizedName(for: language))"
         }
         if let knownMove {
-            details[.knownMove] = knownMove.names.localizedName(language: language, default: knownMove.name)
+            details[.knownMove] = "Learning \(knownMove.names.localizedName(language: language, default: knownMove.name))"
         }
         if let knownMoveType {
-            details[.knownMoveType] = knownMoveType.localizedName(for: language)
+            details[.knownMoveType] = "Learning \(knownMoveType.localizedName(for: language)) type move"
         }
         if let location {
-            details[.location] = location.names.localizedName(language: language, default: location.name)
+            details[.location] = "At \(location.names.localizedName(language: language, default: location.name))"
         }
         if let minLevel = evolutionDetail.minLevel {
-            details[.minLevel] = "\(minLevel)"
+            details[.minLevel] = "Level \(minLevel)+"
         }
         if let minHappiness = evolutionDetail.minHappiness {
-            details[.minHappiness] = "\(minHappiness)"
+            details[.minHappiness] = "Happiness \(minHappiness)+"
         }
         if let minBeauty = evolutionDetail.minBeauty {
-            details[.minBeauty] = "\(minBeauty)"
+            details[.minBeauty] = "Beauty \(minBeauty)+"
         }
         if let minAffection = evolutionDetail.minAffection {
-            details[.minAffection] = "\(minAffection)"
+            details[.minAffection] = "Affection \(minAffection)+"
         }
         if evolutionDetail.needsOverworldRain {
-            details[.needsOverworldRain] = "Yes"
+            details[.needsOverworldRain] = "While raining."
         }
         if let partySpecies {
-            details[.partySpecies] = partySpecies.localizedName(for: language)
+            details[.partySpecies] = "With \(partySpecies.localizedName(for: language)) in the party."
         }
         if let partyType {
-            details[.partyType] = partyType.localizedName(for: language)
+            details[.partyType] = "With \(partyType.localizedName(for: language)) type in the party."
         }
         if let relativePhysicalStats = evolutionDetail.relativePhysicalStats {
             switch relativePhysicalStats {
@@ -163,10 +159,16 @@ extension EvolutionDetailViewModel {
             }
         }
         if !evolutionDetail.timeOfDay.isEmpty {
-            details[.timeOfDay] = evolutionDetail.timeOfDay
+            switch evolutionDetail.timeOfDay {
+            case "day": details[.timeOfDay] = "During the day"
+            case "night": details[.timeOfDay] = "At night"
+            case "dusk": details[.timeOfDay] = "At dusk"
+            default: details[.timeOfDay] = "error"
+            }
+            
         }
         if evolutionDetail.turnUpsideDown {
-            details[.turnUpsideDown] = "Yes"
+            details[.turnUpsideDown] = "Turn upside down"
         }
         return details
     }

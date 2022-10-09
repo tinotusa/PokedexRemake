@@ -25,8 +25,8 @@ struct EvolutionDetailView: View {
                 ForEach(EvolutionDetailViewModel.EvolutionDetailKey.allCases) { evolutionDetailKey in
                     if let value = viewModel.evolutionDetails[evolutionDetailKey] {
                         HStack {
-                            Text(evolutionDetailKey.title)
                             Text(value)
+                                .multilineTextAlignment(.center)
                         }
                     }
                 }

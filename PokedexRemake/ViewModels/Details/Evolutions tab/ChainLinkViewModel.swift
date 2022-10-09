@@ -31,14 +31,12 @@ extension ChainLinkViewModel {
                 logger.error("Failed to get evolves from pokemon species name from pokemon species.")
                 return
             }
-            guard let pokemonSpeciesName = chainLink.species.name else {
-                logger.error("Failed to get pokemon species name.")
-                return
-            }
+            let pokemonSpeciesID = chainLink.species.url.lastPathComponent
+            
             let evolvesFromPokemonSpecies = try await PokemonSpecies(evolvesFromSpeciesName)
             
             async let evolvesFromPokemon = try Pokemon(evolvesFromPokemonSpecies.name)
-            async let pokemon = try Pokemon(pokemonSpeciesName)
+            async let pokemon = try Pokemon(pokemonSpeciesID)
             
             self.evolvesFromPokemon = try await evolvesFromPokemon
             self.pokemon = try await pokemon

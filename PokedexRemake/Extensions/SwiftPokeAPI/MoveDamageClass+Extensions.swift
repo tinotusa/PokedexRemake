@@ -6,3 +6,10 @@
 //
 
 import Foundation
+import SwiftPokeAPI
+
+extension MoveDamageClass {
+    func localizedName(for language: String) -> String {
+        self.names.localizedName(language: language, default: self.name).localizedCapitalized
+    }
+}

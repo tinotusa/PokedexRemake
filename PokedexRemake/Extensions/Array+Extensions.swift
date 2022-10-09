@@ -28,3 +28,27 @@ extension Array where Element == FlavorText {
         return flavorTexts
     }
 }
+
+extension Array where Element == VerboseEffect {
+    func localizedEntry(language: String, shortVersion: Bool) -> String {
+        var effect: VerboseEffect?
+        effect = self.first(where: { $0.language.name == language })
+        
+        if effect == nil {
+            let availableLanguageCodes = self.compactMap { $0.language.name }
+            let deviceLanguageCode = Bundle.preferredLocalizations(from: availableLanguageCodes, forPreferences: nil).first!
+            effect = self.first(where: { $0.language.name == deviceLanguageCode })
+        }
+        
+        if effect == nil {
+            effect = self.first(where: { $0.language.name == "en" })
+        }
+        if let effect {
+            if shortVersion {
+                return effect.shortEffect
+            }
+            return effect.effect
+        }
+        return "Error"
+    }
+}

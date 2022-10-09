@@ -10,9 +10,28 @@ import SwiftPokeAPI
 
 struct MovesTab: View {
     let pokemon: Pokemon
+    @StateObject private var viewModel = MovesTabViewModel()
+    @AppStorage(SettingKey.language.rawValue) private var language = "en"
     
     var body: some View {
-        Text("Test")
+        switch viewModel.viewLoadingState {
+        case .loading:
+            ProgressView()
+                .task {
+                    await viewModel.loadData(pokemon: pokemon, language: language)
+                }
+        case .loaded:
+            ScrollView {
+                VStack {
+                    ForEach(viewModel.sortedMoves()) { move in
+                        Text(move.localizedName(for: language))
+                    }
+                }
+            }
+        case .error(let error):
+            ErrorView(text: error.localizedDescription)
+        }
+        
     }
 }
 

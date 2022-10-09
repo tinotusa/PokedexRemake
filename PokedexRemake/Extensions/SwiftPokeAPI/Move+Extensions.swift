@@ -8,6 +8,12 @@
 import Foundation
 import SwiftPokeAPI
 
+extension Move {
+    func localizedName(for language: String) -> String {
+        self.names.localizedName(language: language, default: self.name)
+    }
+}
+
 extension Move: Comparable {
     public static func < (lhs: Move, rhs: Move) -> Bool {
         lhs.id < rhs.id

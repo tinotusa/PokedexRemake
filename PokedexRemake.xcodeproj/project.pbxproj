@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		212AB02028F2F4EE004067ED /* PokemonCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */; };
+		212AB02328F2F87A004067ED /* MovesTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02228F2F87A004067ED /* MovesTab.swift */; };
 		21757CF028EECB12004217D1 /* FlavorText+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21757CEF28EECB12004217D1 /* FlavorText+Extensions.swift */; };
 		21757CF328EECFFF004217D1 /* AboutTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21757CF228EECFFF004217D1 /* AboutTab.swift */; };
 		21757CF528EED44E004217D1 /* Version+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21757CF428EED44E004217D1 /* Version+Extensions.swift */; };
@@ -89,6 +90,7 @@
 
 /* Begin PBXFileReference section */
 		212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCardViewModel.swift; sourceTree = "<group>"; };
+		212AB02228F2F87A004067ED /* MovesTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesTab.swift; sourceTree = "<group>"; };
 		21757CEF28EECB12004217D1 /* FlavorText+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FlavorText+Extensions.swift"; sourceTree = "<group>"; };
 		21757CF228EECFFF004217D1 /* AboutTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTab.swift; sourceTree = "<group>"; };
 		21757CF428EED44E004217D1 /* Version+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Version+Extensions.swift"; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				21757CF228EECFFF004217D1 /* AboutTab.swift */,
 				21D0C33928EFCFDC00E8D18C /* StatsTab.swift */,
 				21D0C33F28F03B7B00E8D18C /* EvolutionsTab.swift */,
+				212AB02228F2F87A004067ED /* MovesTab.swift */,
 			);
 			path = Tabs;
 			sourceTree = "<group>";
@@ -598,6 +601,7 @@
 				21CD84BE28ED6A63008B2611 /* TypeTag.swift in Sources */,
 				21757CF528EED44E004217D1 /* Version+Extensions.swift in Sources */,
 				21CD84A028ED2041008B2611 /* PokemonType+Extensions.swift in Sources */,
+				212AB02328F2F87A004067ED /* MovesTab.swift in Sources */,
 				21D0C34028F03B7B00E8D18C /* EvolutionsTab.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

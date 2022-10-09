@@ -16,10 +16,10 @@ struct MoveCard: View {
     var body: some View {
         switch viewModel.viewLoadingState {
         case .loading:
-            ProgressView()
-                .task {
-                    await viewModel.loadData(move: move)
-                }
+            redactedLoadingView
+            .task {
+                await viewModel.loadData(move: move)
+            }
         case .loaded:
             VStack(alignment: .leading) {
                 HStack {
@@ -28,17 +28,41 @@ struct MoveCard: View {
                     Text(Globals.formattedID(move.id))
                         .foregroundColor(.gray)
                 }
-                Text(move.effectEntries.first!.shortEffect)
+                .subtitleStyle()
+                Text(move.localizedEffectEntry(for: language, shortVersion: true))
                     .lineLimit(1)
                     .foregroundColor(.gray)
                 HStack {
-                    Text(move.damageClass.name!)
-                    Text(move.type.name!)
+                    TypeTag(type: viewModel.type)
+                    Text(viewModel.damageClass.localizedName(for: language))
                 }
             }
+            .bodyStyle()
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }
+    }
+}
+
+private extension MoveCard {
+    var redactedLoadingView: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Text("Some title here")
+                Spacer()
+                Text("123")
+                    .foregroundColor(.gray)
+            }
+            .subtitleStyle()
+            Text("A rather short description here.")
+                .lineLimit(1)
+                .foregroundColor(.gray)
+            HStack {
+                Text("Type")
+                Text("DamageClass")
+            }
+        }
+        .redacted(reason: .placeholder)
     }
 }
 

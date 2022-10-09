@@ -17,6 +17,7 @@ final class MoveCardViewModel: ObservableObject {
 }
 
 extension MoveCardViewModel {
+    @MainActor
     func loadData(move: Move) async {
         logger.debug("Loading data.")
         do {

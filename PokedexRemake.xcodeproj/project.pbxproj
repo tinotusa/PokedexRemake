@@ -10,6 +10,11 @@
 		212AB02028F2F4EE004067ED /* PokemonCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */; };
 		212AB02328F2F87A004067ED /* MovesTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02228F2F87A004067ED /* MovesTab.swift */; };
 		212AB02528F2F8E5004067ED /* MovesTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02428F2F8E5004067ED /* MovesTabViewModel.swift */; };
+		212AB02728F2FA7A004067ED /* Move+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02628F2FA7A004067ED /* Move+Extensions.swift */; };
+		2164042F28F2FE7700E6A13F /* MoveCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164042E28F2FE7700E6A13F /* MoveCard.swift */; };
+		2164043328F2FF1E00E6A13F /* move.json in Resources */ = {isa = PBXBuildFile; fileRef = 2164043228F2FF1E00E6A13F /* move.json */; };
+		2164043528F2FF7900E6A13F /* MoveCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */; };
+		2164043728F301DE00E6A13F /* MoveDamageClass+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164043628F301DE00E6A13F /* MoveDamageClass+Extensions.swift */; };
 		21757CF028EECB12004217D1 /* FlavorText+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21757CEF28EECB12004217D1 /* FlavorText+Extensions.swift */; };
 		21757CF328EECFFF004217D1 /* AboutTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21757CF228EECFFF004217D1 /* AboutTab.swift */; };
 		21757CF528EED44E004217D1 /* Version+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21757CF428EED44E004217D1 /* Version+Extensions.swift */; };
@@ -93,6 +98,11 @@
 		212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCardViewModel.swift; sourceTree = "<group>"; };
 		212AB02228F2F87A004067ED /* MovesTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesTab.swift; sourceTree = "<group>"; };
 		212AB02428F2F8E5004067ED /* MovesTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesTabViewModel.swift; sourceTree = "<group>"; };
+		212AB02628F2FA7A004067ED /* Move+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Move+Extensions.swift"; sourceTree = "<group>"; };
+		2164042E28F2FE7700E6A13F /* MoveCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCard.swift; sourceTree = "<group>"; };
+		2164043228F2FF1E00E6A13F /* move.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = move.json; sourceTree = "<group>"; };
+		2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCardViewModel.swift; sourceTree = "<group>"; };
+		2164043628F301DE00E6A13F /* MoveDamageClass+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoveDamageClass+Extensions.swift"; sourceTree = "<group>"; };
 		21757CEF28EECB12004217D1 /* FlavorText+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FlavorText+Extensions.swift"; sourceTree = "<group>"; };
 		21757CF228EECFFF004217D1 /* AboutTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTab.swift; sourceTree = "<group>"; };
 		21757CF428EED44E004217D1 /* Version+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Version+Extensions.swift"; sourceTree = "<group>"; };
@@ -312,6 +322,7 @@
 				21CD84BB28ED67B7008B2611 /* PokemonCardView.swift */,
 				217E7CE828EEC428005B3A05 /* ExpandableTab.swift */,
 				21F3CA1228F1730F000BD757 /* PokemonImage.swift */,
+				2164042E28F2FE7700E6A13F /* MoveCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -349,6 +360,8 @@
 				21757CFB28EEECBB004217D1 /* Item+Extensions.swift */,
 				21D0C33D28EFDE6500E8D18C /* Stat+Extensions.swift */,
 				21F3CA0728F115F0000BD757 /* EvolutionChain+Extensions.swift */,
+				212AB02628F2FA7A004067ED /* Move+Extensions.swift */,
+				2164043628F301DE00E6A13F /* MoveDamageClass+Extensions.swift */,
 			);
 			path = SwiftPokeAPI;
 			sourceTree = "<group>";
@@ -379,6 +392,7 @@
 				21CD84A328ED214D008B2611 /* PokemonResultRowViewModel.swift */,
 				212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */,
 				212AB02428F2F8E5004067ED /* MovesTabViewModel.swift */,
+				2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -400,6 +414,7 @@
 				21CD84AE28ED3BA2008B2611 /* grassType.json */,
 				21CD84B028ED3BAD008B2611 /* poisonType.json */,
 				21F3CA0528F115C1000BD757 /* evolutionChain.json */,
+				2164043228F2FF1E00E6A13F /* move.json */,
 			);
 			path = "Example json";
 			sourceTree = "<group>";
@@ -528,6 +543,7 @@
 				21CD84B128ED3BAD008B2611 /* poisonType.json in Resources */,
 				219198EB28EACC9F002C6379 /* Preview Assets.xcassets in Resources */,
 				21CD849928ED1F8D008B2611 /* pokemonSpecies.json in Resources */,
+				2164043328F2FF1E00E6A13F /* move.json in Resources */,
 				21EB594F28EC377C009E201A /* pokemon.json in Resources */,
 				21F3CA0628F115C1000BD757 /* evolutionChain.json in Resources */,
 				219198E828EACC9F002C6379 /* Assets.xcassets in Resources */,
@@ -567,6 +583,7 @@
 				2191992028EAE799002C6379 /* SearchView.swift in Sources */,
 				21F3CA1728F18B75000BD757 /* EvolutionDetailViewModel.swift in Sources */,
 				2191991728EACE82002C6379 /* Color+Extensions.swift in Sources */,
+				2164043528F2FF7900E6A13F /* MoveCardViewModel.swift in Sources */,
 				2191992228EAECF7002C6379 /* View+backgroundView.swift in Sources */,
 				2191991128EACD9B002C6379 /* HomeView.swift in Sources */,
 				21F3CA1128F16A54000BD757 /* ChainLinkViewModel.swift in Sources */,
@@ -597,8 +614,10 @@
 				21CD849C28ED1FFD008B2611 /* Pokemon+Extensions.swift in Sources */,
 				21757CFA28EEE044004217D1 /* AboutTabViewModel.swift in Sources */,
 				21CD84A728ED26DD008B2611 /* SettingKey.swift in Sources */,
+				212AB02728F2FA7A004067ED /* Move+Extensions.swift in Sources */,
 				21F3CA0F28F169AB000BD757 /* Bundle+loadJSON.swift in Sources */,
 				2191991E28EAD7A7002C6379 /* CategoryGridCard.swift in Sources */,
+				2164043728F301DE00E6A13F /* MoveDamageClass+Extensions.swift in Sources */,
 				21757CFC28EEECBB004217D1 /* Item+Extensions.swift in Sources */,
 				21EB594B28EC3496009E201A /* PokemonResultRow.swift in Sources */,
 				21CD84BE28ED6A63008B2611 /* TypeTag.swift in Sources */,
@@ -606,6 +625,7 @@
 				21CD84A028ED2041008B2611 /* PokemonType+Extensions.swift in Sources */,
 				212AB02528F2F8E5004067ED /* MovesTabViewModel.swift in Sources */,
 				212AB02328F2F87A004067ED /* MovesTab.swift in Sources */,
+				2164042F28F2FE7700E6A13F /* MoveCard.swift in Sources */,
 				21D0C34028F03B7B00E8D18C /* EvolutionsTab.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

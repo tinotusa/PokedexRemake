@@ -6,7 +6,30 @@
 //
 
 import Foundation
-
+import SwiftPokeAPI
+import os
 final class MovesTabViewModel: ObservableObject {
+    @Published private(set) var pokemonSpecies: PokemonSpecies!
+    @Published private var moves = Set<Move>()
+    @Published private(set) var viewLoadingState = ViewLoadingState.loading
     
+    private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "MovesTabViewModel")
+}
+
+extension MovesTabViewModel {
+    @MainActor
+    func loadData(pokemon: Pokemon) async {
+        logger.debug("Loading data.")
+        do {
+            self.moves = try await Globals.getMoves(urls: pokemon.moves.map { $0.move.url })
+            viewLoadingState = .loaded
+        } catch {
+            logger.error("Failed load data.")
+            viewLoadingState = .error(error: error)
+        }
+    }
+    
+    func sortedMoves() -> [Move] {
+        moves.sorted()
+    }
 }

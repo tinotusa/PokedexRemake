@@ -13,6 +13,10 @@ extension Move {
         self.names.localizedName(language: language, default: self.name)
     }
     
+    func localizedEffectEntry(for language: String, shortVersion: Bool) -> String {
+        self.effectEntries.localizedEntry(language: language, shortVersion: shortVersion)
+    }
+    
     static var example: Move {
         Bundle.main.loadJSON("move")
     }

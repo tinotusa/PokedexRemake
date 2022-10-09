@@ -37,6 +37,23 @@ struct Globals {
         return try await PokemonSpecies(id)
     }
     
+    static func getMoves(urls: [URL]) async throws -> Set<Move> {
+        try await withThrowingTaskGroup(of: Move.self) { group in
+            for url in urls {
+                group.addTask {
+                    let id = url.lastPathComponent
+                    return try await Move(id)
+                }
+            }
+            
+            var moves = Set<Move>()
+            for try await move in group {
+                moves.insert(move)
+            }
+            return moves
+        }
+    }
+    
     
     static func formattedID(_ id: Int) -> String {
         String(format: "#%03d", id)

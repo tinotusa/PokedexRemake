@@ -23,12 +23,14 @@ struct EvolutionsTab: View {
                     }
             case .loaded:
                 VStack{
-                    ForEach(viewModel.chainLinks, id: \.self) { chainLink in
-                        if !chainLink.evolutionDetails.isEmpty { // don't show the base pokemon
-                            ChainLinkView(chainLink: chainLink)
-                        } else {
-                            Text("No evolutions.")
-                                .foregroundColor(.accentColor)
+                    if viewModel.chainLinks.count == 1 {
+                        Text("No evolutions.")
+                            .foregroundColor(.accentColor)
+                    } else {
+                        ForEach(viewModel.chainLinks, id: \.self) { chainLink in
+                            if !chainLink.evolutionDetails.isEmpty { // don't show the base pokemon
+                                ChainLinkView(chainLink: chainLink)
+                            }
                         }
                     }
                 }

@@ -12,6 +12,10 @@ extension Move {
     func localizedName(for language: String) -> String {
         self.names.localizedName(language: language, default: self.name)
     }
+    
+    static var example: Move {
+        Bundle.main.loadJSON("move")
+    }
 }
 
 extension Move: Comparable {

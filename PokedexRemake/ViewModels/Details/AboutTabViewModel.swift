@@ -16,7 +16,7 @@ final class AboutTabViewModel: ObservableObject {
     @Published var showAllEntries = false
     @Published private(set) var language = "en"
     @Published private(set) var aboutInfo = [AboutInfo: String]()
-    private let maxCount = 3
+    let minEntryCount = 3
     
     enum AboutInfo: String, CaseIterable, Identifiable {
         case name
@@ -51,10 +51,10 @@ extension AboutTabViewModel {
         if showAllEntries {
             return flavorTexts
         } else {
-            if flavorTexts.count <= maxCount {
+            if flavorTexts.count <= minEntryCount {
                 return flavorTexts
             }
-            return Array(flavorTexts[ ..<maxCount])
+            return Array(flavorTexts[ ..<minEntryCount])
         }
     }
     

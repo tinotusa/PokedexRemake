@@ -33,7 +33,6 @@ struct AboutTab: View {
             case .loaded:
                 VStack(alignment: .leading) {
                     entriesList
-                    showMoreButtonRow
                     Text("Details")
                         .subtitleStyle()
                     Grid(alignment: .topLeading) {
@@ -103,6 +102,9 @@ private extension AboutTab {
                 Text(flavorText.filteredText())
                 Divider()
             }
+        }
+        if entries.count > viewModel.minEntryCount {
+            showMoreButtonRow
         }
     }
 }

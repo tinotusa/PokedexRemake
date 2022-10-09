@@ -9,18 +9,10 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct AboutTab: View {
-    private let pokemonData: PokemonData
-    private let pokemonSpecies: PokemonSpecies
+    let pokemon: Pokemon
     
     @AppStorage(SettingKey.language.rawValue) private var language = "en"
-    
     @StateObject private var viewModel = AboutTabViewModel()
-    @EnvironmentObject private var pokemonDataStore: PokemonDataStore
-    
-    init(pokemonData: PokemonData) {
-        self.pokemonData = pokemonData
-        self.pokemonSpecies = pokemonData.pokemonSpecies
-    }
     
     var body: some View {
         ExpandableTab(title: "About") {
@@ -28,7 +20,7 @@ struct AboutTab: View {
             case .loading:
                 ProgressView()
                     .task {
-                        await viewModel.loadData(pokemonDataStore: pokemonDataStore, pokemonData: pokemonData)
+                        await viewModel.loadData(pokemon: pokemon)
                     }
             case .loaded:
                 VStack(alignment: .leading) {
@@ -43,19 +35,17 @@ struct AboutTab: View {
                                 switch aboutInfoKey {
                                 case .types:
                                     HStack {
-                                        ForEach(pokemonData.types.sorted()) { type in
+                                        ForEach(viewModel.sortedTypes()) { type in
                                             TypeTag(type: type)
                                         }
                                     }
                                 case .heldItems:
-                                    if pokemonData.pokemon.heldItems.isEmpty {
+                                    if pokemon.heldItems.isEmpty {
                                         Text("0 items")
                                     } else {
-                                        if let items = pokemonDataStore.items(for: pokemonData.pokemon) {
-                                            VStack(alignment: .leading) {
-                                                ForEach(Array(items)) { item in
-                                                    Text(item.localizedName(for: language))
-                                                }
+                                        VStack(alignment: .leading) {
+                                            ForEach(Array(viewModel.items)) { item in
+                                                Text(item.localizedName(for: language))
                                             }
                                         }
                                     }
@@ -91,11 +81,11 @@ private extension AboutTab {
     
     @ViewBuilder
     var entriesList: some View {
-        let entries = pokemonSpecies.flavorTextEntries.localizedEntries(language: language)
+        let entries = viewModel.pokemonSpecies.flavorTextEntries.localizedEntries(language: language)
         ForEach(viewModel.showEntries(from: entries)) { flavorText in
             VStack(alignment: .leading) {
                 if let name = flavorText.version?.name,
-                   let version = pokemonDataStore.versions.first(where: { $0.name == name })
+                   let version = viewModel.versions.first(where: { $0.name == name })
                 {
                     Text(version.localizedName(for: language))
                 }
@@ -112,13 +102,7 @@ private extension AboutTab {
 struct AboutTab_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
-            AboutTab(pokemonData: .init(
-                pokemon: .example,
-                pokemonSpecies: .example,
-                types: [.grassExample, .poisonExample],
-                generation: .example
-            ))
+            AboutTab(pokemon: .example)
         }
-        .environmentObject(PokemonDataStore())
     }
 }

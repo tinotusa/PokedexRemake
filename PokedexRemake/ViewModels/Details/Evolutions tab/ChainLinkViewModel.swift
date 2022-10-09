@@ -20,22 +20,19 @@ final class ChainLinkViewModel: ObservableObject {
 
 extension ChainLinkViewModel {
     @MainActor
-    func loadData(chainLink: ChainLink, pokemonDataStore: PokemonDataStore) async {
-        guard let speciesName = chainLink.species.name else {
-            logger.error("Failed to get pokemon species name from chain link.")
-            return
-        }
+    func loadData(chainLink: ChainLink) async {
         do {
-            let pokemonSpecies = try await PokemonSpecies(speciesName)
-            guard let evolvesFromSpeciesName = pokemonSpecies.evolvesFromSpecies?.name else {
-                logger.error("Failed to get evolves from pokemon species name from pokemon species.")
+            let id = chainLink.species.url.lastPathComponent
+            let pokemonSpecies = try await PokemonSpecies(id)
+            guard let evolvesFromSpecies = pokemonSpecies.evolvesFromSpecies else {
+                logger.error("Failed to get evolves from species.")
                 return
             }
-            let pokemonSpeciesID = chainLink.species.url.lastPathComponent
-            
-            let evolvesFromPokemonSpecies = try await PokemonSpecies(evolvesFromSpeciesName)
+            let evolvesFromSpeciesID = evolvesFromSpecies.url.lastPathComponent
+            let evolvesFromPokemonSpecies = try await PokemonSpecies(evolvesFromSpeciesID)
             
             async let evolvesFromPokemon = try Pokemon(evolvesFromPokemonSpecies.name)
+            let pokemonSpeciesID = chainLink.species.url.lastPathComponent
             async let pokemon = try Pokemon(pokemonSpeciesID)
             
             self.evolvesFromPokemon = try await evolvesFromPokemon

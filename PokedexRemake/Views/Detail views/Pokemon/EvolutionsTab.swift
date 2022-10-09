@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
+import SwiftPokeAPI
 
 struct EvolutionsTab: View {
-    let pokemonData: PokemonData
+    let pokemon: Pokemon
     @StateObject private var viewModel = EvolutionsTabViewModel()
-    @EnvironmentObject private var pokemonDataStore: PokemonDataStore
     
     var body: some View {
         ExpandableTab(title: "Evolutions") {
@@ -18,8 +18,7 @@ struct EvolutionsTab: View {
             case .loading:
                 ProgressView()
                     .task {
-                        await viewModel.loadData(
-                            pokemonSpecies: pokemonData.pokemonSpecies, pokemonDataStore: pokemonDataStore)
+                        await viewModel.loadData(pokemon: pokemon)
                     }
             case .loaded:
                 VStack{
@@ -44,12 +43,7 @@ struct EvolutionsTab: View {
 
 struct EvolutionsTab_Previews: PreviewProvider {
     static var previews: some View {
-        EvolutionsTab(pokemonData: .init(
-            pokemon: .example,
-            pokemonSpecies: .example,
-            types: Set([.grassExample, .poisonExample]),
-            generation: .example)
-        )
-        .environmentObject(PokemonDataStore())
+        EvolutionsTab(pokemon: .example)
+            .environmentObject(PokemonDataStore())
     }
 }

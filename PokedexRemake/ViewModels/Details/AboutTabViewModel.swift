@@ -11,6 +11,11 @@ import SwiftPokeAPI
 import os
 
 final class AboutTabViewModel: ObservableObject {
+    @Published private(set) var pokemonSpecies: PokemonSpecies!
+    @Published private(set) var types: Set<`Type`>!
+    @Published private(set) var items: Set<Item>!
+    @Published private(set) var versions: Set<Version>!
+    
     private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "AboutTabViewModel")
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     @Published var showAllEntries = false
@@ -37,14 +42,26 @@ final class AboutTabViewModel: ObservableObject {
 
 extension AboutTabViewModel {
     @MainActor
-    func loadData(pokemonDataStore: PokemonDataStore, pokemonData: PokemonData) async {
-        async let versions = await loadVersions(pokemonDataStore: pokemonDataStore, pokemonSpecies: pokemonData.pokemonSpecies)
-        async let items = await getHeldItems(pokemon: pokemonData.pokemon)
-        
-        self.aboutInfo = getAboutInfo(pokemonData: pokemonData)
-        pokemonDataStore.addVersions(await versions)
-        pokemonDataStore.addItems(await items)
-        viewLoadingState = .loaded
+    func loadData(pokemon: Pokemon) async {
+        do {
+            let pokemonSpecies = try await getPokemonSpecies(from: pokemon)
+            
+            async let versions = loadVersions(pokemonSpecies: pokemonSpecies)
+            async let items = getHeldItems(pokemon: pokemon)
+            async let types = getTypes(from: pokemon)
+            
+            self.pokemonSpecies = pokemonSpecies
+            self.versions = await versions
+            self.items = await items
+            self.types = try await types
+            
+            self.aboutInfo = getAboutInfo(pokemon: pokemon, pokemonSpecies: pokemonSpecies)
+            
+            viewLoadingState = .loaded
+        } catch {
+            logger.error("Failed to load data.")
+            viewLoadingState = .error(error: error)
+        }
     }
     
     func showEntries(from flavorTexts: [FlavorText]) -> [FlavorText] {
@@ -58,10 +75,22 @@ extension AboutTabViewModel {
         }
     }
     
+    func sortedTypes() -> [`Type`] {
+        types.sorted()
+    }
 }
 // MARK: Private functions
 private extension AboutTabViewModel {
-    func loadVersions(pokemonDataStore: PokemonDataStore, pokemonSpecies: PokemonSpecies) async -> Set<Version> {
+    func getPokemonSpecies(from pokemon: Pokemon) async throws -> PokemonSpecies {
+        do {
+            let id = pokemon.species.url.lastPathComponent
+            return try await PokemonSpecies(id)
+        } catch {
+            logger.error("Failed to get pokemon species from pokemon with id \(pokemon.id). \(error)")
+            throw error
+        }
+    }
+    func loadVersions(pokemonSpecies: PokemonSpecies) async -> Set<Version> {
         let versions = await withTaskGroup(of: Version?.self) { group in
             for entry in pokemonSpecies.flavorTextEntries {
                 group.addTask { [weak self] in
@@ -115,11 +144,24 @@ private extension AboutTabViewModel {
         return items
     }
     
-    func getAboutInfo(pokemonData: PokemonData) -> [AboutInfo: String] {
+    func getTypes(from pokemon: Pokemon) async throws  -> Set<`Type`> {
+        try await withThrowingTaskGroup(of: `Type`.self) { group in
+            for pokemonType in pokemon.types {
+                group.addTask {
+                    let id = pokemonType.type.url.lastPathComponent
+                    return try await `Type`(id)
+                }
+            }
+            var types = Set<`Type`>()
+            for try await type in group {
+                types.insert(type)
+            }
+            return types
+        }
+    }
+    
+    func getAboutInfo(pokemon: Pokemon, pokemonSpecies: PokemonSpecies) -> [AboutInfo: String] {
         var aboutInfo: [AboutInfo: String] = [:]
-        
-        let pokemonSpecies = pokemonData.pokemonSpecies
-        let pokemon = pokemonData.pokemon
         
         aboutInfo[.name] = pokemonSpecies.localizedName(for: language)
         aboutInfo[.types] = "\(pokemon.types.count) types"

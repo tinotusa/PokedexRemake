@@ -11,14 +11,13 @@ import SwiftPokeAPI
 struct ChainLinkView: View {
     let chainLink: ChainLink
     @StateObject private var viewModel = ChainLinkViewModel()
-    @EnvironmentObject private var pokemonDataStore: PokemonDataStore
     
     var body: some View {
         switch viewModel.viewLoadingState {
         case .loading:
             ProgressView()
                 .task {
-                    await viewModel.loadData(chainLink: chainLink, pokemonDataStore: pokemonDataStore)
+                    await viewModel.loadData(chainLink: chainLink)
                 }
         case .loaded:
             HStack {
@@ -50,6 +49,5 @@ private extension ChainLinkView {
 struct ChainLinkView_Previews: PreviewProvider {
     static var previews: some View {
         ChainLinkView(chainLink: EvolutionChain.example.chain.evolvesTo.first!)
-            .environmentObject(PokemonDataStore())
     }
 }

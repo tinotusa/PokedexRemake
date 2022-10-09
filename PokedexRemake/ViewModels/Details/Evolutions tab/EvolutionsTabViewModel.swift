@@ -10,6 +10,7 @@ import SwiftPokeAPI
 import os
 
 final class EvolutionsTabViewModel: ObservableObject {
+//    @Published private(set) var pokemonSpecies: PokemonSpecies!
     @Published private(set) var chainLinks = [ChainLink]()
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     
@@ -24,31 +25,28 @@ final class EvolutionsTabViewModel: ObservableObject {
 // MARK: Public functions
 extension EvolutionsTabViewModel {
     @MainActor
-    func loadData(pokemonSpecies: PokemonSpecies, pokemonDataStore: PokemonDataStore) async {
+    func loadData(pokemon: Pokemon) async {
         logger.debug("Loading data.")
         do {
-            let evolutionChain = try await getEvolutionChain(for: pokemonSpecies, pokemonDataStore: pokemonDataStore)
-            pokemonDataStore.addEvolutionChain(evolutionChain)
+            let pokemonSpecies = try await Globals.getPokemonSpecies(from: pokemon)
+            let evolutionChain = try await getEvolutionChain(for: pokemonSpecies)
             
             self.chainLinks = getChainLinks(from: evolutionChain)
-            let pokemonSpecies = await getPokemonSpecies(for: chainLinks, pokemonDataStore: pokemonDataStore)
-            let pokemon = await getPokemon(from: pokemonSpecies, pokemonDataStore: pokemonDataStore)
+//            let pokemonSpecies = await getPokemonSpecies(for: chainLinks)
             
             viewLoadingState = .loaded
-            
-            pokemonDataStore.addPokemonSpecies(pokemonSpecies)
-            pokemonDataStore.addPokemon(pokemon)
             
             logger.debug("Successfully loaded data.")
         } catch {
             logger.error("Failed to load data. \(error)")
+            viewLoadingState = .error(error: error)
         }
     }
 }
 
 // MARK: Private functions
 private extension EvolutionsTabViewModel {
-    func getEvolutionChain(for pokemonSpecies: PokemonSpecies, pokemonDataStore: PokemonDataStore) async throws -> EvolutionChain {
+    func getEvolutionChain(for pokemonSpecies: PokemonSpecies) async throws -> EvolutionChain {
         guard let chainURL = pokemonSpecies.evolutionChain?.url else {
             logger.debug("Pokemon species with id: \(pokemonSpecies.id) has no evolution chain.")
             throw EvolutionsTabError.noChainLinkURL
@@ -56,10 +54,6 @@ private extension EvolutionsTabViewModel {
         guard let id = Int(chainURL.lastPathComponent) else {
             logger.error("Failed to get id from chain url: \(chainURL).")
             throw EvolutionsTabError.failedToGetID
-        }
-        if let evolutionChain = pokemonDataStore.evolutionChains.first(where: { $0.id == id }) {
-            logger.debug("Returning evolution chain from data store.")
-            return evolutionChain
         }
         return try await EvolutionChain(id)
     }

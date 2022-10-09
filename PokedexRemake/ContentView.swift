@@ -16,8 +16,8 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $path) {
             HomeView()
-                .navigationDestination(for: PokemonData.self) { pokemonData in
-                   PokemonDetail(pokemonData: pokemonData)
+                .navigationDestination(for: Pokemon.self) { pokemon in
+                   PokemonDetail(pokemon: pokemon)
                 }
                 .navigationDestination(for: PokemonCategoryViewModel.self) { pokemonCategoryViewModel in
                     PokemonCategoryView(viewModel: pokemonCategoryViewModel)

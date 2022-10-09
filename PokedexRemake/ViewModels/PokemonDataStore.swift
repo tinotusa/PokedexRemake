@@ -112,36 +112,6 @@ extension PokemonDataStore {
         return correctedOrder
     }
     
-    func pokemonData(for pokemon: Pokemon) throws -> PokemonData {
-        guard let pokemonSpecies = pokemonSpecies.first(where: { $0.name == pokemon.species.name } ) else {
-            logger.error("Species not found for \(pokemon.name).")
-            throw PokemonDataStoreError.speciesNotFound
-        }
-        
-        let types = types.filter { type in
-            for pokemonType in pokemon.types {
-                if pokemonType.type.name == type.name {
-                    return true
-                }
-            }
-            return false
-        }
-        
-        guard types.count > 0 else {
-            logger.error("Types not found for \(pokemon.name).")
-            throw PokemonDataStoreError.typesNotFound
-        }
-        
-        let generation = generations.first(where: { $0.name == pokemonSpecies.generation.name })
-        
-        return PokemonData(
-            pokemon: pokemon,
-            pokemonSpecies: pokemonSpecies,
-            types: types,
-            generation: generation
-        )
-    }
-    
     func items(for pokemon: Pokemon) -> Set<Item> {
         self.items.filter { item in
             for heldItem in pokemon.heldItems {

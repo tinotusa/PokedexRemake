@@ -7,11 +7,11 @@
 
 import SwiftUI
 import Charts
+import SwiftPokeAPI
 
 struct StatsTab: View {
-    let pokemonData: PokemonData
+    let pokemon: Pokemon
     @StateObject private var viewModel = StatsTabViewModel()
-    @EnvironmentObject private var pokemonDataStore: PokemonDataStore
     @AppStorage(SettingKey.language.rawValue) private var language = "en"
     
     var body: some View {
@@ -20,11 +20,7 @@ struct StatsTab: View {
             case .loading:
                 ProgressView()
                     .task {
-                        await viewModel.loadData(
-                            pokemonData: pokemonData,
-                            pokemonDataStore: pokemonDataStore,
-                            language: language
-                        )
+                        await viewModel.loadData(pokemon: pokemon, language: language)
                     }
             case .loaded:
                 VStack(alignment: .leading) {
@@ -79,14 +75,6 @@ struct StatsTab: View {
 
 struct StatsTab_Previews: PreviewProvider {
     static var previews: some View {
-        StatsTab(pokemonData:
-            .init(
-                pokemon: .example,
-                pokemonSpecies: .example,
-                types: [.grassExample, .poisonExample],
-                generation: .example
-            )
-        )
-        .environmentObject(PokemonDataStore())
+        StatsTab(pokemon: .example)
     }
 }

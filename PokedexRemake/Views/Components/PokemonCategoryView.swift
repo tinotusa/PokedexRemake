@@ -25,9 +25,7 @@ struct PokemonCategoryView: View {
             ScrollView {
                 LazyVGrid(columns: columns) {
                     ForEach(pokemonDataStore.pokemon.sorted()) { pokemon in
-                        if let pokemonData = try? pokemonDataStore.pokemonData(for: pokemon) {
-                            PokemonCardView(pokemonData: pokemonData)
-                        }
+                        PokemonCardView(pokemon: pokemon)
                     }
                     if viewModel.hasNextPage {
                         ProgressView()

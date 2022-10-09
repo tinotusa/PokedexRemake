@@ -8,56 +8,49 @@
 import SwiftUI
 import SwiftPokeAPI
 
-func formattedID(_ id: Int) -> String {
-    String(format: "#%03d", id)
-}
-
 struct PokemonResultRow: View {
     let pokemon: Pokemon
-    let pokemonSpecies: PokemonSpecies
-    let generation: Generation?
-    let types: [`Type`]
-    let pokemonData: PokemonData
-    
-    init(pokemonData: PokemonData) {
-        self.pokemon = pokemonData.pokemon
-        self.pokemonSpecies = pokemonData.pokemonSpecies
-        self.types = pokemonData.types.sorted()
-        self.generation = pokemonData.generation
-        self.pokemonData = pokemonData
-    }
     
     @StateObject private var viewModel = PokemonResultRowViewModel()
     @AppStorage(SettingKey.language.rawValue) private var language = "en"
     
     var body: some View {
-        NavigationLink(value: pokemonData) {
-            HStack {
-                PokemonImage(url: pokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
-                
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text(pokemonSpecies.localizedName(for: language))
-                        Spacer()
-                        if let generation {
-                            Text(generation.localizedName(for: language))
+        switch viewModel.viewLoadingState {
+        case .loading:
+            ProgressView()
+                .task {
+                    await viewModel.loadData(pokemon: pokemon)
+                }
+        case .loaded:
+            NavigationLink(value: pokemon) {
+                HStack {
+                    PokemonImage(url: pokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
+                    
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text(viewModel.pokemonSpecies.localizedName(for: language))
+                            Spacer()
+                            Text(viewModel.generation.localizedName(for: language))
                                 .foregroundColor(.gray)
                         }
-                    }
-                    
-                    HStack {
-                        ForEach(types) { type in
-                            TypeTag(type: type)
+                        
+                        HStack {
+                            ForEach(Globals.sortedTypes(viewModel.types)) { type in
+                                TypeTag(type: type)
+                            }
                         }
+                        .bodyStyle2()
+                        
+                        Text(Globals.formattedID(pokemon.id))
+                            .foregroundColor(.gray)
                     }
-                    .bodyStyle2()
-                    
-                    Text(formattedID(pokemon.id))
-                        .foregroundColor(.gray)
                 }
+                .bodyStyle()
             }
-            .bodyStyle()
+        case .error(let error):
+            ErrorView(text: error.localizedDescription)
         }
+        
     }
 }
 
@@ -70,13 +63,6 @@ private extension PokemonResultRow {
 
 struct PokemonResultRow_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonResultRow(
-            pokemonData: .init(
-                pokemon: .example,
-                pokemonSpecies: .example,
-                types: [.grassExample, .poisonExample],
-                generation: .example
-            )
-        )
+        PokemonResultRow(pokemon: .example)
     }
 }

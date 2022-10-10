@@ -10,10 +10,33 @@ import SwiftPokeAPI
 
 struct FlavorTextEntriesList: View {
     let abilityFlavorTexts: [AbilityFlavorText]
+    @StateObject private var viewModel = FlavorTextEntriesListViewModel()
+    @AppStorage(SettingKey.language.rawValue) private var language = "en"
     
     var body: some View {
-        ForEach(abilityFlavorTexts, id: \.self) { abilityFlavorText in
-            Text(abilityFlavorText.flavorText)
+        switch viewModel.viewLoadingState {
+        case .loading:
+            ProgressView()
+                .task {
+                    await viewModel.loadData(abilityFlavorTexts: abilityFlavorTexts)
+                }
+        case .loaded:
+            VStack(alignment: .leading) {
+                ForEach(abilityFlavorTexts, id: \.self) { abilityFlavorText in
+                    if let versions = viewModel.versions(named: abilityFlavorText.versionGroup.name) {
+                        HStack {
+                            ForEach(versions) { version in
+                                Text(version.localizedName(for: language))
+                            }
+                        }
+                        .foregroundColor(.gray)
+                    }
+                    Text(abilityFlavorText.flavorText)
+                }
+            }
+            .bodyStyle()
+        case .error(let error):
+            ErrorView(text: error.localizedDescription)
         }
     }
 }

@@ -18,15 +18,30 @@ final class FlavorTextEntriesListViewModel: ObservableObject {
 }
 
 extension FlavorTextEntriesListViewModel {
+    @MainActor
     func loadData(abilityFlavorTexts: [AbilityFlavorText]) async {
         logger.debug("Loading data.")
         do {
             self.versionGroups = try await Globals.getVersionGroups(from: abilityFlavorTexts)
+            self.versions = try await Globals.getVersions(from: versionGroups)
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")
         } catch {
             viewLoadingState = .error(error: error)
             logger.error("Failed to load data. \(error)")
         }
+    }
+    
+    func versions(named versionGroupName: String?) -> [Version] {
+        guard let versionGroupName else {
+            logger.debug("Failed to get version. name is nil.")
+            return []
+        }
+        guard let versionGroup = versionGroups.first(where: { $0.name == versionGroupName }) else {
+            logger.debug("Failed to get version group with name \(versionGroupName).")
+            return []
+        }
+        let versions = versions.filter({ $0.versionGroup.name == versionGroup.name} )
+        return Array(versions)
     }
 }

@@ -20,6 +20,8 @@ struct TextStyles: View {
                 .title2Style()
             Text("Subtitle  style")
                 .subtitleStyle()
+            Text("Subtitle 2 style")
+                .subtitle2Style()
             Text("Body style")
                 .bodyStyle()
             Text("Body style 2")
@@ -59,6 +61,15 @@ struct SubtitleStyle: ViewModifier {
     }
 }
 
+struct Subtitle2Style: ViewModifier {
+    @ScaledMetric private var size = 20
+    
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(.text)
+            .font(.system(size: size, weight: .regular))
+    }
+}
 
 struct TitleStyle: ViewModifier {
     @ScaledMetric private var size = 40
@@ -119,6 +130,10 @@ extension View {
     
     func subtitleStyle() -> some View {
         modifier(SubtitleStyle())
+    }
+    
+    func subtitle2Style() -> some View {
+        modifier(Subtitle2Style())
     }
     
     func categoryTitleStyle() -> some View {

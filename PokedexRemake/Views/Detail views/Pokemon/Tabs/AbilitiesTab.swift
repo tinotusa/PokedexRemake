@@ -9,13 +9,32 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct AbilitiesTab: View {
+    let pokemon: Pokemon
+    @StateObject private var viewModel = AbilitiesTabViewModel()
+    @AppStorage(SettingKey.language.rawValue) private var language = "en"
+    
     var body: some View {
-        Text("hello world")
+        ExpandableTab(title: "Abilities") {
+            switch viewModel.viewLoadingState {
+            case .loading:
+                ProgressView()
+                    .task {
+                        await viewModel.loadData(pokemon: pokemon)
+                    }
+            case .loaded:
+                ForEach(viewModel.sortedAbilities()) { ability in
+                    AbilityCard(ability: ability)
+                }
+                .bodyStyle()
+            case .error(let error):
+                ErrorView(text: error.localizedDescription)
+            }
+        }
     }
 }
 
 struct AbilitiesTab_Preveiws: PreviewProvider {
     static var previews: some View {
-        AbilitiesTab()
+        AbilitiesTab(pokemon: .example)
     }
 }

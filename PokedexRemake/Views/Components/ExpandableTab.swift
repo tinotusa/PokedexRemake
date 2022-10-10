@@ -10,12 +10,14 @@ import SwiftUI
 struct ExpandableTab<Content: View>: View {
     private let title: LocalizedStringKey
     private let content: () -> Content
+    private let isSubheader: Bool
     
     @State private var isExpanded = false
     
-    init(title: LocalizedStringKey, @ViewBuilder content: @escaping () -> Content) {
+    init(title: LocalizedStringKey, isSubheader: Bool = false, @ViewBuilder content: @escaping () -> Content) {
         self.title = title
         self.content = content
+        self.isSubheader = isSubheader
     }
     
     var body: some View {
@@ -25,13 +27,12 @@ struct ExpandableTab<Content: View>: View {
                     isExpanded.toggle()
                 }
             } label: {
-                HStack {
-                    Text(title)
-                    Spacer()
-                    icon
+                VStack(spacing: 0) {
+                    header
+                    if isExpanded {
+                        Divider()
+                    }
                 }
-                .title2Style()
-                .fontWeight(.light)
             }
             if isExpanded {
                 content()
@@ -45,6 +46,27 @@ private extension ExpandableTab {
         Image(systemName: "chevron.down")
             .rotationEffect(isExpanded ? .degrees(180) : .degrees(0))
             .foregroundColor(.accentColor)
+    }
+    
+    @ViewBuilder
+    var header: some View {
+        if isSubheader {
+            HStack {
+                Text(title)
+                Spacer()
+                icon
+            }
+            .subtitle2Style()
+            .fontWeight(.light)
+        } else {
+            HStack {
+                Text(title)
+                Spacer()
+                icon
+            }
+            .title2Style()
+            .fontWeight(.light)
+        }
     }
 }
 

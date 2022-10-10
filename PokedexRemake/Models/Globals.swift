@@ -88,6 +88,25 @@ struct Globals {
         }
     }
     
+    static func getVersions(from versionGroups: Set<VersionGroup>) async throws -> Set<Version> {
+        try await withThrowingTaskGroup(of: Version.self) { group in
+            for versionGroup in versionGroups {
+                for version in versionGroup.versions {
+                    group.addTask {
+                        let id = version.url.lastPathComponent
+                        return try await Version(id)
+                    }
+                }
+            }
+            
+            var versions = Set<Version>()
+            for try await version in group {
+                versions.insert(version)
+            }
+            return versions
+        }
+    }
+    
     static func formattedID(_ id: Int) -> String {
         String(format: "#%03d", id)
     }

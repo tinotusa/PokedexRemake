@@ -42,6 +42,6 @@ extension FlavorTextEntriesListViewModel {
             return []
         }
         let versions = versions.filter({ $0.versionGroup.name == versionGroup.name} )
-        return Array(versions)
+        return Array(versions).sorted()
     }
 }

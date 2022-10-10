@@ -13,3 +13,9 @@ extension Version {
         self.names.localizedName(language: language, default: self.name)
     }
 }
+
+extension Version: Comparable {
+    public static func < (lhs: Version, rhs: Version) -> Bool {
+        lhs.id < rhs.id
+    }
+}

@@ -13,6 +13,10 @@ extension Ability {
         self.names.localizedName(language: language, default: self.name)
     }
     
+    func localizedEffectEntry(for language: String, shortVersion: Bool) -> String {
+        self.effectEntries.localizedEntry(language: language, shortVersion: shortVersion, effectChance: nil)
+    }
+    
     static var example: Ability {
         Bundle.main.loadJSON("ability")
     }

@@ -71,6 +71,23 @@ struct Globals {
         }
     }
     
+    static func getVersionGroups(from abilityFlavorTexts: [AbilityFlavorText]) async throws -> Set<VersionGroup> {
+        try await withThrowingTaskGroup(of: VersionGroup.self) { group in
+            for abilityFlavorText in abilityFlavorTexts {
+                group.addTask {
+                    let id = abilityFlavorText.versionGroup.url.lastPathComponent
+                    return try await VersionGroup(id)
+                }
+            }
+            
+            var versionGroups = Set<VersionGroup>()
+            for try await versionGroup in group {
+                versionGroups.insert(versionGroup)
+            }
+            return versionGroups
+        }
+    }
+    
     static func formattedID(_ id: Int) -> String {
         String(format: "#%03d", id)
     }

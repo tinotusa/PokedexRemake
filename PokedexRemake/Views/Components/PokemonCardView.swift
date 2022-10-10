@@ -35,10 +35,16 @@ struct PokemonCardView: View {
                             .bodyStyle2()
                     }
                     .lineLimit(1)
-                    
-                    HStack {
-                        ForEach(Globals.sortedTypes(viewModel.types)) { type in
-                            TypeTag(type: type)
+                    ViewThatFits(in: .horizontal) {
+                        HStack {
+                            ForEach(Globals.sortedTypes(viewModel.types)) { type in
+                                TypeTag(type: type)
+                            }
+                        }
+                        VStack(alignment: .leading, spacing: 5) {
+                            ForEach(Globals.sortedTypes(viewModel.types)) { type in
+                                TypeTag(type: type)
+                            }
                         }
                     }
                 }

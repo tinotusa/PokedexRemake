@@ -19,7 +19,7 @@ struct ExpandableTab<Content: View>: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Button {
                 withAnimation {
                     isExpanded.toggle()

@@ -54,6 +54,22 @@ struct Globals {
         }
     }
     
+    static func getAbilities(urls: [URL]) async throws -> Set<Ability> {
+        try await withThrowingTaskGroup(of: Ability.self) { group in
+            for url in urls {
+                group.addTask {
+                    let id = url.lastPathComponent
+                    return try await Ability(id)
+                }
+            }
+            
+            var abilities = Set<Ability>()
+            for try await ability in group {
+                abilities.insert(ability)
+            }
+            return abilities
+        }
+    }
     
     static func formattedID(_ id: Int) -> String {
         String(format: "#%03d", id)

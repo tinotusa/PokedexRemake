@@ -60,3 +60,25 @@ extension Array where Element == VerboseEffect {
         return effectText
     }
 }
+
+extension Array where Element == AbilityFlavorText {
+    func localizedFlavorTextEntries(language: String) -> [AbilityFlavorText] {
+        var flavorTextEntries: [AbilityFlavorText]?
+        flavorTextEntries = self.filter { $0.language.name == language }
+        
+        if flavorTextEntries == nil {
+            let availableLanguages = self.compactMap { $0.language.name }
+            let deviceLanguageCode = Bundle.preferredLocalizations(from: availableLanguages, forPreferences: nil).first!
+            flavorTextEntries = self.filter { $0.language.name == deviceLanguageCode }
+        }
+        
+        if flavorTextEntries == nil {
+            flavorTextEntries = self.filter { $0.language.name == "en" }
+        }
+        
+        if let flavorTextEntries {
+            return flavorTextEntries
+        }
+        return []
+    }
+}

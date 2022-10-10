@@ -21,8 +21,8 @@ struct ChainLinkView: View {
                 }
         case .loaded:
             HStack {
-                // TODO: Use the pokemon card view (might have to refactor pokemon card to have just a pokemon)
-                PokemonImage(url: viewModel.evolvesFromPokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
+                PokemonCardView(pokemon: viewModel.evolvesFromPokemon)
+
                 Spacer()
                 VStack {
                     Image(systemName: "chevron.right")
@@ -31,7 +31,7 @@ struct ChainLinkView: View {
                     }
                 }
                 Spacer()
-                PokemonImage(url: viewModel.pokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
+                PokemonCardView(pokemon: viewModel.pokemon)
             }
             .bodyStyle()
         case .error(let error):

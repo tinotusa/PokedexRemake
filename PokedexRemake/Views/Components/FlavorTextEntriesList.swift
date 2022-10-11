@@ -31,7 +31,7 @@ struct FlavorTextEntriesList: View {
                         }
                         .foregroundColor(.gray)
                     }
-                    Text(abilityFlavorText.flavorText)
+                    Text(abilityFlavorText.filteredFlavorText())
                 }
             }
             .bodyStyle()

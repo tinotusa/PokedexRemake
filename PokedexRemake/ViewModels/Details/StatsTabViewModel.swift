@@ -76,8 +76,7 @@ private extension StatsTabViewModel {
         return try await withThrowingTaskGroup(of: Stat.self) { group in
             for pokemonStat in pokemon.stats {
                 group.addTask {
-                    let id = pokemonStat.stat.url.lastPathComponent
-                    return try await Stat(id)
+                    return try await Stat(pokemonStat.stat.url)
                 }
             }
             

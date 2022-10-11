@@ -51,11 +51,7 @@ private extension EvolutionsTabViewModel {
             logger.debug("Pokemon species with id: \(pokemonSpecies.id) has no evolution chain.")
             throw EvolutionsTabError.noChainLinkURL
         }
-        guard let id = Int(chainURL.lastPathComponent) else {
-            logger.error("Failed to get id from chain url: \(chainURL).")
-            throw EvolutionsTabError.failedToGetID
-        }
-        return try await EvolutionChain(id)
+        return try await EvolutionChain(chainURL)
     }
     
     func getChainLinks(from evolutionChain: EvolutionChain) -> [ChainLink] {

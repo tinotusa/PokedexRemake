@@ -15,8 +15,7 @@ struct Globals {
         try await withThrowingTaskGroup(of: `Type`.self) { group in
             for url in urls {
                 group.addTask {
-                    let id = url.lastPathComponent
-                    return try await `Type`(id)
+                    return try await `Type`(url)
                 }
             }
             var types = Set<`Type`>()
@@ -28,21 +27,18 @@ struct Globals {
     }
     
     static func getGeneration(from pokemonSpecies: PokemonSpecies) async throws -> Generation {
-        let id = pokemonSpecies.generation.url.lastPathComponent
-        return try await Generation(id)
+        return try await Generation(pokemonSpecies.generation.url)
     }
     
     static func getPokemonSpecies(from pokemon: Pokemon) async throws -> PokemonSpecies {
-        let id = pokemon.species.url.lastPathComponent
-        return try await PokemonSpecies(id)
+        return try await PokemonSpecies(pokemon.species.url)
     }
     
     static func getMoves(urls: [URL]) async throws -> Set<Move> {
         try await withThrowingTaskGroup(of: Move.self) { group in
             for url in urls {
                 group.addTask {
-                    let id = url.lastPathComponent
-                    return try await Move(id)
+                    return try await Move(url)
                 }
             }
             
@@ -58,8 +54,7 @@ struct Globals {
         try await withThrowingTaskGroup(of: Ability.self) { group in
             for url in urls {
                 group.addTask {
-                    let id = url.lastPathComponent
-                    return try await Ability(id)
+                    return try await Ability(url)
                 }
             }
             
@@ -75,8 +70,7 @@ struct Globals {
         try await withThrowingTaskGroup(of: VersionGroup.self) { group in
             for abilityFlavorText in abilityFlavorTexts {
                 group.addTask {
-                    let id = abilityFlavorText.versionGroup.url.lastPathComponent
-                    return try await VersionGroup(id)
+                    return try await VersionGroup(abilityFlavorText.versionGroup.url)
                 }
             }
             
@@ -93,8 +87,7 @@ struct Globals {
             for versionGroup in versionGroups {
                 for version in versionGroup.versions {
                     group.addTask {
-                        let id = version.url.lastPathComponent
-                        return try await Version(id)
+                        return try await Version(version.url)
                     }
                 }
             }

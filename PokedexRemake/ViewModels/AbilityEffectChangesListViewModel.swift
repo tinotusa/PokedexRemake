@@ -23,6 +23,7 @@ final class AbilityEffectChangesListViewModel: ObservableObject {
 }
 
 extension AbilityEffectChangesListViewModel {
+    @MainActor
     func loadData(effectChanges: [AbilityEffectChange], language: String) async {
         let availableLanguages = effectChanges.flatMap { $0.effectEntries.compactMap { $0.language.name } }
         let deviceLanguageCode = Bundle.preferredLocalizations(from: availableLanguages, forPreferences: nil).first!
@@ -38,8 +39,7 @@ extension AbilityEffectChangesListViewModel {
                         effects.append(effect)
                     }
                 }
-                let id = effectChange.versionGroup.url.lastPathComponent
-                let versionGroup = try await VersionGroup(id)
+                let versionGroup = try await VersionGroup(effectChange.versionGroup.url)
                 let versions = try await Globals.getVersions(from: [versionGroup])
                 localizedEffectVersions.append(.init(effectEntries: effects, versions: Array(versions)))
             }

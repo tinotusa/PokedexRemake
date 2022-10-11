@@ -31,19 +31,9 @@ extension PokemonSearchResultsViewModel {
         withAnimation {
             errorText = nil
         }
-
-//        if let id = pokemon.first(where: { $0.name == PokeAPI.filteredName(name) }) {
-//            moveIDToTop(pokemon.id)
-//            logger.debug("Pokemon is already in the data store.")
-//            return
-//        }
         
         do {
             let pokemon = try await Pokemon(name)
-//            let pokemonSpecies = try await Globals.getPokemonSpecies(from: pokemon)
-            
-//            let generation = try await Globals.getGeneration(from: pokemonSpecies)
-//            let types = try await Globals.getTypes(urls: pokemon.types.map { $0.type.url })
 
             self.pokemon.insert(pokemon, at: 0)
         } catch {

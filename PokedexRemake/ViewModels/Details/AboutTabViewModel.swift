@@ -83,8 +83,7 @@ extension AboutTabViewModel {
 private extension AboutTabViewModel {
     func getPokemonSpecies(from pokemon: Pokemon) async throws -> PokemonSpecies {
         do {
-            let id = pokemon.species.url.lastPathComponent
-            return try await PokemonSpecies(id)
+            return try await PokemonSpecies(pokemon.species.url)
         } catch {
             logger.error("Failed to get pokemon species from pokemon with id \(pokemon.id). \(error)")
             throw error
@@ -148,8 +147,7 @@ private extension AboutTabViewModel {
         try await withThrowingTaskGroup(of: `Type`.self) { group in
             for pokemonType in pokemon.types {
                 group.addTask {
-                    let id = pokemonType.type.url.lastPathComponent
-                    return try await `Type`(id)
+                    return try await `Type`(pokemonType.type.url)
                 }
             }
             var types = Set<`Type`>()

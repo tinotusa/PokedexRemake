@@ -22,8 +22,7 @@ extension ChainLinkViewModel {
     @MainActor
     func loadData(chainLink: ChainLink) async {
         do {
-            let id = chainLink.species.url.lastPathComponent
-            let pokemonSpecies = try await PokemonSpecies(id)
+            let pokemonSpecies = try await PokemonSpecies(chainLink.species.url)
             guard let evolvesFromSpecies = pokemonSpecies.evolvesFromSpecies else {
                 logger.error("Failed to get evolves from species.")
                 return

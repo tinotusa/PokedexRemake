@@ -21,8 +21,7 @@ extension PokemonCardViewModel {
     @MainActor
     func loadData(from pokemon: Pokemon) async {
         do {
-            let id = pokemon.species.url.lastPathComponent
-            async let pokemonSpecies = PokemonSpecies(id)
+            async let pokemonSpecies = PokemonSpecies(pokemon.species.url)
             async let types = getTypes(from: pokemon)
             
             self.pokemonSpecies = try await pokemonSpecies

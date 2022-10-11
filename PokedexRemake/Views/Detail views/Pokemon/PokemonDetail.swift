@@ -17,9 +17,8 @@ final class PokemonDetailViewModel: ObservableObject {
     
     @MainActor
     func loadData(from pokemon: Pokemon) async {
-        let id = pokemon.species.url.lastPathComponent
         do {
-            self.pokemonSpecies = try await PokemonSpecies(id)
+            self.pokemonSpecies = try await PokemonSpecies(pokemon.species.url)
             viewLoadingState = .loaded
         } catch {
             logger.error("Failed to get pokemon species from pokemon with id: \(pokemon.id)")

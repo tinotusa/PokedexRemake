@@ -22,8 +22,7 @@ extension AbilityCardViewModel {
     func loadData(ability: Ability, language: String) async {
         logger.debug("Loading data.")
         do {
-            let id = ability.generation.url.lastPathComponent
-            self.generation = try await Generation(id)
+            self.generation = try await Generation(ability.generation.url)
             self.localizedFlavorTextEntries = ability.flavorTextEntries.localizedFlavorTextEntries(language: language)
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")

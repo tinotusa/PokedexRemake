@@ -21,11 +21,8 @@ extension MoveCardViewModel {
     func loadData(move: Move) async {
         logger.debug("Loading data.")
         do {
-            let id = move.damageClass.url.lastPathComponent
-            let typeID = move.type.url.lastPathComponent
-            
-            async let damageClass = MoveDamageClass(id)
-            async let type = Type(typeID)
+            async let damageClass = MoveDamageClass(move.damageClass.url)
+            async let type = Type(move.type.url)
             
             self.damageClass = try await damageClass
             self.type = try await type

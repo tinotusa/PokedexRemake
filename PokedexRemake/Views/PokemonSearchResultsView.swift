@@ -55,7 +55,7 @@ private extension PokemonSearchResultsView {
                         .foregroundColor(.gray)
                     Spacer()
                     Button {
-                        viewModel.clearPokemon()
+                        viewModel.showingClearPokemonConfirmationDialog = true
                     } label: {
                         Text("Clear")
                             .foregroundColor(.accentColor)
@@ -90,6 +90,13 @@ private extension PokemonSearchResultsView {
             }
         }
         .scrollDismissesKeyboard(.immediately)
+        .confirmationDialog("Clear recently searched history.", isPresented: $viewModel.showingClearPokemonConfirmationDialog) {
+            Button("Clear history", role: .destructive) {
+                viewModel.clearPokemon()
+            }
+        } message: {
+            Text("Clear recently searched history.")
+        }
     }
 }
 

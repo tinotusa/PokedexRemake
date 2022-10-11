@@ -14,6 +14,7 @@ final class PokemonSearchResultsViewModel: ObservableObject {
     @Published private(set) var errorText: String?
     private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonSearchResultsViewViewModel")
     @Published private(set) var isSearchLoading = false
+    @Published var showingClearPokemonConfirmationDialog = false
 }
 
 extension PokemonSearchResultsViewModel {

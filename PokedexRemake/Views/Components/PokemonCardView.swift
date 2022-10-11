@@ -17,7 +17,7 @@ struct PokemonCardView: View {
     var body: some View {
         switch viewModel.viewLoadingState {
         case .loading:
-            ProgressView()
+            loadingPreview
                 .task {
                     await viewModel.loadData(from: pokemon)
                 }
@@ -59,6 +59,31 @@ struct PokemonCardView: View {
 private extension PokemonCardView {
     enum Constants {
         static let imageSize = 120.0
+    }
+    
+    var loadingPreview: some View {
+        VStack(alignment: .leading) {
+            Image("bulbasaur")
+                .resizable()
+                .scaledToFit()
+                .frame(width: Constants.imageSize, height: Constants.imageSize)
+
+            HStack {
+                Text("Some pokemon")
+                    .layoutPriority(1)
+                Text("#999")
+                    .foregroundColor(.gray)
+                    .bodyStyle2()
+            }
+            .lineLimit(1)
+            
+            HStack {
+                ForEach(0 ..< 2) { index in
+                    Text("type\(index)")
+                }
+            }
+        }
+        .redacted(reason: .placeholder)
     }
 }
 

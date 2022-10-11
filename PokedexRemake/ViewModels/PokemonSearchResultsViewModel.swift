@@ -46,8 +46,12 @@ extension PokemonSearchResultsViewModel {
         
         do {
             let pokemon = try await Pokemon(name)
-
-            self.pokemon.insert(pokemon, at: 0)
+            if let foundPokemon = self.pokemon.first(where: { $0.id == pokemon.id }) {
+                logger.debug("Pokemon with id \(foundPokemon.id) is already in the list. moving it to top.")
+                moveIDToTop(foundPokemon.id)
+            } else {
+                self.pokemon.insert(pokemon, at: 0)
+            }
         } catch {
             logger.error("Failed to get pokemon with name: \(name). \(error)")
             withAnimation {

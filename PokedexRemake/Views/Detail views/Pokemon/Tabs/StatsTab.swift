@@ -10,8 +10,9 @@ import Charts
 import SwiftPokeAPI
 
 struct StatsTab: View {
+    @ObservedObject var viewModel: StatsTabViewModel
     let pokemon: Pokemon
-    @StateObject private var viewModel = StatsTabViewModel()
+    
     @AppStorage(SettingKey.language.rawValue) private var language = "en"
     
     var body: some View {
@@ -75,6 +76,6 @@ struct StatsTab: View {
 
 struct StatsTab_Previews: PreviewProvider {
     static var previews: some View {
-        StatsTab(pokemon: .example)
+        StatsTab(viewModel: StatsTabViewModel(), pokemon: .example)
     }
 }

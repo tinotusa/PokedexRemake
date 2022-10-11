@@ -13,6 +13,7 @@ final class PokemonDetailViewModel: ObservableObject {
     @Published private(set) var pokemonSpecies: PokemonSpecies!
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     
+    
     private var logger = Logger(subsystem: "com.tinotusa.Pokedex", category: "PokemonDetailViewModel")
     
     @MainActor
@@ -29,8 +30,15 @@ final class PokemonDetailViewModel: ObservableObject {
 
 struct PokemonDetail: View {
     let pokemon: Pokemon
-    @AppStorage(SettingKey.language.rawValue) private var language = "en"
     @StateObject private var viewModel = PokemonDetailViewModel()
+    @AppStorage(SettingKey.language.rawValue) private var language = "en"
+    
+    // tab view models
+    @StateObject private var aboutTabViewModel = AboutTabViewModel()
+    @StateObject private var statsTabViewModel = StatsTabViewModel()
+    @StateObject private var evolutionsTabViewModel = EvolutionsTabViewModel()
+    @StateObject private var movesTabViewModel = MovesTabViewModel()
+    @StateObject private var abilitiesTabViewModel = AbilitiesTabViewModel()
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -45,11 +53,11 @@ struct PokemonDetail: View {
                     PokemonImage(url: pokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
                     nameAndID
                  
-                    AboutTab(pokemon: pokemon)
-                    StatsTab(pokemon: pokemon)
-                    EvolutionsTab(pokemon: pokemon)
-                    MovesTab(pokemon: pokemon)
-                    AbilitiesTab(pokemon: pokemon)
+                    AboutTab(viewModel: aboutTabViewModel, pokemon: pokemon)
+                    StatsTab(viewModel: statsTabViewModel, pokemon: pokemon)
+                    EvolutionsTab(viewModel: evolutionsTabViewModel, pokemon: pokemon)
+                    MovesTab(viewModel: movesTabViewModel, pokemon: pokemon)
+                    AbilitiesTab(viewModel: abilitiesTabViewModel, pokemon: pokemon)
                 }
                 .padding()
             }

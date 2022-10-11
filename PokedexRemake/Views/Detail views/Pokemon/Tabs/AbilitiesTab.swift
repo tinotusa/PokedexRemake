@@ -9,8 +9,9 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct AbilitiesTab: View {
+    @ObservedObject var viewModel: AbilitiesTabViewModel
     let pokemon: Pokemon
-    @StateObject private var viewModel = AbilitiesTabViewModel()
+    
     @AppStorage(SettingKey.language.rawValue) private var language = "en"
     
     var body: some View {
@@ -35,6 +36,6 @@ struct AbilitiesTab: View {
 
 struct AbilitiesTab_Preveiws: PreviewProvider {
     static var previews: some View {
-        AbilitiesTab(pokemon: .example)
+        AbilitiesTab(viewModel: AbilitiesTabViewModel(), pokemon: .example)
     }
 }

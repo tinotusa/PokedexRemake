@@ -9,11 +9,11 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct AboutTab: View {
+    @ObservedObject var viewModel: AboutTabViewModel
     let pokemon: Pokemon
     
     @AppStorage(SettingKey.language.rawValue) private var language = "en"
-    @StateObject private var viewModel = AboutTabViewModel()
-    
+
     var body: some View {
         ExpandableTab(title: "About") {
             switch viewModel.viewLoadingState {
@@ -102,7 +102,7 @@ private extension AboutTab {
 struct AboutTab_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
-            AboutTab(pokemon: .example)
+            AboutTab(viewModel: AboutTabViewModel(), pokemon: .example)
         }
     }
 }

@@ -9,9 +9,8 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct MovesTab: View {
+    @ObservedObject var viewModel: MovesTabViewModel
     let pokemon: Pokemon
-    @StateObject private var viewModel = MovesTabViewModel()
-    
     
     var body: some View {
         ExpandableTab(title: "Moves") {
@@ -39,7 +38,7 @@ struct MovesTab: View {
 struct MovesTab_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
-            MovesTab(pokemon: .example)
+            MovesTab(viewModel: MovesTabViewModel(), pokemon: .example)
         }
     }
 }

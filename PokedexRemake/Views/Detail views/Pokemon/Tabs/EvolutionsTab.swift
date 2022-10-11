@@ -9,8 +9,9 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct EvolutionsTab: View {
+    @ObservedObject var viewModel: EvolutionsTabViewModel
     let pokemon: Pokemon
-    @StateObject private var viewModel = EvolutionsTabViewModel()
+    
     
     var body: some View {
         ExpandableTab(title: "Evolutions") {
@@ -43,6 +44,6 @@ struct EvolutionsTab: View {
 
 struct EvolutionsTab_Previews: PreviewProvider {
     static var previews: some View {
-        EvolutionsTab(pokemon: .example)
+        EvolutionsTab(viewModel: EvolutionsTabViewModel(), pokemon: .example)
     }
 }

@@ -11,14 +11,24 @@ struct PokemonSearchResultsView: View {
     @ObservedObject var viewModel: PokemonSearchResultsViewModel
     
     var body: some View {
-        VStack {
-            if viewModel.pokemon.isEmpty {
-                emptyPokemonListView
-            } else {
-                pokemonListView
+        switch viewModel.viewLoadingState {
+        case .loading:
+            ProgressView()
+                .task {
+                    viewModel.loadData()
+                }
+        case .loaded:
+            VStack {
+                if viewModel.pokemon.isEmpty {
+                    emptyPokemonListView
+                } else {
+                    pokemonListView
+                }
             }
+            .bodyStyle()
+        case .error(let error):
+            ErrorView(text: error.localizedDescription)
         }
-        .bodyStyle()
     }
 }
 

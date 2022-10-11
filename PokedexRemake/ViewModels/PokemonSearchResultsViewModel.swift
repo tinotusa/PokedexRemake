@@ -10,14 +10,25 @@ import os
 import SwiftPokeAPI
 
 final class PokemonSearchResultsViewModel: ObservableObject {
-    @Published private(set) var pokemon: [Pokemon] = []
+    @Published private(set) var pokemon: [Pokemon] = [] {
+        didSet {
+            save()
+        }
+    }
     @Published private(set) var errorText: String?
     private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonSearchResultsViewViewModel")
     @Published private(set) var isSearchLoading = false
     @Published var showingClearPokemonConfirmationDialog = false
+    @Published private(set) var viewLoadingState = ViewLoadingState.loading
 }
 
 extension PokemonSearchResultsViewModel {
+    @MainActor
+    func loadData() {
+        self.pokemon = load()
+        viewLoadingState = .loaded
+    }
+    
     @MainActor
     func searchForPokemon(named name: String) async {
         withAnimation {
@@ -53,9 +64,41 @@ extension PokemonSearchResultsViewModel {
         pokemon.move(fromOffsets: IndexSet(integer: index), toOffset: 0)
     }
     
-    // TODO: use confirmation dialog here?
     @MainActor
     func clearPokemon() {
         pokemon = []
+    }
+}
+
+private extension PokemonSearchResultsViewModel {
+    static let saveFileName = "pokemonSearchResults"
+    
+    func load() -> [Pokemon] {
+        let documentsURL = FileManager.default.documentsURL()
+        let saveFileURL = documentsURL.appendingPathComponent(Self.saveFileName)
+        do {
+            let data = try Data(contentsOf: saveFileURL)
+            return try JSONDecoder().decode([Pokemon].self, from: data)
+        } catch {
+            logger.error("Failed to load data from save file. \(error)")
+        }
+        return []
+    }
+    
+    func save() {
+        let documentsURL = FileManager.default.documentsURL()
+        let saveFileURL = documentsURL.appendingPathComponent(Self.saveFileName)
+        do {
+            let data = try JSONEncoder().encode(pokemon)
+            try data.write(to: saveFileURL, options: [.atomic, .completeFileProtection])
+        } catch {
+            logger.error("Failed to save pokemon results to disk. \(error)")
+        }
+    }
+}
+// TODO: Move me
+extension FileManager {
+    func documentsURL() -> URL {
+        self.urls(for: .documentDirectory, in: .userDomainMask).first!
     }
 }

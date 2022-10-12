@@ -12,6 +12,7 @@ struct ContentView: View {
     @EnvironmentObject private var pokemonSearchResultsViewModel: PokemonSearchResultsViewModel
     @EnvironmentObject private var pokemonCategoryViewModel: PokemonCategoryViewModel
     @State private var path = NavigationPath()
+    @Environment(\.scenePhase) private var scenePhase
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -22,6 +23,15 @@ struct ContentView: View {
                 .navigationDestination(for: PokemonCategoryViewModel.self) { pokemonCategoryViewModel in
                     PokemonCategoryView(viewModel: pokemonCategoryViewModel)
                 }
+        }
+        .onChange(of: scenePhase) { scenePhase in
+            if scenePhase == .inactive {
+                do {
+                    try PokeAPI.shared.saveCacheToDisk()
+                } catch {
+                    print("Failed to save cache. \(error)")
+                }
+            }
         }
     }
 }

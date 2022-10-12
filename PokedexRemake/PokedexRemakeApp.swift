@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftPokeAPI
 
 @main
 struct PokedexRemakeApp: App {
@@ -13,6 +14,14 @@ struct PokedexRemakeApp: App {
     @StateObject private var pokemonSearchResultsViewModel = PokemonSearchResultsViewModel()
     // category view models
     @StateObject private var pokemonCategoryViewModel = PokemonCategoryViewModel()
+    
+    init() {
+        do {
+            try PokeAPI.shared.loadCacheFromDisk()
+        } catch {
+            print("Failed to load cache from disk. \(error)")
+        }
+    }
     
     var body: some Scene {
         WindowGroup {

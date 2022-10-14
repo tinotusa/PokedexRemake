@@ -11,6 +11,8 @@ import SwiftPokeAPI
 struct ContentView: View {
     @EnvironmentObject private var pokemonSearchResultsViewModel: PokemonSearchResultsViewModel
     @EnvironmentObject private var pokemonCategoryViewModel: PokemonCategoryViewModel
+    @EnvironmentObject private var moveCategoryViewModel: MoveCategoryViewModel
+    
     @State private var path = NavigationPath()
     @Environment(\.scenePhase) private var scenePhase
     
@@ -22,6 +24,9 @@ struct ContentView: View {
                 }
                 .navigationDestination(for: PokemonCategoryViewModel.self) { pokemonCategoryViewModel in
                     PokemonCategoryView(viewModel: pokemonCategoryViewModel)
+                }
+                .navigationDestination(for: MoveCategoryViewModel.self) { moveCategoryViewModel in
+                    MoveCategoryView(viewModel: moveCategoryViewModel)
                 }
         }
         .onChange(of: scenePhase) { scenePhase in

@@ -14,6 +14,7 @@ struct PokedexRemakeApp: App {
     @StateObject private var pokemonSearchResultsViewModel = PokemonSearchResultsViewModel()
     // category view models
     @StateObject private var pokemonCategoryViewModel = PokemonCategoryViewModel()
+    @StateObject private var moveCategoryViewModel = MoveCategoryViewModel()
     
     init() {
         do {
@@ -28,6 +29,7 @@ struct PokedexRemakeApp: App {
             ContentView()
                 .environmentObject(pokemonSearchResultsViewModel)
                 .environmentObject(pokemonCategoryViewModel)
+                .environmentObject(moveCategoryViewModel)
         }
     }
 }

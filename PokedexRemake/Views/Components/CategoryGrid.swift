@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CategoryGrid: View {
-    @EnvironmentObject private var pokemonCategoryViewModel: PokemonCategoryViewModel
-    @EnvironmentObject private var moveCategoryViewModel: MoveCategoryViewModel
+    @ObservedObject var pokemonCategoryViewModel: PokemonCategoryViewModel
+    @ObservedObject var moveCategoryViewModel: MoveCategoryViewModel
     
     var body: some View {
         Grid(horizontalSpacing: 20, verticalSpacing: 10) {
@@ -51,7 +51,9 @@ struct CategoryGrid: View {
 
 struct CategoryGrid_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryGrid()
-            .environmentObject(PokemonCategoryViewModel())
+        CategoryGrid(
+            pokemonCategoryViewModel: PokemonCategoryViewModel(),
+            moveCategoryViewModel: MoveCategoryViewModel()
+        )
     }
 }

@@ -21,9 +21,3 @@ extension Move {
         Bundle.main.loadJSON("move")
     }
 }
-
-extension Move: Comparable {
-    public static func < (lhs: Move, rhs: Move) -> Bool {
-        lhs.id < rhs.id
-    }
-}

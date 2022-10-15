@@ -21,9 +21,3 @@ extension Ability {
         Bundle.main.loadJSON("ability")
     }
 }
-
-extension Ability: Comparable {
-    public static func < (lhs: Ability, rhs: Ability) -> Bool {
-        lhs.id < rhs.id
-    }
-}

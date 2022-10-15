@@ -18,16 +18,6 @@ extension Pokemon {
     }
 }
 
-extension Pokemon: Comparable {
-    public static func == (lhs: Pokemon, rhs: Pokemon) -> Bool {
-        lhs.id == rhs.id
-    }
-    
-    public static func <(lhs: Pokemon, rhs: Pokemon) -> Bool {
-        lhs.id < rhs.id
-    }
-}
-
 extension Pokemon {
     static var example: Pokemon {
         let url = Bundle.main.url(forResource: "pokemon", withExtension: "json")!

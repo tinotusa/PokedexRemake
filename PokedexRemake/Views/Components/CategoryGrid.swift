@@ -11,7 +11,8 @@ struct CategoryGrid: View {
     @ObservedObject var pokemonCategoryViewModel: PokemonCategoryViewModel
     @ObservedObject var moveCategoryViewModel: MoveCategoryViewModel
     @ObservedObject var itemsCategoryViewModel: ItemsCategoryViewModel
-    
+    @ObservedObject var abilitiesCategoryViewModel: AbilitiesCategoryViewModel
+
     var body: some View {
         Grid(horizontalSpacing: 20, verticalSpacing: 10) {
             GridRow {
@@ -26,9 +27,7 @@ struct CategoryGrid: View {
                 NavigationLink(value: itemsCategoryViewModel) {
                     CategoryGridCard(title: "Items")
                 }
-                NavigationLink {
-                    Text("Abilities detail")
-                } label: {
+                NavigationLink(value: abilitiesCategoryViewModel) {
                     CategoryGridCard(title: "Abilities")
                 }
             }
@@ -53,7 +52,8 @@ struct CategoryGrid_Previews: PreviewProvider {
         CategoryGrid(
             pokemonCategoryViewModel: PokemonCategoryViewModel(),
             moveCategoryViewModel: MoveCategoryViewModel(),
-            itemsCategoryViewModel: ItemsCategoryViewModel()
+            itemsCategoryViewModel: ItemsCategoryViewModel(),
+            abilitiesCategoryViewModel: AbilitiesCategoryViewModel()
         )
     }
 }

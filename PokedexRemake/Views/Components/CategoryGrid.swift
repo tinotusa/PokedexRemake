@@ -10,6 +10,7 @@ import SwiftUI
 struct CategoryGrid: View {
     @ObservedObject var pokemonCategoryViewModel: PokemonCategoryViewModel
     @ObservedObject var moveCategoryViewModel: MoveCategoryViewModel
+    @ObservedObject var itemsCategoryViewModel: ItemsCategoryViewModel
     
     var body: some View {
         Grid(horizontalSpacing: 20, verticalSpacing: 10) {
@@ -22,9 +23,7 @@ struct CategoryGrid: View {
                 }
             }
             GridRow {
-                NavigationLink {
-                    Text("Items detail")
-                } label: {
+                NavigationLink(value: itemsCategoryViewModel) {
                     CategoryGridCard(title: "Items")
                 }
                 NavigationLink {
@@ -53,7 +52,8 @@ struct CategoryGrid_Previews: PreviewProvider {
     static var previews: some View {
         CategoryGrid(
             pokemonCategoryViewModel: PokemonCategoryViewModel(),
-            moveCategoryViewModel: MoveCategoryViewModel()
+            moveCategoryViewModel: MoveCategoryViewModel(),
+            itemsCategoryViewModel: ItemsCategoryViewModel()
         )
     }
 }

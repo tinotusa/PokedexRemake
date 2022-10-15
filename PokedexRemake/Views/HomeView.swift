@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject private var pokemonCategoryViewModel = PokemonCategoryViewModel()
     @StateObject private var moveCategoryViewModel = MoveCategoryViewModel()
+    @StateObject private var itemsCategoryViewModel = ItemsCategoryViewModel()
     
     @State private var isShowingSearchView = false
     @Namespace private var namespace
@@ -27,6 +28,9 @@ struct HomeView: View {
         }
         .navigationDestination(for: MoveCategoryViewModel.self) { moveCategoryViewModel in
             MoveCategoryView(viewModel: moveCategoryViewModel)
+        }
+        .navigationDestination(for: ItemsCategoryViewModel.self) { itemsCategoryViewModel in
+            ItemsCategoryView(viewModel: itemsCategoryViewModel)
         }
     }
 }
@@ -50,7 +54,8 @@ private extension HomeView {
             Divider()
             CategoryGrid(
                 pokemonCategoryViewModel: pokemonCategoryViewModel,
-                moveCategoryViewModel: moveCategoryViewModel
+                moveCategoryViewModel: moveCategoryViewModel,
+                itemsCategoryViewModel: itemsCategoryViewModel
             )
             Spacer()
         }

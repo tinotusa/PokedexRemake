@@ -9,10 +9,16 @@ import Foundation
 import SwiftPokeAPI
 import os
 
-final class ItemsCategoryViewModel: ObservableObject, Identifiable {
+final class ItemsCategoryViewModel: ObservableObject, Identifiable, Hashable {
+    static func == (lhs: ItemsCategoryViewModel, rhs: ItemsCategoryViewModel) -> Bool {
+        lhs.id == rhs.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
     let id = UUID().uuidString
     @Published private var items = Set<Item>()
-    @Published private var viewLoadingState = ViewLoadingState.loading
+    @Published private(set) var viewLoadingState = ViewLoadingState.loading
     @Published private(set) var hasNextPage = true
     @Published private var nextPageURL: URL? {
         didSet {
@@ -25,6 +31,7 @@ final class ItemsCategoryViewModel: ObservableObject, Identifiable {
 
 // MARK: - Public functions
 extension ItemsCategoryViewModel {
+    @MainActor
     func loadData() async {
         logger.error("Loading data.")
         do {
@@ -38,6 +45,7 @@ extension ItemsCategoryViewModel {
         }
     }
     
+    @MainActor
     func getNextPageItems() async {
         guard let nextPageURL else {
             logger.error("Failed to get next page items. nextPageURL is nil.")
@@ -51,6 +59,10 @@ extension ItemsCategoryViewModel {
             logger.error("Failed to get next items page. \(error)")
         }
         return
+    }
+    
+    func sortedItems() -> [Item] {
+        self.items.sorted()
     }
 }
 

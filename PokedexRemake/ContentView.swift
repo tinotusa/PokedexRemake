@@ -20,6 +20,10 @@ struct ContentView: View {
                 .navigationDestination(for: Pokemon.self) { pokemon in
                    PokemonDetail(pokemon: pokemon)
                 }
+                .navigationDestination(for: Item.self) { item in
+//                    ItemDetail(item: item)
+                    Text("item detail for: \(item.name)")
+                }
         }
         .onChange(of: scenePhase) { scenePhase in
             if scenePhase == .inactive {

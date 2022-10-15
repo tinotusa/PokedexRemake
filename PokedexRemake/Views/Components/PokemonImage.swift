@@ -14,6 +14,7 @@ struct PokemonImage: View {
     var body: some View {
         AsyncImage(url: url) { image in
             image
+                .interpolation(.none)
                 .resizable()
                 .scaledToFit()
         } placeholder: {

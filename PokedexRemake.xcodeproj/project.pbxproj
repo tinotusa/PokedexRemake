@@ -12,6 +12,7 @@
 		212AB02528F2F8E5004067ED /* MovesTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02428F2F8E5004067ED /* MovesTabViewModel.swift */; };
 		212AB02728F2FA7A004067ED /* Move+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02628F2FA7A004067ED /* Move+Extensions.swift */; };
 		213B0E5528FA468B008CAD4C /* ItemsCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E5428FA468B008CAD4C /* ItemsCategoryView.swift */; };
+		213B0E5728FA46AF008CAD4C /* ItemsCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E5628FA46AF008CAD4C /* ItemsCategoryViewModel.swift */; };
 		2164042F28F2FE7700E6A13F /* MoveCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164042E28F2FE7700E6A13F /* MoveCard.swift */; };
 		2164043328F2FF1E00E6A13F /* move.json in Resources */ = {isa = PBXBuildFile; fileRef = 2164043228F2FF1E00E6A13F /* move.json */; };
 		2164043528F2FF7900E6A13F /* MoveCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */; };
@@ -115,6 +116,7 @@
 		212AB02428F2F8E5004067ED /* MovesTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesTabViewModel.swift; sourceTree = "<group>"; };
 		212AB02628F2FA7A004067ED /* Move+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Move+Extensions.swift"; sourceTree = "<group>"; };
 		213B0E5428FA468B008CAD4C /* ItemsCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsCategoryView.swift; sourceTree = "<group>"; };
+		213B0E5628FA46AF008CAD4C /* ItemsCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsCategoryViewModel.swift; sourceTree = "<group>"; };
 		2164042E28F2FE7700E6A13F /* MoveCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCard.swift; sourceTree = "<group>"; };
 		2164043228F2FF1E00E6A13F /* move.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = move.json; sourceTree = "<group>"; };
 		2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCardViewModel.swift; sourceTree = "<group>"; };
@@ -436,6 +438,7 @@
 			children = (
 				21CD84B728ED4E8F008B2611 /* PokemonCategoryViewModel.swift */,
 				2169D3F928F9098D009CFE63 /* MoveCategoryViewModel.swift */,
+				213B0E5628FA46AF008CAD4C /* ItemsCategoryViewModel.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -665,6 +668,7 @@
 				21EB594628EC2E97009E201A /* PokemonSearchResultsViewModel.swift in Sources */,
 				2191991428EACDDA002C6379 /* SearchBarButton.swift in Sources */,
 				21B9D19A28F3C92F007C1270 /* FlavorTextEntriesList.swift in Sources */,
+				213B0E5728FA46AF008CAD4C /* ItemsCategoryViewModel.swift in Sources */,
 				21757CF328EECFFF004217D1 /* AboutTab.swift in Sources */,
 				219198E628EACC9D002C6379 /* ContentView.swift in Sources */,
 				217E7CE928EEC428005B3A05 /* ExpandableTab.swift in Sources */,

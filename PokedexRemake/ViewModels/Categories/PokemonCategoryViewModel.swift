@@ -45,12 +45,9 @@ extension PokemonCategoryViewModel {
     @MainActor
     func loadData() async {
         do {
-            let pokemonResourceList = try await NamedAPIResourceList(.pokemon, limit: 20)
-            nextPageURL = pokemonResourceList.next
-            
-            let pokemon = await getResources(from: pokemonResourceList)
-            
-            self.pokemon = pokemon
+            let pokemonResource = try await Resource<Pokemon>(limit: 20)
+            self.nextPageURL = pokemonResource.next
+            self.pokemon = pokemonResource.items
             
             viewLoadingState = .loaded
         } catch {
@@ -70,14 +67,11 @@ extension PokemonCategoryViewModel {
             return
         }
         do {
-            let resourceList = try await NamedAPIResourceList(nextPageURL)
+            let resourceList = try await Resource<Pokemon>(nextPageURL)
             self.nextPageURL = resourceList.next
+            self.pokemon.formUnion(resourceList.items)
             
-            let pokemon = await getResources(from: resourceList)
-            
-            self.pokemon.formUnion(pokemon)
-            
-            logger.debug("Successfully loaded the next page. Loaded \(pokemon.count) pokemon.")
+            logger.debug("Successfully loaded the next page. Loaded \(self.pokemon.count) pokemon.")
         } catch {
             logger.error("Failed to load next page. \(error)")
         }

@@ -54,10 +54,9 @@ extension MoveCategoryViewModel {
             return
         }
         do {
-            let moveResourceList = try await NamedAPIResourceList(nextPageURL)
-            self.nextPageURL = moveResourceList.next
-            let moves = try await getMoves(from: moveResourceList)
-            self.moves.formUnion(moves)
+            let movesResource = try await Resource<Move>(nextPageURL)
+            self.nextPageURL = movesResource.next
+            self.moves.formUnion(movesResource.items)
             
             logger.debug("Successfully loaded next moves page.")
         } catch {
@@ -74,11 +73,10 @@ private extension MoveCategoryViewModel {
     @MainActor
     func loadMoves() async throws -> Set<Move> {
         logger.debug("Loading moves.")
-        let moveResourceList = try await NamedAPIResourceList(.move, limit: 20)
-        nextPageURL = moveResourceList.next
-        let moves = try await getMoves(from: moveResourceList)
+        let movesResource = try await Resource<Move>(limit: 20)
+        self.nextPageURL = movesResource.next
         logger.debug("Successfully loaded moves.")
-        return moves
+        return movesResource.items
     }
     
     func getMoves(from resourceList: NamedAPIResourceList) async throws -> Set<Move> {

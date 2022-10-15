@@ -11,6 +11,7 @@
 		212AB02328F2F87A004067ED /* MovesTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02228F2F87A004067ED /* MovesTab.swift */; };
 		212AB02528F2F8E5004067ED /* MovesTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02428F2F8E5004067ED /* MovesTabViewModel.swift */; };
 		212AB02728F2FA7A004067ED /* Move+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02628F2FA7A004067ED /* Move+Extensions.swift */; };
+		213B0E5528FA468B008CAD4C /* ItemsCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E5428FA468B008CAD4C /* ItemsCategoryView.swift */; };
 		2164042F28F2FE7700E6A13F /* MoveCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164042E28F2FE7700E6A13F /* MoveCard.swift */; };
 		2164043328F2FF1E00E6A13F /* move.json in Resources */ = {isa = PBXBuildFile; fileRef = 2164043228F2FF1E00E6A13F /* move.json */; };
 		2164043528F2FF7900E6A13F /* MoveCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */; };
@@ -113,6 +114,7 @@
 		212AB02228F2F87A004067ED /* MovesTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesTab.swift; sourceTree = "<group>"; };
 		212AB02428F2F8E5004067ED /* MovesTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesTabViewModel.swift; sourceTree = "<group>"; };
 		212AB02628F2FA7A004067ED /* Move+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Move+Extensions.swift"; sourceTree = "<group>"; };
+		213B0E5428FA468B008CAD4C /* ItemsCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsCategoryView.swift; sourceTree = "<group>"; };
 		2164042E28F2FE7700E6A13F /* MoveCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCard.swift; sourceTree = "<group>"; };
 		2164043228F2FF1E00E6A13F /* move.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = move.json; sourceTree = "<group>"; };
 		2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCardViewModel.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				2169D3F628F908EA009CFE63 /* Move */,
+				213B0E5428FA468B008CAD4C /* ItemsCategoryView.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -669,6 +672,7 @@
 				21F3CA1528F18B14000BD757 /* EvolutionDetailView.swift in Sources */,
 				21F3CA0D28F16801000BD757 /* ChainLinkView.swift in Sources */,
 				21F3CA1328F1730F000BD757 /* PokemonImage.swift in Sources */,
+				213B0E5528FA468B008CAD4C /* ItemsCategoryView.swift in Sources */,
 				21CD84AB28ED3603008B2611 /* Generation+Extension.swift in Sources */,
 				21D0C33A28EFCFDC00E8D18C /* StatsTab.swift in Sources */,
 				21F3CA0828F115F0000BD757 /* EvolutionChain+Extensions.swift in Sources */,

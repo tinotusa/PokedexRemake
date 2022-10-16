@@ -9,7 +9,8 @@ import Foundation
 import SwiftPokeAPI
 import os
 
-final class LocationsCategoryViewModel: ObservableObject {
+final class LocationsCategoryViewModel: ObservableObject, Identifiable {
+    let id = UUID().uuidString
     @Published private(set) var locations = Set<Location>()
     @Published private(set) var hasNextPage = true
     @Published private var nextPageURL: URL? {
@@ -20,6 +21,16 @@ final class LocationsCategoryViewModel: ObservableObject {
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "LocationsCategoryViewModel")
+}
+
+extension LocationsCategoryViewModel: Hashable {
+    static func == (lhs: LocationsCategoryViewModel, rhs: LocationsCategoryViewModel) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
 }
 
 extension LocationsCategoryViewModel {

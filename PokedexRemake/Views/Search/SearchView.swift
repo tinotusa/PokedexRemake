@@ -14,8 +14,9 @@ struct SearchView: View {
     @State private var searchText = ""
     @State private var searchScope: SearchScope = .pokemon
     @FocusState private var focusedField: FocusedField?
-    // TODO: Does this need to be in the environment? 
+    // TODO: Does this need to be in the environment?
     @EnvironmentObject private var pokemonSearchResultsViewModel: PokemonSearchResultsViewModel
+    @StateObject private var moveResultsViewModel = MoveResultsViewModel()
     
     var body: some View {
         VStack {
@@ -42,6 +43,8 @@ struct SearchView: View {
             switch searchScope {
             case .pokemon:
                 PokemonSearchResultsView(viewModel: pokemonSearchResultsViewModel)
+            case .moves:
+                MoveResultsView(viewModel: moveResultsViewModel)
             default:
                 Text("TODO!")
             }
@@ -59,6 +62,8 @@ private extension SearchView {
         switch searchScope {
         case .pokemon:
             await pokemonSearchResultsViewModel.searchForPokemon(named: searchText)
+        case .moves:
+            await moveResultsViewModel.search(searchText)
         default:
             print("TODO!")
         }

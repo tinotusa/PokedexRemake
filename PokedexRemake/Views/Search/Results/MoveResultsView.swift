@@ -11,12 +11,22 @@ struct MoveResultsView: View {
     @ObservedObject var viewModel: MoveResultsViewModel
     
     var body: some View {
-        VStack {
-            if viewModel.moves.isEmpty {
-                emptyView
-            } else {
-                movesList
+        switch viewModel.viewLoadingState {
+        case .loading:
+            ProgressView()
+                .task {
+                    viewModel.loadData()
+                }
+        case .loaded:
+            VStack {
+                if viewModel.moves.isEmpty {
+                    emptyView
+                } else {
+                    movesList
+                }
             }
+        case .error(let error):
+            ErrorView(text: error.localizedDescription)
         }
     }
 }

@@ -59,21 +59,11 @@ private extension PokemonSearchResultsView {
     var pokemonListView: some View {
         ScrollView(showsIndicators: false) {
             VStack {
-                // TODO: make into view (other search views will have the same bar)
-                HStack {
-                    Text("Recently searched")
-                        .foregroundColor(.gray)
-                    Spacer()
-                    Button {
-                        viewModel.showingClearPokemonConfirmationDialog = true
-                    } label: {
-                        Text("Clear")
-                            .foregroundColor(.accentColor)
-                    }
+                RecentlySearchedBar {
+                    viewModel.showingClearPokemonConfirmationDialog = true
                 }
-                .bodyStyle2()
                 
-                // TODO: make into view 
+                // TODO: make into view
                 if let errorText = viewModel.errorText {
                     Text(errorText)
                         .multilineTextAlignment(.leading)

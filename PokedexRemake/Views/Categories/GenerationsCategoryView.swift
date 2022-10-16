@@ -20,11 +20,12 @@ struct GenerationsCategoryView: View {
                 }
         case .loaded:
             ScrollView {
-                LazyVGrid(columns: columns) {
+                LazyVStack {
                     ForEach(viewModel.sortedGenerations()) { generation in
-                        Text(generation.name)
+                        GenerationCard(generation: generation)
                     }
                 }
+                .padding()
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)

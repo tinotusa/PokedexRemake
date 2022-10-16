@@ -30,6 +30,9 @@ struct ContentView: View {
                 .navigationDestination(for: Location.self) { location in
                     Text("Location detail for: \(location.name)")
                 }
+                .navigationDestination(for: Generation.self) { generation in
+                    Text("Generation detail for: \(generation.name)")
+                }
         }
         .onChange(of: scenePhase) { scenePhase in
             if scenePhase == .inactive {

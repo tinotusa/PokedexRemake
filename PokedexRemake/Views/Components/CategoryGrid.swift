@@ -13,6 +13,7 @@ struct CategoryGrid: View {
     @ObservedObject var itemsCategoryViewModel: ItemsCategoryViewModel
     @ObservedObject var abilitiesCategoryViewModel: AbilitiesCategoryViewModel
     @ObservedObject var locationsCategoryViewModel: LocationsCategoryViewModel
+    @ObservedObject var generationsCategoryViewModel: GenerationsCategoryViewModel
     
     var body: some View {
         Grid(horizontalSpacing: 20, verticalSpacing: 10) {
@@ -36,9 +37,7 @@ struct CategoryGrid: View {
                 NavigationLink(value: locationsCategoryViewModel) {
                     CategoryGridCard(title: "Locations")
                 }
-                NavigationLink {
-                    Text("Generations detail")
-                } label: {
+                NavigationLink(value: generationsCategoryViewModel) {
                     CategoryGridCard(title: "Generations")
                 }
             }
@@ -53,7 +52,8 @@ struct CategoryGrid_Previews: PreviewProvider {
             moveCategoryViewModel: MoveCategoryViewModel(),
             itemsCategoryViewModel: ItemsCategoryViewModel(),
             abilitiesCategoryViewModel: AbilitiesCategoryViewModel(),
-            locationsCategoryViewModel: LocationsCategoryViewModel()
+            locationsCategoryViewModel: LocationsCategoryViewModel(),
+            generationsCategoryViewModel: GenerationsCategoryViewModel()
         )
     }
 }

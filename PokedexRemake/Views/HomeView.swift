@@ -17,6 +17,7 @@ struct HomeView: View {
     @StateObject private var itemsCategoryViewModel = ItemsCategoryViewModel()
     @StateObject private var abilitiesCategoryViewModel = AbilitiesCategoryViewModel()
     @StateObject private var locationsCategoryViewModel = LocationsCategoryViewModel()
+    @StateObject private var generationsCategoryViewModel = GenerationsCategoryViewModel()
     
     var body: some View {
         VStack {
@@ -40,6 +41,9 @@ struct HomeView: View {
         }
         .navigationDestination(for: LocationsCategoryViewModel.self) { locationsCategoryViewModel in
             LocationsCategoryView(viewModel: locationsCategoryViewModel)
+        }
+        .navigationDestination(for: GenerationsCategoryViewModel.self) { generationsCategoryViewModel in
+            GenerationsCategoryView(viewModel: generationsCategoryViewModel)
         }
     }
 }
@@ -66,7 +70,8 @@ private extension HomeView {
                 moveCategoryViewModel: moveCategoryViewModel,
                 itemsCategoryViewModel: itemsCategoryViewModel,
                 abilitiesCategoryViewModel: abilitiesCategoryViewModel,
-                locationsCategoryViewModel: locationsCategoryViewModel
+                locationsCategoryViewModel: locationsCategoryViewModel,
+                generationsCategoryViewModel: generationsCategoryViewModel
             )
             Spacer()
         }

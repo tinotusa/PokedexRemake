@@ -9,7 +9,9 @@ import Foundation
 import SwiftPokeAPI
 import os
 
-final class GenerationsCategoryViewModel: ObservableObject {
+final class GenerationsCategoryViewModel: ObservableObject, Identifiable {
+    let id = UUID().uuidString
+    
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     @Published private(set) var generations = Set<Generation>()
     
@@ -21,6 +23,7 @@ extension GenerationsCategoryViewModel {
         self.generations.sorted()
     }
     
+    @MainActor
     func loadData() async {
         do {
             let resource = try await Resource<Generation>(limit: 20)
@@ -30,5 +33,15 @@ extension GenerationsCategoryViewModel {
             logger.error("Failed to load generations. \(error)")
             viewLoadingState = .error(error: error)
         }
+    }
+}
+
+extension GenerationsCategoryViewModel: Hashable {
+    static func == (lhs: GenerationsCategoryViewModel, rhs: GenerationsCategoryViewModel) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
     }
 }

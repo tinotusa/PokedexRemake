@@ -10,7 +10,7 @@ import SwiftPokeAPI
 
 struct AbilityExpandableTab: View {
     let ability: Ability
-    @AppStorage(SettingKey.language.rawValue) private var language = "en"
+    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
     @StateObject private var viewModel = AbilityExpandableTabViewModel()
     
     var body: some View {

@@ -11,7 +11,7 @@ import SwiftPokeAPI
 struct AbilityEffectChangesList: View {
     let effectChanges: [AbilityEffectChange]
     @StateObject private var viewModel = AbilityEffectChangesListViewModel()
-    @AppStorage(SettingKey.language.rawValue) private var language = "en"
+    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
         switch viewModel.viewLoadingState {

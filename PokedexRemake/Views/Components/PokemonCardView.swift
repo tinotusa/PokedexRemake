@@ -11,7 +11,7 @@ import SwiftPokeAPI
 struct PokemonCardView: View {
     let pokemon: Pokemon
     
-    @AppStorage(SettingKey.language.rawValue) var language = "en"
+    @AppStorage(SettingsKey.language.rawValue) var language = SettingsKey.defaultLanguage
     @StateObject private var viewModel = PokemonCardViewModel()
     
     var body: some View {

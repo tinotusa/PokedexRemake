@@ -19,7 +19,7 @@ final class AboutTabViewModel: ObservableObject {
     private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "AboutTabViewModel")
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     @Published var showAllEntries = false
-    @Published private(set) var language = "en"
+    @Published private(set) var language = SettingsKey.defaultLanguage
     @Published private(set) var aboutInfo = [AboutInfo: String]()
     let minEntryCount = 3
     

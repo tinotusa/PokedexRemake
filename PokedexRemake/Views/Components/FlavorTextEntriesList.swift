@@ -11,7 +11,7 @@ import SwiftPokeAPI
 struct FlavorTextEntriesList: View {
     let abilityFlavorTexts: [AbilityFlavorText]
     @StateObject private var viewModel = FlavorTextEntriesListViewModel()
-    @AppStorage(SettingKey.language.rawValue) private var language = "en"
+    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
         switch viewModel.viewLoadingState {

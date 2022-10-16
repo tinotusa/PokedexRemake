@@ -344,10 +344,19 @@
 		217B3B7D28FBCB8900201BEC /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				217B3B8228FBCF6600201BEC /* Results */,
 				2191991F28EAE799002C6379 /* SearchView.swift */,
 				217B3B7E28FBCBB800201BEC /* SearchScopeTabs.swift */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		217B3B8228FBCF6600201BEC /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				21EB594228EC2E78009E201A /* PokemonSearchResultsView.swift */,
+			);
+			path = Results;
 			sourceTree = "<group>";
 		};
 		217E7CE328EE7118005B3A05 /* Detail views */ = {
@@ -429,7 +438,6 @@
 				217E7CE328EE7118005B3A05 /* Detail views */,
 				2191991228EACDD0002C6379 /* Components */,
 				2191991028EACD9B002C6379 /* HomeView.swift */,
-				21EB594228EC2E78009E201A /* PokemonSearchResultsView.swift */,
 				21757CF628EED596004217D1 /* ErrorView.swift */,
 			);
 			path = Views;

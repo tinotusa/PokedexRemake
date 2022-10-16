@@ -14,6 +14,7 @@ struct SearchView: View {
     @State private var searchText = ""
     @State private var searchScope: SearchScope = .pokemon
     @FocusState private var focusedField: FocusedField?
+    // TODO: Does this need to be in the environment? 
     @EnvironmentObject private var pokemonSearchResultsViewModel: PokemonSearchResultsViewModel
     
     var body: some View {

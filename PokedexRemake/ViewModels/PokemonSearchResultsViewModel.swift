@@ -15,7 +15,7 @@ final class PokemonSearchResultsViewModel: ObservableObject {
             save()
         }
     }
-    @Published private(set) var errorText: String?
+    @Published private(set) var errorMessage: String?
     private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonSearchResultsViewViewModel")
     @Published private(set) var isSearchLoading = false
     @Published var showingClearPokemonConfirmationDialog = false
@@ -41,7 +41,7 @@ extension PokemonSearchResultsViewModel {
             }
         }
         withAnimation {
-            errorText = nil
+            errorMessage = nil
         }
         
         do {
@@ -55,7 +55,7 @@ extension PokemonSearchResultsViewModel {
         } catch {
             logger.error("Failed to get pokemon with name: \(name). \(error)")
             withAnimation {
-                errorText = "Couldn't find a pokemon with name: \(name)."
+                errorMessage = "Couldn't find a pokemon with name: \(name)."
             }
         }
     }

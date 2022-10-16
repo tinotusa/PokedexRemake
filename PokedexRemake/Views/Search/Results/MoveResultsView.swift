@@ -32,15 +32,6 @@ struct MoveResultsView: View {
 }
 
 private extension MoveResultsView {
-    @ViewBuilder
-    func errorText() -> some View {
-        if let errorMessage = viewModel.errorMessage {
-            Text(errorMessage)
-                .foregroundColor(.red)
-                .multilineTextAlignment(.center)
-        }
-    }
-    
     var emptyView: some View {
         VStack {
             Spacer()
@@ -49,7 +40,7 @@ private extension MoveResultsView {
                 .bodyStyle()
                 .multilineTextAlignment(.center)
             
-            errorText()
+            SearchErrorView(text: viewModel.errorMessage)
             
             Spacer()
         }
@@ -65,7 +56,7 @@ private extension MoveResultsView {
                     ProgressView()
                 }
                 
-                errorText()
+                SearchErrorView(text: viewModel.errorMessage)
                 
                 ForEach(viewModel.moves) { move in
                     MoveCard(move: move)

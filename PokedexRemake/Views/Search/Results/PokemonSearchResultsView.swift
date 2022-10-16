@@ -47,10 +47,8 @@ private extension PokemonSearchResultsView {
             Spacer()
             Text("No recent searches. Search for a pokemon.")
             
-            if let errorText = viewModel.errorText {
-                Text(errorText)
-                    .foregroundColor(.red)
-            }
+            SearchErrorView(text: viewModel.errorMessage)
+            
             Spacer()
         }
         .multilineTextAlignment(.center)
@@ -63,12 +61,7 @@ private extension PokemonSearchResultsView {
                     viewModel.showingClearPokemonConfirmationDialog = true
                 }
                 
-                // TODO: make into view
-                if let errorText = viewModel.errorText {
-                    Text(errorText)
-                        .multilineTextAlignment(.leading)
-                        .foregroundColor(.red)
-                }
+                SearchErrorView(text: viewModel.errorMessage)
                 
                 Divider()
                 if viewModel.isSearchLoading {

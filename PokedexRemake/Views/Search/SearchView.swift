@@ -7,33 +7,6 @@
 
 import SwiftUI
 
-struct SearchScopeTabs: View {
-    @Binding var selection: SearchView.SearchScope
-    
-    var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                ForEach(SearchView.SearchScope.allCases) { searchScope in
-                    Button {
-                        selection = searchScope
-                    } label: {
-                        Text(searchScope.title)
-                            .bodyStyle()
-                            .padding(.horizontal)
-                            .padding(.vertical, 5)
-                            .background(isSelected(searchScope) ? Color.selectedTab : Color.unselectedTab)
-                            .cornerRadius(7)
-                    }
-                }
-            }
-        }
-    }
-    
-    func isSelected(_ other: SearchView.SearchScope) -> Bool {
-        selection == other
-    }
-}
-
 struct SearchView: View {
     @Binding var showingSearchView: Bool
     var namespace: Namespace.ID
@@ -51,12 +24,7 @@ struct SearchView: View {
                     .matchedGeometryEffect(id: 1, in: namespace)
                     .onSubmit {
                         Task {
-                            switch searchScope {
-                            case .pokemon:
-                                await pokemonSearchResultsViewModel.searchForPokemon(named: searchText)
-                            default:
-                                print("TODO!")
-                            }
+                            await search()
                         }
                     }
                 Button {
@@ -85,20 +53,13 @@ struct SearchView: View {
     }
 }
 
-extension SearchView {
-    
-    enum SearchScope: String, CaseIterable, Identifiable {
-        case pokemon
-        case moves
-        case items
-        case abilities
-        case locations
-        case generations
-        
-        var id: Self { self }
-        
-        var title: LocalizedStringKey {
-            LocalizedStringKey(self.rawValue.capitalized)
+private extension SearchView {
+    func search() async {
+        switch searchScope {
+        case .pokemon:
+            await pokemonSearchResultsViewModel.searchForPokemon(named: searchText)
+        default:
+            print("TODO!")
         }
     }
 }

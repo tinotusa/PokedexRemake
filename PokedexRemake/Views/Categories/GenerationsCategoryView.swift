@@ -8,13 +8,32 @@
 import SwiftUI
 
 struct GenerationsCategoryView: View {
+    @ObservedObject var viewModel: GenerationsCategoryViewModel
+    private let columns: [GridItem] = [.init(.adaptive(minimum: 200))]
+    
     var body: some View {
-        Text("Hello, World!")
+        switch viewModel.viewLoadingState {
+        case .loading:
+            ProgressView()
+                .task {
+                    await viewModel.loadData()
+                }
+        case .loaded:
+            ScrollView {
+                LazyVGrid(columns: columns) {
+                    ForEach(viewModel.sortedGenerations()) { generation in
+                        Text(generation.name)
+                    }
+                }
+            }
+        case .error(let error):
+            ErrorView(text: error.localizedDescription)
+        }
     }
 }
 
 struct GenerationsCategoryView_Previews: PreviewProvider {
     static var previews: some View {
-        GenerationsCategoryView()
+        GenerationsCategoryView(viewModel: GenerationsCategoryViewModel())
     }
 }

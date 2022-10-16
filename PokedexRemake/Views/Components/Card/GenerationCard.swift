@@ -16,7 +16,7 @@ struct GenerationCard: View {
     var body: some View {
         switch viewModel.viewLoadingState {
         case .loading:
-            ProgressView()
+            loadingPlaceholder
                 .task {
                     await viewModel.loadData(generation: generation)
                 }
@@ -77,8 +77,35 @@ private extension GenerationCard {
         ForEach(viewModel.sortedVersions()) { version in
             Text(version.localizedName(for: language))
             Divider()
-//                .frame(height: Constants.dividerHeight)
         }
+    }
+    
+    var loadingPlaceholder: some View {
+        VStack {
+            Text("Generation")
+                .title2Style()
+                .fontWeight(.light)
+            Text("Region")
+                .foregroundColor(.gray)
+                .subtitleStyle()
+            HStack {
+                ForEach(0..<2) { id in
+                    Text("Game\(id)")
+                }
+            }
+            .foregroundColor(.gray)
+        }
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(.white)
+        .cornerRadius(Constants.cornerRadius)
+        .shadow(
+            color: Constants.shadowColour,
+            radius: Constants.shadowRadius,
+            x: Constants.shadowX,
+            y: Constants.shadowY
+        )
+        .redacted(reason: .placeholder)
     }
 }
 

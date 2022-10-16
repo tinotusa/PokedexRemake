@@ -27,6 +27,9 @@ struct ContentView: View {
                 .navigationDestination(for: Ability.self) { ability in
                     Text("ability detail for: \(ability.name)")
                 }
+                .navigationDestination(for: Location.self) { location in
+                    Text("Location detail for: \(location.name)")
+                }
         }
         .onChange(of: scenePhase) { scenePhase in
             if scenePhase == .inactive {

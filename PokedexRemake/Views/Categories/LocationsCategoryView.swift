@@ -20,9 +20,9 @@ struct LocationsCategoryView: View {
                 }
         case .loaded:
             ScrollView {
-                LazyVStack {
+                LazyVStack(spacing: Constants.spacing) {
                     ForEach(viewModel.sortedLocations()) { location in
-                        Text(location.name)
+                        LocationCard(location: location)
                     }
                     if viewModel.hasNextPage {
                         ProgressView()
@@ -31,11 +31,18 @@ struct LocationsCategoryView: View {
                             }
                     }
                 }
+                .padding()
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }
         
+    }
+}
+
+private extension LocationsCategoryView {
+    enum Constants {
+        static let spacing = 10.0
     }
 }
 

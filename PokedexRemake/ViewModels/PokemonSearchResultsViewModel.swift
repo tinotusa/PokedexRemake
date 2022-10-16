@@ -12,21 +12,31 @@ import SwiftPokeAPI
 final class PokemonSearchResultsViewModel: ObservableObject {
     @Published private(set) var pokemon: [Pokemon] = [] {
         didSet {
-            save()
+            saveToDisk()
         }
     }
     @Published private(set) var errorMessage: String?
-    private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonSearchResultsViewViewModel")
     @Published private(set) var isSearchLoading = false
     @Published var showingClearPokemonConfirmationDialog = false
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
+    
+    static let saveFileName = "pokemonSearchResults"
+    private let fileIOManager = FileIOManager()
+    private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonSearchResultsViewViewModel")
 }
 
 extension PokemonSearchResultsViewModel {
     @MainActor
     func loadData() {
-        self.pokemon = load()
-        viewLoadingState = .loaded
+        logger.debug("Loading data from disk.")
+        do {
+            self.pokemon = try fileIOManager.load([Pokemon].self, documentName: Self.saveFileName)
+            logger.debug("Successfully loaded data from disk.")
+            viewLoadingState = .loaded
+        } catch {
+            logger.error("Failed to load from disk")
+            viewLoadingState = .error(error: error)
+        }
     }
     
     @MainActor
@@ -75,28 +85,13 @@ extension PokemonSearchResultsViewModel {
 }
 
 private extension PokemonSearchResultsViewModel {
-    static let saveFileName = "pokemonSearchResults"
-    
-    func load() -> [Pokemon] {
-        let documentsURL = FileManager.default.documentsURL()
-        let saveFileURL = documentsURL.appendingPathComponent(Self.saveFileName)
+    func saveToDisk() {
+        logger.debug("Saving pokemon results to disk.")
         do {
-            let data = try Data(contentsOf: saveFileURL)
-            return try JSONDecoder().decode([Pokemon].self, from: data)
+            try fileIOManager.write(self.pokemon, documentName: Self.saveFileName)
+            logger.debug("Successfully saved pokemon results to disk.")
         } catch {
-            logger.error("Failed to load data from save file. \(error)")
-        }
-        return []
-    }
-    
-    func save() {
-        let documentsURL = FileManager.default.documentsURL()
-        let saveFileURL = documentsURL.appendingPathComponent(Self.saveFileName)
-        do {
-            let data = try JSONEncoder().encode(pokemon)
-            try data.write(to: saveFileURL, options: [.atomic, .completeFileProtection])
-        } catch {
-            logger.error("Failed to save pokemon results to disk. \(error)")
+            logger.error("Failed to save to disk. \(error)")
         }
     }
 }

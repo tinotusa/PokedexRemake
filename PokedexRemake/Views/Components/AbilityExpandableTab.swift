@@ -1,5 +1,5 @@
 //
-//  AbilityCard.swift
+//  AbilityExpandableTab.swift
 //  PokedexRemake
 //
 //  Created by Tino on 10/10/2022.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftPokeAPI
 
-struct AbilityCard: View {
+struct AbilityExpandableTab: View {
     let ability: Ability
     @AppStorage(SettingKey.language.rawValue) private var language = "en"
     @StateObject private var viewModel = AbilityCardViewModel()
@@ -68,7 +68,7 @@ struct AbilityCard: View {
     }
 }
 
-private extension AbilityCard {
+private extension AbilityExpandableTab {
     var showMoreButton: some View {
         HStack {
             Spacer()
@@ -87,7 +87,7 @@ private extension AbilityCard {
 struct AbilityCard_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
-            AbilityCard(ability: .example)
+            AbilityExpandableTab(ability: .example)
         }
     }
 }

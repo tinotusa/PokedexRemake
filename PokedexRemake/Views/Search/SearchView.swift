@@ -19,7 +19,7 @@ struct SearchView: View {
     var body: some View {
         VStack {
             HStack {
-                SearchBar("View model search text", searchText: $searchText)
+                SearchBar(searchScope.title, searchText: $searchText)
                     .focused($focusedField, equals: .searchBar)
                     .matchedGeometryEffect(id: 1, in: namespace)
                     .onSubmit {
@@ -74,5 +74,6 @@ private extension SearchView {
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         SearchView(showingSearchView: .constant(false), namespace: Namespace().wrappedValue)
+            .environmentObject(PokemonSearchResultsViewModel())
     }
 }

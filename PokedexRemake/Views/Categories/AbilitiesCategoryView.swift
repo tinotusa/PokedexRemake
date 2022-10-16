@@ -19,10 +19,9 @@ struct AbilitiesCategoryView: View {
                 }
         case .loaded:
             ScrollView {
-                LazyVStack {
+                LazyVStack(spacing: Constants.spacing) {
                     ForEach(viewModel.sortedAbilities()) { ability in
-                        Text(ability.name)
-                            .padding()
+                        AbilityCard(ability: ability)
                     }
                     if viewModel.hasNextPage {
                         ProgressView()
@@ -31,10 +30,17 @@ struct AbilitiesCategoryView: View {
                             }
                     }
                 }
+                .padding()
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }
+    }
+}
+
+private extension AbilitiesCategoryView {
+    enum Constants {
+        static let spacing = 15.0
     }
 }
 

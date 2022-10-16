@@ -11,12 +11,13 @@ import os
 
 final class AbilityCardViewModel: ObservableObject {
     @Published private(set) var generation: Generation!
-    @Published private var viewLoadingState = ViewLoadingState.loading
+    @Published private(set) var viewLoadingState = ViewLoadingState.loading
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "AbilityCardViewModel")
 }
 
 extension AbilityCardViewModel {
+    @MainActor
     func loadData(ability: Ability) async {
         logger.debug("Loading data.")
         do {
@@ -27,5 +28,9 @@ extension AbilityCardViewModel {
             logger.error("Failed to load data for ability with id: \(ability.id). \(error)")
             viewLoadingState = .error(error: error)
         }
+    }
+    
+    func localizedGenerationName(language: String) -> String {
+        generation.localizedName(for: language)
     }
 }

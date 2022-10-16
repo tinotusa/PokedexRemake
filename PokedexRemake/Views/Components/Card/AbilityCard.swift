@@ -6,15 +6,66 @@
 //
 
 import SwiftUI
+import SwiftPokeAPI
 
 struct AbilityCard: View {
+    let ability: Ability
+    @AppStorage(SettingKey.language.rawValue) private var language = "en"
+    @StateObject private var viewModel = AbilityCardViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        switch viewModel.viewLoadingState {
+        case .loading:
+            loadingPlaceholder
+                .task {
+                    await viewModel.loadData(ability: ability)
+                }
+        case .loaded:
+            NavigationLink(value: ability) {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(ability.localizedName(for: language))
+                        Spacer()
+                        Text(Globals.formattedID(ability.id))
+                            .foregroundColor(.gray)
+                    }
+                    .subtitleStyle()
+                    Text(ability.localizedEffectEntry(for: language, shortVersion: true))
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                        .foregroundColor(.gray)
+                    Text(viewModel.localizedGenerationName(language: language))
+                }
+                .bodyStyle()
+            }
+        case .error(let error):
+            ErrorView(text: error.localizedDescription)
+        }
+    }
+}
+
+private extension AbilityCard {
+    var loadingPlaceholder: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Text("Ability name")
+                Spacer()
+                Text("#999")
+                    .foregroundColor(.gray)
+            }
+            .subtitleStyle()
+            Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sodales eu elit ac maximus.")
+                .lineLimit(2)
+                .foregroundColor(.gray)
+            Text("Generation name")
+        }
+        .bodyStyle()
+        .redacted(reason: .placeholder)
     }
 }
 
 struct AbilityCard_Previews: PreviewProvider {
     static var previews: some View {
-        AbilityCard()
+        AbilityCard(ability: .example)
     }
 }

@@ -53,7 +53,6 @@ extension AbilitiesCategoryViewModel {
             self.abilities.formUnion(resource.items)
             self.nextPageURL = resource.next
             logger.debug("Successfully loaded next page.")
-            print(self.abilities.count)
         } catch {
             logger.error("Failed to load next page. \(error)")
         }

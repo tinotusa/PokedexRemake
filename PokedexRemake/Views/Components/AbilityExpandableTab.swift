@@ -11,7 +11,7 @@ import SwiftPokeAPI
 struct AbilityExpandableTab: View {
     let ability: Ability
     @AppStorage(SettingKey.language.rawValue) private var language = "en"
-    @StateObject private var viewModel = AbilityCardViewModel()
+    @StateObject private var viewModel = AbilityExpandableTabViewModel()
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -84,7 +84,7 @@ private extension AbilityExpandableTab {
     }
 }
 
-struct AbilityCard_Previews: PreviewProvider {
+struct AbilityExpandableTab_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
             AbilityExpandableTab(ability: .example)

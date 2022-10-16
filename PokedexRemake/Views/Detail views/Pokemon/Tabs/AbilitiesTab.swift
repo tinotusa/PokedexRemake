@@ -24,7 +24,7 @@ struct AbilitiesTab: View {
                     }
             case .loaded:
                 ForEach(viewModel.sortedAbilities()) { ability in
-                    AbilityCard(ability: ability)
+                    AbilityExpandableTab(ability: ability)
                 }
                 .bodyStyle()
             case .error(let error):

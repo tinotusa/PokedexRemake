@@ -11,7 +11,7 @@ import SwiftPokeAPI
 @main
 struct PokedexRemakeApp: App {
     // View models
-    @StateObject private var pokemonSearchResultsViewModel = PokemonSearchResultsViewModel()
+    @StateObject private var pokemonSearchResultsViewModel = PokemonResultsViewModel()
     
     init() {
         do {

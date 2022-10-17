@@ -15,7 +15,7 @@ struct SearchView: View {
     @State private var searchScope: SearchScope = .pokemon
     @FocusState private var focusedField: FocusedField?
     // TODO: Does this need to be in the environment?
-    @EnvironmentObject private var pokemonSearchResultsViewModel: PokemonSearchResultsViewModel
+    @EnvironmentObject private var pokemonResultsViewModel: PokemonResultsViewModel
     @StateObject private var moveResultsViewModel = MoveResultsViewModel()
     @StateObject private var itemResultsViewModel = ItemResultsViewModel()
     @StateObject private var abilityResultsViewModel = AbilityResultsViewModel()
@@ -44,7 +44,7 @@ struct SearchView: View {
             
             switch searchScope {
             case .pokemon:
-                PokemonResultsView(viewModel: pokemonSearchResultsViewModel)
+                PokemonResultsView(viewModel: pokemonResultsViewModel)
             case .moves:
                 MoveResultsView(viewModel: moveResultsViewModel)
             case .items:
@@ -67,7 +67,7 @@ private extension SearchView {
     func search() async {
         switch searchScope {
         case .pokemon:
-            await pokemonSearchResultsViewModel.searchForPokemon(named: searchText)
+            await pokemonResultsViewModel.searchForPokemon(named: searchText)
         case .moves:
             await moveResultsViewModel.search(searchText)
         case .items:
@@ -90,6 +90,6 @@ private extension SearchView {
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         SearchView(showingSearchView: .constant(false), namespace: Namespace().wrappedValue)
-            .environmentObject(PokemonSearchResultsViewModel())
+            .environmentObject(PokemonResultsViewModel())
     }
 }

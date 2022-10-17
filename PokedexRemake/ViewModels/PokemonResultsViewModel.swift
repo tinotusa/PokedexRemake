@@ -1,5 +1,5 @@
 //
-//  PokemonSearchResultsViewModel.swift
+//  PokemonResultsViewModel.swift
 //  PokedexRemake
 //
 //  Created by Tino on 4/10/2022.
@@ -9,7 +9,7 @@ import SwiftUI
 import os
 import SwiftPokeAPI
 
-final class PokemonSearchResultsViewModel: ObservableObject {
+final class PokemonResultsViewModel: ObservableObject {
     @Published private(set) var pokemon: [Pokemon] = [] {
         didSet {
             saveToDisk()
@@ -22,10 +22,10 @@ final class PokemonSearchResultsViewModel: ObservableObject {
     
     static let saveFileName = "pokemonSearchResults"
     private let fileIOManager = FileIOManager()
-    private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonSearchResultsViewViewModel")
+    private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonResultsViewViewModel")
 }
 
-extension PokemonSearchResultsViewModel {
+extension PokemonResultsViewModel {
     @MainActor
     func loadData() {
         logger.debug("Loading data from disk.")
@@ -84,7 +84,7 @@ extension PokemonSearchResultsViewModel {
     }
 }
 
-private extension PokemonSearchResultsViewModel {
+private extension PokemonResultsViewModel {
     func saveToDisk() {
         logger.debug("Saving pokemon results to disk.")
         do {

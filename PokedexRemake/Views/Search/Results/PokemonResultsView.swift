@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PokemonResultsView: View {
-    @ObservedObject var viewModel: PokemonSearchResultsViewModel
+    @ObservedObject var viewModel: PokemonResultsViewModel
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -37,6 +37,6 @@ struct PokemonResultsView: View {
 
 struct PokemonResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonResultsView(viewModel: PokemonSearchResultsViewModel())
+        PokemonResultsView(viewModel: PokemonResultsViewModel())
     }
 }

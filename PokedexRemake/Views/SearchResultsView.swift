@@ -15,6 +15,7 @@ struct SearchResultsView<T: Identifiable, Content: View>: View {
     var errorMessage: String?
     var content: (T) -> Content
     var clearHistory: () -> Void
+    var moveToTop: (T) -> Void
     
     @State private var showingClearHistoryDialog = false
     
@@ -40,6 +41,12 @@ struct SearchResultsView<T: Identifiable, Content: View>: View {
                     
                     ForEach(items) { item in
                         content(item)
+                            .simultaneousGesture(
+                                TapGesture()
+                                    .onEnded {
+                                        moveToTop(item)
+                                    }
+                            )
                     }
                 }
             }
@@ -66,6 +73,8 @@ struct SearchResultsView_Previews: PreviewProvider {
         ) { pokemon in
             PokemonResultRow(pokemon: pokemon)
         } clearHistory: {
+            // nothing
+        } moveToTop: { _ in
             // nothing
         }
     }

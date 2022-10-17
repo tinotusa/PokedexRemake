@@ -67,6 +67,7 @@
 		2191991E28EAD7A7002C6379 /* CategoryGridCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2191991D28EAD7A7002C6379 /* CategoryGridCard.swift */; };
 		2191992028EAE799002C6379 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2191991F28EAE799002C6379 /* SearchView.swift */; };
 		2191992228EAECF7002C6379 /* View+backgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2191992128EAECF7002C6379 /* View+backgroundView.swift */; };
+		2193D51028FD4859006A686B /* ItemResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D50F28FD4859006A686B /* ItemResultsView.swift */; };
 		21B9D18C28F3BB61007C1270 /* AbilitiesTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B9D18B28F3BB61007C1270 /* AbilitiesTab.swift */; };
 		21B9D18E28F3BC4E007C1270 /* AbilitiesTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B9D18D28F3BC4E007C1270 /* AbilitiesTabViewModel.swift */; };
 		21B9D19028F3BCF4007C1270 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B9D18F28F3BCF4007C1270 /* Globals.swift */; };
@@ -199,6 +200,7 @@
 		2191991D28EAD7A7002C6379 /* CategoryGridCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryGridCard.swift; sourceTree = "<group>"; };
 		2191991F28EAE799002C6379 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		2191992128EAECF7002C6379 /* View+backgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+backgroundView.swift"; sourceTree = "<group>"; };
+		2193D50F28FD4859006A686B /* ItemResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemResultsView.swift; sourceTree = "<group>"; };
 		21B9D18B28F3BB61007C1270 /* AbilitiesTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilitiesTab.swift; sourceTree = "<group>"; };
 		21B9D18D28F3BC4E007C1270 /* AbilitiesTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilitiesTabViewModel.swift; sourceTree = "<group>"; };
 		21B9D18F28F3BCF4007C1270 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 			children = (
 				21EB594228EC2E78009E201A /* PokemonSearchResultsView.swift */,
 				217B3B8328FBCFBC00201BEC /* MoveResultsView.swift */,
+				2193D50F28FD4859006A686B /* ItemResultsView.swift */,
 			);
 			path = Results;
 			sourceTree = "<group>";
@@ -807,6 +810,7 @@
 				217B3B6628FBA03A00201BEC /* AbilityCard.swift in Sources */,
 				213B0E6128FA7F89008CAD4C /* ItemCardViewModel.swift in Sources */,
 				21B9D19A28F3C92F007C1270 /* FlavorTextEntriesList.swift in Sources */,
+				2193D51028FD4859006A686B /* ItemResultsView.swift in Sources */,
 				217B3B7828FBB8C200201BEC /* GenerationsCategoryViewModel.swift in Sources */,
 				213B0E5728FA46AF008CAD4C /* ItemsCategoryViewModel.swift in Sources */,
 				21757CF328EECFFF004217D1 /* AboutTab.swift in Sources */,

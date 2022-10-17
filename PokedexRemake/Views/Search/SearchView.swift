@@ -14,8 +14,9 @@ struct SearchView: View {
     @State private var searchText = ""
     @State private var searchScope: SearchScope = .pokemon
     @FocusState private var focusedField: FocusedField?
-    // TODO: Does this need to be in the environment?
-    @EnvironmentObject private var pokemonResultsViewModel: PokemonResultsViewModel
+    
+    // view models
+    @StateObject private var pokemonResultsViewModel = PokemonResultsViewModel()
     @StateObject private var moveResultsViewModel = MoveResultsViewModel()
     @StateObject private var itemResultsViewModel = ItemResultsViewModel()
     @StateObject private var abilityResultsViewModel = AbilityResultsViewModel()
@@ -90,6 +91,5 @@ private extension SearchView {
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         SearchView(showingSearchView: .constant(false), namespace: Namespace().wrappedValue)
-            .environmentObject(PokemonResultsViewModel())
     }
 }

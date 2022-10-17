@@ -9,8 +9,6 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct ContentView: View {
-    @EnvironmentObject private var pokemonSearchResultsViewModel: PokemonResultsViewModel
-    
     @State private var path = NavigationPath()
     @Environment(\.scenePhase) private var scenePhase
     
@@ -49,6 +47,5 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(PokemonResultsViewModel())
     }
 }

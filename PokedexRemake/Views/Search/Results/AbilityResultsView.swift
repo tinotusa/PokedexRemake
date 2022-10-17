@@ -27,7 +27,7 @@ struct AbilityResultsView: View {
             } clearHistory: {
                 viewModel.clearHistory()
             } moveToTop: { ability in
-                viewModel.clearHistory()
+                viewModel.moveAbilityToTop(ability)
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)

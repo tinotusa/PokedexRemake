@@ -18,57 +18,19 @@ struct MoveResultsView: View {
                     viewModel.loadData()
                 }
         case .loaded:
-            VStack {
-                if viewModel.moves.isEmpty {
-                    emptyView
-                } else {
-                    movesList
-                }
+            SearchResultsView(
+                items: viewModel.moves,
+                emptyPlaceholderText: "Search for a move.",
+                isLoading: viewModel.isLoading
+            ) { move in
+                MoveCard(move: move)
+            } clearHistory: {
+                viewModel.clearHistory()
+            } moveToTop: { move in
+                viewModel.moveToTop(move)
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)
-        }
-    }
-}
-
-private extension MoveResultsView {
-    var emptyView: some View {
-        VStack {
-            Spacer()
-            Text("Search for a move.")
-                .foregroundColor(.gray)
-                .bodyStyle()
-                .multilineTextAlignment(.center)
-            
-            SearchErrorView(text: viewModel.errorMessage)
-            
-            Spacer()
-        }
-    }
-    
-    var movesList: some View {
-        ScrollView {
-            LazyVStack(spacing: 10) {
-                RecentlySearchedBar {
-                    viewModel.showingClearHistoryDialog = true
-                }
-                if viewModel.isLoading {
-                    ProgressView()
-                }
-                
-                SearchErrorView(text: viewModel.errorMessage)
-                
-                ForEach(viewModel.moves) { move in
-                    MoveCard(move: move)
-                }
-            }
-        }
-        .confirmationDialog("Clear history", isPresented: $viewModel.showingClearHistoryDialog) {
-            Button("Clear history", role: .destructive) {
-                viewModel.clearHistory()
-            }
-        } message: {
-            Text("Clear history?")
         }
     }
 }

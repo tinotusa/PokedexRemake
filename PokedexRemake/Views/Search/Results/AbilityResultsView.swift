@@ -12,52 +12,22 @@ struct AbilityResultsView: View {
     
     var body: some View {
         switch viewModel.viewLoadingState {
-        case  .loading:
+        case .loading:
             ProgressView()
                 .task {
                     viewModel.loadData()
                 }
         case .loaded:
-            if viewModel.abilities.isEmpty {
-                EmptySearchHistoryView(
-                    text: "Search for an item.",
-                    isLoading: viewModel.isLoading,
-                    errorMessage: viewModel.errorMessage
-                )
-            } else {
-                ScrollView {
-                    LazyVStack {
-                        RecentlySearchedBar {
-                            viewModel.showingClearHistoryDialog = true
-                        }
-                        
-                        if viewModel.isLoading {
-                            ProgressView()
-                        }
-                        
-                        SearchErrorView(text: viewModel.errorMessage)
-                        
-                        ForEach(viewModel.abilities) { ability in
-                            AbilityCard(ability: ability)
-                                .simultaneousGesture(
-                                    TapGesture()
-                                        .onEnded {
-                                            viewModel.moveAbilityToTop(ability)
-                                        }
-                                )
-                        }
-                    }
-                }
-                .confirmationDialog(
-                    "Clear abilities history?",
-                    isPresented: $viewModel.showingClearHistoryDialog
-                ) {
-                    Button("Clear history", role: .destructive) {
-                        viewModel.clearHistory()
-                    }
-                } message: {
-                    Text("Clear abilities history")
-                }
+            SearchResultsView(
+                items: viewModel.abilities,
+                emptyPlaceholderText: "Search for an ability",
+                isLoading: viewModel.isLoading
+            ) { ability in
+                AbilityCard(ability: ability)
+            } clearHistory: {
+                viewModel.clearHistory()
+            } moveToTop: { ability in
+                viewModel.clearHistory()
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)

@@ -18,46 +18,16 @@ struct ItemResultsView: View {
                     viewModel.loadData()
                 }
         case .loaded:
-            if viewModel.items.isEmpty {
-                EmptySearchHistoryView(
-                    text: "Search for some items.",
-                    isLoading: viewModel.isLoading,
-                    errorMessage: viewModel.errorMessage
-                )
-            } else {
-                ScrollView {
-                    LazyVStack {
-                        RecentlySearchedBar {
-                            viewModel.showingClearHistoryDialog = true
-                        }
-                        
-                        if viewModel.isLoading {
-                            ProgressView()
-                        }
-                        
-                        SearchErrorView(text: viewModel.errorMessage)
-                        
-                        ForEach(viewModel.items) { item in
-                            ItemCard(item: item)
-                                .simultaneousGesture(
-                                    TapGesture()
-                                        .onEnded {
-                                            viewModel.moveToTop(item)
-                                        }
-                                )
-                        }
-                    }
-                }
-                .confirmationDialog(
-                    "Clear items history",
-                    isPresented: $viewModel.showingClearHistoryDialog
-                ) {
-                    Button("Clear history", role: .destructive) {
-                        viewModel.clearHistory()
-                    }
-                } message: {
-                    Text("Clear items history")
-                }
+            SearchResultsView(
+                items: viewModel.items,
+                emptyPlaceholderText: "Search for some items.",
+                isLoading: viewModel.isLoading
+            ) { item in
+                ItemCard(item: item)
+            } clearHistory: {
+                viewModel.clearHistory()
+            } moveToTop: { item in
+                viewModel.moveToTop(item)
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)

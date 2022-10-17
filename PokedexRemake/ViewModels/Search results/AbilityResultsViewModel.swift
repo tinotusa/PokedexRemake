@@ -68,4 +68,13 @@ extension AbilityResultsViewModel {
             logger.error("Failed to write abilities search history to disk. \(error)")
         }
     }
+    
+    /// Moves the ability to index 0.
+    /// - parameter ability: The ability to move.
+    func moveAbilityToTop(_ ability: Ability) {
+        let moved = self.abilities.moveToTop(ability)
+        if !moved {
+            logger.error("Failed to move ability \(ability.id) to index 0.")
+        }
+    }
 }

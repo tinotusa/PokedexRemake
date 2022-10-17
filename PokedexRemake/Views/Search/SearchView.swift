@@ -18,6 +18,7 @@ struct SearchView: View {
     @EnvironmentObject private var pokemonSearchResultsViewModel: PokemonSearchResultsViewModel
     @StateObject private var moveResultsViewModel = MoveResultsViewModel()
     @StateObject private var itemResultsViewModel = ItemResultsViewModel()
+    @StateObject private var abilityResultsViewModel = AbilityResultsViewModel()
     
     var body: some View {
         VStack {
@@ -48,6 +49,8 @@ struct SearchView: View {
                 MoveResultsView(viewModel: moveResultsViewModel)
             case .items:
                 ItemResultsView(viewModel: itemResultsViewModel)
+            case .abilities:
+                AbilityResultsView(viewModel: abilityResultsViewModel)
             default:
                 Text("TODO!")
             }
@@ -69,6 +72,8 @@ private extension SearchView {
             await moveResultsViewModel.search(searchText)
         case .items:
             await itemResultsViewModel.search(searchText)
+        case .abilities:
+            await abilityResultsViewModel.search(searchText)
         default:
             print("TODO!")
         }

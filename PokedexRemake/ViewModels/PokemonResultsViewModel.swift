@@ -104,9 +104,3 @@ private extension PokemonResultsViewModel {
         }
     }
 }
-// TODO: Move me
-extension FileManager {
-    func documentsURL() -> URL {
-        self.urls(for: .documentDirectory, in: .userDomainMask).first!
-    }
-}

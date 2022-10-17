@@ -22,6 +22,8 @@ final class ItemResultsViewModel: ObservableObject {
         }
     }
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
+    @Published private(set) var errorMessage: String?
+    @Published private(set) var isLoading = false
     private let fileIOManager = FileIOManager()
     static let saveFilename = "itemResults"
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "ItemResultsViewModel")
@@ -56,6 +58,11 @@ extension ItemResultsViewModel {
     /// - parameter name: The name to search for an item with.
     @MainActor
     func search(_ name: String) async {
+        isLoading = true
+        errorMessage = nil
+        defer {
+            isLoading = false
+        }
         do {
             let item = try await Item(name)
             let moved = items.moveToTop(item)
@@ -64,6 +71,7 @@ extension ItemResultsViewModel {
             }
         } catch {
             logger.error("Failed to find item with name: \(name). \(error)")
+            errorMessage = "Failed to find an item with the name \(name)."
         }
     }
 }

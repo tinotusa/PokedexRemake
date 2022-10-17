@@ -27,6 +27,10 @@ struct ItemResultsView: View {
             } else {
                 ScrollView {
                     LazyVStack {
+                        RecentlySearchedBar {
+                            viewModel.showingClearHistoryDialog = true
+                        }
+                        
                         if viewModel.isLoading {
                             ProgressView()
                         }
@@ -43,6 +47,16 @@ struct ItemResultsView: View {
                                 )
                         }
                     }
+                }
+                .confirmationDialog(
+                    "Clear items history",
+                    isPresented: $viewModel.showingClearHistoryDialog
+                ) {
+                    Button("Clear history", role: .destructive) {
+                        viewModel.clearHistory()
+                    }
+                } message: {
+                    Text("Clear items history")
                 }
             }
         case .error(let error):

@@ -24,6 +24,8 @@ final class ItemResultsViewModel: ObservableObject {
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     @Published private(set) var errorMessage: String?
     @Published private(set) var isLoading = false
+    @Published var showingClearHistoryDialog = false
+    
     private let fileIOManager = FileIOManager()
     static let saveFilename = "itemResults"
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "ItemResultsViewModel")
@@ -82,6 +84,18 @@ extension ItemResultsViewModel {
         let moved = items.moveToTop(item)
         if !moved {
             logger.error("Failed to move item \(item.id). Item wasn't in the array")
+        }
+    }
+    
+    /// Clears the itemsearch history and deletes it from disk.
+    @MainActor
+    func clearHistory() {
+        do {
+            try fileIOManager.delete(Self.saveFilename)
+            self.items = []
+            logger.debug("Successfully deleted items history from disk.")
+        } catch {
+            logger.error("Failed to delete file name \(Self.saveFilename) from disk. \(error)")
         }
     }
 }

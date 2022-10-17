@@ -53,7 +53,7 @@ extension MoveResultsViewModel {
         do {
             let move = try await Move(name)
             if self.moves.contains(move) {
-                shiftToTop(move)
+                moveToTop(move)
                 logger.debug("Move already in history. Moving it to top.")
                 return
             }
@@ -80,9 +80,11 @@ extension MoveResultsViewModel {
 }
 
 private extension MoveResultsViewModel {
-    func shiftToTop(_ move: Move) {
-        guard let index = self.moves.firstIndex(of: move) else { return }
-        self.moves.move(fromOffsets: .init(integer: index), toOffset: 0)
+    func moveToTop(_ move: Move) {
+        let moved = self.moves.moveToTop(move)
+        if !moved {
+            logger.error("Failed to move move \(move.id) to top.")
+        }
     }
     
     func loadFromDisk() throws -> [Move] {

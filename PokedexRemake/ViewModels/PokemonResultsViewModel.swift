@@ -33,6 +33,9 @@ extension PokemonResultsViewModel {
             self.pokemon = try fileIOManager.load([Pokemon].self, documentName: Self.saveFileName)
             logger.debug("Successfully loaded data from disk.")
             viewLoadingState = .loaded
+        } catch CocoaError.fileReadNoSuchFile {
+            logger.debug("History file couldn't be read.")
+            viewLoadingState = .loaded
         } catch {
             logger.error("Failed to load from disk")
             viewLoadingState = .error(error: error)
@@ -56,9 +59,9 @@ extension PokemonResultsViewModel {
         
         do {
             let pokemon = try await Pokemon(name)
-            if let foundPokemon = self.pokemon.first(where: { $0.id == pokemon.id }) {
-                logger.debug("Pokemon with id \(foundPokemon.id) is already in the list. moving it to top.")
-                moveIDToTop(foundPokemon.id)
+            if let pokemon = self.pokemon.first(where: { $0.id == pokemon.id }) {
+                logger.debug("Pokemon with id \(pokemon.id) is already in the list. moving it to top.")
+                moveToTop(pokemon)
             } else {
                 self.pokemon.insert(pokemon, at: 0)
             }
@@ -70,17 +73,23 @@ extension PokemonResultsViewModel {
         }
     }
     
-    func moveIDToTop(_ id: Int) {
-        guard let index = pokemon.firstIndex(where: { $0.id == id }) else {
-            logger.error("Failed to find index for pokemon id: \(id)")
-            return
+    func moveToTop(_ pokemon: Pokemon) {
+        let hasMoved = self.pokemon.moveToTop(pokemon)
+        if !hasMoved {
+            logger.error("Failed to move pokemon \(pokemon.id) to index 0.")
         }
-        pokemon.move(fromOffsets: IndexSet(integer: index), toOffset: 0)
     }
     
+    /// Clears the pokemon search history and removes the history file from disk.
     @MainActor
-    func clearPokemon() {
-        pokemon = []
+    func clearHistory() {
+        do {
+            try fileIOManager.delete(Self.saveFileName)
+            pokemon = []
+            logger.debug("Successfully cleared search history.")
+        } catch {
+            logger.error("Failed to clear search history. \(error)")
+        }
     }
 }
 

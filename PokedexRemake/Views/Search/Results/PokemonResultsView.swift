@@ -25,9 +25,9 @@ struct PokemonResultsView: View {
             ) { pokemon in
                 PokemonResultRow(pokemon: pokemon)
             } clearHistory: {
-                viewModel.clearPokemon()
+                viewModel.clearHistory()
             } moveToTop: { pokemon in
-                viewModel.moveIDToTop(pokemon.id)
+                viewModel.moveToTop(pokemon)
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)

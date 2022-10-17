@@ -19,10 +19,11 @@ struct ItemResultsView: View {
                 }
         case .loaded:
             if viewModel.items.isEmpty {
-                if viewModel.isLoading {
-                    ProgressView()
-                }
-                EmptySearchHistoryView(text: "Search for some items.", errorMessage: viewModel.errorMessage)
+                EmptySearchHistoryView(
+                    text: "Search for some items.",
+                    isLoading: viewModel.isLoading,
+                    errorMessage: viewModel.errorMessage
+                )
             } else {
                 ScrollView {
                     LazyVStack {

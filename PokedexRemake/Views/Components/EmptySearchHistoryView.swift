@@ -9,6 +9,7 @@ import SwiftUI
 
 struct EmptySearchHistoryView: View {
     let text: LocalizedStringKey
+    var isLoading: Bool
     var errorMessage: String?
     
     var body: some View {
@@ -19,6 +20,10 @@ struct EmptySearchHistoryView: View {
                 .bodyStyle()
                 .multilineTextAlignment(.center)
             
+            if isLoading {
+                ProgressView()
+            }
+            
             SearchErrorView(text: errorMessage)
             
             Spacer()
@@ -28,6 +33,6 @@ struct EmptySearchHistoryView: View {
 
 struct EmptySearchHistoryView_Previews: PreviewProvider {
     static var previews: some View {
-        EmptySearchHistoryView(text: "Search for something.")
+        EmptySearchHistoryView(text: "Search for something.", isLoading: false)
     }
 }

@@ -18,6 +18,7 @@ final class AbilityResultsViewModel: ObservableObject {
     @Published private(set) var isLoading = false
     @Published private(set) var errorMessage: String?
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
+    @Published var showingClearHistoryDialog = false
     
     private let fileIOManager = FileIOManager()
     private static let saveFilename = "abilityResults"
@@ -75,6 +76,16 @@ extension AbilityResultsViewModel {
         let moved = self.abilities.moveToTop(ability)
         if !moved {
             logger.error("Failed to move ability \(ability.id) to index 0.")
+        }
+    }
+
+    /// Clears the search history and deletes the history on disk.
+    func clearHistory() {
+        do {
+            try fileIOManager.delete(Self.saveFilename)
+            self.abilities = []
+        } catch {
+            logger.error("Failed to delete file name: \(Self.saveFilename). \(error)")
         }
     }
 }

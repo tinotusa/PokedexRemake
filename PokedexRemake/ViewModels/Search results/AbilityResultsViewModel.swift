@@ -31,8 +31,11 @@ extension AbilityResultsViewModel {
     func loadData() {
         do {
             self.abilities = try fileIOManager.load([Ability].self, documentName: Self.saveFilename)
-            viewLoadingState = .loading
-        } catch {
+            viewLoadingState = .loaded
+        } catch CocoaError.fileReadNoSuchFile {
+            logger.error("Failed to load history from disk. File doesn't exit.")
+            viewLoadingState = .loaded
+        }  catch {
             logger.error("Failed to load data from disk. \(error)")
             viewLoadingState = .error(error: error)
         }

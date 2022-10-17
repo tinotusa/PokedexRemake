@@ -44,7 +44,7 @@ struct SearchView: View {
             
             switch searchScope {
             case .pokemon:
-                PokemonSearchResultsView(viewModel: pokemonSearchResultsViewModel)
+                PokemonResultsView(viewModel: pokemonSearchResultsViewModel)
             case .moves:
                 MoveResultsView(viewModel: moveResultsViewModel)
             case .items:

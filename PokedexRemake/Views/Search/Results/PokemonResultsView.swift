@@ -1,5 +1,5 @@
 //
-//  PokemonSearchResultsView.swift
+//  PokemonResultsView.swift
 //  PokedexRemake
 //
 //  Created by Tino on 4/10/2022.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PokemonSearchResultsView: View {
+struct PokemonResultsView: View {
     @ObservedObject var viewModel: PokemonSearchResultsViewModel
     
     var body: some View {
@@ -35,8 +35,8 @@ struct PokemonSearchResultsView: View {
     }
 }
 
-struct PokemonSearchResultsView_Previews: PreviewProvider {
+struct PokemonResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonSearchResultsView(viewModel: PokemonSearchResultsViewModel())
+        PokemonResultsView(viewModel: PokemonSearchResultsViewModel())
     }
 }

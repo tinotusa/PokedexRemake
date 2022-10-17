@@ -32,4 +32,12 @@ struct FileIOManager {
         logger.debug("Successfully loaded file \(documentName) from disk.")
         return decodedData
     }
+    
+    /// Deletes a file with the given name from the documents directory.
+    /// - parameter filename: The name of the file to delete.
+    func delete(_ filename: String) throws {
+        let documentsURL = fileManager.documentsURL()
+        let fileURL = documentsURL.appending(path: filename)
+        try fileManager.removeItem(at: fileURL)
+    }
 }

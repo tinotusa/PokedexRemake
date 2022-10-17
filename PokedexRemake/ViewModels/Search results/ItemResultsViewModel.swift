@@ -74,4 +74,14 @@ extension ItemResultsViewModel {
             errorMessage = "Failed to find an item with the name \(name)."
         }
     }
+    
+    /// Moves the given item to index 0.
+    /// - parameter item: The item to move.
+    @MainActor
+    func moveToTop(_ item: Item) {
+        let moved = items.moveToTop(item)
+        if !moved {
+            logger.error("Failed to move item \(item.id). Item wasn't in the array")
+        }
+    }
 }

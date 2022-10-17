@@ -17,6 +17,7 @@ struct SearchView: View {
     // TODO: Does this need to be in the environment?
     @EnvironmentObject private var pokemonSearchResultsViewModel: PokemonSearchResultsViewModel
     @StateObject private var moveResultsViewModel = MoveResultsViewModel()
+    @StateObject private var itemResultsViewModel = ItemResultsViewModel()
     
     var body: some View {
         VStack {
@@ -45,6 +46,8 @@ struct SearchView: View {
                 PokemonSearchResultsView(viewModel: pokemonSearchResultsViewModel)
             case .moves:
                 MoveResultsView(viewModel: moveResultsViewModel)
+            case .items:
+                ItemResultsView(viewModel: itemResultsViewModel)
             default:
                 Text("TODO!")
             }
@@ -64,6 +67,8 @@ private extension SearchView {
             await pokemonSearchResultsViewModel.searchForPokemon(named: searchText)
         case .moves:
             await moveResultsViewModel.search(searchText)
+        case .items:
+            await itemResultsViewModel.search(searchText)
         default:
             print("TODO!")
         }

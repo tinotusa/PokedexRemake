@@ -74,19 +74,24 @@ extension MoveResultsViewModel {
     
     @MainActor
     func clearHistory() {
-        self.moves = []
-        logger.debug("Cleared move search history.")
+        do {
+            try fileIOManager.delete(Self.saveFilename)
+            self.moves = []
+            logger.debug("Cleared move search history.")
+        } catch {
+            logger.error("Failed to clear history. \(error)")
+        }
     }
-}
-
-private extension MoveResultsViewModel {
+    
     func moveToTop(_ move: Move) {
         let moved = self.moves.moveToTop(move)
         if !moved {
             logger.error("Failed to move move \(move.id) to top.")
         }
     }
-    
+}
+
+private extension MoveResultsViewModel {
     func loadFromDisk() throws -> [Move] {
         try fileIOManager.load([Move].self, documentName: Self.saveFilename)
     }

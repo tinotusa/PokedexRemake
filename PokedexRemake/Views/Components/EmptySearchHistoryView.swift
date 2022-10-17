@@ -8,13 +8,26 @@
 import SwiftUI
 
 struct EmptySearchHistoryView: View {
+    let text: LocalizedStringKey
+    var errorMessage: String?
+    
     var body: some View {
-        Text("Hello, World!")
+        VStack {
+            Spacer()
+            Text(text)
+                .foregroundColor(.gray)
+                .bodyStyle()
+                .multilineTextAlignment(.center)
+            
+            SearchErrorView(text: errorMessage)
+            
+            Spacer()
+        }
     }
 }
 
 struct EmptySearchHistoryView_Previews: PreviewProvider {
     static var previews: some View {
-        EmptySearchHistoryView()
+        EmptySearchHistoryView(text: "Search for something.")
     }
 }

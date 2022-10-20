@@ -26,6 +26,7 @@ final class LocationResultsViewModel: ObservableObject {
 
 extension LocationResultsViewModel {
     /// Loads the locations search history from disk.
+    @MainActor
     func loadData() {
         logger.debug("Loading data.")
         do {
@@ -47,6 +48,7 @@ extension LocationResultsViewModel {
     /// is moved to index 0.
     ///
     /// - parameter name: The name or id of the location to look for.
+    @MainActor
     func search(_ name: String) async {
         isLoading = true
         errorMessage = nil
@@ -66,6 +68,7 @@ extension LocationResultsViewModel {
     }
     
     /// Clears the in memory and on disk history.
+    @MainActor
     func clearHistory() {
         logger.debug("Clearing history.")
         do {
@@ -77,6 +80,7 @@ extension LocationResultsViewModel {
         }
     }
     
+    @MainActor
     func moveLocationToTop(_ location: Location) {
         let moved = self.locations.moveToTop(location)
         if !moved {

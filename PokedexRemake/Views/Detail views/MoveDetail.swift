@@ -12,6 +12,7 @@ struct MoveDetail: View {
     let move: Move
     @StateObject private var viewModel = MoveDetailViewModel()
     @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @StateObject private var pokemonListViewModel = PokemonListViewModel()
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -41,15 +42,13 @@ struct MoveDetail: View {
                                         TypeTag(type: type)
                                     }
                                 case .learnedByPokemon:
-                                    HStack {
-                                        Text(viewModel.moveDetails[moveDetailKey, default: "Error"])
-                                        Spacer()
-                                        Button {
-                                            // todo
-                                        } label: {
+                                    NavigationLink(value: pokemonListViewModel) {
+                                        HStack {
+                                            Text(viewModel.moveDetails[moveDetailKey, default: "Error"])
+                                            Spacer()
                                             Image(systemName: "chevron.right")
+                                                .foregroundColor(.accentColor)
                                         }
-                                        .foregroundColor(.accentColor)
                                     }
                                 default:
                                     Text(viewModel.moveDetails[moveDetailKey, default: "N/A"])
@@ -78,6 +77,15 @@ struct MoveDetail: View {
                 .padding()
                 .bodyStyle()
             }
+            .navigationDestination(for: PokemonListViewModel.self) { viewModel in
+                PokemonListView(
+                    title: move.localizedName(for: language),
+                    id: move.id,
+                    description: "Pokemon that can learn this move.",
+                    pokemonURLs: move.learnedByPokemon.map { $0.url },
+                    viewModel: viewModel
+                )
+            }
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }
@@ -86,6 +94,8 @@ struct MoveDetail: View {
 
 struct MoveDetail_Previews: PreviewProvider {
     static var previews: some View {
-        MoveDetail(move: .example)
+        NavigationStack {
+            MoveDetail(move: .example)
+        }
     }
 }

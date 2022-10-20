@@ -20,7 +20,8 @@ struct SearchView: View {
     @StateObject private var moveResultsViewModel = MoveResultsViewModel()
     @StateObject private var itemResultsViewModel = ItemResultsViewModel()
     @StateObject private var abilityResultsViewModel = AbilityResultsViewModel()
-    
+    @StateObject private var locationResultsViewModel = LocationResultsViewModel()
+
     var body: some View {
         VStack {
             HStack {
@@ -52,6 +53,8 @@ struct SearchView: View {
                 ItemResultsView(viewModel: itemResultsViewModel)
             case .abilities:
                 AbilityResultsView(viewModel: abilityResultsViewModel)
+            case .locations:
+                LocationResultsView(viewModel: locationResultsViewModel)
             default:
                 Text("TODO!")
             }
@@ -75,6 +78,8 @@ private extension SearchView {
             await itemResultsViewModel.search(searchText)
         case .abilities:
             await abilityResultsViewModel.search(searchText)
+        case .locations:
+            await locationResultsViewModel.search(searchText)
         default:
             print("TODO!")
         }

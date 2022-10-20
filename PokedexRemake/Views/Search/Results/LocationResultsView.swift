@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LocationResultsView: View {
-    @StateObject private var viewModel = LocationResultsViewModel()
+    @ObservedObject var viewModel: LocationResultsViewModel
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -37,6 +37,6 @@ struct LocationResultsView: View {
 
 struct LocationResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        LocationResultsView()
+        LocationResultsView(viewModel: LocationResultsViewModel())
     }
 }

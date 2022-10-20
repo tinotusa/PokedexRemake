@@ -21,29 +21,31 @@ struct MoveCard: View {
                 await viewModel.loadData(move: move)
             }
         case .loaded:
-            VStack(alignment: .leading) {
-                HStack {
-                    Text(move.localizedName(for: language))
-                    Spacer()
-                    Text(Globals.formattedID(move.id))
-                        .foregroundColor(.gray)
-                }
-                .subtitleStyle()
-                Text(
-                    move.localizedEffectEntry(
-                        for: language,
-                        shortVersion: true,
-                        effectChance: move.effectChance
+            NavigationLink(value: move) {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(move.localizedName(for: language))
+                        Spacer()
+                        Text(Globals.formattedID(move.id))
+                            .foregroundColor(.gray)
+                    }
+                    .subtitleStyle()
+                    Text(
+                        move.localizedEffectEntry(
+                            for: language,
+                            shortVersion: true,
+                            effectChance: move.effectChance
+                        )
                     )
-                )
-                .lineLimit(1)
-                .foregroundColor(.gray)
-                HStack {
-                    TypeTag(type: viewModel.type)
-                    Text(viewModel.damageClass.localizedName(for: language))
+                    .lineLimit(1)
+                    .foregroundColor(.gray)
+                    HStack {
+                        TypeTag(type: viewModel.type)
+                        Text(viewModel.damageClass.localizedName(for: language))
+                    }
                 }
+                .bodyStyle()
             }
-            .bodyStyle()
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }

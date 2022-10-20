@@ -14,7 +14,6 @@ enum SearchScope: String, CaseIterable, Identifiable {
     case items
     case abilities
     case locations
-    case generations
     
     var id: Self { self }
     

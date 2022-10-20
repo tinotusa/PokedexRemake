@@ -55,8 +55,6 @@ struct SearchView: View {
                 AbilityResultsView(viewModel: abilityResultsViewModel)
             case .locations:
                 LocationResultsView(viewModel: locationResultsViewModel)
-            default:
-                Text("TODO!")
             }
             Spacer()
         }
@@ -80,8 +78,6 @@ private extension SearchView {
             await abilityResultsViewModel.search(searchText)
         case .locations:
             await locationResultsViewModel.search(searchText)
-        default:
-            print("TODO!")
         }
     }
 }

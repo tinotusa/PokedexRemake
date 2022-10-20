@@ -76,6 +76,13 @@ extension LocationResultsViewModel {
             logger.error("Failed to clear history. \(error)")
         }
     }
+    
+    func moveLocationToTop(_ location: Location) {
+        let moved = self.locations.moveToTop(location)
+        if !moved {
+            logger.error("Failed to move location: \(location.id) to top.")
+        }
+    }
 }
 
 private extension LocationResultsViewModel {

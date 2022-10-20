@@ -11,9 +11,12 @@ import os
 
 final class LocationResultsViewModel: ObservableObject {
     /// The state of the view.
-    @Published private var viewLoadingState = ViewLoadingState.loading
+    @Published private(set) var viewLoadingState = ViewLoadingState.loading
     /// The locations search results.
-    @Published private var locations = [Location]()
+    @Published private(set) var locations = [Location]()
+    /// A boolean value indicating that a search is loading.
+    @Published private(set) var isLoading = false
+    @Published private(set) var errorMessage: String?
     /// The file name of the locations history on disk
     private static let saveFilename = "locationResults"
     
@@ -35,6 +38,30 @@ extension LocationResultsViewModel {
         } catch {
             logger.error("Failed to load data. \(error)")
             viewLoadingState = .error(error: error)
+        }
+    }
+    
+    /// Searches PokeAPI for a location with the given name.
+    ///
+    /// If the location being searched for is already in the array, That location
+    /// is moved to index 0.
+    ///
+    /// - parameter name: The name or id of the location to look for.
+    func search(_ name: String) async {
+        isLoading = true
+        errorMessage = nil
+        defer {
+            isLoading = false
+        }
+        do {
+            let location = try await Location(name)
+            let moved = self.locations.moveToTop(location)
+            if !moved {
+                self.locations.insert(location, at: 0)
+            }
+        } catch {
+            logger.error("Failed to find location with name: \(name). \(error)")
+            errorMessage = "No location with name \"\(name)\" found."
         }
     }
 }

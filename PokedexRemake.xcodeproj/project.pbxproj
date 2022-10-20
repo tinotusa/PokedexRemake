@@ -331,6 +331,17 @@
 			path = Cards;
 			sourceTree = "<group>";
 		};
+		2144A5482900F819009846AB /* Pokemon */ = {
+			isa = PBXGroup;
+			children = (
+				21F3CA0928F11BEA000BD757 /* Evolutions tab */,
+				21757CF928EEE044004217D1 /* AboutTabViewModel.swift */,
+				21D0C33B28EFD07600E8D18C /* StatsTabViewModel.swift */,
+				21B9D18D28F3BC4E007C1270 /* AbilitiesTabViewModel.swift */,
+			);
+			path = Pokemon;
+			sourceTree = "<group>";
+		};
 		2169D3F528F908E5009CFE63 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -365,10 +376,7 @@
 		21757CF828EEE037004217D1 /* Details */ = {
 			isa = PBXGroup;
 			children = (
-				21F3CA0928F11BEA000BD757 /* Evolutions tab */,
-				21757CF928EEE044004217D1 /* AboutTabViewModel.swift */,
-				21D0C33B28EFD07600E8D18C /* StatsTabViewModel.swift */,
-				21B9D18D28F3BC4E007C1270 /* AbilitiesTabViewModel.swift */,
+				2144A5482900F819009846AB /* Pokemon */,
 			);
 			path = Details;
 			sourceTree = "<group>";

@@ -17,7 +17,7 @@ struct PokemonResultRow: View {
     var body: some View {
         switch viewModel.viewLoadingState {
         case .loading:
-            ProgressView()
+            loadingPlaceholder
                 .task {
                     await viewModel.loadData(pokemon: pokemon)
                 }
@@ -58,6 +58,36 @@ private extension PokemonResultRow {
     enum Constants {
         static let cornerRadius = 10.0
         static let imageSize = 100.0
+    }
+    
+    var loadingPlaceholder: some View {
+        HStack {
+            Image("bulbasaur")
+                .resizable()
+                .scaledToFit()
+                .frame(width: Constants.imageSize, height: Constants.imageSize)
+            
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("Species name")
+                    Spacer()
+                    Text("Genreation name")
+                        .foregroundColor(.gray)
+                }
+                
+                HStack {
+                    ForEach(0 ..< 2) { index in
+                        Text("type \(index)")
+                    }
+                }
+                .bodyStyle2()
+                
+                Text("#999")
+                    .foregroundColor(.gray)
+            }
+        }
+        .bodyStyle()
+        .redacted(reason: .placeholder)
     }
 }
 

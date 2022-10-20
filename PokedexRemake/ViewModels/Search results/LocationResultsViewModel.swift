@@ -13,7 +13,11 @@ final class LocationResultsViewModel: ObservableObject {
     /// The state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     /// The locations search results.
-    @Published private(set) var locations = [Location]()
+    @Published private(set) var locations = [Location]() {
+        didSet {
+            saveHistoryToDisk()
+        }
+    }
     /// A boolean value indicating that a search is loading.
     @Published private(set) var isLoading = false
     @Published private(set) var errorMessage: String?
@@ -31,7 +35,7 @@ extension LocationResultsViewModel {
         logger.debug("Loading data.")
         do {
             self.locations = try loadHistoryFromDisk()
-            viewLoadingState = .loading
+            viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")
         } catch CocoaError.fileReadNoSuchFile {
             logger.debug("File \(Self.saveFilename) has not been created.")

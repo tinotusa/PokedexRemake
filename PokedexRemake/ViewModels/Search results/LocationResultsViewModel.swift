@@ -64,6 +64,18 @@ extension LocationResultsViewModel {
             errorMessage = "No location with name \"\(name)\" found."
         }
     }
+    
+    /// Clears the in memory and on disk history.
+    func clearHistory() {
+        logger.debug("Clearing history.")
+        do {
+            try fileIOManager.delete(Self.saveFilename)
+            self.locations = []
+            logger.debug("Successfully cleared history.")
+        } catch {
+            logger.error("Failed to clear history. \(error)")
+        }
+    }
 }
 
 private extension LocationResultsViewModel {

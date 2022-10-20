@@ -19,6 +19,7 @@
 		213B0E6128FA7F89008CAD4C /* ItemCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E6028FA7F89008CAD4C /* ItemCardViewModel.swift */; };
 		213B0E6328FACCD4008CAD4C /* AbilitiesCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E6228FACCD4008CAD4C /* AbilitiesCategoryView.swift */; };
 		213B0E6528FACCEB008CAD4C /* AbilitiesCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E6428FACCEB008CAD4C /* AbilitiesCategoryViewModel.swift */; };
+		2144A5432900EEF7009846AB /* LocationResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2144A5422900EEF7009846AB /* LocationResultsView.swift */; };
 		2164042F28F2FE7700E6A13F /* MoveCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164042E28F2FE7700E6A13F /* MoveCard.swift */; };
 		2164043328F2FF1E00E6A13F /* move.json in Resources */ = {isa = PBXBuildFile; fileRef = 2164043228F2FF1E00E6A13F /* move.json */; };
 		2164043528F2FF7900E6A13F /* MoveCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */; };
@@ -156,6 +157,7 @@
 		213B0E6028FA7F89008CAD4C /* ItemCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCardViewModel.swift; sourceTree = "<group>"; };
 		213B0E6228FACCD4008CAD4C /* AbilitiesCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilitiesCategoryView.swift; sourceTree = "<group>"; };
 		213B0E6428FACCEB008CAD4C /* AbilitiesCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilitiesCategoryViewModel.swift; sourceTree = "<group>"; };
+		2144A5422900EEF7009846AB /* LocationResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationResultsView.swift; sourceTree = "<group>"; };
 		2164042E28F2FE7700E6A13F /* MoveCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCard.swift; sourceTree = "<group>"; };
 		2164043228F2FF1E00E6A13F /* move.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = move.json; sourceTree = "<group>"; };
 		2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCardViewModel.swift; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 				217B3B8328FBCFBC00201BEC /* MoveResultsView.swift */,
 				2193D50F28FD4859006A686B /* ItemResultsView.swift */,
 				2193D51728FD5C09006A686B /* AbilityResultsView.swift */,
+				2144A5422900EEF7009846AB /* LocationResultsView.swift */,
 			);
 			path = Results;
 			sourceTree = "<group>";
@@ -871,6 +874,7 @@
 				21B9D19028F3BCF4007C1270 /* Globals.swift in Sources */,
 				217B3B7628FBB89A00201BEC /* GenerationsCategoryView.swift in Sources */,
 				21F3CA0F28F169AB000BD757 /* Bundle+loadJSON.swift in Sources */,
+				2144A5432900EEF7009846AB /* LocationResultsView.swift in Sources */,
 				2191991E28EAD7A7002C6379 /* CategoryGridCard.swift in Sources */,
 				21B9D19828F3C3D4007C1270 /* AbilityExpandableTabViewModel.swift in Sources */,
 				2164043728F301DE00E6A13F /* MoveDamageClass+Extensions.swift in Sources */,

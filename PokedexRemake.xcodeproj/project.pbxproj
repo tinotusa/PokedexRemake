@@ -20,6 +20,7 @@
 		213B0E6328FACCD4008CAD4C /* AbilitiesCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E6228FACCD4008CAD4C /* AbilitiesCategoryView.swift */; };
 		213B0E6528FACCEB008CAD4C /* AbilitiesCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E6428FACCEB008CAD4C /* AbilitiesCategoryViewModel.swift */; };
 		2144A5432900EEF7009846AB /* LocationResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2144A5422900EEF7009846AB /* LocationResultsView.swift */; };
+		2144A5452900EF35009846AB /* LocationResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2144A5442900EF35009846AB /* LocationResultsViewModel.swift */; };
 		2164042F28F2FE7700E6A13F /* MoveCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164042E28F2FE7700E6A13F /* MoveCard.swift */; };
 		2164043328F2FF1E00E6A13F /* move.json in Resources */ = {isa = PBXBuildFile; fileRef = 2164043228F2FF1E00E6A13F /* move.json */; };
 		2164043528F2FF7900E6A13F /* MoveCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */; };
@@ -158,6 +159,7 @@
 		213B0E6228FACCD4008CAD4C /* AbilitiesCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilitiesCategoryView.swift; sourceTree = "<group>"; };
 		213B0E6428FACCEB008CAD4C /* AbilitiesCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilitiesCategoryViewModel.swift; sourceTree = "<group>"; };
 		2144A5422900EEF7009846AB /* LocationResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationResultsView.swift; sourceTree = "<group>"; };
+		2144A5442900EF35009846AB /* LocationResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationResultsViewModel.swift; sourceTree = "<group>"; };
 		2164042E28F2FE7700E6A13F /* MoveCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCard.swift; sourceTree = "<group>"; };
 		2164043228F2FF1E00E6A13F /* move.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = move.json; sourceTree = "<group>"; };
 		2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCardViewModel.swift; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 				217B3B8628FBCFF600201BEC /* MoveResultsViewModel.swift */,
 				2193D51128FD48A6006A686B /* ItemResultsViewModel.swift */,
 				2193D51928FD5C32006A686B /* AbilityResultsViewModel.swift */,
+				2144A5442900EF35009846AB /* LocationResultsViewModel.swift */,
 			);
 			path = "Search results";
 			sourceTree = "<group>";
@@ -880,6 +883,7 @@
 				2164043728F301DE00E6A13F /* MoveDamageClass+Extensions.swift in Sources */,
 				21757CFC28EEECBB004217D1 /* Item+Extensions.swift in Sources */,
 				2193D51E28FD9CB9006A686B /* FileManager+documentsURL.swift in Sources */,
+				2144A5452900EF35009846AB /* LocationResultsViewModel.swift in Sources */,
 				21EB594B28EC3496009E201A /* PokemonResultRow.swift in Sources */,
 				21CD84BE28ED6A63008B2611 /* TypeTag.swift in Sources */,
 				213B0E6328FACCD4008CAD4C /* AbilitiesCategoryView.swift in Sources */,

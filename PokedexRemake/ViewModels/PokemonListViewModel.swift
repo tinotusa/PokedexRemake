@@ -25,6 +25,7 @@ final class PokemonListViewModel: ObservableObject {
 }
 
 extension PokemonListViewModel {
+    @MainActor
     func loadData(urls: [URL]) async {
         self.urls = urls
         do {
@@ -33,12 +34,14 @@ extension PokemonListViewModel {
                 hasNextPage = false
             }
             self.pokemon = pokemon
+            page += 1
             viewLoadingState = .loaded
         } catch {
             viewLoadingState = .error(error: error)
         }
     }
-
+    
+    @MainActor
     func loadNextPage() async {
         logger.debug("Loading next page.")
         do {
@@ -47,6 +50,7 @@ extension PokemonListViewModel {
                 hasNextPage = false
             }
             self.pokemon.append(contentsOf: newPokemon)
+            page += 1
         } catch {
             logger.error("Failed to load next pokemon page. \(error)")
         }

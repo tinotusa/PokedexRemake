@@ -9,7 +9,8 @@ import Foundation
 import SwiftPokeAPI
 import os
 
-final class PokemonListViewModel: ObservableObject {
+final class PokemonListViewModel: ObservableObject, Identifiable  {
+    let id = UUID().uuidString
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     @Published private var urls = [URL]()
     @Published private(set) var pokemon = [Pokemon]()
@@ -22,6 +23,16 @@ final class PokemonListViewModel: ObservableObject {
     private var limit = 20
     private var offset = 0
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonListViewModel")
+}
+
+extension PokemonListViewModel: Hashable {
+    static func == (lhs: PokemonListViewModel, rhs: PokemonListViewModel) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
 }
 
 extension PokemonListViewModel {

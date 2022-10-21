@@ -8,13 +8,22 @@
 import SwiftUI
 
 struct NavigationLabel: View {
+    let title: String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            Text(title)
+                .lineLimit(1)
+                .layoutPriority(1)
+            Spacer()
+            Image(systemName: "chevron.right")
+                .foregroundColor(.accentColor)
+        }
     }
 }
 
 struct NavigationLabel_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationLabel()
+        NavigationLabel(title: "some title here")
     }
 }

@@ -19,6 +19,7 @@ final class MoveDetailViewModel: ObservableObject {
     @Published private(set) var ailment: MoveAilment?
     @Published private(set) var category: MoveCategory?
     
+    @Published private(set) var localizedFlavorTextEntries = [MoveFlavorText]()
     @Published private(set) var moveDetails = [MoveDetails: String]()
     @Published private(set) var metaDetails = [MoveMetaDetails: String]()
     
@@ -85,9 +86,10 @@ extension MoveDetailViewModel {
                 self.ailment = try await MoveAilment(meta.ailment.url)
                 self.category = try await MoveCategory(meta.category.url)
             }
+            self.localizedFlavorTextEntries = getLocalizedMoveFlavorTextEntries(entries: move.flavorTextEntries, languageCode: languageCode)
             self.moveDetails = getMoveDetails(move: move, languageCode: languageCode)
             self.metaDetails = getMoveMetaDetails(move: move, languageCode: languageCode)
-//            
+       
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")
         } catch {
@@ -98,6 +100,29 @@ extension MoveDetailViewModel {
 }
 
 private extension MoveDetailViewModel {
+    func getLocalizedMoveFlavorTextEntries(entries: [MoveFlavorText], languageCode: String) -> [MoveFlavorText] {
+        logger.debug("Getting localized move flavor text entries.")
+        var localizedEntries: [MoveFlavorText]?
+        localizedEntries = entries.filter { $0.language.name == languageCode }
+        if localizedEntries == nil {
+            let availableLanguageCodes = entries.compactMap { $0.language.name }
+            let deviceLanguageCode = Bundle.preferredLocalizations(from: availableLanguageCodes, forPreferences: nil).first!
+            localizedEntries = entries.filter { $0.language.name == deviceLanguageCode }
+        }
+        
+        if localizedEntries == nil {
+            localizedEntries = entries.filter { $0.language.name == SettingsKey.defaultLanguage }
+        }
+        
+        if let localizedEntries {
+            logger.debug("Got \(localizedEntries.count) localized entries.")
+            return localizedEntries
+        }
+        
+        logger.debug("Failed to get any localized move flavor texts.")
+        return []
+    }
+    
     func getMoveDetails(move: Move, languageCode: String) -> [MoveDetails: String] {
         var moveDetails = [MoveDetails: String]()
         if let name = move.type.name {
@@ -126,7 +151,7 @@ private extension MoveDetailViewModel {
         moveDetails[.learnedByPokemon] = "\(move.learnedByPokemon.count)"
         moveDetails[.effectEntries] = "\(move.effectEntries.count)"
         moveDetails[.effectChanges] = "\(move.effectChanges.count)"
-        moveDetails[.flavorTextEntries] = "\(move.flavorTextEntries.count)" // TODO: get only the localized entries count
+        moveDetails[.flavorTextEntries] = "\(localizedFlavorTextEntries.count)"
         moveDetails[.machines] = "\(move.machines.count)"
         moveDetails[.pastValues] = "\(move.pastValues.count)"
         moveDetails[.statChanges] = "\(move.statChanges.count)"

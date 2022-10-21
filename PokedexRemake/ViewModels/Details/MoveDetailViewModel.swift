@@ -22,7 +22,7 @@ final class MoveDetailViewModel: ObservableObject {
     @Published private(set) var moveDetails = [MoveDetails: String]()
     @Published private(set) var metaDetails = [MoveMetaDetails: String]()
     
-    private let os = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "MoveDetailViewModel")
+    private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "MoveDetailViewModel")
 
     enum MoveDetails: String, CaseIterable, Identifiable {
         case type
@@ -72,8 +72,11 @@ final class MoveDetailViewModel: ObservableObject {
 }
 
 extension MoveDetailViewModel {
+    @MainActor
     func loadData(move: Move, languageCode: String) async {
+        logger.debug("Loading data.")
         do {
+            // TODO: Add async lets to help speed this up
             self.type = try await `Type`(move.type.url)
             self.damageClass = try await MoveDamageClass(move.damageClass.url)
             self.moveTarget = try await MoveTarget(move.target.url)
@@ -84,9 +87,11 @@ extension MoveDetailViewModel {
             }
             self.moveDetails = getMoveDetails(move: move, languageCode: languageCode)
             self.metaDetails = getMoveMetaDetails(move: move, languageCode: languageCode)
-            
+//            
             viewLoadingState = .loaded
+            logger.debug("Successfully loaded data.")
         } catch {
+            logger.error("Failed to  load data. \(error)")
             viewLoadingState = .error(error: error)
         }
     }

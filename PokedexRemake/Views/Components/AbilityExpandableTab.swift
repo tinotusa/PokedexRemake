@@ -44,21 +44,21 @@ struct AbilityExpandableTab: View {
                 }
                 
                 showMoreButton
-                
-                ExpandableTab(title: "Effect changes", isSubheader: true) {
-                    if ability.effectChanges.isEmpty {
-                        Text("No changes.")
-                            .foregroundColor(.gray)
-                    } else {
-                        AbilityEffectChangesList(effectChanges: ability.effectChanges)
-                    }
-                }
-                .padding(.leading)
-                
-                ExpandableTab(title: "Flavor text entries", isSubheader: true) {
-                    FlavorTextEntriesList(abilityFlavorTexts: viewModel.localizedFlavorTextEntries)
-                }
-                .padding(.leading)
+                // TODO: Use navigation to list views 
+//                ExpandableTab(title: "Effect changes", isSubheader: true) {
+//                    if ability.effectChanges.isEmpty {
+//                        Text("No changes.")
+//                            .foregroundColor(.gray)
+//                    } else {
+//                        AbilityEffectChangesList(effectChanges: ability.effectChanges)
+//                    }
+//                }
+//                .padding(.leading)
+//
+//                ExpandableTab(title: "Flavor text entries", isSubheader: true) {
+//                    FlavorTextEntriesList(abilityFlavorTexts: viewModel.localizedFlavorTextEntries)
+//                }
+//                .padding(.leading)
                 Divider()
             }
             .bodyStyle()

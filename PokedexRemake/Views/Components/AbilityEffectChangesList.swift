@@ -9,9 +9,15 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct AbilityEffectChangesList: View {
+    let title: String
+    let id: Int
+    let description: LocalizedStringKey
     let effectChanges: [AbilityEffectChange]
-    @StateObject private var viewModel = AbilityEffectChangesListViewModel()
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    let language: String
+    
+    @ObservedObject var viewModel: AbilityEffectChangesListViewModel
+    
+    
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -21,21 +27,27 @@ struct AbilityEffectChangesList: View {
                     await viewModel.loadData(effectChanges: effectChanges, language: language)
                 }
         case .loaded:
-            VStack(alignment: .leading) {
-                ForEach(viewModel.localizedEffectVersions) { localizedEffectVersion in
-                    HStack {
-                        ForEach(localizedEffectVersion.versions) { version in
-                            Text(version.localizedName(for: language))
+            DetailListView(
+                title: title,
+                id: id,
+                description: description
+            ) {
+                VStack(alignment: .leading) {
+                    ForEach(viewModel.localizedEffectVersions) { localizedEffectVersion in
+                        HStack {
+                            ForEach(localizedEffectVersion.versions) { version in
+                                Text(version.localizedName(for: language))
+                            }
+                        }
+                        .foregroundColor(.gray)
+                        ForEach(localizedEffectVersion.effectEntries, id: \.self) { entry in
+                            Text(entry.effect)
                         }
                     }
-                    .foregroundColor(.gray)
-                    ForEach(localizedEffectVersion.effectEntries, id: \.self) { entry in
-                        Text(entry.effect)
-                    }
+                    Divider()
                 }
-                Divider()
+                .bodyStyle()
             }
-            .bodyStyle()
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }
@@ -44,6 +56,13 @@ struct AbilityEffectChangesList: View {
 
 struct AbilityEffectChangesList_Previews: PreviewProvider {
     static var previews: some View {
-        AbilityEffectChangesList(effectChanges: [])
+        AbilityEffectChangesList(
+            title: "A title",
+            id: 999,
+            description: "some description",
+            effectChanges: [],
+            language: SettingsKey.defaultLanguage,
+            viewModel: AbilityEffectChangesListViewModel()
+        )
     }
 }

@@ -64,17 +64,21 @@ struct MoveDetail: View {
                                         NavigationLabel(title: value)
                                     }
                                 case .effectChanges:
-                                    NavigationLink {
-                                        AbilityEffectChangesList(
-                                            title: move.localizedName(for: language),
-                                            id: move.id,
-                                            description: "Effect changes for this move.",
-                                            effectChanges: move.effectChanges,
-                                            language: language,
-                                            viewModel: abilityEffectChangesListViewModel
-                                        )
-                                    } label: {
-                                        NavigationLabel(title: value)
+                                    if move.effectChanges.isEmpty {
+                                        Text(value)
+                                    } else {
+                                        NavigationLink {
+                                            AbilityEffectChangesList(
+                                                title: move.localizedName(for: language),
+                                                id: move.id,
+                                                description: "Effect changes for this move.",
+                                                effectChanges: move.effectChanges,
+                                                language: language,
+                                                viewModel: abilityEffectChangesListViewModel
+                                            )
+                                        } label: {
+                                            NavigationLabel(title: value)
+                                        }
                                     }
                                 default:
                                     Text(value)

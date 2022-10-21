@@ -15,6 +15,7 @@ struct MoveDetail: View {
     @StateObject private var pokemonListViewModel = PokemonListViewModel()
     @StateObject private var effectEntriesListViewModel = EffectEntriesListViewModel()
     @StateObject private var abilityEffectChangesListViewModel = AbilityEffectChangesListViewModel()
+    @StateObject private var flavorTextEntriesListViewModel = FlavorTextEntriesListViewModel()
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -75,6 +76,30 @@ struct MoveDetail: View {
                                                 effectChanges: move.effectChanges,
                                                 language: language,
                                                 viewModel: abilityEffectChangesListViewModel
+                                            )
+                                        } label: {
+                                            NavigationLabel(title: value)
+                                        }
+                                    }
+                                case .flavorTextEntries:
+                                    if viewModel.localizedFlavorTextEntries.isEmpty {
+                                        Text(value)
+                                    } else {
+                                        NavigationLink {
+                                            FlavorTextEntriesList(
+                                                title: move.localizedName(for: language),
+                                                id: move.id,
+                                                description: "Flavor text entries for this move.",
+                                                language: language,
+                                                // TODO: does it make more sense/ is more efficient to do this in the view model (the mapping).
+                                                abilityFlavorTexts: viewModel.localizedFlavorTextEntries.map { entry in
+                                                    CustomFlavorText(
+                                                        flavorText: entry.flavorText,
+                                                        language: entry.language,
+                                                        versionGroup: entry.versionGroup
+                                                    )
+                                                },
+                                                viewModel: flavorTextEntriesListViewModel
                                             )
                                         } label: {
                                             NavigationLabel(title: value)

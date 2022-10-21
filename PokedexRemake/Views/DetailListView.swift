@@ -18,6 +18,7 @@ struct DetailListView<Content: View>: View {
             VStack(alignment: .leading) {
                 HeaderBar(title: title, id: id)
                 Text(description)
+                Divider()
                 content()
             }
             .padding()

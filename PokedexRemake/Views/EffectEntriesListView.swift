@@ -19,17 +19,7 @@ struct EffectEntriesListView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                VStack(spacing: 0) {
-                    HStack {
-                        Text(title)
-                        Spacer()
-                        Text(Globals.formattedID(id))
-                            .foregroundColor(.gray)
-                            .fontWeight(.light)
-                    }
-                    .titleStyle()
-                    Divider()
-                }
+                HeaderBar(title: title, id: id)
                 Text(description)
                     .multilineTextAlignment(.leading)
                 

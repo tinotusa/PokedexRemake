@@ -14,6 +14,7 @@ struct MoveDetail: View {
     @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
     @StateObject private var pokemonListViewModel = PokemonListViewModel()
     @StateObject private var effectEntriesListViewModel = EffectEntriesListViewModel()
+    @StateObject private var abilityEffectChangesListViewModel = AbilityEffectChangesListViewModel()
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -25,15 +26,11 @@ struct MoveDetail: View {
         case .loaded:
             ScrollView {
                 VStack(alignment: .leading) {
-                    HStack {
-                        Text(move.localizedName(for: language))
-                        Spacer()
-                        Text(Globals.formattedID(move.id))
-                    }
-                    .titleStyle()
+                    HeaderBar(title: move.localizedName(for: language), id: move.id)
                     
-                    Grid(alignment: .leading, verticalSpacing: 5) {
+                    Grid(alignment: .leading, verticalSpacing: 8) {
                         ForEach(MoveDetailViewModel.MoveDetails.allCases) { moveDetailKey in
+                            let value = viewModel.moveDetails[moveDetailKey, default: "Error"]
                             GridRow {
                                 Text(moveDetailKey.title)
                                     .foregroundColor(.gray)
@@ -43,17 +40,45 @@ struct MoveDetail: View {
                                         TypeTag(type: type)
                                     }
                                 case .learnedByPokemon:
-                                    NavigationLink(value: pokemonListViewModel) {
-                                        NavigationLabel(title: viewModel.moveDetails[moveDetailKey, default: "Error"])
+                                    NavigationLink {
+                                        PokemonListView(
+                                            title: move.localizedName(for: language),
+                                            id: move.id,
+                                            description: "Pokemon that can learn this move.",
+                                            pokemonURLs: move.learnedByPokemon.map { $0.url },
+                                            viewModel: pokemonListViewModel
+                                        )
+                                    } label: {
+                                        NavigationLabel(title: value)
                                     }
                                 case .effectEntries:
-                                    NavigationLink(value: effectEntriesListViewModel) {
-                                        NavigationLabel(title: viewModel.moveDetails[moveDetailKey, default: "Error"])
+                                    NavigationLink {
+                                        EffectEntriesListView(
+                                            title: move.localizedName(for: language),
+                                            id: move.id,
+                                            description: "Effect entries for this moe",
+                                            entries: move.effectEntries,
+                                            viewModel: effectEntriesListViewModel
+                                        )
+                                    } label: {
+                                        NavigationLabel(title: value)
+                                    }
+                                case .effectChanges:
+                                    NavigationLink {
+                                        AbilityEffectChangesList(
+                                            title: move.localizedName(for: language),
+                                            id: move.id,
+                                            description: "Effect changes for this move.",
+                                            effectChanges: move.effectChanges,
+                                            language: language,
+                                            viewModel: abilityEffectChangesListViewModel
+                                        )
+                                    } label: {
+                                        NavigationLabel(title: value)
                                     }
                                 default:
-                                    Text(viewModel.moveDetails[moveDetailKey, default: "N/A"])
+                                    Text(value)
                                 }
-                                
                             }
                         }
                     }
@@ -61,7 +86,7 @@ struct MoveDetail: View {
                         Text("Meta details")
                             .title2Style()
                             .fontWeight(.light)
-                        Grid(alignment: .leading, verticalSpacing: 5) {
+                        Grid(alignment: .leading, verticalSpacing: 8) {
                             ForEach(MoveDetailViewModel.MoveMetaDetails.allCases) { metaDetailKey in
                                 GridRow {
                                     Text(metaDetailKey.title)
@@ -76,24 +101,6 @@ struct MoveDetail: View {
                 }
                 .padding()
                 .bodyStyle()
-            }
-            .navigationDestination(for: PokemonListViewModel.self) { viewModel in
-                PokemonListView(
-                    title: move.localizedName(for: language),
-                    id: move.id,
-                    description: "Pokemon that can learn this move.",
-                    pokemonURLs: move.learnedByPokemon.map { $0.url },
-                    viewModel: viewModel
-                )
-            }
-            .navigationDestination(for: EffectEntriesListViewModel.self) { viewModel in
-                EffectEntriesListView(
-                    title: move.localizedName(for: language),
-                    id: move.id,
-                    description: "Effect entries for this move.",
-                    entries: move.effectEntries,
-                    viewModel: viewModel
-                )
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)

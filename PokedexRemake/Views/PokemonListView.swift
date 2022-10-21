@@ -23,21 +23,12 @@ struct PokemonListView: View {
                     await viewModel.loadData(urls: pokemonURLs)
                 }
         case .loaded:
-            ScrollView {
-                LazyVStack(alignment: .leading) {
-                    VStack(spacing: 0) {
-                        HStack {
-                            Text(title)
-                            Spacer()
-                            Text(Globals.formattedID(id))
-                                .foregroundColor(.gray)
-                                .fontWeight(.light)
-                        }
-                        .titleStyle()
-                        Divider()
-                    }
-                    Text(description)
-                        .multilineTextAlignment(.leading)
+            DetailListView(
+                title: title,
+                id: id,
+                description: description
+            ) {
+                LazyVStack {
                     ForEach(viewModel.pokemon) { pokemon in
                         PokemonResultRow(pokemon: pokemon)
                     }
@@ -48,9 +39,7 @@ struct PokemonListView: View {
                             }
                     }
                 }
-                .padding()
             }
-            .bodyStyle()
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }

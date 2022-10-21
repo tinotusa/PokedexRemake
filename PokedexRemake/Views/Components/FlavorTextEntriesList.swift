@@ -8,10 +8,24 @@
 import SwiftUI
 import SwiftPokeAPI
 
+struct CustomFlavorText: Hashable {
+    let flavorText: String
+    let language: NamedAPIResource
+    let versionGroup: NamedAPIResource
+    
+    func filteredFlavorText() -> String {
+        flavorText.replacingOccurrences(of: "[\\s\n]+", with: " ", options: .regularExpression)
+    }
+}
+
 struct FlavorTextEntriesList: View {
-    let abilityFlavorTexts: [AbilityFlavorText]
-    @StateObject private var viewModel = FlavorTextEntriesListViewModel()
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    let title: String
+    let id: Int
+    let description: LocalizedStringKey
+    let language: String
+    let abilityFlavorTexts: [CustomFlavorText]
+    @ObservedObject var viewModel: FlavorTextEntriesListViewModel
+//    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -21,20 +35,22 @@ struct FlavorTextEntriesList: View {
                     await viewModel.loadData(abilityFlavorTexts: abilityFlavorTexts)
                 }
         case .loaded:
-            VStack(alignment: .leading) {
-                ForEach(abilityFlavorTexts, id: \.self) { abilityFlavorText in
-                    if let versions = viewModel.versions(named: abilityFlavorText.versionGroup.name) {
-                        HStack {
-                            ForEach(versions) { version in
-                                Text(version.localizedName(for: language))
+            DetailListView(title: title, id: id, description: description) {
+                VStack(alignment: .leading) {
+                    ForEach(abilityFlavorTexts, id: \.self) { abilityFlavorText in
+                        if let versions = viewModel.versions(named: abilityFlavorText.versionGroup.name) {
+                            HStack {
+                                ForEach(versions) { version in
+                                    Text(version.localizedName(for: language))
+                                }
                             }
+                            .foregroundColor(.gray)
                         }
-                        .foregroundColor(.gray)
+                        Text(abilityFlavorText.filteredFlavorText())
                     }
-                    Text(abilityFlavorText.filteredFlavorText())
                 }
+                .bodyStyle()
             }
-            .bodyStyle()
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }
@@ -43,6 +59,13 @@ struct FlavorTextEntriesList: View {
 
 struct FlavorTextEntriesList_Previews: PreviewProvider {
     static var previews: some View {
-        FlavorTextEntriesList(abilityFlavorTexts: [])
+        FlavorTextEntriesList(
+            title: "a title",
+            id: 999,
+            description: "some description",
+            language: SettingsKey.defaultLanguage,
+            abilityFlavorTexts: [],
+            viewModel: FlavorTextEntriesListViewModel()
+        )
     }
 }

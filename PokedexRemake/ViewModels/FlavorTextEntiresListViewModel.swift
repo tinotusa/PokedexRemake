@@ -19,10 +19,10 @@ final class FlavorTextEntriesListViewModel: ObservableObject {
 
 extension FlavorTextEntriesListViewModel {
     @MainActor
-    func loadData(abilityFlavorTexts: [AbilityFlavorText]) async {
+    func loadData(abilityFlavorTexts: [CustomFlavorText]) async {
         logger.debug("Loading data.")
         do {
-            self.versionGroups = try await Globals.getVersionGroups(from: abilityFlavorTexts)
+            self.versionGroups = try await Globals.getVersionGroups(from: abilityFlavorTexts.compactMap { $0.versionGroup.url })
             self.versions = try await Globals.getVersions(from: versionGroups)
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")

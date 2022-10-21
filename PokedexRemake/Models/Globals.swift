@@ -66,11 +66,11 @@ struct Globals {
         }
     }
     
-    static func getVersionGroups(from abilityFlavorTexts: [AbilityFlavorText]) async throws -> Set<VersionGroup> {
+    static func getVersionGroups(from urls: [URL]) async throws -> Set<VersionGroup> {
         try await withThrowingTaskGroup(of: VersionGroup.self) { group in
-            for abilityFlavorText in abilityFlavorTexts {
+            for url in urls {
                 group.addTask {
-                    return try await VersionGroup(abilityFlavorText.versionGroup.url)
+                    return try await VersionGroup(url)
                 }
             }
             

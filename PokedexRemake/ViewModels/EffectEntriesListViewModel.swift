@@ -7,6 +7,16 @@
 
 import Foundation
 
-final class EffectEntriesListViewModel: ObservableObject {
+final class EffectEntriesListViewModel: ObservableObject, Identifiable {
+    let id = UUID().uuidString
+}
+
+extension EffectEntriesListViewModel: Hashable {
+    static func == (lhs: EffectEntriesListViewModel, rhs: EffectEntriesListViewModel) -> Bool {
+        lhs .id == rhs.id
+    }
     
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
 }

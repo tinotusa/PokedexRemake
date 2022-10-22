@@ -11,9 +11,15 @@ import os
 
 final class MachinesListViewModel: ObservableObject {
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
-    @Published private var machines = Set<Machine>()
+    @Published private var machines = Set<Machine>() {
+        willSet {
+            if abs(newValue.count - machines.count) < limit {
+                hasNextPage = false
+            }
+        }
+    }
     @Published private(set) var hasNextPage = true
-    
+    private var urls = [URL]()
     private var offset = 0
     private let limit = 20
     private var page = 0 {
@@ -32,8 +38,9 @@ extension MachinesListViewModel {
     @MainActor
     func loadData(urls: [URL]) async {
         logger.debug("Loading data.")
+        self.urls = urls
         do {
-            self.machines = try await getMachines(urls: urls)
+            self.machines = try await getMachines()
             page += 1
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")
@@ -42,12 +49,29 @@ extension MachinesListViewModel {
             viewLoadingState = .error(error: error)
         }
     }
+    
+    @MainActor
+    func getNextPage() async {
+        logger.debug("Getting next page.")
+        guard hasNextPage else {
+            logger.error("Failed to get next page. hasNextPage is false.")
+            return
+        }
+        do {
+            let machines = try await getMachines()
+            self.machines.formUnion(machines)
+            page += 1
+            logger.debug("Successfully got next page.")
+        } catch {
+            logger.error("Failed to get next page: \(error)")
+        }
+    }
 }
 
 private extension MachinesListViewModel {
-    func getMachines(urls: [URL]) async throws -> Set<Machine>{
+    func getMachines() async throws -> Set<Machine>{
         try await withThrowingTaskGroup(of: Machine.self) { group in
-            for (i, url) in urls.enumerated() where i < limit {
+            for (i, url) in self.urls.enumerated() where i >= offset && i < offset + limit {
                 group.addTask {
                     return try await Machine(url)
                 }

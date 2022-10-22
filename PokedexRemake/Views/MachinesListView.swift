@@ -34,6 +34,12 @@ struct MachinesListView: View {
                         Text("\(machine.item.name!)")
                             .padding()
                     }
+                    if viewModel.hasNextPage {
+                        ProgressView()
+                            .task {
+                                await viewModel.getNextPage()
+                            }
+                    }
                 }
             }
         case .error(let error):

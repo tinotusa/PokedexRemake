@@ -1,5 +1,5 @@
 //
-//  PastMoveValueListView.swift
+//  PastMoveValueView.swift
 //  PokedexRemake
 //
 //  Created by Tino on 22/10/2022.
@@ -10,7 +10,7 @@ import SwiftPokeAPI
 
 struct PastMoveValueView: View {
     let pastValue: PastMoveStatValues
-    @StateObject private var viewModel = PastMoveValueListViewModel()
+    @StateObject private var viewModel = PastMoveValueViewModel()
     @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
     @StateObject private var effectEntriesListViewModel = EffectEntriesListViewModel()
     var body: some View {
@@ -33,7 +33,7 @@ struct PastMoveValueView: View {
                 .subtitleStyle()
                 
                 Grid(alignment: .leading) {
-                    ForEach(PastMoveValueListViewModel.PastValueKey.allCases) { pastValueKey in
+                    ForEach(PastMoveValueViewModel.PastValueKey.allCases) { pastValueKey in
                         let value = viewModel.pastValues[pastValueKey, default: "N/A"]
                         GridRow {
                             Text(pastValueKey.title)
@@ -81,7 +81,7 @@ private extension PastMoveValueView {
     }
 }
 
-struct PastMoveValueListView_Previews: PreviewProvider {
+struct PastMoveValueView_Previews: PreviewProvider {
     static var previews: some View {
         PastMoveValueView(pastValue: Move.flashExample.pastValues.first!)
     }

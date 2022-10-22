@@ -33,7 +33,7 @@ struct MoveStatChangeListView_Previews: PreviewProvider {
             title: "some title",
             id: 123,
             description: "description here",
-            statChanges: Move.example.statChanges
+            statChanges: Move.flashExample.statChanges
         )
     }
 }

@@ -164,8 +164,28 @@ private extension MoveDetail {
             effectChangesNavigationLink(value: value)
         case .flavorTextEntries:
             flavorTextEntriesNavigationLink(value: value)
+        case .machines:
+            machinesNavigationLink(value: value)
         default:
             Text(value)
+        }
+    }
+    
+    @ViewBuilder
+    func machinesNavigationLink(value: String) -> some View {
+        if move.machines.isEmpty {
+            Text(value)
+        } else {
+            NavigationLink {
+                MachinesListView(
+                    title: move.localizedName(for: language),
+                    id: move.id,
+                    description: "Machines that teach this move.",
+                    machineURLs: move.machines.map { $0.machine.url}
+                )
+            } label: {
+                NavigationLabel(title: value)
+            }
         }
     }
 }

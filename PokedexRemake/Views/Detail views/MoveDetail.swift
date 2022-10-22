@@ -220,7 +220,7 @@ private extension MoveDetail {
                 MoveStatChangeListView(
                     title: move.localizedName(for: language),
                     id: move.id,
-                    description: "Stat changes for this move.",
+                    description: "The stats this moves changes.",
                     statChanges: move.statChanges
                 )
             } label: {

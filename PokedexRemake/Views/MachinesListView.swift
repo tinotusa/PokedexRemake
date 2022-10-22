@@ -30,9 +30,7 @@ struct MachinesListView: View {
             ) {
                 LazyVStack {
                     ForEach(viewModel.sortedMachines()) { machine in
-                        //                    MachineCard(machine: machine)
-                        Text("\(machine.item.name!)")
-                            .padding()
+                        MachineCard(machine: machine)
                     }
                     if viewModel.hasNextPage {
                         ProgressView()

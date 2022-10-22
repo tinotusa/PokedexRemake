@@ -169,7 +169,7 @@ private extension MoveDetail {
         case .pastValues:
             pastValuesNavigationLink(value: value)
         case .statChanges:
-            Text("TODO!")
+            statChangesNavigationLink(value: value)
         default:
             Text(value)
         }
@@ -205,6 +205,19 @@ private extension MoveDetail {
                     description: "This move's changed stat values from different games.",
                     pastValues: move.pastValues
                 )
+            } label: {
+                NavigationLabel(title: value)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func statChangesNavigationLink(value: String) -> some View {
+        if move.statChanges.isEmpty {
+            Text(value)
+        } else {
+            NavigationLink {
+                MoveStatChangeListView()
             } label: {
                 NavigationLabel(title: value)
             }

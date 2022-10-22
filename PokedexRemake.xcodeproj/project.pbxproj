@@ -36,6 +36,7 @@
 		2153D675290394D5009CB897 /* PastMoveValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D674290394D5009CB897 /* PastMoveValueView.swift */; };
 		2153D67729039686009CB897 /* flashMove.json in Resources */ = {isa = PBXBuildFile; fileRef = 2153D67629039686009CB897 /* flashMove.json */; };
 		2153D679290396C4009CB897 /* PastMoveValueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D678290396C4009CB897 /* PastMoveValueViewModel.swift */; };
+		2153D67B2903CB4D009CB897 /* MoveStatChangeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D67A2903CB4D009CB897 /* MoveStatChangeListView.swift */; };
 		2164042F28F2FE7700E6A13F /* MoveCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164042E28F2FE7700E6A13F /* MoveCard.swift */; };
 		2164043328F2FF1E00E6A13F /* move.json in Resources */ = {isa = PBXBuildFile; fileRef = 2164043228F2FF1E00E6A13F /* move.json */; };
 		2164043528F2FF7900E6A13F /* MoveCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */; };
@@ -195,6 +196,7 @@
 		2153D674290394D5009CB897 /* PastMoveValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastMoveValueView.swift; sourceTree = "<group>"; };
 		2153D67629039686009CB897 /* flashMove.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = flashMove.json; sourceTree = "<group>"; };
 		2153D678290396C4009CB897 /* PastMoveValueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastMoveValueViewModel.swift; sourceTree = "<group>"; };
+		2153D67A2903CB4D009CB897 /* MoveStatChangeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveStatChangeListView.swift; sourceTree = "<group>"; };
 		2164042E28F2FE7700E6A13F /* MoveCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCard.swift; sourceTree = "<group>"; };
 		2164043228F2FF1E00E6A13F /* move.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = move.json; sourceTree = "<group>"; };
 		2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCardViewModel.swift; sourceTree = "<group>"; };
@@ -553,6 +555,7 @@
 				2153D66429037609009CB897 /* MachinesListView.swift */,
 				2153D67029039150009CB897 /* PastMoveValuesListView.swift */,
 				2153D674290394D5009CB897 /* PastMoveValueView.swift */,
+				2153D67A2903CB4D009CB897 /* MoveStatChangeListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -864,6 +867,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				217B3B7428FBB02C00201BEC /* LocationCardViewModel.swift in Sources */,
+				2153D67B2903CB4D009CB897 /* MoveStatChangeListView.swift in Sources */,
 				21757CF028EECB12004217D1 /* FlavorText+Extensions.swift in Sources */,
 				217B3B6E28FBADD500201BEC /* LocationCard.swift in Sources */,
 				217BA59E29024108009FCFAD /* DetailListView.swift in Sources */,

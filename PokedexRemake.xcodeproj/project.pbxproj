@@ -31,6 +31,11 @@
 		2153D66B2903824B009CB897 /* machine.json in Resources */ = {isa = PBXBuildFile; fileRef = 2153D66A2903824B009CB897 /* machine.json */; };
 		2153D66D2903830B009CB897 /* Machine+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D66C2903830B009CB897 /* Machine+Extensions.swift */; };
 		2153D66F290383E6009CB897 /* MachineCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D66E290383E6009CB897 /* MachineCardViewModel.swift */; };
+		2153D67129039150009CB897 /* PastMoveValuesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D67029039150009CB897 /* PastMoveValuesListView.swift */; };
+		2153D673290391E8009CB897 /* PastMoveValuesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D672290391E8009CB897 /* PastMoveValuesListViewModel.swift */; };
+		2153D675290394D5009CB897 /* PastMoveValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D674290394D5009CB897 /* PastMoveValueView.swift */; };
+		2153D67729039686009CB897 /* flashMove.json in Resources */ = {isa = PBXBuildFile; fileRef = 2153D67629039686009CB897 /* flashMove.json */; };
+		2153D679290396C4009CB897 /* PastMoveValueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D678290396C4009CB897 /* PastMoveValueViewModel.swift */; };
 		2164042F28F2FE7700E6A13F /* MoveCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164042E28F2FE7700E6A13F /* MoveCard.swift */; };
 		2164043328F2FF1E00E6A13F /* move.json in Resources */ = {isa = PBXBuildFile; fileRef = 2164043228F2FF1E00E6A13F /* move.json */; };
 		2164043528F2FF7900E6A13F /* MoveCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */; };
@@ -185,6 +190,11 @@
 		2153D66A2903824B009CB897 /* machine.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = machine.json; sourceTree = "<group>"; };
 		2153D66C2903830B009CB897 /* Machine+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Machine+Extensions.swift"; sourceTree = "<group>"; };
 		2153D66E290383E6009CB897 /* MachineCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineCardViewModel.swift; sourceTree = "<group>"; };
+		2153D67029039150009CB897 /* PastMoveValuesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastMoveValuesListView.swift; sourceTree = "<group>"; };
+		2153D672290391E8009CB897 /* PastMoveValuesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastMoveValuesListViewModel.swift; sourceTree = "<group>"; };
+		2153D674290394D5009CB897 /* PastMoveValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastMoveValueView.swift; sourceTree = "<group>"; };
+		2153D67629039686009CB897 /* flashMove.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = flashMove.json; sourceTree = "<group>"; };
+		2153D678290396C4009CB897 /* PastMoveValueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastMoveValueViewModel.swift; sourceTree = "<group>"; };
 		2164042E28F2FE7700E6A13F /* MoveCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCard.swift; sourceTree = "<group>"; };
 		2164043228F2FF1E00E6A13F /* move.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = move.json; sourceTree = "<group>"; };
 		2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCardViewModel.swift; sourceTree = "<group>"; };
@@ -541,6 +551,8 @@
 				217BA597290239EA009FCFAD /* EffectEntriesListView.swift */,
 				217BA59D29024108009FCFAD /* DetailListView.swift */,
 				2153D66429037609009CB897 /* MachinesListView.swift */,
+				2153D67029039150009CB897 /* PastMoveValuesListView.swift */,
+				2153D674290394D5009CB897 /* PastMoveValueView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -659,6 +671,8 @@
 				2144A54D290112DB009846AB /* PokemonListViewModel.swift */,
 				217BA59929023A06009FCFAD /* EffectEntriesListViewModel.swift */,
 				2153D666290376B0009CB897 /* MachinesListViewModel.swift */,
+				2153D672290391E8009CB897 /* PastMoveValuesListViewModel.swift */,
+				2153D678290396C4009CB897 /* PastMoveValueViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -685,6 +699,7 @@
 				213B0E5B28FA7F17008CAD4C /* item.json */,
 				217B3B7128FBAF3500201BEC /* location.json */,
 				2153D66A2903824B009CB897 /* machine.json */,
+				2153D67629039686009CB897 /* flashMove.json */,
 			);
 			path = "Example json";
 			sourceTree = "<group>";
@@ -818,6 +833,7 @@
 				2164043328F2FF1E00E6A13F /* move.json in Resources */,
 				21EB594F28EC377C009E201A /* pokemon.json in Resources */,
 				21F3CA0628F115C1000BD757 /* evolutionChain.json in Resources */,
+				2153D67729039686009CB897 /* flashMove.json in Resources */,
 				2153D66B2903824B009CB897 /* machine.json in Resources */,
 				213B0E5C28FA7F17008CAD4C /* item.json in Resources */,
 				219198E828EACC9F002C6379 /* Assets.xcassets in Resources */,
@@ -853,9 +869,11 @@
 				217BA59E29024108009FCFAD /* DetailListView.swift in Sources */,
 				217B3B6A28FBAAF000201BEC /* LocationsCategoryView.swift in Sources */,
 				21D0C33C28EFD07600E8D18C /* StatsTabViewModel.swift in Sources */,
+				2153D679290396C4009CB897 /* PastMoveValueViewModel.swift in Sources */,
 				21B9D18C28F3BB61007C1270 /* AbilitiesTab.swift in Sources */,
 				21B9D19428F3C2F0007C1270 /* AbilityExpandableTab.swift in Sources */,
 				21CD84B428ED4E39008B2611 /* PokemonCategoryView.swift in Sources */,
+				2153D67129039150009CB897 /* PastMoveValuesListView.swift in Sources */,
 				2191991A28EAD3A9002C6379 /* TextStyles.swift in Sources */,
 				217B3B7028FBAE1400201BEC /* Location+Extensions.swift in Sources */,
 				2169D3FA28F9098D009CFE63 /* MoveCategoryViewModel.swift in Sources */,
@@ -889,6 +907,7 @@
 				21EB594328EC2E78009E201A /* PokemonResultsView.swift in Sources */,
 				2191991C28EAD768002C6379 /* CategoryGrid.swift in Sources */,
 				217B3B7C28FBBEC700201BEC /* GenerationCardViewModel.swift in Sources */,
+				2153D673290391E8009CB897 /* PastMoveValuesListViewModel.swift in Sources */,
 				21EB594628EC2E97009E201A /* PokemonResultsViewModel.swift in Sources */,
 				2144A54C290112AE009846AB /* PokemonListView.swift in Sources */,
 				217B3B8E28FC149E00201BEC /* SearchErrorView.swift in Sources */,
@@ -963,6 +982,7 @@
 				2144A5472900F77C009846AB /* MoveDetail.swift in Sources */,
 				2193D51228FD48A6006A686B /* ItemResultsViewModel.swift in Sources */,
 				21D0C34028F03B7B00E8D18C /* EvolutionsTab.swift in Sources */,
+				2153D675290394D5009CB897 /* PastMoveValueView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

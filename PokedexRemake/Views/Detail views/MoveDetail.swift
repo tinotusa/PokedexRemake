@@ -166,6 +166,10 @@ private extension MoveDetail {
             flavorTextEntriesNavigationLink(value: value)
         case .machines:
             machinesNavigationLink(value: value)
+        case .pastValues:
+            pastValuesNavigationLink(value: value)
+        case .statChanges:
+            Text("TODO!")
         default:
             Text(value)
         }
@@ -182,6 +186,24 @@ private extension MoveDetail {
                     id: move.id,
                     description: "Machines that teach this move.",
                     machineURLs: move.machines.map { $0.machine.url}
+                )
+            } label: {
+                NavigationLabel(title: value)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func pastValuesNavigationLink(value: String) -> some View {
+        if move.pastValues.isEmpty {
+            Text(value)
+        } else {
+            NavigationLink {
+                PastMoveValuesListView(
+                    title: move.localizedName(for: language),
+                    id: move.id,
+                    description: "This move's changed stat values from different games.",
+                    pastValues: move.pastValues
                 )
             } label: {
                 NavigationLabel(title: value)

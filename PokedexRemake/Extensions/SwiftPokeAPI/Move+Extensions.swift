@@ -20,4 +20,8 @@ extension Move {
     static var example: Move {
         Bundle.main.loadJSON("move")
     }
+    
+    static var flashExample: Move {
+        Bundle.main.loadJSON("flashMove")
+    }
 }

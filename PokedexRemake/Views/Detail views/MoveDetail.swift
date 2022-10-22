@@ -44,10 +44,12 @@ private extension MoveDetail {
                 
                 Grid(alignment: .leading, verticalSpacing: 8) {
                     ForEach(MoveDetailViewModel.MoveDetails.allCases) { moveDetailKey in
+                        let value = viewModel.moveDetails[moveDetailKey, default: "N/A"]
                         GridRow {
                             Text(moveDetailKey.title)
                                 .foregroundColor(.gray)
                             gridRowValue(for: moveDetailKey)
+                                .foregroundColor(value == "N/A" ? .gray : .text)
                         }
                     }
                 }
@@ -57,12 +59,12 @@ private extension MoveDetail {
                         .fontWeight(.light)
                     Grid(alignment: .leading, verticalSpacing: 8) {
                         ForEach(MoveDetailViewModel.MoveMetaDetails.allCases) { metaDetailKey in
+                            let value = viewModel.metaDetails[metaDetailKey, default: "N/A"]
                             GridRow {
                                 Text(metaDetailKey.title)
                                     .foregroundColor(.gray)
-                                switch metaDetailKey {
-                                default: Text(viewModel.metaDetails[metaDetailKey, default: "N/A"])
-                                }
+                                Text(value)
+                                    .foregroundColor(value == "N/A" ? .gray : .text)
                             }
                         }
                     }
@@ -150,7 +152,7 @@ private extension MoveDetail {
     
     @ViewBuilder
     func gridRowValue(for moveDetailKey: MoveDetailViewModel.MoveDetails) -> some View {
-        let value = viewModel.moveDetails[moveDetailKey, default: "Error"]
+        let value = viewModel.moveDetails[moveDetailKey, default: "N/A"]
         switch moveDetailKey {
         case .type:
             if let type = viewModel.type {

@@ -217,7 +217,12 @@ private extension MoveDetail {
             Text(value)
         } else {
             NavigationLink {
-                MoveStatChangeListView()
+                MoveStatChangeListView(
+                    title: move.localizedName(for: language),
+                    id: move.id,
+                    description: "Stat changes for this move.",
+                    statChanges: move.statChanges
+                )
             } label: {
                 NavigationLabel(title: value)
             }

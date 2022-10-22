@@ -45,7 +45,9 @@ struct SearchResultsView<T: SearchResultsList & ObservableObject, Content: View>
                             )
                     }
                 }
+                .padding()
             }
+            .ignoresSafeArea()
             .confirmationDialog(
                 "Clear history",
                 isPresented: $showingClearHistoryDialog

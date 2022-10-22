@@ -41,8 +41,10 @@ struct SearchView: View {
                     Text("Cancel")
                 }
             }
+            .padding([.horizontal, .top])
             
             SearchScopeTabs(selection: $searchScope)
+                .padding(.horizontal)
             
             switch searchScope {
             case .pokemon:
@@ -58,7 +60,7 @@ struct SearchView: View {
             }
             Spacer()
         }
-        .padding()
+        .ignoresSafeArea(edges: .bottom)
         .onAppear {
             focusedField = .searchBar
         }

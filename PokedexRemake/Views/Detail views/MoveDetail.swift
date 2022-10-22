@@ -30,6 +30,12 @@ struct MoveDetail: View {
 }
 
 private extension MoveDetail {
+    enum Constants {
+        static let verticalSpacing = 8.0
+    }
+}
+
+private extension MoveDetail {
     var loadingView: some View {
         ProgressView()
             .task {
@@ -42,7 +48,7 @@ private extension MoveDetail {
             VStack(alignment: .leading) {
                 HeaderBar(title: move.localizedName(for: language), id: move.id)
                 
-                Grid(alignment: .leading, verticalSpacing: 8) {
+                Grid(alignment: .leading, verticalSpacing: Constants.verticalSpacing) {
                     ForEach(MoveDetailViewModel.MoveDetails.allCases) { moveDetailKey in
                         let value = viewModel.moveDetails[moveDetailKey, default: "N/A"]
                         GridRow {
@@ -57,7 +63,7 @@ private extension MoveDetail {
                     Text("Meta details")
                         .title2Style()
                         .fontWeight(.light)
-                    Grid(alignment: .leading, verticalSpacing: 8) {
+                    Grid(alignment: .leading, verticalSpacing: Constants.verticalSpacing) {
                         ForEach(MoveDetailViewModel.MoveMetaDetails.allCases) { metaDetailKey in
                             let value = viewModel.metaDetails[metaDetailKey, default: "N/A"]
                             GridRow {

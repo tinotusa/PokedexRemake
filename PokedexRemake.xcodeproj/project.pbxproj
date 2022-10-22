@@ -38,6 +38,7 @@
 		2153D679290396C4009CB897 /* PastMoveValueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D678290396C4009CB897 /* PastMoveValueViewModel.swift */; };
 		2153D67B2903CB4D009CB897 /* MoveStatChangeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D67A2903CB4D009CB897 /* MoveStatChangeListView.swift */; };
 		2153D67D2903CC1A009CB897 /* MoveStatChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D67C2903CC1A009CB897 /* MoveStatChangeView.swift */; };
+		2153D67F2903CD23009CB897 /* MoveStatChangeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D67E2903CD23009CB897 /* MoveStatChangeViewModel.swift */; };
 		2164042F28F2FE7700E6A13F /* MoveCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164042E28F2FE7700E6A13F /* MoveCard.swift */; };
 		2164043328F2FF1E00E6A13F /* move.json in Resources */ = {isa = PBXBuildFile; fileRef = 2164043228F2FF1E00E6A13F /* move.json */; };
 		2164043528F2FF7900E6A13F /* MoveCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */; };
@@ -199,6 +200,7 @@
 		2153D678290396C4009CB897 /* PastMoveValueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastMoveValueViewModel.swift; sourceTree = "<group>"; };
 		2153D67A2903CB4D009CB897 /* MoveStatChangeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveStatChangeListView.swift; sourceTree = "<group>"; };
 		2153D67C2903CC1A009CB897 /* MoveStatChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveStatChangeView.swift; sourceTree = "<group>"; };
+		2153D67E2903CD23009CB897 /* MoveStatChangeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveStatChangeViewModel.swift; sourceTree = "<group>"; };
 		2164042E28F2FE7700E6A13F /* MoveCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCard.swift; sourceTree = "<group>"; };
 		2164043228F2FF1E00E6A13F /* move.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = move.json; sourceTree = "<group>"; };
 		2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCardViewModel.swift; sourceTree = "<group>"; };
@@ -679,6 +681,7 @@
 				2153D666290376B0009CB897 /* MachinesListViewModel.swift */,
 				2153D672290391E8009CB897 /* PastMoveValuesListViewModel.swift */,
 				2153D678290396C4009CB897 /* PastMoveValueViewModel.swift */,
+				2153D67E2903CD23009CB897 /* MoveStatChangeViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -919,6 +922,7 @@
 				21EB594628EC2E97009E201A /* PokemonResultsViewModel.swift in Sources */,
 				2144A54C290112AE009846AB /* PokemonListView.swift in Sources */,
 				217B3B8E28FC149E00201BEC /* SearchErrorView.swift in Sources */,
+				2153D67F2903CD23009CB897 /* MoveStatChangeViewModel.swift in Sources */,
 				2193D51628FD5352006A686B /* EmptySearchHistoryView.swift in Sources */,
 				2193D51A28FD5C32006A686B /* AbilityResultsViewModel.swift in Sources */,
 				2191991428EACDDA002C6379 /* SearchBarButton.swift in Sources */,

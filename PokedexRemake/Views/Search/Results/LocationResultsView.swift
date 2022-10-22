@@ -21,7 +21,8 @@ struct LocationResultsView: View {
             SearchResultsView(
                 items: viewModel.locations,
                 emptyPlaceholderText: "Search for a location",
-                isLoading: viewModel.isLoading
+                isLoading: viewModel.isLoading,
+                errorMessage: viewModel.errorMessage
             ) { location in
                 LocationCard(location: location)
             } clearHistory: {

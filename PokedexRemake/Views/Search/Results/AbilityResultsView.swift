@@ -21,7 +21,8 @@ struct AbilityResultsView: View {
             SearchResultsView(
                 items: viewModel.abilities,
                 emptyPlaceholderText: "Search for an ability",
-                isLoading: viewModel.isLoading
+                isLoading: viewModel.isLoading,
+                errorMessage: viewModel.errorMessage
             ) { ability in
                 AbilityCard(ability: ability)
             } clearHistory: {

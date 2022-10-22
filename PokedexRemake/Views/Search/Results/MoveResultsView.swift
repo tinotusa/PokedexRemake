@@ -21,7 +21,8 @@ struct MoveResultsView: View {
             SearchResultsView(
                 items: viewModel.moves,
                 emptyPlaceholderText: "Search for a move.",
-                isLoading: viewModel.isLoading
+                isLoading: viewModel.isLoading,
+                errorMessage: viewModel.errorMessage
             ) { move in
                 MoveCard(move: move)
             } clearHistory: {

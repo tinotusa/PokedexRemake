@@ -21,7 +21,8 @@ struct PokemonResultsView: View {
             SearchResultsView(
                 items: viewModel.pokemon,
                 emptyPlaceholderText: "Search for a pokemon",
-                isLoading: viewModel.isSearchLoading
+                isLoading: viewModel.isSearchLoading,
+                errorMessage: viewModel.errorMessage
             ) { pokemon in
                 PokemonResultRow(pokemon: pokemon)
             } clearHistory: {

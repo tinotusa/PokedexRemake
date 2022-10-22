@@ -21,7 +21,8 @@ struct ItemResultsView: View {
             SearchResultsView(
                 items: viewModel.items,
                 emptyPlaceholderText: "Search for some items.",
-                isLoading: viewModel.isLoading
+                isLoading: viewModel.isLoading,
+                errorMessage: viewModel.errorMessage
             ) { item in
                 ItemCard(item: item)
             } clearHistory: {

@@ -29,6 +29,7 @@ extension MachinesListViewModel {
         self.machines.sorted()
     }
     
+    @MainActor
     func loadData(urls: [URL]) async {
         logger.debug("Loading data.")
         do {

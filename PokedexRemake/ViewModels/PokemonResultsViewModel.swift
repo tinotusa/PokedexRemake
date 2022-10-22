@@ -9,18 +9,20 @@ import SwiftUI
 import os
 import SwiftPokeAPI
 
-final class PokemonResultsViewModel: ObservableObject {
-    @Published private(set) var pokemon: [Pokemon] = [] {
+final class PokemonResultsViewModel: ObservableObject, SearchResultsList {
+    @Published private(set) var results: [Pokemon] = [] {
         didSet {
             saveToDisk()
         }
     }
     @Published private(set) var errorMessage: String?
     @Published private(set) var isSearchLoading = false
+    private(set) var emptyPlaceholderText = LocalizedStringKey("Search for a pokemon")
+    
     @Published var showingClearPokemonConfirmationDialog = false
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     
-    static let saveFileName = "pokemonSearchResults"
+    static let saveFilename = "pokemonSearchResults"
     private let fileIOManager = FileIOManager()
     private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonResultsViewViewModel")
 }
@@ -30,7 +32,7 @@ extension PokemonResultsViewModel {
     func loadData() {
         logger.debug("Loading data from disk.")
         do {
-            self.pokemon = try fileIOManager.load([Pokemon].self, documentName: Self.saveFileName)
+            self.results = try fileIOManager.load([Pokemon].self, documentName: Self.saveFilename)
             logger.debug("Successfully loaded data from disk.")
             viewLoadingState = .loaded
         } catch CocoaError.fileReadNoSuchFile {
@@ -43,7 +45,7 @@ extension PokemonResultsViewModel {
     }
     
     @MainActor
-    func searchForPokemon(named name: String) async {
+    func search(_ name: String) async {
         withAnimation {
             isSearchLoading = true
         }
@@ -59,11 +61,11 @@ extension PokemonResultsViewModel {
         
         do {
             let pokemon = try await Pokemon(name)
-            if let pokemon = self.pokemon.first(where: { $0.id == pokemon.id }) {
+            if let pokemon = self.results.first(where: { $0.id == pokemon.id }) {
                 logger.debug("Pokemon with id \(pokemon.id) is already in the list. moving it to top.")
                 moveToTop(pokemon)
             } else {
-                self.pokemon.insert(pokemon, at: 0)
+                self.results.insert(pokemon, at: 0)
             }
         } catch {
             logger.error("Failed to get pokemon with name: \(name). \(error)")
@@ -74,7 +76,7 @@ extension PokemonResultsViewModel {
     }
     
     func moveToTop(_ pokemon: Pokemon) {
-        let hasMoved = self.pokemon.moveToTop(pokemon)
+        let hasMoved = self.results.moveToTop(pokemon)
         if !hasMoved {
             logger.error("Failed to move pokemon \(pokemon.id) to index 0.")
         }
@@ -84,8 +86,8 @@ extension PokemonResultsViewModel {
     @MainActor
     func clearHistory() {
         do {
-            try fileIOManager.delete(Self.saveFileName)
-            pokemon = []
+            try fileIOManager.delete(Self.saveFilename)
+            results = []
             logger.debug("Successfully cleared search history.")
         } catch {
             logger.error("Failed to clear search history. \(error)")
@@ -97,7 +99,7 @@ private extension PokemonResultsViewModel {
     func saveToDisk() {
         logger.debug("Saving pokemon results to disk.")
         do {
-            try fileIOManager.write(self.pokemon, documentName: Self.saveFileName)
+            try fileIOManager.write(self.results, documentName: Self.saveFilename)
             logger.debug("Successfully saved pokemon results to disk.")
         } catch {
             logger.error("Failed to save to disk. \(error)")

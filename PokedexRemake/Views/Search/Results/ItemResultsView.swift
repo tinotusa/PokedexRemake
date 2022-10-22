@@ -18,17 +18,8 @@ struct ItemResultsView: View {
                     viewModel.loadData()
                 }
         case .loaded:
-            SearchResultsView(
-                items: viewModel.items,
-                emptyPlaceholderText: "Search for some items.",
-                isLoading: viewModel.isLoading,
-                errorMessage: viewModel.errorMessage
-            ) { item in
+            SearchResultsView(viewModel: viewModel) { item in
                 ItemCard(item: item)
-            } clearHistory: {
-                viewModel.clearHistory()
-            } moveToTop: { item in
-                viewModel.moveToTop(item)
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)

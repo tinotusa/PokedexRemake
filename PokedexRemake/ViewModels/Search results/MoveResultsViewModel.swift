@@ -7,18 +7,21 @@
 
 import Foundation
 import SwiftPokeAPI
+import SwiftUI
 import os
 
-final class MoveResultsViewModel: ObservableObject {
+
+final class MoveResultsViewModel: ObservableObject, SearchResultsList {
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
-    @Published private(set) var moves = [Move]() {
+    @Published private(set) var results = [Move]() {
         didSet {
             saveToDisk()
         }
     }
     @Published var showingClearHistoryDialog = false
-    @Published private(set) var isLoading = false
+    @Published private(set) var isSearchLoading = false
     @Published private(set) var errorMessage: String?
+    private(set) var emptyPlaceholderText: LocalizedStringKey = "Search for a move."
     
     static let saveFilename = "moveResults"
     private let fileIOManager = FileIOManager()
@@ -29,7 +32,7 @@ extension MoveResultsViewModel {
     @MainActor
     func loadData() {
         do {
-            self.moves = try loadFromDisk()
+            self.results = try loadFromDisk()
             viewLoadingState = .loaded
         } catch CocoaError.fileReadNoSuchFile {
             // Do nothing file will be created on save.
@@ -47,17 +50,17 @@ extension MoveResultsViewModel {
             return
         }
         errorMessage = nil
-        isLoading = true
-        defer { isLoading = false }
+        isSearchLoading = true
+        defer { isSearchLoading = false }
         
         do {
             let move = try await Move(name)
-            if self.moves.contains(move) {
+            if self.results.contains(move) {
                 moveToTop(move)
                 logger.debug("Move already in history. Moving it to top.")
                 return
             }
-            self.moves.insert(move, at: 0)
+            self.results.insert(move, at: 0)
             logger.debug("Successfully found move.")
         } catch PokeAPIError.invalidServerResponse(let code) where code == 404 {
             if let id = Int(name) {
@@ -76,7 +79,7 @@ extension MoveResultsViewModel {
     func clearHistory() {
         do {
             try fileIOManager.delete(Self.saveFilename)
-            self.moves = []
+            self.results = []
             logger.debug("Cleared move search history.")
         } catch {
             logger.error("Failed to clear history. \(error)")
@@ -84,7 +87,7 @@ extension MoveResultsViewModel {
     }
     
     func moveToTop(_ move: Move) {
-        let moved = self.moves.moveToTop(move)
+        let moved = self.results.moveToTop(move)
         if !moved {
             logger.error("Failed to move move \(move.id) to top.")
         }
@@ -99,7 +102,7 @@ private extension MoveResultsViewModel {
     func saveToDisk() {
         logger.debug("Saving data to disk.")
         do {
-            try fileIOManager.write(self.moves, documentName: Self.saveFilename)
+            try fileIOManager.write(self.results, documentName: Self.saveFilename)
             logger.debug("Successfully saved data to disk.")
         } catch {
             logger.error("Failed to save to disk. \(error)")

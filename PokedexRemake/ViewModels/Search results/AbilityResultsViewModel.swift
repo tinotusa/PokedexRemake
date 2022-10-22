@@ -7,21 +7,24 @@
 
 import Foundation
 import SwiftPokeAPI
+import SwiftUI
 import os
 
-final class AbilityResultsViewModel: ObservableObject {
-    @Published private(set) var abilities = [Ability]() {
+final class AbilityResultsViewModel: ObservableObject, SearchResultsList {
+    @Published private(set) var results = [Ability]() {
         didSet {
             saveHistoryToDisk()
         }
     }
-    @Published private(set) var isLoading = false
+    @Published private(set) var isSearchLoading = false
     @Published private(set) var errorMessage: String?
+    private(set) var emptyPlaceholderText: LocalizedStringKey = "Search for an Ability."
+    
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     @Published var showingClearHistoryDialog = false
     
     private let fileIOManager = FileIOManager()
-    private static let saveFilename = "abilityResults"
+    static let saveFilename = "abilityResults"
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "AbilityResultsViewModel")
 }
 
@@ -30,7 +33,7 @@ extension AbilityResultsViewModel {
     @MainActor
     func loadData() {
         do {
-            self.abilities = try fileIOManager.load([Ability].self, documentName: Self.saveFilename)
+            self.results = try fileIOManager.load([Ability].self, documentName: Self.saveFilename)
             viewLoadingState = .loaded
         } catch CocoaError.fileReadNoSuchFile {
             logger.error("Failed to load history from disk. File doesn't exit.")
@@ -45,17 +48,17 @@ extension AbilityResultsViewModel {
     /// - parameter name: The name or id of the Ability.
     @MainActor
     func search(_ name: String) async {
-        isLoading = true
+        isSearchLoading = true
         errorMessage = nil
         defer {
-            isLoading = false
+            isSearchLoading = false
         }
         logger.debug("Searching for an ability with name: \(name).")
         do {
             let ability = try await Ability(name)
-            let moved = abilities.moveToTop(ability)
+            let moved = results.moveToTop(ability)
             if !moved {
-                self.abilities.insert(ability, at: 0)
+                self.results.insert(ability, at: 0)
             }
             logger.debug("Successfully loaded ability with name: \(name).")
         } catch {
@@ -67,7 +70,7 @@ extension AbilityResultsViewModel {
     /// Saves the abilties search history to disk.
     func saveHistoryToDisk() {
         do {
-            try fileIOManager.write(self.abilities, documentName: Self.saveFilename)
+            try fileIOManager.write(self.results, documentName: Self.saveFilename)
         } catch {
             logger.error("Failed to write abilities search history to disk. \(error)")
         }
@@ -75,8 +78,8 @@ extension AbilityResultsViewModel {
     
     /// Moves the ability to index 0.
     /// - parameter ability: The ability to move.
-    func moveAbilityToTop(_ ability: Ability) {
-        let moved = self.abilities.moveToTop(ability)
+    func moveToTop(_ ability: Ability) {
+        let moved = self.results.moveToTop(ability)
         if !moved {
             logger.error("Failed to move ability \(ability.id) to index 0.")
         }
@@ -86,7 +89,7 @@ extension AbilityResultsViewModel {
     func clearHistory() {
         do {
             try fileIOManager.delete(Self.saveFilename)
-            self.abilities = []
+            self.results = []
         } catch {
             logger.error("Failed to delete file name: \(Self.saveFilename). \(error)")
         }

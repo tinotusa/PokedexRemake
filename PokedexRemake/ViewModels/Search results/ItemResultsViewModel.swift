@@ -7,10 +7,13 @@
 
 import Foundation
 import SwiftPokeAPI
+import SwiftUI
 import os
 
-final class ItemResultsViewModel: ObservableObject {
-    @Published private(set) var items = [Item]() {
+final class ItemResultsViewModel: ObservableObject, SearchResultsList {
+    private(set) var emptyPlaceholderText: LocalizedStringKey = "Search for an item."
+    
+    @Published private(set) var results = [Item]() {
         didSet {
             saveHistoryToDisk()
         }
@@ -23,7 +26,7 @@ final class ItemResultsViewModel: ObservableObject {
     }
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     @Published private(set) var errorMessage: String?
-    @Published private(set) var isLoading = false
+    @Published private(set) var isSearchLoading = false
     @Published var showingClearHistoryDialog = false
     
     private let fileIOManager = FileIOManager()
@@ -36,7 +39,7 @@ extension ItemResultsViewModel {
     func loadData() {
         logger.debug("Loading data.")
         do {
-            self.items = try fileIOManager.load([Item].self, documentName: Self.saveFilename)
+            self.results = try fileIOManager.load([Item].self, documentName: Self.saveFilename)
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data from disk.")
         } catch CocoaError.fileReadNoSuchFile {
@@ -50,7 +53,7 @@ extension ItemResultsViewModel {
     
     func saveHistoryToDisk() {
         do {
-            try fileIOManager.write(self.items, documentName: Self.saveFilename)
+            try fileIOManager.write(self.results, documentName: Self.saveFilename)
         } catch {
             logger.error("Failed to write search history to disk. \(error)")
         }
@@ -60,16 +63,16 @@ extension ItemResultsViewModel {
     /// - parameter name: The name to search for an item with.
     @MainActor
     func search(_ name: String) async {
-        isLoading = true
+        isSearchLoading = true
         errorMessage = nil
         defer {
-            isLoading = false
+            isSearchLoading = false
         }
         do {
             let item = try await Item(name)
-            let moved = items.moveToTop(item)
+            let moved = results.moveToTop(item)
             if !moved {
-                self.items.insert(item, at: 0)
+                self.results.insert(item, at: 0)
             }
         } catch {
             logger.error("Failed to find item with name: \(name). \(error)")
@@ -81,18 +84,18 @@ extension ItemResultsViewModel {
     /// - parameter item: The item to move.
     @MainActor
     func moveToTop(_ item: Item) {
-        let moved = items.moveToTop(item)
+        let moved = results.moveToTop(item)
         if !moved {
             logger.error("Failed to move item \(item.id). Item wasn't in the array")
         }
     }
     
-    /// Clears the itemsearch history and deletes it from disk.
+    /// Clears the item search history and deletes it from disk.
     @MainActor
     func clearHistory() {
         do {
             try fileIOManager.delete(Self.saveFilename)
-            self.items = []
+            self.results = []
             logger.debug("Successfully deleted items history from disk.")
         } catch {
             logger.error("Failed to delete file name \(Self.saveFilename) from disk. \(error)")

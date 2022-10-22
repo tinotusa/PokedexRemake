@@ -18,17 +18,8 @@ struct LocationResultsView: View {
                     viewModel.loadData()
                 }
         case .loaded:
-            SearchResultsView(
-                items: viewModel.locations,
-                emptyPlaceholderText: "Search for a location",
-                isLoading: viewModel.isLoading,
-                errorMessage: viewModel.errorMessage
-            ) { location in
+            SearchResultsView(viewModel: viewModel) { location in
                 LocationCard(location: location)
-            } clearHistory: {
-                viewModel.clearHistory()
-            } moveToTop: { location in
-                viewModel.moveLocationToTop(location)
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)

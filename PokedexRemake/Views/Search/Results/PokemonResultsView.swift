@@ -18,17 +18,8 @@ struct PokemonResultsView: View {
                     viewModel.loadData()
                 }
         case .loaded:
-            SearchResultsView(
-                items: viewModel.pokemon,
-                emptyPlaceholderText: "Search for a pokemon",
-                isLoading: viewModel.isSearchLoading,
-                errorMessage: viewModel.errorMessage
-            ) { pokemon in
+            SearchResultsView(viewModel: viewModel) { pokemon in
                 PokemonResultRow(pokemon: pokemon)
-            } clearHistory: {
-                viewModel.clearHistory()
-            } moveToTop: { pokemon in
-                viewModel.moveToTop(pokemon)
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)

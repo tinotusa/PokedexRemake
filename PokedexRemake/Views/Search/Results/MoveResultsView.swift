@@ -18,17 +18,8 @@ struct MoveResultsView: View {
                     viewModel.loadData()
                 }
         case .loaded:
-            SearchResultsView(
-                items: viewModel.moves,
-                emptyPlaceholderText: "Search for a move.",
-                isLoading: viewModel.isLoading,
-                errorMessage: viewModel.errorMessage
-            ) { move in
+            SearchResultsView(viewModel: viewModel) { move in
                 MoveCard(move: move)
-            } clearHistory: {
-                viewModel.clearHistory()
-            } moveToTop: { move in
-                viewModel.moveToTop(move)
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)

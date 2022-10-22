@@ -39,6 +39,7 @@
 		2153D67B2903CB4D009CB897 /* MoveStatChangeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D67A2903CB4D009CB897 /* MoveStatChangeListView.swift */; };
 		2153D67D2903CC1A009CB897 /* MoveStatChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D67C2903CC1A009CB897 /* MoveStatChangeView.swift */; };
 		2153D67F2903CD23009CB897 /* MoveStatChangeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D67E2903CD23009CB897 /* MoveStatChangeViewModel.swift */; };
+		2153D681290406A7009CB897 /* SearchResultsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2153D680290406A7009CB897 /* SearchResultsList.swift */; };
 		2164042F28F2FE7700E6A13F /* MoveCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164042E28F2FE7700E6A13F /* MoveCard.swift */; };
 		2164043328F2FF1E00E6A13F /* move.json in Resources */ = {isa = PBXBuildFile; fileRef = 2164043228F2FF1E00E6A13F /* move.json */; };
 		2164043528F2FF7900E6A13F /* MoveCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */; };
@@ -201,6 +202,7 @@
 		2153D67A2903CB4D009CB897 /* MoveStatChangeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveStatChangeListView.swift; sourceTree = "<group>"; };
 		2153D67C2903CC1A009CB897 /* MoveStatChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveStatChangeView.swift; sourceTree = "<group>"; };
 		2153D67E2903CD23009CB897 /* MoveStatChangeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveStatChangeViewModel.swift; sourceTree = "<group>"; };
+		2153D680290406A7009CB897 /* SearchResultsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsList.swift; sourceTree = "<group>"; };
 		2164042E28F2FE7700E6A13F /* MoveCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCard.swift; sourceTree = "<group>"; };
 		2164043228F2FF1E00E6A13F /* move.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = move.json; sourceTree = "<group>"; };
 		2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCardViewModel.swift; sourceTree = "<group>"; };
@@ -644,6 +646,7 @@
 				21CD84A628ED26DD008B2611 /* SettingsKey.swift */,
 				21B9D18F28F3BCF4007C1270 /* Globals.swift */,
 				217B3B8028FBCC6C00201BEC /* SearchScope.swift */,
+				2153D680290406A7009CB897 /* SearchResultsList.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -982,6 +985,7 @@
 				2193D51E28FD9CB9006A686B /* FileManager+documentsURL.swift in Sources */,
 				2144A5452900EF35009846AB /* LocationResultsViewModel.swift in Sources */,
 				21EB594B28EC3496009E201A /* PokemonResultRow.swift in Sources */,
+				2153D681290406A7009CB897 /* SearchResultsList.swift in Sources */,
 				21CD84BE28ED6A63008B2611 /* TypeTag.swift in Sources */,
 				217BA59629023906009FCFAD /* NavigationLabel.swift in Sources */,
 				213B0E6328FACCD4008CAD4C /* AbilitiesCategoryView.swift in Sources */,

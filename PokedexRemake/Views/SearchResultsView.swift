@@ -8,23 +8,19 @@
 import SwiftUI
 import SwiftPokeAPI
 
-struct SearchResultsView<T: Identifiable, Content: View>: View {
-    let items: [T]
-    var emptyPlaceholderText: LocalizedStringKey
-    var isLoading: Bool
-    var errorMessage: String?
-    var content: (T) -> Content
-    var clearHistory: () -> Void
-    var moveToTop: (T) -> Void
+
+struct SearchResultsView<T: SearchResultsList & ObservableObject, Content: View>: View {
+    @ObservedObject var viewModel: T
+    var content: (T.Element) -> Content
     
     @State private var showingClearHistoryDialog = false
     
     var body: some View {
-        if items.isEmpty {
+        if viewModel.results.isEmpty {
             EmptySearchHistoryView(
-                text: emptyPlaceholderText,
-                isLoading: isLoading,
-                errorMessage: errorMessage
+                text: viewModel.emptyPlaceholderText,
+                isLoading: viewModel.isSearchLoading,
+                errorMessage: viewModel.errorMessage
             )
         } else {
             ScrollView {
@@ -33,18 +29,18 @@ struct SearchResultsView<T: Identifiable, Content: View>: View {
                         showingClearHistoryDialog = true
                     }
                     
-                    if isLoading {
+                    if viewModel.isSearchLoading {
                         ProgressView()
                     }
                     
-                    SearchErrorView(text: errorMessage)
+                    SearchErrorView(text: viewModel.errorMessage)
                     
-                    ForEach(items) { item in
+                    ForEach(viewModel.results) { item in
                         content(item)
                             .simultaneousGesture(
                                 TapGesture()
                                     .onEnded {
-                                        moveToTop(item)
+                                        viewModel.moveToTop(item)
                                     }
                             )
                     }
@@ -55,7 +51,7 @@ struct SearchResultsView<T: Identifiable, Content: View>: View {
                 isPresented: $showingClearHistoryDialog
             ) {
                 Button("Clear history", role: .destructive) {
-                    clearHistory()
+                    viewModel.clearHistory()
                 }
             } message: {
                 Text("Clear recently searched history")
@@ -66,16 +62,8 @@ struct SearchResultsView<T: Identifiable, Content: View>: View {
 
 struct SearchResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResultsView(
-            items: [Pokemon.example],
-            emptyPlaceholderText: "Search for a pokemon",
-            isLoading: false
-        ) { pokemon in
+        SearchResultsView(viewModel: PokemonResultsViewModel()) { pokemon in
             PokemonResultRow(pokemon: pokemon)
-        } clearHistory: {
-            // nothing
-        } moveToTop: { _ in
-            // nothing
         }
     }
 }

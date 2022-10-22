@@ -18,17 +18,8 @@ struct AbilityResultsView: View {
                     viewModel.loadData()
                 }
         case .loaded:
-            SearchResultsView(
-                items: viewModel.abilities,
-                emptyPlaceholderText: "Search for an ability",
-                isLoading: viewModel.isLoading,
-                errorMessage: viewModel.errorMessage
-            ) { ability in
+            SearchResultsView(viewModel: viewModel) { ability in
                 AbilityCard(ability: ability)
-            } clearHistory: {
-                viewModel.clearHistory()
-            } moveToTop: { ability in
-                viewModel.moveAbilityToTop(ability)
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)

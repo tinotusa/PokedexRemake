@@ -7,22 +7,24 @@
 
 import Foundation
 import SwiftPokeAPI
+import SwiftUI
 import os
 
-final class LocationResultsViewModel: ObservableObject {
+final class LocationResultsViewModel: ObservableObject, SearchResultsList {
     /// The state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     /// The locations search results.
-    @Published private(set) var locations = [Location]() {
+    @Published private(set) var results = [Location]() {
         didSet {
             saveHistoryToDisk()
         }
     }
     /// A boolean value indicating that a search is loading.
-    @Published private(set) var isLoading = false
+    @Published private(set) var isSearchLoading = false
     @Published private(set) var errorMessage: String?
+    private(set) var emptyPlaceholderText: LocalizedStringKey = "Search for a location."
     /// The file name of the locations history on disk
-    private static let saveFilename = "locationResults"
+    static let saveFilename = "locationResults"
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "LocationResultsViewModel")
     private let fileIOManager = FileIOManager()
@@ -34,7 +36,7 @@ extension LocationResultsViewModel {
     func loadData() {
         logger.debug("Loading data.")
         do {
-            self.locations = try loadHistoryFromDisk()
+            self.results = try loadHistoryFromDisk()
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")
         } catch CocoaError.fileReadNoSuchFile {
@@ -54,16 +56,16 @@ extension LocationResultsViewModel {
     /// - parameter name: The name or id of the location to look for.
     @MainActor
     func search(_ name: String) async {
-        isLoading = true
+        isSearchLoading = true
         errorMessage = nil
         defer {
-            isLoading = false
+            isSearchLoading = false
         }
         do {
             let location = try await Location(name)
-            let moved = self.locations.moveToTop(location)
+            let moved = self.results.moveToTop(location)
             if !moved {
-                self.locations.insert(location, at: 0)
+                self.results.insert(location, at: 0)
             }
         } catch {
             logger.error("Failed to find location with name: \(name). \(error)")
@@ -77,7 +79,7 @@ extension LocationResultsViewModel {
         logger.debug("Clearing history.")
         do {
             try fileIOManager.delete(Self.saveFilename)
-            self.locations = []
+            self.results = []
             logger.debug("Successfully cleared history.")
         } catch {
             logger.error("Failed to clear history. \(error)")
@@ -85,8 +87,8 @@ extension LocationResultsViewModel {
     }
     
     @MainActor
-    func moveLocationToTop(_ location: Location) {
-        let moved = self.locations.moveToTop(location)
+    func moveToTop(_ location: Location) {
+        let moved = self.results.moveToTop(location)
         if !moved {
             logger.error("Failed to move location: \(location.id) to top.")
         }
@@ -104,7 +106,7 @@ private extension LocationResultsViewModel {
     func saveHistoryToDisk() {
         logger.debug("Saving locations history.")
         do {
-            try fileIOManager.write(self.locations, documentName: Self.saveFilename)
+            try fileIOManager.write(self.results, documentName: Self.saveFilename)
             logger.debug("Successfully saved locations history.")
         } catch {
             logger.error("Failed to save locations history to disk. \(error)")

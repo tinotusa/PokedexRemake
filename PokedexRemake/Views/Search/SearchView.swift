@@ -69,7 +69,7 @@ private extension SearchView {
     func search() async {
         switch searchScope {
         case .pokemon:
-            await pokemonResultsViewModel.searchForPokemon(named: searchText)
+            await pokemonResultsViewModel.search(searchText)
         case .moves:
             await moveResultsViewModel.search(searchText)
         case .items:

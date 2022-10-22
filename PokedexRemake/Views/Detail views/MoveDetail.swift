@@ -20,119 +20,152 @@ struct MoveDetail: View {
     var body: some View {
         switch viewModel.viewLoadingState {
         case .loading:
-            ProgressView()
-                .task {
-                    await viewModel.loadData(move: move, languageCode: language)
-                }
+            loadingView
         case .loaded:
-            ScrollView {
-                VStack(alignment: .leading) {
-                    HeaderBar(title: move.localizedName(for: language), id: move.id)
-                    
-                    Grid(alignment: .leading, verticalSpacing: 8) {
-                        ForEach(MoveDetailViewModel.MoveDetails.allCases) { moveDetailKey in
-                            let value = viewModel.moveDetails[moveDetailKey, default: "Error"]
-                            GridRow {
-                                Text(moveDetailKey.title)
-                                    .foregroundColor(.gray)
-                                switch moveDetailKey {
-                                case .type:
-                                    if let type = viewModel.type {
-                                        TypeTag(type: type)
-                                    }
-                                case .learnedByPokemon:
-                                    NavigationLink {
-                                        PokemonListView(
-                                            title: move.localizedName(for: language),
-                                            id: move.id,
-                                            description: "Pokemon that can learn this move.",
-                                            pokemonURLs: move.learnedByPokemon.map { $0.url },
-                                            viewModel: pokemonListViewModel
-                                        )
-                                    } label: {
-                                        NavigationLabel(title: value)
-                                    }
-                                case .effectEntries:
-                                    NavigationLink {
-                                        EffectEntriesListView(
-                                            title: move.localizedName(for: language),
-                                            id: move.id,
-                                            description: "Effect entries for this moe",
-                                            entries: move.effectEntries,
-                                            viewModel: effectEntriesListViewModel
-                                        )
-                                    } label: {
-                                        NavigationLabel(title: value)
-                                    }
-                                case .effectChanges:
-                                    if move.effectChanges.isEmpty {
-                                        Text(value)
-                                    } else {
-                                        NavigationLink {
-                                            AbilityEffectChangesList(
-                                                title: move.localizedName(for: language),
-                                                id: move.id,
-                                                description: "Effect changes for this move.",
-                                                effectChanges: move.effectChanges,
-                                                language: language,
-                                                viewModel: abilityEffectChangesListViewModel
-                                            )
-                                        } label: {
-                                            NavigationLabel(title: value)
-                                        }
-                                    }
-                                case .flavorTextEntries:
-                                    if viewModel.localizedFlavorTextEntries.isEmpty {
-                                        Text(value)
-                                    } else {
-                                        NavigationLink {
-                                            FlavorTextEntriesList(
-                                                title: move.localizedName(for: language),
-                                                id: move.id,
-                                                description: "Flavor text entries for this move.",
-                                                language: language,
-                                                // TODO: does it make more sense/ is more efficient to do this in the view model (the mapping).
-                                                abilityFlavorTexts: viewModel.localizedFlavorTextEntries.map { entry in
-                                                    CustomFlavorText(
-                                                        flavorText: entry.flavorText,
-                                                        language: entry.language,
-                                                        versionGroup: entry.versionGroup
-                                                    )
-                                                },
-                                                viewModel: flavorTextEntriesListViewModel
-                                            )
-                                        } label: {
-                                            NavigationLabel(title: value)
-                                        }
-                                    }
-                                default:
-                                    Text(value)
-                                }
-                            }
-                        }
-                    }
-                    if move.meta != nil {
-                        Text("Meta details")
-                            .title2Style()
-                            .fontWeight(.light)
-                        Grid(alignment: .leading, verticalSpacing: 8) {
-                            ForEach(MoveDetailViewModel.MoveMetaDetails.allCases) { metaDetailKey in
-                                GridRow {
-                                    Text(metaDetailKey.title)
-                                        .foregroundColor(.gray)
-                                    switch metaDetailKey {
-                                    default: Text(viewModel.metaDetails[metaDetailKey, default: "N/A"])
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                .padding()
-                .bodyStyle()
-            }
+            moveDetailsGrid
         case .error(let error):
             ErrorView(text: error.localizedDescription)
+        }
+    }
+}
+
+private extension MoveDetail {
+    var loadingView: some View {
+        ProgressView()
+            .task {
+                await viewModel.loadData(move: move, languageCode: language)
+            }
+    }
+    
+    var moveDetailsGrid: some View {
+        ScrollView {
+            VStack(alignment: .leading) {
+                HeaderBar(title: move.localizedName(for: language), id: move.id)
+                
+                Grid(alignment: .leading, verticalSpacing: 8) {
+                    ForEach(MoveDetailViewModel.MoveDetails.allCases) { moveDetailKey in
+                        GridRow {
+                            Text(moveDetailKey.title)
+                                .foregroundColor(.gray)
+                            gridRowValue(for: moveDetailKey)
+                        }
+                    }
+                }
+                if move.meta != nil {
+                    Text("Meta details")
+                        .title2Style()
+                        .fontWeight(.light)
+                    Grid(alignment: .leading, verticalSpacing: 8) {
+                        ForEach(MoveDetailViewModel.MoveMetaDetails.allCases) { metaDetailKey in
+                            GridRow {
+                                Text(metaDetailKey.title)
+                                    .foregroundColor(.gray)
+                                switch metaDetailKey {
+                                default: Text(viewModel.metaDetails[metaDetailKey, default: "N/A"])
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .padding()
+            .bodyStyle()
+        }
+    }
+    
+    func learnedByPokemonNavigationLink(value: String) -> some View {
+        NavigationLink {
+            PokemonListView(
+                title: move.localizedName(for: language),
+                id: move.id,
+                description: "Pokemon that can learn this move.",
+                pokemonURLs: move.learnedByPokemon.map { $0.url },
+                viewModel: pokemonListViewModel
+            )
+        } label: {
+            NavigationLabel(title: value)
+        }
+    }
+    
+    func effectEntriesNavigationLink(value: String) -> some View {
+        NavigationLink {
+            EffectEntriesListView(
+                title: move.localizedName(for: language),
+                id: move.id,
+                description: "Effect entries for this moe",
+                entries: move.effectEntries,
+                viewModel: effectEntriesListViewModel
+            )
+        } label: {
+            NavigationLabel(title: value)
+        }
+    }
+    
+    @ViewBuilder
+    func effectChangesNavigationLink(value: String) -> some View {
+        if move.effectChanges.isEmpty {
+            Text(value)
+        } else {
+            NavigationLink {
+                AbilityEffectChangesList(
+                    title: move.localizedName(for: language),
+                    id: move.id,
+                    description: "Effect changes for this move.",
+                    effectChanges: move.effectChanges,
+                    language: language,
+                    viewModel: abilityEffectChangesListViewModel
+                )
+            } label: {
+                NavigationLabel(title: value)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func flavorTextEntriesNavigationLink(value: String) -> some View {
+        if viewModel.localizedFlavorTextEntries.isEmpty {
+            Text(value)
+        } else {
+            NavigationLink {
+                FlavorTextEntriesList(
+                    title: move.localizedName(for: language),
+                    id: move.id,
+                    description: "Flavor text entries for this move.",
+                    language: language,
+                    // TODO: does it make more sense/ is more efficient to do this in the view model (the mapping).
+                    abilityFlavorTexts: viewModel.localizedFlavorTextEntries.map { entry in
+                        CustomFlavorText(
+                            flavorText: entry.flavorText,
+                            language: entry.language,
+                            versionGroup: entry.versionGroup
+                        )
+                    },
+                    viewModel: flavorTextEntriesListViewModel
+                )
+            } label: {
+                NavigationLabel(title: value)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func gridRowValue(for moveDetailKey: MoveDetailViewModel.MoveDetails) -> some View {
+        let value = viewModel.moveDetails[moveDetailKey, default: "Error"]
+        switch moveDetailKey {
+        case .type:
+            if let type = viewModel.type {
+                TypeTag(type: type)
+            }
+        case .learnedByPokemon:
+            learnedByPokemonNavigationLink(value: value)
+        case .effectEntries:
+            effectEntriesNavigationLink(value: value)
+        case .effectChanges:
+            effectChangesNavigationLink(value: value)
+        case .flavorTextEntries:
+            flavorTextEntriesNavigationLink(value: value)
+        default:
+            Text(value)
         }
     }
 }

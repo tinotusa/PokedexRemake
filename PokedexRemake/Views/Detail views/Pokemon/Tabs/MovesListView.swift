@@ -1,5 +1,5 @@
 //
-//  MovesTab.swift
+//  MovesListView.swift
 //  PokedexRemake
 //
 //  Created by Tino on 9/10/2022.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftPokeAPI
 
-struct MovesTab: View {
+struct MovesListView: View {
     @ObservedObject var viewModel: MovesTabViewModel
     let pokemon: Pokemon
     
@@ -38,7 +38,7 @@ struct MovesTab: View {
 struct MovesTab_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
-            MovesTab(viewModel: MovesTabViewModel(), pokemon: .example)
+            MovesListView(viewModel: MovesTabViewModel(), pokemon: .example)
         }
     }
 }

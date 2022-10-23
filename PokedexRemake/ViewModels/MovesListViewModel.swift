@@ -1,5 +1,5 @@
 //
-//  MovesTabViewModel.swift
+//  MovesListViewModel.swift
 //  PokedexRemake
 //
 //  Created by Tino on 9/10/2022.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftPokeAPI
 import os
-final class MovesTabViewModel: ObservableObject {
+final class MovesListViewModel: ObservableObject {
     @Published private(set) var pokemonSpecies: PokemonSpecies!
     @Published private var moves = Set<Move>()
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
@@ -16,7 +16,7 @@ final class MovesTabViewModel: ObservableObject {
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "MovesTabViewModel")
 }
 
-extension MovesTabViewModel {
+extension MovesListViewModel {
     @MainActor
     func loadData(pokemon: Pokemon) async {
         logger.debug("Loading data.")

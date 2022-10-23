@@ -34,9 +34,15 @@ struct Globals {
         return try await PokemonSpecies(pokemon.species.url)
     }
     
-    static func getMoves(urls: [URL]) async throws -> Set<Move> {
-        try await withThrowingTaskGroup(of: Move.self) { group in
-            for url in urls {
+    static func getMoves(urls: [URL], limit: Int = 0, offset: Int = 0) async throws -> Set<Move> {
+        var limit = limit
+        var offset = offset
+        if limit == 0 {
+            limit = urls.count
+            offset = 0
+        }
+        return try await withThrowingTaskGroup(of: Move.self) { group in
+            for (i, url) in urls.enumerated() where i >= offset && i < offset + limit {
                 group.addTask {
                     return try await Move(url)
                 }

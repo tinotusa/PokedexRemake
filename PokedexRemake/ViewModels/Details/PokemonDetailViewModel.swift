@@ -13,7 +13,7 @@ final class PokemonDetailViewModel: ObservableObject {
     @Published private(set) var pokemonSpecies: PokemonSpecies!
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     @Published var showingMovesSheet = false
-    
+    @Published var showingAbiltiesSheet = false
     private var logger = Logger(subsystem: "com.tinotusa.Pokedex", category: "PokemonDetailViewModel")
     
     @MainActor

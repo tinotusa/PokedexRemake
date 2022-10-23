@@ -8,6 +8,24 @@
 import SwiftUI
 import SwiftPokeAPI
 
+struct LargeBlueButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .title2Style()
+            .fontWeight(.light)
+            .padding(.horizontal)
+            .padding(.vertical, 3)
+            .background(Color.accentColor.opacity(0.7))
+            .cornerRadius(10)
+    }
+}
+
+extension ButtonStyle where Self == LargeBlueButtonStyle {
+    static var largeBlueButton: LargeBlueButtonStyle {
+        LargeBlueButtonStyle()
+    }
+}
+
 struct PokemonDetail: View {
     let pokemon: Pokemon
     @StateObject private var viewModel = PokemonDetailViewModel()
@@ -18,7 +36,7 @@ struct PokemonDetail: View {
     @StateObject private var statsTabViewModel = StatsTabViewModel()
     @StateObject private var evolutionsTabViewModel = EvolutionsTabViewModel()
     @StateObject private var movesListViewModel = MovesListViewModel()
-    @StateObject private var abilitiesTabViewModel = AbilitiesTabViewModel()
+    @StateObject private var abilitiesListViewModel = AbilitiesListViewModel()
     
     var body: some View {
         VStack {
@@ -43,14 +61,12 @@ struct PokemonDetail: View {
                         Button("Moves") {
                             viewModel.showingMovesSheet = true
                         }
-                        .title2Style()
-                        .fontWeight(.light)
-                        .padding(.horizontal)
-                        .padding(.vertical, 3)
-                        .background(Color.accentColor.opacity(0.7))
-                        .cornerRadius(10)
+                        .buttonStyle(.largeBlueButton)
                         
-                        AbilitiesTab(viewModel: abilitiesTabViewModel, pokemon: pokemon)
+                        Button("Abilities") {
+                            viewModel.showingAbiltiesSheet = true
+                        }
+                        .buttonStyle(.largeBlueButton)
                     }
                     .padding()
                 }
@@ -69,6 +85,16 @@ struct PokemonDetail: View {
             )
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
+        }
+        .sheet(isPresented: $viewModel.showingAbiltiesSheet) {
+            AbilitiesListView(
+                title: pokemon.name,
+                description: "Abilities this pokemon has.",
+                viewModel: abilitiesListViewModel,
+                pokemon: pokemon
+            )
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
         }
     }
 }

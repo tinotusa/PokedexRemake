@@ -9,36 +9,53 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct MovesListView: View {
-    @ObservedObject var viewModel: MovesTabViewModel
+    let title: String
+    let description: LocalizedStringKey
+    
+    @ObservedObject var viewModel: MovesListViewModel
     let pokemon: Pokemon
+
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        ExpandableTab(title: "Moves") {
-            switch viewModel.viewLoadingState {
-            case .loading:
-                ProgressView()
-                    .task {
-                        await viewModel.loadData(pokemon: pokemon)
-                    }
-            case .loaded:
-                VStack(alignment: .leading) {
+        switch viewModel.viewLoadingState {
+        case .loading:
+            ProgressView()
+                .task {
+                    await viewModel.loadData(pokemon: pokemon)
+                }
+        case .loaded:   
+            DetailListView(title: title, id: pokemon.id, description: description) {
+                LazyVStack(alignment: .leading) {
                     ForEach(viewModel.sortedMoves()) { move in
                         MoveCard(move: move)
                         Divider()
                     }
+                    if viewModel.hasNextPage {
+                        ProgressView()
+                            .task {
+                                await viewModel.getNextPage()
+                            }
+                    }
                 }
-            case .error(let error):
-                ErrorView(text: error.localizedDescription)
+                .bodyStyle()
+            } onDismiss: {
+                dismiss()
             }
+            
+        case .error(let error):
+            ErrorView(text: error.localizedDescription)
         }
-        .bodyStyle()
     }
 }
 
-struct MovesTab_Previews: PreviewProvider {
+struct MovesListView_Previews: PreviewProvider {
     static var previews: some View {
-        ScrollView {
-            MovesListView(viewModel: MovesTabViewModel(), pokemon: .example)
-        }
+        MovesListView(
+            title: "Pokemon name",
+            description: "Some description here",
+            viewModel: MovesListViewModel(),
+            pokemon: .example
+        )
     }
 }

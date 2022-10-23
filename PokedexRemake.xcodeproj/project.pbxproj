@@ -11,6 +11,7 @@
 		212AB02328F2F87A004067ED /* MovesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02228F2F87A004067ED /* MovesListView.swift */; };
 		212AB02528F2F8E5004067ED /* MovesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02428F2F8E5004067ED /* MovesListViewModel.swift */; };
 		212AB02728F2FA7A004067ED /* Move+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02628F2FA7A004067ED /* Move+Extensions.swift */; };
+		2139BB012904E9FF00148C22 /* PokemonDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2139BB002904E9FF00148C22 /* PokemonDetailViewModel.swift */; };
 		213B0E5528FA468B008CAD4C /* ItemsCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E5428FA468B008CAD4C /* ItemsCategoryView.swift */; };
 		213B0E5728FA46AF008CAD4C /* ItemsCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E5628FA46AF008CAD4C /* ItemsCategoryViewModel.swift */; };
 		213B0E5A28FA7EF3008CAD4C /* ItemCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E5928FA7EF3008CAD4C /* ItemCard.swift */; };
@@ -174,6 +175,7 @@
 		212AB02228F2F87A004067ED /* MovesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesListView.swift; sourceTree = "<group>"; };
 		212AB02428F2F8E5004067ED /* MovesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesListViewModel.swift; sourceTree = "<group>"; };
 		212AB02628F2FA7A004067ED /* Move+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Move+Extensions.swift"; sourceTree = "<group>"; };
+		2139BB002904E9FF00148C22 /* PokemonDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailViewModel.swift; sourceTree = "<group>"; };
 		213B0E5428FA468B008CAD4C /* ItemsCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsCategoryView.swift; sourceTree = "<group>"; };
 		213B0E5628FA46AF008CAD4C /* ItemsCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsCategoryViewModel.swift; sourceTree = "<group>"; };
 		213B0E5928FA7EF3008CAD4C /* ItemCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCard.swift; sourceTree = "<group>"; };
@@ -426,6 +428,7 @@
 			children = (
 				2144A5482900F819009846AB /* Pokemon */,
 				2144A5492900F845009846AB /* MoveDetailViewModel.swift */,
+				2139BB002904E9FF00148C22 /* PokemonDetailViewModel.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -953,6 +956,7 @@
 				213B0E5528FA468B008CAD4C /* ItemsCategoryView.swift in Sources */,
 				217B3B8928FBD2E600201BEC /* RecentlySearchedBar.swift in Sources */,
 				21CD84AB28ED3603008B2611 /* Generation+Extension.swift in Sources */,
+				2139BB012904E9FF00148C22 /* PokemonDetailViewModel.swift in Sources */,
 				2153D66F290383E6009CB897 /* MachineCardViewModel.swift in Sources */,
 				21D0C33A28EFCFDC00E8D18C /* StatsTab.swift in Sources */,
 				21F3CA0828F115F0000BD757 /* EvolutionChain+Extensions.swift in Sources */,

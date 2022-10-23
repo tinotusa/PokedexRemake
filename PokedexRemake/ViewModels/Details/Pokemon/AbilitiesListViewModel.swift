@@ -1,5 +1,5 @@
 //
-//  AbilitiesTabViewModel.swift
+//  AbilitiesListViewModel.swift
 //  PokedexRemake
 //
 //  Created by Tino on 10/10/2022.
@@ -8,12 +8,12 @@
 import Foundation
 import SwiftPokeAPI
 
-final class AbilitiesTabViewModel: ObservableObject {
+final class AbilitiesListViewModel: ObservableObject {
     @Published private var abilities = Set<Ability>()
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
 }
 
-extension AbilitiesTabViewModel {
+extension AbilitiesListViewModel {
     @MainActor
     func loadData(pokemon: Pokemon) async {
         do {

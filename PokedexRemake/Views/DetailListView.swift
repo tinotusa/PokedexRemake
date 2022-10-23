@@ -12,17 +12,27 @@ struct DetailListView<Content: View>: View {
     let id: Int
     let description: LocalizedStringKey
     let content: () -> Content
+    var onDismiss: (() -> Void)?
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                HeaderBar(title: title, id: id)
-                Text(description)
-                Divider()
-                content()
+        VStack(alignment: .trailing) {
+            if let onDismiss {
+                Button("Close") {
+                    onDismiss()
+                }
+                .foregroundColor(.accentColor)
             }
-            .padding()
+            
+            ScrollView {
+                VStack(alignment: .leading) {
+                    HeaderBar(title: title, id: id)
+                    Text(description)
+                    Divider()
+                    content()
+                }
+            }
         }
+        .padding()
         .bodyStyle()
     }
 }
@@ -39,6 +49,8 @@ struct DetailListView_Previews: PreviewProvider {
                     Text("This is row: \(index + 1)")
                 }
             }
+        } onDismiss: {
+            
         }
     }
 }

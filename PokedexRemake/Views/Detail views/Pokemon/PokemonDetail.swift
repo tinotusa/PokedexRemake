@@ -12,7 +12,7 @@ import os
 final class PokemonDetailViewModel: ObservableObject {
     @Published private(set) var pokemonSpecies: PokemonSpecies!
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
-    
+    @Published var showingMovesSheet = false
     
     private var logger = Logger(subsystem: "com.tinotusa.Pokedex", category: "PokemonDetailViewModel")
     
@@ -37,33 +37,58 @@ struct PokemonDetail: View {
     @StateObject private var aboutTabViewModel = AboutTabViewModel()
     @StateObject private var statsTabViewModel = StatsTabViewModel()
     @StateObject private var evolutionsTabViewModel = EvolutionsTabViewModel()
-    @StateObject private var movesTabViewModel = MovesTabViewModel()
+    @StateObject private var movesListViewModel = MovesListViewModel()
     @StateObject private var abilitiesTabViewModel = AbilitiesTabViewModel()
     
     var body: some View {
-        switch viewModel.viewLoadingState {
-        case .loading:
-            ProgressView()
-                .task {
-                    await viewModel.loadData(from: pokemon)
+        VStack {
+            switch viewModel.viewLoadingState {
+            case .loading:
+                ProgressView()
+                    .task {
+                        await viewModel.loadData(from: pokemon)
+                    }
+            case .loaded:
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        PokemonImage(url: pokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        
+                        nameAndID
+                        
+                        AboutTab(viewModel: aboutTabViewModel, pokemon: pokemon)
+                        StatsTab(viewModel: statsTabViewModel, pokemon: pokemon)
+                        EvolutionsTab(viewModel: evolutionsTabViewModel, pokemon: pokemon)
+                        
+                        Button("Moves") {
+                            viewModel.showingMovesSheet = true
+                        }
+                        .title2Style()
+                        .fontWeight(.light)
+                        .padding(.horizontal)
+                        .padding(.vertical, 3)
+                        .background(Color.accentColor.opacity(0.7))
+                        .cornerRadius(10)
+                        
+                        AbilitiesTab(viewModel: abilitiesTabViewModel, pokemon: pokemon)
+                    }
+                    .padding()
                 }
-        case .loaded:
-            ScrollView {
-                VStack {
-                    PokemonImage(url: pokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
-                    nameAndID
-                 
-                    AboutTab(viewModel: aboutTabViewModel, pokemon: pokemon)
-                    StatsTab(viewModel: statsTabViewModel, pokemon: pokemon)
-                    EvolutionsTab(viewModel: evolutionsTabViewModel, pokemon: pokemon)
-                    MovesTab(viewModel: movesTabViewModel, pokemon: pokemon)
-                    AbilitiesTab(viewModel: abilitiesTabViewModel, pokemon: pokemon)
-                }
-                .padding()
+                .bodyStyle()
+            case .error(let error):
+                ErrorView(text: error.localizedDescription)
             }
-            .bodyStyle()
-        case .error(let error):
-            ErrorView(text: error.localizedDescription)
+        }
+        .sheet(isPresented: $viewModel.showingMovesSheet) {
+            MovesListView(
+                title: pokemon.name,
+                description: "Moves this pokemon can learn.",
+                
+                viewModel: movesListViewModel,
+                pokemon: pokemon
+            )
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
         }
     }
 }

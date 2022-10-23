@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		212AB02028F2F4EE004067ED /* PokemonCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */; };
-		212AB02328F2F87A004067ED /* MovesTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02228F2F87A004067ED /* MovesTab.swift */; };
-		212AB02528F2F8E5004067ED /* MovesTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02428F2F8E5004067ED /* MovesTabViewModel.swift */; };
+		212AB02328F2F87A004067ED /* MovesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02228F2F87A004067ED /* MovesListView.swift */; };
+		212AB02528F2F8E5004067ED /* MovesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02428F2F8E5004067ED /* MovesListViewModel.swift */; };
 		212AB02728F2FA7A004067ED /* Move+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02628F2FA7A004067ED /* Move+Extensions.swift */; };
 		213B0E5528FA468B008CAD4C /* ItemsCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E5428FA468B008CAD4C /* ItemsCategoryView.swift */; };
 		213B0E5728FA46AF008CAD4C /* ItemsCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E5628FA46AF008CAD4C /* ItemsCategoryViewModel.swift */; };
@@ -171,8 +171,8 @@
 
 /* Begin PBXFileReference section */
 		212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCardViewModel.swift; sourceTree = "<group>"; };
-		212AB02228F2F87A004067ED /* MovesTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesTab.swift; sourceTree = "<group>"; };
-		212AB02428F2F8E5004067ED /* MovesTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesTabViewModel.swift; sourceTree = "<group>"; };
+		212AB02228F2F87A004067ED /* MovesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesListView.swift; sourceTree = "<group>"; };
+		212AB02428F2F8E5004067ED /* MovesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesListViewModel.swift; sourceTree = "<group>"; };
 		212AB02628F2FA7A004067ED /* Move+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Move+Extensions.swift"; sourceTree = "<group>"; };
 		213B0E5428FA468B008CAD4C /* ItemsCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsCategoryView.swift; sourceTree = "<group>"; };
 		213B0E5628FA46AF008CAD4C /* ItemsCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsCategoryViewModel.swift; sourceTree = "<group>"; };
@@ -349,7 +349,7 @@
 				21757CF228EECFFF004217D1 /* AboutTab.swift */,
 				21D0C33928EFCFDC00E8D18C /* StatsTab.swift */,
 				21D0C33F28F03B7B00E8D18C /* EvolutionsTab.swift */,
-				212AB02228F2F87A004067ED /* MovesTab.swift */,
+				212AB02228F2F87A004067ED /* MovesListView.swift */,
 				21B9D18B28F3BB61007C1270 /* AbilitiesTab.swift */,
 			);
 			path = Tabs;
@@ -674,7 +674,7 @@
 				21EB594528EC2E97009E201A /* PokemonResultsViewModel.swift */,
 				21CD84A328ED214D008B2611 /* PokemonResultRowViewModel.swift */,
 				212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */,
-				212AB02428F2F8E5004067ED /* MovesTabViewModel.swift */,
+				212AB02428F2F8E5004067ED /* MovesListViewModel.swift */,
 				2164043428F2FF7900E6A13F /* MoveCardViewModel.swift */,
 				21B9D19728F3C3D4007C1270 /* AbilityExpandableTabViewModel.swift */,
 				21B9D19B28F3CA8C007C1270 /* FlavorTextEntiresListViewModel.swift */,
@@ -991,8 +991,8 @@
 				213B0E6328FACCD4008CAD4C /* AbilitiesCategoryView.swift in Sources */,
 				21757CF528EED44E004217D1 /* Version+Extensions.swift in Sources */,
 				21CD84A028ED2041008B2611 /* PokemonType+Extensions.swift in Sources */,
-				212AB02528F2F8E5004067ED /* MovesTabViewModel.swift in Sources */,
-				212AB02328F2F87A004067ED /* MovesTab.swift in Sources */,
+				212AB02528F2F8E5004067ED /* MovesListViewModel.swift in Sources */,
+				212AB02328F2F87A004067ED /* MovesListView.swift in Sources */,
 				2164042F28F2FE7700E6A13F /* MoveCard.swift in Sources */,
 				21B9D1A028F3D6CC007C1270 /* AbilityEffectChangesListViewModel.swift in Sources */,
 				2144A5472900F77C009846AB /* MoveDetail.swift in Sources */,

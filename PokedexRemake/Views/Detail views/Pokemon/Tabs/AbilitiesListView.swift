@@ -9,10 +9,13 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct AbilitiesListView: View {
-    @ObservedObject var viewModel: AbilitiesTabViewModel
+    let title: String
+    let description: LocalizedStringKey
+    @ObservedObject var viewModel: AbilitiesListViewModel
     let pokemon: Pokemon
     
     @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -22,18 +25,25 @@ struct AbilitiesListView: View {
                     await viewModel.loadData(pokemon: pokemon)
                 }
         case .loaded:
-            ForEach(viewModel.sortedAbilities()) { ability in
-                AbilityExpandableTab(ability: ability)
+            DetailListView(title: title, id: pokemon.id, description: description) {
+                ForEach(viewModel.sortedAbilities()) { ability in
+                    AbilityExpandableTab(ability: ability)
+                }
+                .bodyStyle()
+            } onDismiss: {
+                dismiss()
             }
-            .bodyStyle()
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }
     }
 }
 
-struct AbilitiesTab_Preveiws: PreviewProvider {
+struct AbilitiesListView_Preveiws: PreviewProvider {
     static var previews: some View {
-        AbilitiesListView(viewModel: AbilitiesTabViewModel(), pokemon: .example)
+        AbilitiesListView(
+            title: "some title",
+            description: "Some description here",
+            viewModel: AbilitiesListViewModel(), pokemon: .example)
     }
 }

@@ -77,7 +77,7 @@ struct PokemonDetail: View {
         }
         .sheet(isPresented: $viewModel.showingMovesSheet) {
             MovesListView(
-                title: pokemon.name,
+                title: viewModel.pokemonSpecies.localizedName(for: language),
                 description: "Moves this pokemon can learn.",
                 
                 viewModel: movesListViewModel,
@@ -88,12 +88,13 @@ struct PokemonDetail: View {
         }
         .sheet(isPresented: $viewModel.showingAbiltiesSheet) {
             AbilitiesListView(
-                title: pokemon.name,
+                title: viewModel.pokemonSpecies.localizedName(for: language),
                 description: "Abilities this pokemon has.",
                 viewModel: abilitiesListViewModel,
                 pokemon: pokemon
             )
             .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
             .presentationDragIndicator(.visible)
         }
     }

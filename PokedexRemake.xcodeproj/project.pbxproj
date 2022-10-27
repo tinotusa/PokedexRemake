@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21261E34290A345100FA2FF6 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E33290A345100FA2FF6 /* Localizable.swift */; };
+		21261E36290A34A500FA2FF6 /* Localizable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E35290A34A500FA2FF6 /* Localizable+Extensions.swift */; };
 		212AB02028F2F4EE004067ED /* PokemonCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */; };
 		212AB02328F2F87A004067ED /* MovesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02228F2F87A004067ED /* MovesListView.swift */; };
 		212AB02528F2F8E5004067ED /* MovesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02428F2F8E5004067ED /* MovesListViewModel.swift */; };
@@ -173,6 +175,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		21261E33290A345100FA2FF6 /* Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
+		21261E35290A34A500FA2FF6 /* Localizable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Localizable+Extensions.swift"; sourceTree = "<group>"; };
 		212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCardViewModel.swift; sourceTree = "<group>"; };
 		212AB02228F2F87A004067ED /* MovesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesListView.swift; sourceTree = "<group>"; };
 		212AB02428F2F8E5004067ED /* MovesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesListViewModel.swift; sourceTree = "<group>"; };
@@ -612,6 +616,7 @@
 				21F3CA0E28F169AB000BD757 /* Bundle+loadJSON.swift */,
 				2193D51328FD4F09006A686B /* Array+moveToTop.swift */,
 				2193D51D28FD9CB9006A686B /* FileManager+documentsURL.swift */,
+				21261E35290A34A500FA2FF6 /* Localizable+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -656,6 +661,7 @@
 				21B9D18F28F3BCF4007C1270 /* Globals.swift */,
 				217B3B8028FBCC6C00201BEC /* SearchScope.swift */,
 				2153D680290406A7009CB897 /* SearchResultsList.swift */,
+				21261E33290A345100FA2FF6 /* Localizable.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -936,6 +942,7 @@
 				21A66C0D29063E210022327B /* ItemDetail.swift in Sources */,
 				217B3B8E28FC149E00201BEC /* SearchErrorView.swift in Sources */,
 				2153D67F2903CD23009CB897 /* MoveStatChangeViewModel.swift in Sources */,
+				21261E36290A34A500FA2FF6 /* Localizable+Extensions.swift in Sources */,
 				2193D51628FD5352006A686B /* EmptySearchHistoryView.swift in Sources */,
 				2193D51A28FD5C32006A686B /* AbilityResultsViewModel.swift in Sources */,
 				2191991428EACDDA002C6379 /* SearchBarButton.swift in Sources */,
@@ -962,6 +969,7 @@
 				217B3B8128FBCC6C00201BEC /* SearchScope.swift in Sources */,
 				213B0E5528FA468B008CAD4C /* ItemsCategoryView.swift in Sources */,
 				217B3B8928FBD2E600201BEC /* RecentlySearchedBar.swift in Sources */,
+				21261E34290A345100FA2FF6 /* Localizable.swift in Sources */,
 				21CD84AB28ED3603008B2611 /* Generation+Extension.swift in Sources */,
 				2139BB012904E9FF00148C22 /* PokemonDetailViewModel.swift in Sources */,
 				2153D66F290383E6009CB897 /* MachineCardViewModel.swift in Sources */,

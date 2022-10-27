@@ -45,15 +45,6 @@ final class ItemDetailViewModel: ObservableObject {
 }
 
 // TODO: Move me
-protocol Localizable {
-    var language: NamedAPIResource { get }
-}
-
-extension VersionGroupFlavorText: Localizable {
-    
-}
-
-// TODO: Move me
 extension Array where Element: Localizable {
     func localizedItems(for langaugeCode: String) -> Self {
         var localizedItems: Self?

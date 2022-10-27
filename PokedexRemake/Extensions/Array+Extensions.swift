@@ -35,6 +35,7 @@ extension Array where Element == VerboseEffect {
         if shortVersion {
             text = entries.first!.shortEffect
         }
+        text = text.replacingOccurrences(of: "[\\s\\f]+", with: " ", options: .regularExpression)
         if let effectChance {
             return text.replacingOccurrences(of: "$effect_chance", with: "\(effectChance)")
         }

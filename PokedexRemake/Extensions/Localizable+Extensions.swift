@@ -6,3 +6,6 @@
 //
 
 import Foundation
+import SwiftPokeAPI
+
+extension VersionGroupFlavorText: Localizable { }

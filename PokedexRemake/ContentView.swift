@@ -22,8 +22,7 @@ struct ContentView: View {
                     MoveDetail(move: move)
                 }
                 .navigationDestination(for: Item.self) { item in
-//                    ItemDetail(item: item)
-                    Text("item detail for: \(item.name)")
+                    ItemDetail(item: item)
                 }
                 .navigationDestination(for: Ability.self) { ability in
                     Text("ability detail for: \(ability.name)")

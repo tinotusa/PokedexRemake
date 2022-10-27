@@ -21,6 +21,7 @@ struct DetailListView<Content: View>: View {
                     onDismiss()
                 }
                 .foregroundColor(.accentColor)
+                .padding([.horizontal, .top])
             }
             
             ScrollView {
@@ -30,9 +31,9 @@ struct DetailListView<Content: View>: View {
                     Divider()
                     content()
                 }
+                .padding(.horizontal)
             }
         }
-        .padding()
         .bodyStyle()
     }
 }

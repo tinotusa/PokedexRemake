@@ -45,7 +45,7 @@ struct AboutTab: View {
                                     } else {
                                         VStack(alignment: .leading) {
                                             ForEach(Array(viewModel.items)) { item in
-                                                Text(item.localizedName(for: language))
+                                                Text(item.localizedName(languageCode: language))
                                             }
                                         }
                                     }
@@ -87,7 +87,7 @@ private extension AboutTab {
                 if let name = flavorText.version?.name,
                    let version = viewModel.versions.first(where: { $0.name == name })
                 {
-                    Text(version.localizedName(for: language))
+                    Text(version.localizedName(languageCode: language))
                 }
                 Text(flavorText.filteredText())
                 Divider()

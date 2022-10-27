@@ -36,7 +36,7 @@ struct AbilityEffectChangesList: View {
                     ForEach(viewModel.localizedEffectVersions) { localizedEffectVersion in
                         HStack {
                             ForEach(localizedEffectVersion.versions) { version in
-                                Text(version.localizedName(for: language))
+                                Text(version.localizedName(languageCode: language))
                             }
                         }
                         .foregroundColor(.gray)

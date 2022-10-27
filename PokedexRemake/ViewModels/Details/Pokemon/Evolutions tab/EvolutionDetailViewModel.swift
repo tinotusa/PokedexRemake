@@ -104,10 +104,10 @@ extension EvolutionDetailViewModel {
         var details = [EvolutionDetailKey: String]()
         
         if let item {
-            details[.item] = item.localizedName(for: language)
+            details[.item] = item.localizedName(languageCode: language)
         }
         if let evolutionTrigger {
-            details[.trigger] = evolutionTrigger.names.localizedName(language: language, default: evolutionTrigger.name)
+            details[.trigger] = evolutionTrigger.localizedName(languageCode: language)
         }
         if let gender = evolutionDetail.gender {
             switch gender {
@@ -118,16 +118,16 @@ extension EvolutionDetailViewModel {
             }
         }
         if let heldItem {
-            details[.heldItem] = "Holding \(heldItem.localizedName(for: language))"
+            details[.heldItem] = "Holding \(heldItem.localizedName(languageCode: language))"
         }
         if let knownMove {
-            details[.knownMove] = "Learning \(knownMove.names.localizedName(language: language, default: knownMove.name))"
+            details[.knownMove] = "Learning \(knownMove.localizedName(languageCode: language))"
         }
         if let knownMoveType {
-            details[.knownMoveType] = "Learning \(knownMoveType.localizedName(for: language)) type move"
+            details[.knownMoveType] = "Learning \(knownMoveType.localizedName(languageCode: language)) type move"
         }
         if let location {
-            details[.location] = "At \(location.names.localizedName(language: language, default: location.name))"
+            details[.location] = "At \(location.localizedName(languageCode: language))"
         }
         if let minLevel = evolutionDetail.minLevel {
             details[.minLevel] = "Level \(minLevel)+"
@@ -145,10 +145,10 @@ extension EvolutionDetailViewModel {
             details[.needsOverworldRain] = "While raining."
         }
         if let partySpecies {
-            details[.partySpecies] = "With \(partySpecies.localizedName(for: language)) in the party."
+            details[.partySpecies] = "With \(partySpecies.localizedName(languageCode: language)) in the party."
         }
         if let partyType {
-            details[.partyType] = "With \(partyType.localizedName(for: language)) type in the party."
+            details[.partyType] = "With \(partyType.localizedName(languageCode: language)) type in the party."
         }
         if let relativePhysicalStats = evolutionDetail.relativePhysicalStats {
             switch relativePhysicalStats {

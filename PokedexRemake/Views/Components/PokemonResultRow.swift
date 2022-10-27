@@ -28,9 +28,9 @@ struct PokemonResultRow: View {
                     
                     VStack(alignment: .leading) {
                         HStack {
-                            Text(viewModel.pokemonSpecies.localizedName(for: language))
+                            Text(viewModel.pokemonSpecies.localizedName(languageCode: language))
                             Spacer()
-                            Text(viewModel.generation.localizedName(for: language))
+                            Text(viewModel.generation.localizedName(languageCode: language))
                                 .foregroundColor(.gray)
                         }
                         

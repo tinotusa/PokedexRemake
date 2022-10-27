@@ -24,7 +24,7 @@ struct AbilityCard: View {
             NavigationLink(value: ability) {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text(ability.localizedName(for: language))
+                        Text(ability.localizedName(languageCode: language))
                         Spacer()
                         Text(Globals.formattedID(ability.id))
                             .foregroundColor(.gray)

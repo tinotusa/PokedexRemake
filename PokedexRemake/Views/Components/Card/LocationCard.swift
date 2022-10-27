@@ -30,8 +30,8 @@ struct LocationCard: View {
                             .foregroundColor(.gray)
                     }
                     .subtitleStyle()
-                    if viewModel.region != nil {
-                        Text(viewModel.localizedRegionName(languageCode: language) ?? "Error")
+                    if let region = viewModel.region {
+                        Text(region.localizedName(languageCode: language))
                     }
                 }
                 .bodyStyle()

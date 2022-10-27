@@ -105,7 +105,7 @@ extension ItemDetailViewModel {
         }
         details[.attributes] = "\(item.attributes.count)"
         if let category {
-            details[.category] = category.names.localizedName(language: self.languageCode, default: category.name)
+            details[.category] = category.localizedName(languageCode: self.languageCode)
         }
         details[.flavorTextEntries] = "\(localizedFlavorTextEntries.count)"
         details[.heldByPokemon] = "\(item.heldByPokemon.count)"

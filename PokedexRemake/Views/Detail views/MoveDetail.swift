@@ -46,7 +46,7 @@ private extension MoveDetail {
     var moveDetailsGrid: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                HeaderBar(title: move.localizedName(for: language), id: move.id)
+                HeaderBar(title: move.localizedName(languageCode: language), id: move.id)
                 
                 Grid(alignment: .leading, verticalSpacing: Constants.verticalSpacing) {
                     ForEach(MoveDetailViewModel.MoveDetails.allCases) { moveDetailKey in
@@ -84,7 +84,7 @@ private extension MoveDetail {
     func learnedByPokemonNavigationLink(value: String) -> some View {
         NavigationLink {
             PokemonListView(
-                title: move.localizedName(for: language),
+                title: move.localizedName(languageCode: language),
                 id: move.id,
                 description: "Pokemon that can learn this move.",
                 pokemonURLs: move.learnedByPokemon.map { $0.url },
@@ -98,7 +98,7 @@ private extension MoveDetail {
     func effectEntriesNavigationLink(value: String) -> some View {
         NavigationLink {
             EffectEntriesListView(
-                title: move.localizedName(for: language),
+                title: move.localizedName(languageCode: language),
                 id: move.id,
                 description: "Effect entries for this moe",
                 entries: move.effectEntries,
@@ -116,7 +116,7 @@ private extension MoveDetail {
         } else {
             NavigationLink {
                 AbilityEffectChangesList(
-                    title: move.localizedName(for: language),
+                    title: move.localizedName(languageCode: language),
                     id: move.id,
                     description: "Effect changes for this move.",
                     effectChanges: move.effectChanges,
@@ -136,7 +136,7 @@ private extension MoveDetail {
         } else {
             NavigationLink {
                 FlavorTextEntriesList(
-                    title: move.localizedName(for: language),
+                    title: move.localizedName(languageCode: language),
                     id: move.id,
                     description: "Flavor text entries for this move.",
                     language: language,
@@ -190,7 +190,7 @@ private extension MoveDetail {
         } else {
             NavigationLink {
                 MachinesListView(
-                    title: move.localizedName(for: language),
+                    title: move.localizedName(languageCode: language),
                     id: move.id,
                     description: "Machines that teach this move.",
                     machineURLs: move.machines.map { $0.machine.url}
@@ -208,7 +208,7 @@ private extension MoveDetail {
         } else {
             NavigationLink {
                 PastMoveValuesListView(
-                    title: move.localizedName(for: language),
+                    title: move.localizedName(languageCode: language),
                     id: move.id,
                     description: "This move's changed stat values from different games.",
                     pastValues: move.pastValues
@@ -226,7 +226,7 @@ private extension MoveDetail {
         } else {
             NavigationLink {
                 MoveStatChangeListView(
-                    title: move.localizedName(for: language),
+                    title: move.localizedName(languageCode: language),
                     id: move.id,
                     description: "The stats this moves changes.",
                     statChanges: move.statChanges

@@ -26,7 +26,7 @@ struct ItemCard: View {
                     PokemonImage(url: item.sprites.default, imageSize: Constants.imageSize)
                     VStack(alignment: .leading) {
                         HStack {
-                            Text(item.localizedName(for: language))
+                            Text(item.localizedName(languageCode: language))
                             Spacer()
                             Text(Globals.formattedID(item.id))
                                 .foregroundColor(.gray)

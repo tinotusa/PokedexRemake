@@ -105,7 +105,7 @@ private extension StatsTabViewModel {
             }
             data.append(
                 .init(
-                    localizedName: stat.localizedName(for: language),
+                    localizedName: stat.localizedName(languageCode: language),
                     value: pokemonStat.baseStat
                 )
             )

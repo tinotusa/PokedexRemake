@@ -8,18 +8,6 @@
 import Foundation
 import SwiftPokeAPI
 
-extension Array where Element == Name {
-    func localizedName(language: String, default defaultValue: String) -> String {
-        let name = self.first { name in
-            name.language.name == language
-        }
-        if let name {
-            return name.name
-        }
-        return defaultValue
-    }
-}
-
 extension Array where Element: Localizable {
     func localizedItems(for langaugeCode: String) -> Self {
         var localizedItems: Self?

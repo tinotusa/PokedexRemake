@@ -24,7 +24,7 @@ struct MoveCard: View {
             NavigationLink(value: move) {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text(move.localizedName(for: language))
+                        Text(move.localizedName(languageCode: language))
                         Spacer()
                         Text(Globals.formattedID(move.id))
                             .foregroundColor(.gray)
@@ -41,7 +41,7 @@ struct MoveCard: View {
                     .foregroundColor(.gray)
                     HStack {
                         TypeTag(type: viewModel.type)
-                        Text(viewModel.damageClass.localizedName(for: language))
+                        Text(viewModel.damageClass.localizedName(languageCode: language))
                     }
                 }
                 .bodyStyle()

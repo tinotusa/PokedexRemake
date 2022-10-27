@@ -161,7 +161,7 @@ private extension AboutTabViewModel {
     func getAboutInfo(pokemon: Pokemon, pokemonSpecies: PokemonSpecies) -> [AboutInfo: String] {
         var aboutInfo: [AboutInfo: String] = [:]
         
-        aboutInfo[.name] = pokemonSpecies.localizedName(for: language)
+        aboutInfo[.name] = pokemonSpecies.localizedName(languageCode: language)
         aboutInfo[.types] = "\(pokemon.types.count) types"
         aboutInfo[.height] = Measurement(value: Double(pokemon.height), unit: UnitLength.decimeters).formatted()
         aboutInfo[.weight] = Measurement(value: Double(pokemon.weightInKG), unit: UnitMass.kilograms).formatted()

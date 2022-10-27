@@ -42,7 +42,7 @@ extension GenerationCardViewModel {
             logger.error("Failed to get localized region name. region is nil.")
             return "Error"
         }
-        return region.names.localizedName(language: languageCode, default: region.name)
+        return region.localizedName(languageCode: languageCode)
     }
 }
 

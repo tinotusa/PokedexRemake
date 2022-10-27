@@ -9,7 +9,7 @@ import Foundation
 import SwiftPokeAPI
 
 extension Version {
-    func localizedName(for language: String) -> String {
-        self.names.localizedName(language: language, default: self.name)
-    }
+//    func localizedName(for language: String) -> String {
+//        self.names.localizedName(language: language, default: self.name)
+//    }
 }

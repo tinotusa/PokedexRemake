@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		21261E34290A345100FA2FF6 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E33290A345100FA2FF6 /* Localizable.swift */; };
 		21261E36290A34A500FA2FF6 /* Localizable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E35290A34A500FA2FF6 /* Localizable+Extensions.swift */; };
+		21261E38290A90B800FA2FF6 /* NameLocalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E37290A90B800FA2FF6 /* NameLocalizable.swift */; };
+		21261E3A290A922D00FA2FF6 /* NameLocalizable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E39290A922D00FA2FF6 /* NameLocalizable+Extensions.swift */; };
 		212AB02028F2F4EE004067ED /* PokemonCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */; };
 		212AB02328F2F87A004067ED /* MovesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02228F2F87A004067ED /* MovesListView.swift */; };
 		212AB02528F2F8E5004067ED /* MovesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02428F2F8E5004067ED /* MovesListViewModel.swift */; };
@@ -177,6 +179,8 @@
 /* Begin PBXFileReference section */
 		21261E33290A345100FA2FF6 /* Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
 		21261E35290A34A500FA2FF6 /* Localizable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Localizable+Extensions.swift"; sourceTree = "<group>"; };
+		21261E37290A90B800FA2FF6 /* NameLocalizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameLocalizable.swift; sourceTree = "<group>"; };
+		21261E39290A922D00FA2FF6 /* NameLocalizable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NameLocalizable+Extensions.swift"; sourceTree = "<group>"; };
 		212AB01F28F2F4EE004067ED /* PokemonCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCardViewModel.swift; sourceTree = "<group>"; };
 		212AB02228F2F87A004067ED /* MovesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesListView.swift; sourceTree = "<group>"; };
 		212AB02428F2F8E5004067ED /* MovesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesListViewModel.swift; sourceTree = "<group>"; };
@@ -617,6 +621,7 @@
 				2193D51328FD4F09006A686B /* Array+moveToTop.swift */,
 				2193D51D28FD9CB9006A686B /* FileManager+documentsURL.swift */,
 				21261E35290A34A500FA2FF6 /* Localizable+Extensions.swift */,
+				21261E39290A922D00FA2FF6 /* NameLocalizable+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -662,6 +667,7 @@
 				217B3B8028FBCC6C00201BEC /* SearchScope.swift */,
 				2153D680290406A7009CB897 /* SearchResultsList.swift */,
 				21261E33290A345100FA2FF6 /* Localizable.swift */,
+				21261E37290A90B800FA2FF6 /* NameLocalizable.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -901,6 +907,7 @@
 				21B9D18C28F3BB61007C1270 /* AbilitiesListView.swift in Sources */,
 				21B9D19428F3C2F0007C1270 /* AbilityExpandableTab.swift in Sources */,
 				21CD84B428ED4E39008B2611 /* PokemonCategoryView.swift in Sources */,
+				21261E38290A90B800FA2FF6 /* NameLocalizable.swift in Sources */,
 				2153D67129039150009CB897 /* PastMoveValuesListView.swift in Sources */,
 				2191991A28EAD3A9002C6379 /* TextStyles.swift in Sources */,
 				217B3B7028FBAE1400201BEC /* Location+Extensions.swift in Sources */,
@@ -936,6 +943,7 @@
 				21EB594328EC2E78009E201A /* PokemonResultsView.swift in Sources */,
 				2191991C28EAD768002C6379 /* CategoryGrid.swift in Sources */,
 				217B3B7C28FBBEC700201BEC /* GenerationCardViewModel.swift in Sources */,
+				21261E3A290A922D00FA2FF6 /* NameLocalizable+Extensions.swift in Sources */,
 				2153D673290391E8009CB897 /* PastMoveValuesListViewModel.swift in Sources */,
 				21EB594628EC2E97009E201A /* PokemonResultsViewModel.swift in Sources */,
 				2144A54C290112AE009846AB /* PokemonListView.swift in Sources */,

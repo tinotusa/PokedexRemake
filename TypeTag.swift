@@ -13,7 +13,7 @@ struct TypeTag: View {
     @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
-        Text(type.localizedName(for: language))
+        Text(type.localizedName(languageCode: language))
             .lineLimit(1)
             .padding(.horizontal)
             .background(Color(type.name))

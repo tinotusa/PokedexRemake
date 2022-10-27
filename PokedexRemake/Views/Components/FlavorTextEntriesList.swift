@@ -41,7 +41,7 @@ struct FlavorTextEntriesList: View {
                         if let versions = viewModel.versions(named: abilityFlavorText.versionGroup.name) {
                             HStack {
                                 ForEach(versions) { version in
-                                    Text(version.localizedName(for: language))
+                                    Text(version.localizedName(languageCode: language))
                                 }
                             }
                             .foregroundColor(.gray)

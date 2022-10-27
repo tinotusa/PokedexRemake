@@ -31,6 +31,6 @@ extension AbilityCardViewModel {
     }
     
     func localizedGenerationName(language: String) -> String {
-        generation.localizedName(for: language)
+        generation.localizedName(languageCode: language)
     }
 }

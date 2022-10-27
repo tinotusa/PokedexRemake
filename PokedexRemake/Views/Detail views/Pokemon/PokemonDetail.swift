@@ -77,7 +77,7 @@ struct PokemonDetail: View {
         }
         .sheet(isPresented: $viewModel.showingMovesSheet) {
             MovesListView(
-                title: viewModel.pokemonSpecies.localizedName(for: language),
+                title: viewModel.pokemonSpecies.localizedName(languageCode: language),
                 description: "Moves this pokemon can learn.",
                 
                 viewModel: movesListViewModel,
@@ -88,7 +88,7 @@ struct PokemonDetail: View {
         }
         .sheet(isPresented: $viewModel.showingAbiltiesSheet) {
             AbilitiesListView(
-                title: viewModel.pokemonSpecies.localizedName(for: language),
+                title: viewModel.pokemonSpecies.localizedName(languageCode: language),
                 description: "Abilities this pokemon has.",
                 viewModel: abilitiesListViewModel,
                 pokemon: pokemon
@@ -107,7 +107,7 @@ private extension PokemonDetail {
     
     var nameAndID: some View {
         HStack {
-            Text(viewModel.pokemonSpecies.localizedName(for: language))
+            Text(viewModel.pokemonSpecies.localizedName(languageCode: language))
             Spacer()
             Text(Globals.formattedID(pokemon.id))
                 .foregroundColor(.gray)

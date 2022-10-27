@@ -9,9 +9,9 @@ import Foundation
 import SwiftPokeAPI
 
 extension `Type` {
-    func localizedName(for language: String) -> String {
-        self.names.localizedName(language: language, default: self.name)
-    }
+//    func localizedName(for language: String) -> String {
+//        self.names.localizedName(language: language, default: self.name)
+//    }
     
     static var grassExample: `Type` {
         Bundle.main.loadJSON("grassType")

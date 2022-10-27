@@ -31,6 +31,6 @@ extension ItemCardViewModel {
     }
     
     func localizedItemCategoryName(language: String) -> String {
-        itemCategory.names.localizedName(language: language, default: itemCategory.name)
+        itemCategory.localizedName(languageCode: language)
     }
 }

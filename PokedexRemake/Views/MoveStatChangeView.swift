@@ -24,7 +24,7 @@ struct MoveStatChangeView: View {
             if let stat = viewModel.stat {
                 Grid(alignment: .leading) {
                     GridRow {
-                        Text(stat.localizedName(for: language))
+                        Text(stat.localizedName(languageCode: language))
                             .foregroundColor(.gray)
                         Text(formatNumber(statChange.change))
                     }

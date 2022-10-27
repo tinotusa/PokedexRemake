@@ -129,10 +129,10 @@ private extension MoveDetailViewModel {
             moveDetails[.type] = name
         }
         if let damageClass {
-            moveDetails[.damageClass] = damageClass.localizedName(for: languageCode)
+            moveDetails[.damageClass] = damageClass.localizedName(languageCode: languageCode)
         }
         if let moveTarget {
-            moveDetails[.target] = moveTarget.names.localizedName(language: languageCode, default: moveTarget.name)
+            moveDetails[.target] = moveTarget.localizedName(languageCode: languageCode)
         }
         if let accurary = move.accuracy {
             moveDetails[.accuracy] = accurary.formatted(.percent)
@@ -146,7 +146,7 @@ private extension MoveDetailViewModel {
             moveDetails[.power] = "\(power)"
         }
         if let generation {
-            moveDetails[.generation] = generation.localizedName(for: languageCode)
+            moveDetails[.generation] = generation.localizedName(languageCode: languageCode)
         }
         moveDetails[.learnedByPokemon] = "\(move.learnedByPokemon.count)"
         moveDetails[.effectEntries] = "\(move.effectEntries.count)"
@@ -165,7 +165,7 @@ private extension MoveDetailViewModel {
             return [:]
         }
         if let ailment {
-            metaDetails[.ailment] = ailment.names.localizedName(language: languageCode, default: ailment.name)
+            metaDetails[.ailment] = ailment.localizedName(languageCode: languageCode)
         }
         if let category {
             metaDetails[.category] = category.name

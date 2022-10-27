@@ -76,7 +76,7 @@ struct PastMoveValueView: View {
 private extension PastMoveValueView {
     var versionsList: some View {
         ForEach(viewModel.sortedVersion()) { version in
-            Text(version.localizedName(for: language))
+            Text(version.localizedName(languageCode: language))
         }
     }
 }

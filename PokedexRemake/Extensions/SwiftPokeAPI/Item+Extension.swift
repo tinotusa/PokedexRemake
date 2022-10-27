@@ -13,7 +13,7 @@ extension Item {
         Bundle.main.loadJSON("item")
     }
     
-    func localizedName(language: String) -> String {
-        self.names.localizedName(language: language, default: self.name)
-    }
+//    func localizedName(language: String) -> String {
+//        self.names.localizedName(language: language, default: self.name)
+//    }
 }

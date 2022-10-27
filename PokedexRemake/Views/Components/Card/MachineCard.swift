@@ -25,9 +25,9 @@ struct MachineCard: View {
                 HStack {
                     PokemonImage(url: item.sprites.default, imageSize: 80)
                     VStack(alignment: .leading, spacing: 0) {
-                        Text(item.localizedName(for: language))
+                        Text(item.localizedName(languageCode: language))
                             .subtitleStyle()
-                        Text(move.localizedName(for: language))
+                        Text(move.localizedName(languageCode: language))
                         
                         ViewThatFits(in: .horizontal) {
                             HStack {
@@ -77,7 +77,7 @@ extension MachineCard {
     func versionsList(showDivider: Bool = true) -> some View {
         let versions = viewModel.sortedVersions()
         ForEach(versions) { version in
-            Text(version.localizedName(for: language))
+            Text(version.localizedName(languageCode: language))
             if showDivider && version != versions.last {
                 Divider()
             }

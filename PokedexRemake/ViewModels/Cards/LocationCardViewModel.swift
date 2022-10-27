@@ -37,11 +37,11 @@ extension LocationCardViewModel {
         }
     }
     
-    func localizedRegionName(languageCode: String) -> String? {
-        guard let region else {
-            logger.debug("Region is nil.")
-            return nil
-        }
-        return region.names.localizedName(language: languageCode, default: region.name)
-    }
+//    func localizedRegionName(languageCode: String) -> String? {
+//        guard let region else {
+//            logger.debug("Region is nil.")
+//            return nil
+//        }
+//        return region.names.localizedName(language: languageCode, default: region.name)
+//    }
 }

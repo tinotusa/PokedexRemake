@@ -28,7 +28,7 @@ struct PokemonCardView: View {
                     PokemonImage(url: pokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
                     
                     HStack {
-                        Text(viewModel.pokemonSpecies.localizedName(for: language))
+                        Text(viewModel.pokemonSpecies.localizedName(languageCode: language))
                             .layoutPriority(1)
                         Text(Globals.formattedID(pokemon.id))
                             .foregroundColor(.gray)

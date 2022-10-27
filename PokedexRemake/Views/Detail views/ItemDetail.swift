@@ -28,7 +28,7 @@ struct ItemDetail: View {
                     PokemonImage(url: item.sprites.default, imageSize: Constants.imageSize)
                         .frame(maxWidth: .infinity, alignment: .center)
                     
-                    HeaderBar(title: item.localizedName(for: language), id: item.id)
+                    HeaderBar(title: item.localizedName(languageCode: language), id: item.id)
                     
                     // FIXME: Change me
                     Text(item.effectEntries.first!.shortEffect)
@@ -50,7 +50,7 @@ struct ItemDetail: View {
             }
             .sheet(isPresented: $viewModel.showingFlavorTextList) {
                 FlavorTextEntriesList(
-                    title: item.localizedName(for: language),
+                    title: item.localizedName(languageCode: language),
                     id: item.id,
                     description: "Flavor texts for this item",
                     language: language,
@@ -62,7 +62,7 @@ struct ItemDetail: View {
             }
             .sheet(isPresented: $viewModel.showingMachinesList) {
                 MachinesListView(
-                    title: item.localizedName(language: language),
+                    title: item.localizedName(languageCode: language),
                     id: item.id,
                     description: "Machines related to this item.",
                     machineURLs: item.machines.map { $0.machine.url }
@@ -70,7 +70,7 @@ struct ItemDetail: View {
             }
             .sheet(isPresented: $viewModel.showingPokemonList) {
                 PokemonListView(
-                    title: item.localizedName(for: language),
+                    title: item.localizedName(languageCode: language),
                     id: item.id,
                     description: "Pokemon that hold this item",
                     pokemonURLs: item.heldByPokemon.map { $0.pokemon.url },
@@ -107,7 +107,7 @@ private extension ItemDetail {
     func attributesView() -> some View {
         VStack(alignment: .leading) {
             ForEach(viewModel.attributes) { attribute in
-                Text(attribute.names.localizedName(language: language, default: attribute.name))
+                Text(attribute.localizedName(languageCode: language))
             }
         }
     }

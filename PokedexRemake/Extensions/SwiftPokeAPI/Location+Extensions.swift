@@ -9,10 +9,10 @@ import Foundation
 import SwiftPokeAPI
 
 extension Location {
-    func localizedName(languageCode: String) -> String {
-        self.names.localizedName(language: languageCode, default: self.name)
-    }
-    
+//    func localizedName(languageCode: String) -> String {
+//        self.names.localizedName(language: languageCode, default: self.name)
+//    }
+//    
     static var example: Location {
         Bundle.main.loadJSON("location")
     }

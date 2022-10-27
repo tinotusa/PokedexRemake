@@ -9,9 +9,9 @@ import Foundation
 import SwiftPokeAPI
 
 extension Ability {
-    func localizedName(for language: String) -> String {
-        self.names.localizedName(language: language, default: self.name)
-    }
+//    func localizedName(for language: String) -> String {
+//        self.names.localizedName(language: language, default: self.name)
+//    }
     
 //    func localizedEffectEntry(for language: String, shortVersion: Bool) -> String {
 //        let entries = self.effectEntries.localizedItems(for: language)

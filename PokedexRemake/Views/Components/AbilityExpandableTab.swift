@@ -23,13 +23,13 @@ struct AbilityExpandableTab: View {
         case .loaded:
             VStack(alignment: .leading) {
                 HStack {
-                    Text(ability.localizedName(for: language))
+                    Text(ability.localizedName(languageCode: language))
                     Spacer()
                     Text(Globals.formattedID(ability.id))
                         .foregroundColor(.gray)
                 }
                 .subtitleStyle()
-                Text(viewModel.generation.localizedName(for: language))
+                Text(viewModel.generation.localizedName(languageCode: language))
                     .foregroundColor(.gray)
                 if ability.effectEntries.isEmpty {
                     Text("No description.")

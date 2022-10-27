@@ -32,7 +32,7 @@ struct ItemCard: View {
                                 .foregroundColor(.gray)
                         }
                         .subtitle2Style()
-                        Text(item.localizedEffectEntry(language: language))
+                        Text(item.effectEntries.localizedEntry(language: language, shortVersion: false))
                             .lineLimit(1)
                             .foregroundColor(.gray)
                         HStack {

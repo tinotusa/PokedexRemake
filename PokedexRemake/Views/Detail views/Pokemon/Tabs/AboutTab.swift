@@ -81,7 +81,7 @@ private extension AboutTab {
     
     @ViewBuilder
     var entriesList: some View {
-        let entries = viewModel.pokemonSpecies.flavorTextEntries.localizedEntries(language: language)
+        let entries = viewModel.pokemonSpecies.flavorTextEntries.localizedItems(for: language)
         ForEach(viewModel.showEntries(from: entries)) { flavorText in
             VStack(alignment: .leading) {
                 if let name = flavorText.version?.name,

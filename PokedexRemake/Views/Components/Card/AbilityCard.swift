@@ -30,7 +30,7 @@ struct AbilityCard: View {
                             .foregroundColor(.gray)
                     }
                     .subtitleStyle()
-                    Text(ability.localizedEffectEntry(for: language, shortVersion: true))
+                    Text(ability.effectEntries.localizedEntry(language: language, shortVersion: true))
                         .lineLimit(2)
                         .multilineTextAlignment(.leading)
                         .foregroundColor(.gray)

@@ -9,3 +9,6 @@ import Foundation
 import SwiftPokeAPI
 
 extension VersionGroupFlavorText: Localizable { }
+extension FlavorText: Localizable { }
+extension AbilityFlavorText: Localizable { }
+extension VerboseEffect: Localizable { }

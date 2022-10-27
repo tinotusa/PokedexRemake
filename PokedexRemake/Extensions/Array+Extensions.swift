@@ -20,65 +20,36 @@ extension Array where Element == Name {
     }
 }
 
-extension Array where Element == FlavorText {
-    func localizedEntries(language: String) -> [FlavorText] {
-        let flavorTexts = self.filter { flavorText in
-            flavorText.language.name == language
+extension Array where Element: Localizable {
+    func localizedItems(for langaugeCode: String) -> Self {
+        var localizedItems: Self?
+        localizedItems = self.filter { $0.language.name == langaugeCode }
+        if localizedItems == nil {
+            let availableLanguages = self.compactMap { $0.language.name }
+            let deviceLanguageCode = Bundle.preferredLocalizations(from: availableLanguages, forPreferences: nil).first!
+            localizedItems = self.filter { $0.language.name == deviceLanguageCode }
         }
-        return flavorTexts
+        if localizedItems == nil {
+            localizedItems = self.filter { $0.language.name == "en" }
+        }
+        if let localizedItems {
+            return localizedItems
+        }
+        return []
     }
 }
 
 extension Array where Element == VerboseEffect {
-    func localizedEntry(language: String, shortVersion: Bool, effectChance: Int?) -> String {
-        var effect: VerboseEffect?
-        effect = self.first(where: { $0.language.name == language })
-        
-        if effect == nil {
-            let availableLanguageCodes = self.compactMap { $0.language.name }
-            let deviceLanguageCode = Bundle.preferredLocalizations(from: availableLanguageCodes, forPreferences: nil).first!
-            effect = self.first(where: { $0.language.name == deviceLanguageCode })
-        }
-        
-        if effect == nil {
-            effect = self.first(where: { $0.language.name == "en" })
-        }
-        
-        guard let effect else {
-            return "Error"
-        }
-        
-        var effectText = ""
+    func localizedEntry(language: String, shortVersion: Bool = false, effectChance: Int? = nil) -> String {
+        let entries = self.localizedItems(for: language)
+        if entries.isEmpty { return "Error" }
+        var text = entries.first!.effect
         if shortVersion {
-            effectText = effect.shortEffect
-        } else {
-            effectText = effect.effect
+            text = entries.first!.shortEffect
         }
         if let effectChance {
-            return effectText.replacingOccurrences(of: "$effect_chance", with: "\(effectChance)")
+            return text.replacingOccurrences(of: "$effect_chance", with: "\(effectChance)")
         }
-        return effectText
-    }
-}
-
-extension Array where Element == AbilityFlavorText {
-    func localizedFlavorTextEntries(language: String) -> [AbilityFlavorText] {
-        var flavorTextEntries: [AbilityFlavorText]?
-        flavorTextEntries = self.filter { $0.language.name == language }
-        
-        if flavorTextEntries == nil {
-            let availableLanguages = self.compactMap { $0.language.name }
-            let deviceLanguageCode = Bundle.preferredLocalizations(from: availableLanguages, forPreferences: nil).first!
-            flavorTextEntries = self.filter { $0.language.name == deviceLanguageCode }
-        }
-        
-        if flavorTextEntries == nil {
-            flavorTextEntries = self.filter { $0.language.name == "en" }
-        }
-        
-        if let flavorTextEntries {
-            return flavorTextEntries
-        }
-        return []
+        return text.replacingOccurrences(of: "$effect_chance", with: "")
     }
 }

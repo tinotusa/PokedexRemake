@@ -35,12 +35,12 @@ struct AbilityExpandableTab: View {
                     Text("No description.")
                         .foregroundColor(.gray)
                 } else {
-                    Text(ability.localizedEffectEntry(for: language, shortVersion: true))
+                    Text(ability.effectEntries.localizedEntry(language: language, shortVersion: true))
                 }
                 
                 if viewModel.showLongerEffectEntry {
                     Divider()
-                    Text(ability.localizedEffectEntry(for: language, shortVersion: false))
+                    Text(ability.effectEntries.localizedEntry(language: language))
                 }
                 
                 showMoreButton

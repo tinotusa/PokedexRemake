@@ -44,26 +44,6 @@ final class ItemDetailViewModel: ObservableObject {
     }
 }
 
-// TODO: Move me
-extension Array where Element: Localizable {
-    func localizedItems(for langaugeCode: String) -> Self {
-        var localizedItems: Self?
-        localizedItems = self.filter { $0.language.name == langaugeCode }
-        if localizedItems == nil {
-            let availableLanguages = self.compactMap { $0.language.name }
-            let deviceLanguageCode = Bundle.preferredLocalizations(from: availableLanguages, forPreferences: nil).first!
-            localizedItems = self.filter { $0.language.name == deviceLanguageCode }
-        }
-        if localizedItems == nil {
-            localizedItems = self.filter { $0.language.name == "en" }
-        }
-        if let localizedItems {
-            return localizedItems
-        }
-        return []
-    }
-}
-
 extension ItemDetailViewModel {
     @MainActor
     func loadData(item: Item, languageCode: String) async {

@@ -23,7 +23,7 @@ extension AbilityExpandableTabViewModel {
         logger.debug("Loading data.")
         do {
             self.generation = try await Generation(ability.generation.url)
-            self.localizedFlavorTextEntries = ability.flavorTextEntries.localizedFlavorTextEntries(language: language)
+            self.localizedFlavorTextEntries = ability.flavorTextEntries.localizedItems(for: language)
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")
         } catch {

@@ -16,8 +16,4 @@ extension Item {
     func localizedName(language: String) -> String {
         self.names.localizedName(language: language, default: self.name)
     }
-    
-    func localizedEffectEntry(language: String) -> String {
-        self.effectEntries.localizedEntry(language: language, shortVersion: true, effectChance: nil)
-    }
 }

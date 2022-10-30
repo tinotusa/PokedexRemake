@@ -14,8 +14,6 @@ struct MovesListView: View {
     
     @ObservedObject var viewModel: MovesListViewModel
     let pokemon: Pokemon
-
-    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -39,8 +37,6 @@ struct MovesListView: View {
                     }
                 }
                 .bodyStyle()
-            } onDismiss: {
-                dismiss()
             }
             
         case .error(let error):

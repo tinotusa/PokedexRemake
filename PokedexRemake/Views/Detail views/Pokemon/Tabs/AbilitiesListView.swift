@@ -15,7 +15,6 @@ struct AbilitiesListView: View {
     let pokemon: Pokemon
     
     @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
-    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -30,8 +29,6 @@ struct AbilitiesListView: View {
                     AbilityExpandableTab(ability: ability)
                 }
                 .bodyStyle()
-            } onDismiss: {
-                dismiss()
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)

@@ -17,12 +17,8 @@ struct EffectEntriesListView: View {
     @ObservedObject var viewModel: EffectEntriesListViewModel
     
     var body: some View {
-        ScrollView {
+        DetailListView(title: title, id: id, description: description) {
             VStack(alignment: .leading) {
-                HeaderBar(title: title, id: id)
-                Text(description)
-                    .multilineTextAlignment(.leading)
-                
                 if entries.isEmpty {
                     Text("No entries available")
                 } else {
@@ -33,7 +29,6 @@ struct EffectEntriesListView: View {
                     }
                 }
             }
-            .padding()
         }
         .bodyStyle()
     }

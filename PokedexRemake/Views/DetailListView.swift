@@ -35,6 +35,8 @@ struct DetailListView<Content: View>: View {
             }
         }
         .bodyStyle()
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
     }
 }
 

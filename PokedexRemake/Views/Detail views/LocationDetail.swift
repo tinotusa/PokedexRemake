@@ -25,7 +25,7 @@ struct LocationDetail: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     HeaderBar(title: location.localizedName(languageCode: language), id: location.id)
-                    Grid(alignment: .leading) {
+                    Grid(alignment: .topLeading) {
                         regionRow
                         areasRow
                     }
@@ -56,13 +56,15 @@ private extension LocationDetail {
         GridRow {
             Text("Areas")
                 .foregroundColor(.gray)
-            ForEach(viewModel.areas) { area in
-                if let name = area.localizedName(languageCode: language),
-                   !name.isEmpty
-                {
-                    Text(name)
-                } else {
-                    Text(area.name)
+            VStack(alignment: .leading) {
+                ForEach(viewModel.areas) { area in
+                    if let name = area.localizedName(languageCode: language),
+                       !name.isEmpty
+                    {
+                        Text(name)
+                    } else {
+                        Text(area.name)
+                    }
                 }
             }
         }

@@ -28,7 +28,7 @@ struct ContentView: View {
                     AbilityDetail(ability: ability)
                 }
                 .navigationDestination(for: Location.self) { location in
-                    Text("Location detail for: \(location.name)")
+                    LocationDetail(location: location)
                 }
                 .navigationDestination(for: Generation.self) { generation in
                     Text("Generation detail for: \(generation.name)")

@@ -16,32 +16,34 @@ struct PokemonListView: View {
     @ObservedObject var viewModel: PokemonListViewModel
     
     var body: some View {
-        switch viewModel.viewLoadingState {
-        case .loading:
-            ProgressView()
-                .task {
-                    await viewModel.loadData(urls: pokemonURLs)
-                }
-        case .loaded:
-            DetailListView(
-                title: title,
-                id: id,
-                description: description
-            ) {
-                LazyVStack {
-                    ForEach(viewModel.pokemon) { pokemon in
-                        PokemonResultRow(pokemon: pokemon)
+        DetailListView(
+            title: title,
+            id: id,
+            description: description
+        ) {
+            Group {
+                switch viewModel.viewLoadingState {
+                case .loading:
+                    ProgressView()
+                        .task {
+                            await viewModel.loadData(urls: pokemonURLs)
+                        }
+                case .loaded:
+                    LazyVStack {
+                        ForEach(viewModel.pokemon) { pokemon in
+                            PokemonResultRow(pokemon: pokemon)
+                        }
+                        if viewModel.hasNextPage {
+                            ProgressView()
+                                .task {
+                                    await viewModel.loadNextPage()
+                                }
+                        }
                     }
-                    if viewModel.hasNextPage {
-                        ProgressView()
-                            .task {
-                                await viewModel.loadNextPage()
-                            }
-                    }
+                case .error(let error):
+                    ErrorView(text: error.localizedDescription)
                 }
             }
-        case .error(let error):
-            ErrorView(text: error.localizedDescription)
         }
     }
 }

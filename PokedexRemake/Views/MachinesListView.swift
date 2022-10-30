@@ -16,32 +16,34 @@ struct MachinesListView: View {
     @StateObject private var viewModel = MachinesListViewModel()
     
     var body: some View {
-        switch viewModel.viewLoadingState {
-        case .loading:
-            ProgressView()
-                .task {
-                    await viewModel.loadData(urls: machineURLs)
-                }
-        case .loaded:
-            DetailListView(
-                title: title,
-                id: id,
-                description: description
-            ) {
-                LazyVStack {
-                    ForEach(viewModel.sortedMachines()) { machine in
-                        MachineCard(machine: machine)
+        DetailListView(
+            title: title,
+            id: id,
+            description: description
+        ) {
+            Group {
+                switch viewModel.viewLoadingState {
+                case .loading:
+                    ProgressView()
+                        .task {
+                            await viewModel.loadData(urls: machineURLs)
+                        }
+                case .loaded:
+                    LazyVStack {
+                        ForEach(viewModel.sortedMachines()) { machine in
+                            MachineCard(machine: machine)
+                        }
+                        if viewModel.hasNextPage {
+                            ProgressView()
+                                .task {
+                                    await viewModel.getNextPage()
+                                }
+                        }
                     }
-                    if viewModel.hasNextPage {
-                        ProgressView()
-                            .task {
-                                await viewModel.getNextPage()
-                            }
-                    }
+                case .error(let error):
+                    ErrorView(text: error.localizedDescription)
                 }
             }
-        case .error(let error):
-            ErrorView(text: error.localizedDescription)
         }
     }
 }

@@ -19,37 +19,39 @@ struct AbilityEffectChangesList: View {
     
     
     
-    var body: some View {
-        switch viewModel.viewLoadingState {
-        case .loading:
-            ProgressView()
-                .task {
-                    await viewModel.loadData(effectChanges: effectChanges, language: language)
-                }
-        case .loaded:
-            DetailListView(
-                title: title,
-                id: id,
-                description: description
-            ) {
-                VStack(alignment: .leading) {
-                    ForEach(viewModel.localizedEffectVersions) { localizedEffectVersion in
-                        HStack {
-                            ForEach(localizedEffectVersion.versions) { version in
-                                Text(version.localizedName(languageCode: language))
+    var body: some View {        
+        DetailListView(
+            title: title,
+            id: id,
+            description: description
+        ) {
+            Group {
+                switch viewModel.viewLoadingState {
+                case .loading:
+                    ProgressView()
+                        .task {
+                            await viewModel.loadData(effectChanges: effectChanges, language: language)
+                        }
+                case .loaded:
+                    VStack(alignment: .leading) {
+                        ForEach(viewModel.localizedEffectVersions) { localizedEffectVersion in
+                            HStack {
+                                ForEach(localizedEffectVersion.versions) { version in
+                                    Text(version.localizedName(languageCode: language))
+                                }
+                            }
+                            .foregroundColor(.gray)
+                            ForEach(localizedEffectVersion.effectEntries, id: \.self) { entry in
+                                Text(entry.effect)
                             }
                         }
-                        .foregroundColor(.gray)
-                        ForEach(localizedEffectVersion.effectEntries, id: \.self) { entry in
-                            Text(entry.effect)
-                        }
+                        Divider()
                     }
-                    Divider()
+                    .bodyStyle()
+                case .error(let error):
+                    ErrorView(text: error.localizedDescription)
                 }
-                .bodyStyle()
             }
-        case .error(let error):
-            ErrorView(text: error.localizedDescription)
         }
     }
 }

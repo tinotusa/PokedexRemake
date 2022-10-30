@@ -17,21 +17,23 @@ struct AbilitiesListView: View {
     @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
-        switch viewModel.viewLoadingState {
-        case .loading:
-            ProgressView()
-                .task {
-                    await viewModel.loadData(pokemon: pokemon)
+        DetailListView(title: title, id: pokemon.id, description: description) {
+            Group {
+                switch viewModel.viewLoadingState {
+                case .loading:
+                    ProgressView()
+                        .task {
+                            await viewModel.loadData(pokemon: pokemon)
+                        }
+                case .loaded:
+                    ForEach(viewModel.sortedAbilities()) { ability in
+                        AbilityExpandableTab(ability: ability)
+                    }
+                    .bodyStyle()
+                case .error(let error):
+                    ErrorView(text: error.localizedDescription)
                 }
-        case .loaded:
-            DetailListView(title: title, id: pokemon.id, description: description) {
-                ForEach(viewModel.sortedAbilities()) { ability in
-                    AbilityExpandableTab(ability: ability)
-                }
-                .bodyStyle()
             }
-        case .error(let error):
-            ErrorView(text: error.localizedDescription)
         }
     }
 }

@@ -16,31 +16,33 @@ struct MovesListView: View {
     let pokemon: Pokemon
     
     var body: some View {
-        switch viewModel.viewLoadingState {
-        case .loading:
-            ProgressView()
-                .task {
-                    await viewModel.loadData(pokemon: pokemon)
-                }
-        case .loaded:   
-            DetailListView(title: title, id: pokemon.id, description: description) {
-                LazyVStack(alignment: .leading) {
-                    ForEach(viewModel.sortedMoves()) { move in
-                        MoveCard(move: move)
-                        Divider()
+        DetailListView(title: title, id: pokemon.id, description: description) {
+            Group {
+                switch viewModel.viewLoadingState {
+                case .loading:
+                    ProgressView()
+                        .task {
+                            await viewModel.loadData(pokemon: pokemon)
+                        }
+                case .loaded:
+                    LazyVStack(alignment: .leading) {
+                        ForEach(viewModel.sortedMoves()) { move in
+                            MoveCard(move: move)
+                            Divider()
+                        }
+                        if viewModel.hasNextPage {
+                            ProgressView()
+                                .task {
+                                    await viewModel.getNextPage()
+                                }
+                        }
                     }
-                    if viewModel.hasNextPage {
-                        ProgressView()
-                            .task {
-                                await viewModel.getNextPage()
-                            }
-                    }
+                    .bodyStyle()
+                    
+                case .error(let error):
+                    ErrorView(text: error.localizedDescription)
                 }
-                .bodyStyle()
             }
-            
-        case .error(let error):
-            ErrorView(text: error.localizedDescription)
         }
     }
 }

@@ -16,20 +16,23 @@ struct PastMoveValuesListView: View {
     @StateObject private var viewModel = PastMoveValuesListViewModel()
     
     var body: some View {
-        switch viewModel.viewLoadingState {
-        case .loading:
-            ProgressView()
-                .task {
-                    await viewModel.loadData(pastValues: pastValues)
-                }
-        case .loaded:
-            DetailListView(title: title, id: id, description: description) {
-                ForEach(pastValues, id: \.self) { pastValue in
-                    PastMoveValueView(pastValue: pastValue)
+        
+        DetailListView(title: title, id: id, description: description) {
+            Group {
+                switch viewModel.viewLoadingState {
+                case .loading:
+                    ProgressView()
+                        .task {
+                            await viewModel.loadData(pastValues: pastValues)
+                        }
+                case .loaded:
+                    ForEach(pastValues, id: \.self) { pastValue in
+                        PastMoveValueView(pastValue: pastValue)
+                    }
+                case .error(let error):
+                    ErrorView(text: error.localizedDescription)
                 }
             }
-        case .error(let error):
-            ErrorView(text: error.localizedDescription)
         }
     }
 }

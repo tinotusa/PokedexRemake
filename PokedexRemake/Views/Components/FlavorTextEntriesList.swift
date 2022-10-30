@@ -25,34 +25,35 @@ struct FlavorTextEntriesList: View {
     let language: String
     let abilityFlavorTexts: [CustomFlavorText]
     @ObservedObject var viewModel: FlavorTextEntriesListViewModel
-//    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
-        switch viewModel.viewLoadingState {
-        case .loading:
-            ProgressView()
-                .task {
-                    await viewModel.loadData(abilityFlavorTexts: abilityFlavorTexts)
-                }
-        case .loaded:
-            DetailListView(title: title, id: id, description: description) {
-                VStack(alignment: .leading) {
-                    ForEach(abilityFlavorTexts, id: \.self) { abilityFlavorText in
-                        if let versions = viewModel.versions(named: abilityFlavorText.versionGroup.name) {
-                            HStack {
-                                ForEach(versions) { version in
-                                    Text(version.localizedName(languageCode: language))
-                                }
-                            }
-                            .foregroundColor(.gray)
+        DetailListView(title: title, id: id, description: description) {
+            Group {
+                switch viewModel.viewLoadingState {
+                case .loading:
+                    ProgressView()
+                        .task {
+                            await viewModel.loadData(abilityFlavorTexts: abilityFlavorTexts)
                         }
-                        Text(abilityFlavorText.filteredFlavorText())
+                case .loaded:
+                    VStack(alignment: .leading) {
+                        ForEach(abilityFlavorTexts, id: \.self) { abilityFlavorText in
+                            if let versions = viewModel.versions(named: abilityFlavorText.versionGroup.name) {
+                                HStack {
+                                    ForEach(versions) { version in
+                                        Text(version.localizedName(languageCode: language))
+                                    }
+                                }
+                                .foregroundColor(.gray)
+                            }
+                            Text(abilityFlavorText.filteredFlavorText())
+                        }
                     }
+                    .bodyStyle()
+                case .error(let error):
+                    ErrorView(text: error.localizedDescription)
                 }
-                .bodyStyle()
             }
-        case .error(let error):
-            ErrorView(text: error.localizedDescription)
         }
     }
 }

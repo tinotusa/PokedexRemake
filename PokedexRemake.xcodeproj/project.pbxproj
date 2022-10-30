@@ -15,6 +15,7 @@
 		212AB02328F2F87A004067ED /* MovesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02228F2F87A004067ED /* MovesListView.swift */; };
 		212AB02528F2F8E5004067ED /* MovesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02428F2F8E5004067ED /* MovesListViewModel.swift */; };
 		212AB02728F2FA7A004067ED /* Move+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212AB02628F2FA7A004067ED /* Move+Extensions.swift */; };
+		212EDAC8290E372400A977C0 /* AbilityDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212EDAC7290E372400A977C0 /* AbilityDetail.swift */; };
 		2139BB012904E9FF00148C22 /* PokemonDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2139BB002904E9FF00148C22 /* PokemonDetailViewModel.swift */; };
 		213B0E5528FA468B008CAD4C /* ItemsCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E5428FA468B008CAD4C /* ItemsCategoryView.swift */; };
 		213B0E5728FA46AF008CAD4C /* ItemsCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E5628FA46AF008CAD4C /* ItemsCategoryViewModel.swift */; };
@@ -185,6 +186,7 @@
 		212AB02228F2F87A004067ED /* MovesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesListView.swift; sourceTree = "<group>"; };
 		212AB02428F2F8E5004067ED /* MovesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesListViewModel.swift; sourceTree = "<group>"; };
 		212AB02628F2FA7A004067ED /* Move+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Move+Extensions.swift"; sourceTree = "<group>"; };
+		212EDAC7290E372400A977C0 /* AbilityDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilityDetail.swift; sourceTree = "<group>"; };
 		2139BB002904E9FF00148C22 /* PokemonDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailViewModel.swift; sourceTree = "<group>"; };
 		213B0E5428FA468B008CAD4C /* ItemsCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsCategoryView.swift; sourceTree = "<group>"; };
 		213B0E5628FA46AF008CAD4C /* ItemsCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsCategoryViewModel.swift; sourceTree = "<group>"; };
@@ -494,6 +496,7 @@
 				21757CF128EECFE1004217D1 /* Pokemon */,
 				2144A5462900F77C009846AB /* MoveDetail.swift */,
 				21A66C0C29063E210022327B /* ItemDetail.swift */,
+				212EDAC7290E372400A977C0 /* AbilityDetail.swift */,
 			);
 			path = "Detail views";
 			sourceTree = "<group>";
@@ -923,6 +926,7 @@
 				2153D67D2903CC1A009CB897 /* MoveStatChangeView.swift in Sources */,
 				217B3B8728FBCFF600201BEC /* MoveResultsViewModel.swift in Sources */,
 				2164043528F2FF7900E6A13F /* MoveCardViewModel.swift in Sources */,
+				212EDAC8290E372400A977C0 /* AbilityDetail.swift in Sources */,
 				2153D667290376B0009CB897 /* MachinesListViewModel.swift in Sources */,
 				2169D3F828F908FC009CFE63 /* MoveCategoryView.swift in Sources */,
 				21B9D19228F3BE9E007C1270 /* Ability+Extensions.swift in Sources */,

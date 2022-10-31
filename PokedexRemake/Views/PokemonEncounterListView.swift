@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct PokemonEncounterListView: View {
-    let locationName: String
+    let locationArea: LocationArea
     let pokemonEncounters: [PokemonEncounter]
     @StateObject private var viewModel = PokemonEncounterListViewModel()
     @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
@@ -36,8 +36,15 @@ struct PokemonEncounterListView: View {
                 .padding(.horizontal)
                 ScrollView {
                     VStack(alignment: .leading) {
-                        Text(locationName)
-                            .title2Style()
+                        let name = locationArea.localizedName(languageCode: language)
+                        Group {
+                            if name.isEmpty {
+                                Text(locationArea.name)
+                            } else {
+                                Text(name)
+                            }
+                        }
+                        .title2Style()
                         Text("Pokemon that can be encounted at this location.")
                         Grid(alignment: .center){
                             ForEach(pokemonEncounters, id: \.self) { encounter in
@@ -121,6 +128,6 @@ private extension PokemonEncounterListView {
 
 struct PokemonEncounterListView_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonEncounterListView(locationName: Location.example.name, pokemonEncounters: LocationArea.example.pokemonEncounters)
+        PokemonEncounterListView(locationArea: .example, pokemonEncounters: LocationArea.example.pokemonEncounters)
     }
 }

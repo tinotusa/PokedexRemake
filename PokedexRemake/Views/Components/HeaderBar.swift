@@ -13,14 +13,25 @@ struct HeaderBar: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
-                Text(title)
-                    .lineLimit(1)
-                    .layoutPriority(1)
-                Spacer()
-                Text(Globals.formattedID(id))
-                    .foregroundColor(.gray)
-                    .fontWeight(.light)
+            ViewThatFits(in: .horizontal) {
+                HStack {
+                    Text(title)
+                        .lineLimit(1)
+                        .layoutPriority(1)
+                    Spacer()
+                    Text(Globals.formattedID(id))
+                        .foregroundColor(.gray)
+                        .fontWeight(.light)
+                }
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(title)
+                        .lineLimit(1)
+                        .layoutPriority(1)
+                    Text(Globals.formattedID(id))
+                        .foregroundColor(.gray)
+                        .fontWeight(.light)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
             .titleStyle()
             

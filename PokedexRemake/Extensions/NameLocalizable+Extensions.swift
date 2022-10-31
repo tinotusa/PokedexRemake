@@ -25,3 +25,4 @@ extension `Type`: NameLocalizable { }
 extension Stat: NameLocalizable { }
 extension Ability: NameLocalizable { }
 extension LocationArea: NameLocalizable { }
+extension EncounterMethod: NameLocalizable { }

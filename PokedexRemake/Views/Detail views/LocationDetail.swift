@@ -11,6 +11,7 @@ import SwiftPokeAPI
 struct LocationDetail: View {
     let location: Location
     @StateObject private var viewModel = LocationDetailViewModel()
+    @State private var selectedArea: LocationArea?
     
     @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
     
@@ -33,6 +34,9 @@ struct LocationDetail: View {
                 .padding()
             }
             .bodyStyle()
+            .sheet(item: $selectedArea) { area in
+                LocationAreaDetail(locationArea: area)
+            }
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }
@@ -63,7 +67,11 @@ private extension LocationDetail {
                     {
                         Text(name)
                     } else {
-                        Text(area.name)
+                        Button {
+                            selectedArea = area
+                        } label: {
+                            Text(area.name)
+                        }
                     }
                 }
             }

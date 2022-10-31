@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2120B486290FBEA80085C360 /* LocationAreaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B485290FBEA80085C360 /* LocationAreaDetail.swift */; };
+		2120B488290FBF2C0085C360 /* locationArea.json in Resources */ = {isa = PBXBuildFile; fileRef = 2120B487290FBF2B0085C360 /* locationArea.json */; };
+		2120B48A290FBF840085C360 /* LocationArea+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B489290FBF840085C360 /* LocationArea+Extension.swift */; };
+		2120B48C290FC1A80085C360 /* LocationAreaDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B48B290FC1A80085C360 /* LocationAreaDetailViewModel.swift */; };
 		21261E34290A345100FA2FF6 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E33290A345100FA2FF6 /* Localizable.swift */; };
 		21261E36290A34A500FA2FF6 /* Localizable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E35290A34A500FA2FF6 /* Localizable+Extensions.swift */; };
 		21261E38290A90B800FA2FF6 /* NameLocalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E37290A90B800FA2FF6 /* NameLocalizable.swift */; };
@@ -181,6 +185,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2120B485290FBEA80085C360 /* LocationAreaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAreaDetail.swift; sourceTree = "<group>"; };
+		2120B487290FBF2B0085C360 /* locationArea.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = locationArea.json; sourceTree = "<group>"; };
+		2120B489290FBF840085C360 /* LocationArea+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationArea+Extension.swift"; sourceTree = "<group>"; };
+		2120B48B290FC1A80085C360 /* LocationAreaDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAreaDetailViewModel.swift; sourceTree = "<group>"; };
 		21261E33290A345100FA2FF6 /* Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
 		21261E35290A34A500FA2FF6 /* Localizable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Localizable+Extensions.swift"; sourceTree = "<group>"; };
 		21261E37290A90B800FA2FF6 /* NameLocalizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameLocalizable.swift; sourceTree = "<group>"; };
@@ -452,6 +460,7 @@
 				21A66C0E290660F00022327B /* ItemDetailViewModel.swift */,
 				212EDAC9290E380D00A977C0 /* AbilityDetailViewModel.swift */,
 				212EDACD290E546700A977C0 /* LocationDetailViewModel.swift */,
+				2120B48B290FC1A80085C360 /* LocationAreaDetailViewModel.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -506,6 +515,7 @@
 				21A66C0C29063E210022327B /* ItemDetail.swift */,
 				212EDAC7290E372400A977C0 /* AbilityDetail.swift */,
 				212EDACB290E4FDF00A977C0 /* LocationDetail.swift */,
+				2120B485290FBEA80085C360 /* LocationAreaDetail.swift */,
 			);
 			path = "Detail views";
 			sourceTree = "<group>";
@@ -666,6 +676,7 @@
 				213B0E5D28FA7F3B008CAD4C /* Item+Extension.swift */,
 				217B3B6F28FBAE1400201BEC /* Location+Extensions.swift */,
 				2153D66C2903830B009CB897 /* Machine+Extensions.swift */,
+				2120B489290FBF840085C360 /* LocationArea+Extension.swift */,
 			);
 			path = SwiftPokeAPI;
 			sourceTree = "<group>";
@@ -745,6 +756,7 @@
 				217B3B7128FBAF3500201BEC /* location.json */,
 				2153D66A2903824B009CB897 /* machine.json */,
 				2153D67629039686009CB897 /* flashMove.json */,
+				2120B487290FBF2B0085C360 /* locationArea.json */,
 			);
 			path = "Example json";
 			sourceTree = "<group>";
@@ -880,6 +892,7 @@
 				21F3CA0628F115C1000BD757 /* evolutionChain.json in Resources */,
 				2153D67729039686009CB897 /* flashMove.json in Resources */,
 				2153D66B2903824B009CB897 /* machine.json in Resources */,
+				2120B488290FBF2C0085C360 /* locationArea.json in Resources */,
 				213B0E5C28FA7F17008CAD4C /* item.json in Resources */,
 				219198E828EACC9F002C6379 /* Assets.xcassets in Resources */,
 				21CD84AF28ED3BA2008B2611 /* grassType.json in Resources */,
@@ -915,6 +928,7 @@
 				217BA59E29024108009FCFAD /* DetailListView.swift in Sources */,
 				217B3B6A28FBAAF000201BEC /* LocationsCategoryView.swift in Sources */,
 				21D0C33C28EFD07600E8D18C /* StatsTabViewModel.swift in Sources */,
+				2120B48C290FC1A80085C360 /* LocationAreaDetailViewModel.swift in Sources */,
 				2153D679290396C4009CB897 /* PastMoveValueViewModel.swift in Sources */,
 				21B9D18C28F3BB61007C1270 /* AbilitiesListView.swift in Sources */,
 				21B9D19428F3C2F0007C1270 /* AbilityExpandableTab.swift in Sources */,
@@ -964,6 +978,7 @@
 				2144A54C290112AE009846AB /* PokemonListView.swift in Sources */,
 				21A66C0D29063E210022327B /* ItemDetail.swift in Sources */,
 				217B3B8E28FC149E00201BEC /* SearchErrorView.swift in Sources */,
+				2120B486290FBEA80085C360 /* LocationAreaDetail.swift in Sources */,
 				2153D67F2903CD23009CB897 /* MoveStatChangeViewModel.swift in Sources */,
 				21261E36290A34A500FA2FF6 /* Localizable+Extensions.swift in Sources */,
 				2193D51628FD5352006A686B /* EmptySearchHistoryView.swift in Sources */,
@@ -1003,6 +1018,7 @@
 				21CD84A428ED214D008B2611 /* PokemonResultRowViewModel.swift in Sources */,
 				217B3B6828FBA30400201BEC /* AbilityCardViewModel.swift in Sources */,
 				21CD849E28ED2014008B2611 /* PokemonSpecies+Extensions.swift in Sources */,
+				2120B48A290FBF840085C360 /* LocationArea+Extension.swift in Sources */,
 				219198E428EACC9D002C6379 /* PokedexRemakeApp.swift in Sources */,
 				21EB594128EC05C1009E201A /* SearchBar.swift in Sources */,
 				21757CF728EED596004217D1 /* ErrorView.swift in Sources */,

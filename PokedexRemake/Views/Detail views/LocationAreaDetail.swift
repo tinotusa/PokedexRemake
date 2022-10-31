@@ -52,11 +52,8 @@ struct LocationAreaDetail: View {
                     GridRow {
                         Text("Pokemon encounters")
                             .foregroundColor(.gray)
-                        NavigationLink {
-                            PokemonEncounterListView(
-                                locationArea: locationArea,
-                                pokemonEncounters: locationArea.pokemonEncounters
-                            )
+                        Button {
+                            viewModel.showingPokemonList = true
                         } label: {
                             NavigationLabel(title: "\(locationArea.pokemonEncounters.count)")
                         }
@@ -66,6 +63,14 @@ struct LocationAreaDetail: View {
                 .padding()
             }
             .bodyStyle()
+            .sheet(isPresented: $viewModel.showingPokemonList) {
+                PokemonEncounterListView(
+                    locationArea: locationArea,
+                    pokemonEncounters: locationArea.pokemonEncounters
+                )
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
+            }
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }

@@ -53,7 +53,10 @@ struct LocationAreaDetail: View {
                         Text("Pokemon encounters")
                             .foregroundColor(.gray)
                         NavigationLink {
-                            Text("PokemonEncounter list todo.")
+                            PokemonEncounterListView(
+                                locationArea: locationArea,
+                                pokemonEncounters: locationArea.pokemonEncounters
+                            )
                         } label: {
                             NavigationLabel(title: "\(locationArea.pokemonEncounters.count)")
                         }
@@ -71,6 +74,8 @@ struct LocationAreaDetail: View {
 
 struct LocationAreaDetail_Previews: PreviewProvider {
     static var previews: some View {
-        LocationAreaDetail(locationArea: .example)
+        NavigationStack {
+            LocationAreaDetail(locationArea: .example)
+        }
     }
 }

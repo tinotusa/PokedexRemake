@@ -12,6 +12,7 @@
 		2120B48A290FBF840085C360 /* LocationArea+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B489290FBF840085C360 /* LocationArea+Extension.swift */; };
 		2120B48C290FC1A80085C360 /* LocationAreaDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B48B290FC1A80085C360 /* LocationAreaDetailViewModel.swift */; };
 		2120B48E290FD07D0085C360 /* PokemonEncounterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B48D290FD07D0085C360 /* PokemonEncounterListView.swift */; };
+		2120B490290FD0C00085C360 /* PokemonEncounterListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B48F290FD0C00085C360 /* PokemonEncounterListViewModel.swift */; };
 		21261E34290A345100FA2FF6 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E33290A345100FA2FF6 /* Localizable.swift */; };
 		21261E36290A34A500FA2FF6 /* Localizable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E35290A34A500FA2FF6 /* Localizable+Extensions.swift */; };
 		21261E38290A90B800FA2FF6 /* NameLocalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E37290A90B800FA2FF6 /* NameLocalizable.swift */; };
@@ -191,6 +192,7 @@
 		2120B489290FBF840085C360 /* LocationArea+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationArea+Extension.swift"; sourceTree = "<group>"; };
 		2120B48B290FC1A80085C360 /* LocationAreaDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAreaDetailViewModel.swift; sourceTree = "<group>"; };
 		2120B48D290FD07D0085C360 /* PokemonEncounterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonEncounterListView.swift; sourceTree = "<group>"; };
+		2120B48F290FD0C00085C360 /* PokemonEncounterListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonEncounterListViewModel.swift; sourceTree = "<group>"; };
 		21261E33290A345100FA2FF6 /* Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
 		21261E35290A34A500FA2FF6 /* Localizable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Localizable+Extensions.swift"; sourceTree = "<group>"; };
 		21261E37290A90B800FA2FF6 /* NameLocalizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameLocalizable.swift; sourceTree = "<group>"; };
@@ -732,6 +734,7 @@
 				2153D672290391E8009CB897 /* PastMoveValuesListViewModel.swift */,
 				2153D678290396C4009CB897 /* PastMoveValueViewModel.swift */,
 				2153D67E2903CD23009CB897 /* MoveStatChangeViewModel.swift */,
+				2120B48F290FD0C00085C360 /* PokemonEncounterListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -990,6 +993,7 @@
 				217B3B6628FBA03A00201BEC /* AbilityCard.swift in Sources */,
 				2120B48E290FD07D0085C360 /* PokemonEncounterListView.swift in Sources */,
 				2153D66529037609009CB897 /* MachinesListView.swift in Sources */,
+				2120B490290FD0C00085C360 /* PokemonEncounterListViewModel.swift in Sources */,
 				213B0E6128FA7F89008CAD4C /* ItemCardViewModel.swift in Sources */,
 				21B9D19A28F3C92F007C1270 /* FlavorTextEntriesList.swift in Sources */,
 				2193D51028FD4859006A686B /* ItemResultsView.swift in Sources */,

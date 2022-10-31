@@ -6,15 +6,121 @@
 //
 
 import SwiftUI
+import SwiftPokeAPI
 
 struct PokemonEncounterListView: View {
+    let locationName: String
+    let pokemonEncounters: [PokemonEncounter]
+    @StateObject private var viewModel = PokemonEncounterListViewModel()
+    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @State private var selectedVersion: Version?
+    
     var body: some View {
-        Text("Hello, World!")
+        switch viewModel.viewLoadingState {
+        case .loading:
+            ProgressView()
+                .task {
+                    await viewModel.loadData(pokemonEncounters: pokemonEncounters)
+                }
+        case .loaded:
+            VStack {
+                HStack {
+                    ForEach(viewModel.sortedVersions) { version in
+                        Button {
+                            selectedVersion = version
+                        } label: {
+                            Text(version.localizedName(languageCode: language))
+                        }
+                    }
+                }
+                .padding(.horizontal)
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        Text(locationName)
+                            .title2Style()
+                        Text("Pokemon that can be encounted at this location.")
+                        Grid(alignment: .center){
+                            ForEach(pokemonEncounters, id: \.self) { encounter in
+                                if let pokemon = viewModel.pokemon.first(where: { $0.name == encounter.pokemon.name}) {
+                                    GridRow {
+                                        PokemonCardView(pokemon: pokemon)
+                                        encounterDetails(encounter: encounter)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal)
+                }
+            }
+            .bodyStyle()
+            .onAppear {
+                selectedVersion = viewModel.sortedVersions.first
+            }
+        case .error(let error):
+            ErrorView(text: error.localizedDescription)
+        }
+    }
+}
+
+private extension PokemonEncounterListView {
+    func detailsGrid(details: VersionEncounterDetail) -> some View {
+        ForEach(details.encounterDetails, id: \.self) { encounterDetails in
+            Grid(alignment: .leading, verticalSpacing: 8) {
+                GridRow {
+                    Text("Encounter method")
+                        .foregroundColor(.gray)
+                    if let encounterMethod = viewModel.encounterMethods.first(where: { $0.name == encounterDetails.method.name }) {
+                        Text(encounterMethod.localizedName(languageCode: language))
+                    }
+                }
+                GridRow {
+                    Text("Min level")
+                        .foregroundColor(.gray)
+                    Text("\(encounterDetails.minLevel)")
+                }
+                GridRow {
+                    Text("Max level")
+                        .foregroundColor(.gray)
+                    Text("\(encounterDetails.maxLevel)")
+                }
+                GridRow {
+                    Text("Chance")
+                        .foregroundColor(.gray)
+                    Text(encounterDetails.chance.formatted(.percent))
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+    
+    @ViewBuilder
+    func encounterDetails(encounter: PokemonEncounter) -> some View {
+        if let selectedVersion {
+            if let details = encounter.versionDetails.first(where: { $0.version.name == selectedVersion.name }) {
+                if details.encounterDetails.count == 1 {
+                    detailsGrid(details: details)
+                } else {
+                    TabView {
+                        detailsGrid(details: details)
+                    }
+                    .tabViewStyle(.page(indexDisplayMode: .always))
+                }
+                
+            } else {
+                Text("N/A")
+            }
+        } else {
+            Text("Select version to view details.")
+                .multilineTextAlignment(.leading)
+                .lineLimit(2)
+        }
     }
 }
 
 struct PokemonEncounterListView_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonEncounterListView()
+        PokemonEncounterListView(locationName: Location.example.name, pokemonEncounters: LocationArea.example.pokemonEncounters)
     }
 }

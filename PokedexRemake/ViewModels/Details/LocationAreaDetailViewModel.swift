@@ -24,6 +24,7 @@ final class LocationAreaDetailViewModel: ObservableObject {
 }
 
 extension LocationAreaDetailViewModel {
+    @MainActor
     func loadData(locationArea: LocationArea) async {
         do {
             self.encounterVersions = try await getEncounterMethodVersions(locationArea: locationArea)

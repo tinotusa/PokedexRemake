@@ -40,6 +40,7 @@ final class AbilityDetailViewModel: ObservableObject {
 }
 
 extension AbilityDetailViewModel {
+    @MainActor
     func loadData(ability: Ability, languageCode: String) async {
         do {
             self.generation = try await Generation(ability.generation.url)

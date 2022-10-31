@@ -62,14 +62,14 @@ private extension LocationDetail {
                 .foregroundColor(.gray)
             VStack(alignment: .leading) {
                 ForEach(viewModel.areas) { area in
-                    if let name = area.localizedName(languageCode: language),
-                       !name.isEmpty
-                    {
-                        Text(name)
-                    } else {
-                        Button {
-                            selectedArea = area
-                        } label: {
+                    Button {
+                        selectedArea = area
+                    } label: {
+                        if let name = area.localizedName(languageCode: language),
+                           !name.isEmpty
+                        {
+                            Text(name)
+                        } else {
                             Text(area.name)
                         }
                     }

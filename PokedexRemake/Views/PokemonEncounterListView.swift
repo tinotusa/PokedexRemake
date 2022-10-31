@@ -23,45 +23,44 @@ struct PokemonEncounterListView: View {
                     await viewModel.loadData(pokemonEncounters: pokemonEncounters)
                 }
         case .loaded:
-            VStack {
-                HStack {
-                    ForEach(viewModel.sortedVersions) { version in
-                        Button {
-                            selectedVersion = version
-                        } label: {
-                            Text(version.localizedName(languageCode: language))
+            ScrollView {
+                VStack(alignment: .leading) {
+                    let name = locationArea.localizedName(languageCode: language)
+                    Group {
+                        if name.isEmpty {
+                            Text(locationArea.name)
+                        } else {
+                            Text(name)
                         }
                     }
-                }
-                .padding(.horizontal)
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        let name = locationArea.localizedName(languageCode: language)
-                        Group {
-                            if name.isEmpty {
-                                Text(locationArea.name)
-                            } else {
-                                Text(name)
+                    .title2Style()
+                    
+                    Text("Pokemon that can be encountered at this location.")
+                    
+                    HStack {
+                        ForEach(viewModel.sortedVersions) { version in
+                            Button {
+                                selectedVersion = version
+                            } label: {
+                                Text(version.localizedName(languageCode: language))
                             }
                         }
-                        .title2Style()
-                        Text("Pokemon that can be encounted at this location.")
-                        Grid(alignment: .center){
-                            ForEach(pokemonEncounters, id: \.self) { encounter in
-                                if let pokemon = viewModel.pokemon.first(where: { $0.name == encounter.pokemon.name}) {
-                                    GridRow {
-                                        PokemonCardView(pokemon: pokemon)
-                                        encounterDetails(encounter: encounter)
-                                    }
+                    }
+                    
+                    Grid(alignment: .center){
+                        ForEach(pokemonEncounters, id: \.self) { encounter in
+                            if let pokemon = viewModel.pokemon.first(where: { $0.name == encounter.pokemon.name}) {
+                                GridRow {
+                                    PokemonCardView(pokemon: pokemon)
+                                    encounterDetails(encounter: encounter)
                                 }
                             }
                         }
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
             }
-            .bodyStyle()
             .onAppear {
                 selectedVersion = viewModel.sortedVersions.first
             }

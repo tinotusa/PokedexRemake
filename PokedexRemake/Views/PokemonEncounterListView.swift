@@ -27,16 +27,6 @@ struct PokemonEncounterListView: View {
             NavigationStack {
                 ScrollView {
                     VStack(alignment: .leading) {
-                        let name = locationArea.localizedName(languageCode: language)
-                        Group {
-                            if name.isEmpty {
-                                Text(locationArea.name)
-                            } else {
-                                Text(name)
-                            }
-                        }
-                        .title2Style()
-                        
                         Text("Pokemon that can be encountered at this location.")
                         
                         HStack {
@@ -64,7 +54,7 @@ struct PokemonEncounterListView: View {
                     .padding()
                 }
                 .bodyStyle()
-                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarTitle(locationName)
                 .toolbar {
                     Button("Close") {
                         dismiss()
@@ -81,6 +71,14 @@ struct PokemonEncounterListView: View {
 }
 
 private extension PokemonEncounterListView {
+    var locationName: String {
+        let name = locationArea.localizedName(languageCode: language)
+        if name.isEmpty {
+            return locationArea.name
+        }
+        return name
+    }
+    
     func detailsGrid(details: VersionEncounterDetail) -> some View {
         ForEach(details.encounterDetails, id: \.self) { encounterDetails in
             Grid(alignment: .leading, verticalSpacing: 8) {

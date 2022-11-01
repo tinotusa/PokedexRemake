@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2100FCAE2910CC6600B59DCF /* LocationArea+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2100FCAD2910CC6600B59DCF /* LocationArea+Extensions.swift */; };
 		2100FCB029112E2000B59DCF /* GenerationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2100FCAF29112E2000B59DCF /* GenerationDetail.swift */; };
+		2100FCB229112E4D00B59DCF /* GenerationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2100FCB129112E4D00B59DCF /* GenerationDetailViewModel.swift */; };
 		2120B486290FBEA80085C360 /* LocationAreaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B485290FBEA80085C360 /* LocationAreaDetail.swift */; };
 		2120B488290FBF2C0085C360 /* locationArea.json in Resources */ = {isa = PBXBuildFile; fileRef = 2120B487290FBF2B0085C360 /* locationArea.json */; };
 		2120B48A290FBF840085C360 /* LocationArea+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B489290FBF840085C360 /* LocationArea+Extension.swift */; };
@@ -191,6 +192,7 @@
 /* Begin PBXFileReference section */
 		2100FCAD2910CC6600B59DCF /* LocationArea+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationArea+Extensions.swift"; sourceTree = "<group>"; };
 		2100FCAF29112E2000B59DCF /* GenerationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationDetail.swift; sourceTree = "<group>"; };
+		2100FCB129112E4D00B59DCF /* GenerationDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationDetailViewModel.swift; sourceTree = "<group>"; };
 		2120B485290FBEA80085C360 /* LocationAreaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAreaDetail.swift; sourceTree = "<group>"; };
 		2120B487290FBF2B0085C360 /* locationArea.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = locationArea.json; sourceTree = "<group>"; };
 		2120B489290FBF840085C360 /* LocationArea+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationArea+Extension.swift"; sourceTree = "<group>"; };
@@ -469,6 +471,7 @@
 				212EDAC9290E380D00A977C0 /* AbilityDetailViewModel.swift */,
 				212EDACD290E546700A977C0 /* LocationDetailViewModel.swift */,
 				2120B48B290FC1A80085C360 /* LocationAreaDetailViewModel.swift */,
+				2100FCB129112E4D00B59DCF /* GenerationDetailViewModel.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -1061,6 +1064,7 @@
 				2144A5452900EF35009846AB /* LocationResultsViewModel.swift in Sources */,
 				21EB594B28EC3496009E201A /* PokemonResultRow.swift in Sources */,
 				2153D681290406A7009CB897 /* SearchResultsList.swift in Sources */,
+				2100FCB229112E4D00B59DCF /* GenerationDetailViewModel.swift in Sources */,
 				21CD84BE28ED6A63008B2611 /* TypeTag.swift in Sources */,
 				217BA59629023906009FCFAD /* NavigationLabel.swift in Sources */,
 				213B0E6328FACCD4008CAD4C /* AbilitiesCategoryView.swift in Sources */,

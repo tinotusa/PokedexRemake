@@ -78,10 +78,10 @@ struct PokemonDetail: View {
         .sheet(isPresented: $viewModel.showingMovesSheet) {
             MovesListView(
                 title: viewModel.pokemonSpecies.localizedName(languageCode: language),
+                id: pokemon.id,
                 description: "Moves this pokemon can learn.",
-                
-                viewModel: movesListViewModel,
-                pokemon: pokemon
+                moveURLS: pokemon.moves.map { $0.move.url },
+                viewModel: movesListViewModel
             )
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)

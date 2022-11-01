@@ -37,10 +37,9 @@ final class MovesListViewModel: ObservableObject {
 
 extension MovesListViewModel {
     @MainActor
-    func loadData(pokemon: Pokemon) async {
+    func loadData(moveURLS: [URL]) async {
         logger.debug("Loading data.")
-        let urls = pokemon.moves.map { $0.move.url }
-        self.urls = urls
+        self.urls = moveURLS
         
         do {
             self.moves = try await Globals.getMoves(urls: urls, limit: limit)

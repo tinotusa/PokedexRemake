@@ -10,19 +10,19 @@ import SwiftPokeAPI
 
 struct MovesListView: View {
     let title: String
+    let id: Int
     let description: LocalizedStringKey
-    
+    let moveURLS: [URL]
     @ObservedObject var viewModel: MovesListViewModel
-    let pokemon: Pokemon
     
     var body: some View {
-        DetailListView(title: title, id: pokemon.id, description: description) {
+        DetailListView(title: title, id: id, description: description) {
             Group {
                 switch viewModel.viewLoadingState {
                 case .loading:
                     ProgressView()
                         .task {
-                            await viewModel.loadData(pokemon: pokemon)
+                            await viewModel.loadData(moveURLS: moveURLS)
                         }
                 case .loaded:
                     LazyVStack(alignment: .leading) {
@@ -51,9 +51,10 @@ struct MovesListView_Previews: PreviewProvider {
     static var previews: some View {
         MovesListView(
             title: "Pokemon name",
+            id: 123,
             description: "Some description here",
-            viewModel: MovesListViewModel(),
-            pokemon: .example
+            moveURLS: [],
+            viewModel: MovesListViewModel()
         )
     }
 }

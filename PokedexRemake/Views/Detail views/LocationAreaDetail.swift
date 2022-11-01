@@ -27,26 +27,25 @@ struct LocationAreaDetail: View {
                         GridRow {
                             Text("Name")
                                 .foregroundColor(.gray)
-                            let name = locationArea.localizedName(languageCode: languageCode)
-                            if name.isEmpty {
-                                Text(locationArea.name)
-                            } else {
-                                Text(name)
-                            }
+                            Text(locationArea.filteredName(languageCode: languageCode))
                         }
                         GridRow {
                             Text("Encounter method rates")
                                 .foregroundColor(.gray)
-                            VStack(alignment: .leading) {
-                                ForEach(viewModel.encounterVersions) { encounterVersion in
-                                    Text(encounterVersion.encounterMethod.localizedName(languageCode: languageCode))
-                                    ForEach(encounterVersion.versionDetails, id: \.version) { details in
-                                        HStack {
-                                            Text(details.rate.formatted(.percent))
-                                            Text(details.version.localizedName(languageCode: languageCode))
+                            if viewModel.encounterVersions.isEmpty {
+                                Text("N/A")
+                            } else {
+                                VStack(alignment: .leading) {
+                                    ForEach(viewModel.encounterVersions) { encounterVersion in
+                                        Text(encounterVersion.encounterMethod.localizedName(languageCode: languageCode))
+                                        ForEach(encounterVersion.versionDetails, id: \.version) { details in
+                                            HStack {
+                                                Text(details.rate.formatted(.percent))
+                                                Text(details.version.localizedName(languageCode: languageCode))
+                                            }
                                         }
+                                        Divider()
                                     }
-                                    Divider()
                                 }
                             }
                         }
@@ -64,7 +63,7 @@ struct LocationAreaDetail: View {
                     .padding()
                 }
                 .bodyStyle()
-                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarTitle(locationArea.filteredName(languageCode: languageCode))
                 .toolbar {
                     Button("Close") {
                         dismiss()

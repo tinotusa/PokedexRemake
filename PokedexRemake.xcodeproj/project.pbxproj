@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2100FCAE2910CC6600B59DCF /* LocationArea+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2100FCAD2910CC6600B59DCF /* LocationArea+Extensions.swift */; };
 		2120B486290FBEA80085C360 /* LocationAreaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B485290FBEA80085C360 /* LocationAreaDetail.swift */; };
 		2120B488290FBF2C0085C360 /* locationArea.json in Resources */ = {isa = PBXBuildFile; fileRef = 2120B487290FBF2B0085C360 /* locationArea.json */; };
 		2120B48A290FBF840085C360 /* LocationArea+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B489290FBF840085C360 /* LocationArea+Extension.swift */; };
@@ -187,6 +188,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2100FCAD2910CC6600B59DCF /* LocationArea+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationArea+Extensions.swift"; sourceTree = "<group>"; };
 		2120B485290FBEA80085C360 /* LocationAreaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAreaDetail.swift; sourceTree = "<group>"; };
 		2120B487290FBF2B0085C360 /* locationArea.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = locationArea.json; sourceTree = "<group>"; };
 		2120B489290FBF840085C360 /* LocationArea+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationArea+Extension.swift"; sourceTree = "<group>"; };
@@ -682,6 +684,7 @@
 				217B3B6F28FBAE1400201BEC /* Location+Extensions.swift */,
 				2153D66C2903830B009CB897 /* Machine+Extensions.swift */,
 				2120B489290FBF840085C360 /* LocationArea+Extension.swift */,
+				2100FCAD2910CC6600B59DCF /* LocationArea+Extensions.swift */,
 			);
 			path = SwiftPokeAPI;
 			sourceTree = "<group>";
@@ -1063,6 +1066,7 @@
 				212AB02328F2F87A004067ED /* MovesListView.swift in Sources */,
 				2164042F28F2FE7700E6A13F /* MoveCard.swift in Sources */,
 				21B9D1A028F3D6CC007C1270 /* AbilityEffectChangesListViewModel.swift in Sources */,
+				2100FCAE2910CC6600B59DCF /* LocationArea+Extensions.swift in Sources */,
 				2144A5472900F77C009846AB /* MoveDetail.swift in Sources */,
 				2193D51228FD48A6006A686B /* ItemResultsViewModel.swift in Sources */,
 				21D0C34028F03B7B00E8D18C /* EvolutionsTab.swift in Sources */,

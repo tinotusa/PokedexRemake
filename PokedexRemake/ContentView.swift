@@ -31,7 +31,7 @@ struct ContentView: View {
                     LocationDetail(location: location)
                 }
                 .navigationDestination(for: Generation.self) { generation in
-                    Text("Generation detail for: \(generation.name)")
+                    GenerationDetail(generation: generation)
                 }
         }
         .onChange(of: scenePhase) { scenePhase in

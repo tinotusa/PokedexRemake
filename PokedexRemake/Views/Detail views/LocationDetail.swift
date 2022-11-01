@@ -36,6 +36,8 @@ struct LocationDetail: View {
             .bodyStyle()
             .sheet(item: $selectedArea) { area in
                 LocationAreaDetail(locationArea: area)
+                    .presentationDetents([.large])
+                    .presentationDragIndicator(.visible)
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)

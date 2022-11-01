@@ -14,6 +14,7 @@ struct PokemonEncounterListView: View {
     @StateObject private var viewModel = PokemonEncounterListViewModel()
     @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
     @State private var selectedVersion: Version?
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -23,46 +24,55 @@ struct PokemonEncounterListView: View {
                     await viewModel.loadData(pokemonEncounters: pokemonEncounters)
                 }
         case .loaded:
-            ScrollView {
-                VStack(alignment: .leading) {
-                    let name = locationArea.localizedName(languageCode: language)
-                    Group {
-                        if name.isEmpty {
-                            Text(locationArea.name)
-                        } else {
-                            Text(name)
-                        }
-                    }
-                    .title2Style()
-                    
-                    Text("Pokemon that can be encountered at this location.")
-                    
-                    HStack {
-                        ForEach(viewModel.sortedVersions) { version in
-                            Button {
-                                selectedVersion = version
-                            } label: {
-                                Text(version.localizedName(languageCode: language))
+            NavigationStack {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        let name = locationArea.localizedName(languageCode: language)
+                        Group {
+                            if name.isEmpty {
+                                Text(locationArea.name)
+                            } else {
+                                Text(name)
                             }
                         }
-                    }
-                    
-                    Grid(alignment: .center){
-                        ForEach(pokemonEncounters, id: \.self) { encounter in
-                            if let pokemon = viewModel.pokemon.first(where: { $0.name == encounter.pokemon.name}) {
-                                GridRow {
-                                    PokemonCardView(pokemon: pokemon)
-                                    encounterDetails(encounter: encounter)
+                        .title2Style()
+                        
+                        Text("Pokemon that can be encountered at this location.")
+                        
+                        HStack {
+                            ForEach(viewModel.sortedVersions) { version in
+                                Button {
+                                    selectedVersion = version
+                                } label: {
+                                    Text(version.localizedName(languageCode: language))
+                                }
+                            }
+                        }
+                        
+                        Grid(alignment: .center){
+                            ForEach(pokemonEncounters, id: \.self) { encounter in
+                                if let pokemon = viewModel.pokemon.first(where: { $0.name == encounter.pokemon.name}) {
+                                    GridRow {
+                                        PokemonCardView(pokemon: pokemon)
+                                        encounterDetails(encounter: encounter)
+                                    }
                                 }
                             }
                         }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
+                .bodyStyle()
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    Button("Close") {
+                        dismiss()
+                    }
+                }
+                .onAppear {
+                    selectedVersion = viewModel.sortedVersions.first
             }
-            .onAppear {
-                selectedVersion = viewModel.sortedVersions.first
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)
@@ -127,6 +137,8 @@ private extension PokemonEncounterListView {
 
 struct PokemonEncounterListView_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonEncounterListView(locationArea: .example, pokemonEncounters: LocationArea.example.pokemonEncounters)
+        NavigationStack {
+            PokemonEncounterListView(locationArea: .example, pokemonEncounters: LocationArea.example.pokemonEncounters)
+        }
     }
 }

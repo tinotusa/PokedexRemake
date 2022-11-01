@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2100FCAE2910CC6600B59DCF /* LocationArea+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2100FCAD2910CC6600B59DCF /* LocationArea+Extensions.swift */; };
+		2100FCB029112E2000B59DCF /* GenerationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2100FCAF29112E2000B59DCF /* GenerationDetail.swift */; };
 		2120B486290FBEA80085C360 /* LocationAreaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B485290FBEA80085C360 /* LocationAreaDetail.swift */; };
 		2120B488290FBF2C0085C360 /* locationArea.json in Resources */ = {isa = PBXBuildFile; fileRef = 2120B487290FBF2B0085C360 /* locationArea.json */; };
 		2120B48A290FBF840085C360 /* LocationArea+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B489290FBF840085C360 /* LocationArea+Extension.swift */; };
@@ -189,6 +190,7 @@
 
 /* Begin PBXFileReference section */
 		2100FCAD2910CC6600B59DCF /* LocationArea+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationArea+Extensions.swift"; sourceTree = "<group>"; };
+		2100FCAF29112E2000B59DCF /* GenerationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationDetail.swift; sourceTree = "<group>"; };
 		2120B485290FBEA80085C360 /* LocationAreaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAreaDetail.swift; sourceTree = "<group>"; };
 		2120B487290FBF2B0085C360 /* locationArea.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = locationArea.json; sourceTree = "<group>"; };
 		2120B489290FBF840085C360 /* LocationArea+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationArea+Extension.swift"; sourceTree = "<group>"; };
@@ -522,6 +524,7 @@
 				212EDAC7290E372400A977C0 /* AbilityDetail.swift */,
 				212EDACB290E4FDF00A977C0 /* LocationDetail.swift */,
 				2120B485290FBEA80085C360 /* LocationAreaDetail.swift */,
+				2100FCAF29112E2000B59DCF /* GenerationDetail.swift */,
 			);
 			path = "Detail views";
 			sourceTree = "<group>";
@@ -988,6 +991,7 @@
 				21A66C0D29063E210022327B /* ItemDetail.swift in Sources */,
 				217B3B8E28FC149E00201BEC /* SearchErrorView.swift in Sources */,
 				2120B486290FBEA80085C360 /* LocationAreaDetail.swift in Sources */,
+				2100FCB029112E2000B59DCF /* GenerationDetail.swift in Sources */,
 				2153D67F2903CD23009CB897 /* MoveStatChangeViewModel.swift in Sources */,
 				21261E36290A34A500FA2FF6 /* Localizable+Extensions.swift in Sources */,
 				2193D51628FD5352006A686B /* EmptySearchHistoryView.swift in Sources */,

@@ -14,6 +14,7 @@ struct GenerationDetail: View {
     @AppStorage(SettingsKey.language.rawValue) private var languageCode = SettingsKey.defaultLanguage
     @StateObject private var movesListViewModel = MovesListViewModel()
     @StateObject private var pokemonListViewModel = PokemonListViewModel()
+    @StateObject private var pokemonSpeciesListViewModel = PokemonSpeciesListViewModel()
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -51,7 +52,11 @@ struct GenerationDetail: View {
                 .presentationDragIndicator(.visible)
             }
             .sheet(isPresented: $viewModel.showingPokemonSpeciesList) {
-                Text("TODO")
+                PokemonSpeciesListView(
+                    title: generation.localizedName(languageCode: languageCode),
+                    speciesURLs: generation.pokemonSpecies.map { $0.url },
+                    viewModel: pokemonSpeciesListViewModel
+                )
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
             }

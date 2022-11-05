@@ -9,38 +9,6 @@ import Foundation
 import SwiftPokeAPI
 import os
 
-/// Information about a page.
-struct PageInfo {
-    /// The number of things per page.
-    let limit: Int
-    /// The current offset of page.
-    var offset: Int
-    /// Whether or not there is a next page.
-    var hasNextPage: Bool = true
-    
-    /// Creates a PageInfo with the given arguments.
-    init(limit: Int = 20, offset: Int = 0, hasNextPage: Bool = true) {
-        self.limit = limit
-        self.offset = offset
-        self.hasNextPage = hasNextPage
-    }
-}
-
-protocol Pageable {
-    associatedtype Value: Codable & SearchableByURL
-    var values: [Value] { get }
-    var pageInfo: PageInfo { get }
-    func loadPage(pageInfo: PageInfo) async throws -> (items: [Value], pageInfo: PageInfo)
-}
-
-enum PaginationState {
-    case loadingFirstPage
-    case loaded
-    case loadingNextPage
-    case error(error: Error)
-}
-
-#warning("can this be cleaned up")
 final class AbilityListViewModel: ObservableObject, Pageable {
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     

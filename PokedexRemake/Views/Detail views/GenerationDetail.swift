@@ -60,6 +60,15 @@ struct GenerationDetail: View {
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
             }
+            .sheet(isPresented: $viewModel.showingAbilitiesList) {
+                AbilityListView(
+                    title: generation.localizedName(languageCode: languageCode),
+                    description: "Abilities introduced in this generation",
+                    abilityURLS: generation.abilities.map { $0.url }
+                )
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
+            }
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }
@@ -71,6 +80,10 @@ private extension GenerationDetail {
     func gridRowValue(for infoKey: GenerationDetailViewModel.InfoKey) -> some View {
         let value = viewModel.details[infoKey, default: "N/A"]
         switch infoKey {
+        case .abilities:
+            GridRowButton(items: generation.abilities, value: value) {
+                viewModel.showingAbilitiesList = true
+            }
         case .moves:
             GridRowButton(items: generation.moves, value: value) {
                 viewModel.showingMovesList = true

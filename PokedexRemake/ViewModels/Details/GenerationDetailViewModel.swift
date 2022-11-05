@@ -21,6 +21,7 @@ final class GenerationDetailViewModel: ObservableObject {
     
     @Published var showingMovesList = false
     @Published var showingPokemonSpeciesList = false
+    @Published var showingAbilitiesList = false
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "GenerationDetailViewModel")
     

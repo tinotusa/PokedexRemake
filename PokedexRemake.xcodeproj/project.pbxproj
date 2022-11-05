@@ -18,6 +18,8 @@
 		2120B48C290FC1A80085C360 /* LocationAreaDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B48B290FC1A80085C360 /* LocationAreaDetailViewModel.swift */; };
 		2120B48E290FD07D0085C360 /* PokemonEncounterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B48D290FD07D0085C360 /* PokemonEncounterListView.swift */; };
 		2120B490290FD0C00085C360 /* PokemonEncounterListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120B48F290FD0C00085C360 /* PokemonEncounterListViewModel.swift */; };
+		2122ED8E29136379004F503D /* AbilityListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2122ED8D29136379004F503D /* AbilityListView.swift */; };
+		2122ED90291363E7004F503D /* AbilityListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2122ED8F291363E7004F503D /* AbilityListViewModel.swift */; };
 		21261E34290A345100FA2FF6 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E33290A345100FA2FF6 /* Localizable.swift */; };
 		21261E36290A34A500FA2FF6 /* Localizable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E35290A34A500FA2FF6 /* Localizable+Extensions.swift */; };
 		21261E38290A90B800FA2FF6 /* NameLocalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261E37290A90B800FA2FF6 /* NameLocalizable.swift */; };
@@ -203,6 +205,8 @@
 		2120B48B290FC1A80085C360 /* LocationAreaDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAreaDetailViewModel.swift; sourceTree = "<group>"; };
 		2120B48D290FD07D0085C360 /* PokemonEncounterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonEncounterListView.swift; sourceTree = "<group>"; };
 		2120B48F290FD0C00085C360 /* PokemonEncounterListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonEncounterListViewModel.swift; sourceTree = "<group>"; };
+		2122ED8D29136379004F503D /* AbilityListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilityListView.swift; sourceTree = "<group>"; };
+		2122ED8F291363E7004F503D /* AbilityListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilityListViewModel.swift; sourceTree = "<group>"; };
 		21261E33290A345100FA2FF6 /* Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
 		21261E35290A34A500FA2FF6 /* Localizable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Localizable+Extensions.swift"; sourceTree = "<group>"; };
 		21261E37290A90B800FA2FF6 /* NameLocalizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameLocalizable.swift; sourceTree = "<group>"; };
@@ -620,6 +624,7 @@
 				2153D67C2903CC1A009CB897 /* MoveStatChangeView.swift */,
 				2120B48D290FD07D0085C360 /* PokemonEncounterListView.swift */,
 				2108709129126FD900489A2B /* PokemonSpeciesListView.swift */,
+				2122ED8D29136379004F503D /* AbilityListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -750,6 +755,7 @@
 				2153D67E2903CD23009CB897 /* MoveStatChangeViewModel.swift */,
 				2120B48F290FD0C00085C360 /* PokemonEncounterListViewModel.swift */,
 				210870932912708400489A2B /* PokemonSpeciesListViewModel.swift */,
+				2122ED8F291363E7004F503D /* AbilityListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1025,6 +1031,7 @@
 				2144A54E290112DB009846AB /* PokemonListViewModel.swift in Sources */,
 				21CD84AD28ED3879008B2611 /* Type+Extensions.swift in Sources */,
 				21F3CA1528F18B14000BD757 /* EvolutionDetailView.swift in Sources */,
+				2122ED8E29136379004F503D /* AbilityListView.swift in Sources */,
 				21F3CA0D28F16801000BD757 /* ChainLinkView.swift in Sources */,
 				21F3CA1328F1730F000BD757 /* PokemonImage.swift in Sources */,
 				2153D66D2903830B009CB897 /* Machine+Extensions.swift in Sources */,
@@ -1074,6 +1081,7 @@
 				2153D681290406A7009CB897 /* SearchResultsList.swift in Sources */,
 				2100FCB229112E4D00B59DCF /* GenerationDetailViewModel.swift in Sources */,
 				21CD84BE28ED6A63008B2611 /* TypeTag.swift in Sources */,
+				2122ED90291363E7004F503D /* AbilityListViewModel.swift in Sources */,
 				217BA59629023906009FCFAD /* NavigationLabel.swift in Sources */,
 				213B0E6328FACCD4008CAD4C /* AbilitiesCategoryView.swift in Sources */,
 				21757CF528EED44E004217D1 /* Version+Extensions.swift in Sources */,

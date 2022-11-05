@@ -14,6 +14,15 @@ protocol NameLocalizable {
 }
 
 extension NameLocalizable {
+    /// All of the language codes for the names.
+    /// - returns: An array of all of the language codes the type has.
+    func namesLangaugeCodes() -> [String] {
+        self.names.compactMap { $0.language.name }
+    }
+    
+    /// The localised name for the object.
+    /// - parameter languageCode: The language code to localise with.
+    /// - returns: The localised name if a matching localisation was found or the default name.
     func localizedName(languageCode: String) -> String {
         var name: Name?
         // try to find requested language

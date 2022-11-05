@@ -18,6 +18,9 @@ struct HomeView: View {
     @StateObject private var abilitiesCategoryViewModel = AbilitiesCategoryViewModel()
     @StateObject private var locationsCategoryViewModel = LocationsCategoryViewModel()
     @StateObject private var generationsCategoryViewModel = GenerationsCategoryViewModel()
+    @AppStorage(SettingsKey.isDarkMode.rawValue) private var isDarkMode = SettingsKey.defaultIsDarkMode
+    
+    @State private var showingSettings = false
     
     var body: some View {
         VStack {
@@ -27,6 +30,18 @@ struct HomeView: View {
                 homeView
             }
         }
+        .navigationTitle("Search")
+        .toolbar {
+            Button("Settings") {
+                showingSettings = true
+            }
+        }
+        .sheet(isPresented: $showingSettings) {
+            SettingsView()
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
+        }
+        .preferredColorScheme(isDarkMode ? .dark : .light)
         .navigationDestination(for: PokemonCategoryViewModel.self) { pokemonCategoryViewModel in
             PokemonCategoryView(viewModel: pokemonCategoryViewModel)
         }
@@ -51,8 +66,6 @@ struct HomeView: View {
 private extension HomeView {
     var homeView: some View {
         VStack(alignment: .leading) {
-            Text("Search")
-                .headerTextStyle()
             Button {
                 withAnimation {
                     isShowingSearchView = true
@@ -81,7 +94,7 @@ private extension HomeView {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             HomeView()
                 .environmentObject(PokemonResultsViewModel())
         }

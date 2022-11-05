@@ -60,7 +60,6 @@ struct SearchView: View {
             }
             Spacer()
         }
-        .scrollDismissesKeyboard(.immediately)
         .ignoresSafeArea(edges: .bottom)
         .onAppear {
             focusedField = .searchBar

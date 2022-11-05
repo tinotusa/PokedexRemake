@@ -26,3 +26,4 @@ extension Stat: NameLocalizable { }
 extension Ability: NameLocalizable { }
 extension LocationArea: NameLocalizable { }
 extension EncounterMethod: NameLocalizable { }
+extension Language: NameLocalizable { }

@@ -23,42 +23,48 @@ struct HomeView: View {
     @State private var showingSettings = false
     
     var body: some View {
-        VStack {
-            if isShowingSearchView {
-                SearchView(showingSearchView: $isShowingSearchView, namespace: namespace)
-            } else {
-                homeView
+        GeometryReader { proxy in
+            ScrollView {
+                VStack {
+                    if isShowingSearchView {
+                        SearchView(showingSearchView: $isShowingSearchView, namespace: namespace)
+                    } else {
+                        homeView
+                    }
+                }
+                .frame(width: proxy.size.width)
+                .frame(minHeight: proxy.size.height)
+                .navigationTitle("Search")
+                .toolbar {
+                    Button("Settings") {
+                        showingSettings = true
+                    }
+                }
+                .sheet(isPresented: $showingSettings) {
+                    SettingsView()
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
+                }
+                .preferredColorScheme(isDarkMode ? .dark : .light)
             }
-        }
-        .navigationTitle("Search")
-        .toolbar {
-            Button("Settings") {
-                showingSettings = true
+            .navigationDestination(for: PokemonCategoryViewModel.self) { pokemonCategoryViewModel in
+                PokemonCategoryView(viewModel: pokemonCategoryViewModel)
             }
-        }
-        .sheet(isPresented: $showingSettings) {
-            SettingsView()
-                .presentationDetents([.large])
-                .presentationDragIndicator(.visible)
-        }
-        .preferredColorScheme(isDarkMode ? .dark : .light)
-        .navigationDestination(for: PokemonCategoryViewModel.self) { pokemonCategoryViewModel in
-            PokemonCategoryView(viewModel: pokemonCategoryViewModel)
-        }
-        .navigationDestination(for: MoveCategoryViewModel.self) { moveCategoryViewModel in
-            MoveCategoryView(viewModel: moveCategoryViewModel)
-        }
-        .navigationDestination(for: ItemsCategoryViewModel.self) { itemsCategoryViewModel in
-            ItemsCategoryView(viewModel: itemsCategoryViewModel)
-        }
-        .navigationDestination(for: AbilitiesCategoryViewModel.self) { abilitiesCategoryViewModel in
-            AbilitiesCategoryView(viewModel: abilitiesCategoryViewModel)
-        }
-        .navigationDestination(for: LocationsCategoryViewModel.self) { locationsCategoryViewModel in
-            LocationsCategoryView(viewModel: locationsCategoryViewModel)
-        }
-        .navigationDestination(for: GenerationsCategoryViewModel.self) { generationsCategoryViewModel in
-            GenerationsCategoryView(viewModel: generationsCategoryViewModel)
+            .navigationDestination(for: MoveCategoryViewModel.self) { moveCategoryViewModel in
+                MoveCategoryView(viewModel: moveCategoryViewModel)
+            }
+            .navigationDestination(for: ItemsCategoryViewModel.self) { itemsCategoryViewModel in
+                ItemsCategoryView(viewModel: itemsCategoryViewModel)
+            }
+            .navigationDestination(for: AbilitiesCategoryViewModel.self) { abilitiesCategoryViewModel in
+                AbilitiesCategoryView(viewModel: abilitiesCategoryViewModel)
+            }
+            .navigationDestination(for: LocationsCategoryViewModel.self) { locationsCategoryViewModel in
+                LocationsCategoryView(viewModel: locationsCategoryViewModel)
+            }
+            .navigationDestination(for: GenerationsCategoryViewModel.self) { generationsCategoryViewModel in
+                GenerationsCategoryView(viewModel: generationsCategoryViewModel)
+            }
         }
     }
 }

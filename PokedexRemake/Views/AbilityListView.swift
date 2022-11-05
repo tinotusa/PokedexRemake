@@ -13,8 +13,49 @@ struct AbilityListView: View {
     let description: String
     let abilityURLS: [URL]
     
+    @StateObject private var viewModel = AbilityListViewModel()
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
-        Text("Hello, World!")
+        NavigationStack {
+            Group {
+                switch viewModel.viewLoadingState {
+                case .loading:
+                    ProgressView()
+                        .task {
+                            viewModel.setUp(urls: abilityURLS)
+                            await viewModel.loadPage()
+                        }
+                case .loaded:
+                    ScrollView {
+                        LazyVStack(alignment: .leading, spacing: 10) {
+                            Text(description)
+                            Divider()
+                            ForEach(viewModel.values) { ability in
+                                AbilityCard(ability: ability)
+                            }
+                            if viewModel.hasNextPage {
+                                ProgressView()
+                                    .onAppear {
+                                        Task {
+                                            await viewModel.loadPage()
+                                        }
+                                    }
+                            }
+                        }
+                        .padding()
+                    }
+                case .error(let error):
+                    ErrorView(text: error.localizedDescription)
+                }
+            }
+            .navigationTitle(title)
+            .toolbar {
+                Button("Close") {
+                    dismiss()
+                }
+        }
+        }
     }
 }
 
@@ -23,7 +64,12 @@ struct AbilityListView_Previews: PreviewProvider {
         AbilityListView(
             title: "some title",
             description: "some description",
-            abilityURLS: Generation.example.abilities.map { $0.url }
+            abilityURLS: [
+                URL(string: "https://pokeapi.co/api/v2/ability/1")!,
+                URL(string: "https://pokeapi.co/api/v2/ability/2")!,
+                URL(string: "https://pokeapi.co/api/v2/ability/3")!,
+                URL(string: "https://pokeapi.co/api/v2/ability/4")!
+            ]
         )
     }
 }

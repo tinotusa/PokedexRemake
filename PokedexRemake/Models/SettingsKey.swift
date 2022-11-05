@@ -16,6 +16,6 @@ enum SettingsKey: String {
     case shouldCacheResults
     
     static let defaultLanguage = "en"
-    static let defaultColorScheme = "dark"
+    static let defaultIsDarkMode = false
     static let defaultCacheSetting = true
 }

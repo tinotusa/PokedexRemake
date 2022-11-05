@@ -59,7 +59,7 @@ final class SettingsViewModel: ObservableObject {
         logger.debug("Loading languages.")
         let fileManager = FileManager.default
         let documentsURL = fileManager.documentsURL()
-        let saveFileURL =  documentsURL.appendingPathExtension(Self.saveFilename)
+        let saveFileURL =  documentsURL.appending(path: Self.saveFilename)
         
         if let data = try? Data(contentsOf: saveFileURL) {
             do {

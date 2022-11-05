@@ -70,6 +70,7 @@
 		2169D3FA28F9098D009CFE63 /* MoveCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2169D3F928F9098D009CFE63 /* MoveCategoryViewModel.swift */; };
 		217017662915FDFC00D2A402 /* PageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217017652915FDFC00D2A402 /* PageInfo.swift */; };
 		217017682915FE1500D2A402 /* Pageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217017672915FE1500D2A402 /* Pageable.swift */; };
+		2170176A29167CD000D2A402 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2170176929167CD000D2A402 /* SettingsView.swift */; };
 		21757CF028EECB12004217D1 /* FlavorText+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21757CEF28EECB12004217D1 /* FlavorText+Extensions.swift */; };
 		21757CF328EECFFF004217D1 /* AboutTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21757CF228EECFFF004217D1 /* AboutTab.swift */; };
 		21757CF528EED44E004217D1 /* Version+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21757CF428EED44E004217D1 /* Version+Extensions.swift */; };
@@ -259,6 +260,7 @@
 		2169D3F928F9098D009CFE63 /* MoveCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCategoryViewModel.swift; sourceTree = "<group>"; };
 		217017652915FDFC00D2A402 /* PageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageInfo.swift; sourceTree = "<group>"; };
 		217017672915FE1500D2A402 /* Pageable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pageable.swift; sourceTree = "<group>"; };
+		2170176929167CD000D2A402 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		21757CEF28EECB12004217D1 /* FlavorText+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FlavorText+Extensions.swift"; sourceTree = "<group>"; };
 		21757CF228EECFFF004217D1 /* AboutTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTab.swift; sourceTree = "<group>"; };
 		21757CF428EED44E004217D1 /* Version+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Version+Extensions.swift"; sourceTree = "<group>"; };
@@ -629,6 +631,7 @@
 				2120B48D290FD07D0085C360 /* PokemonEncounterListView.swift */,
 				2108709129126FD900489A2B /* PokemonSpeciesListView.swift */,
 				2122ED8D29136379004F503D /* AbilityListView.swift */,
+				2170176929167CD000D2A402 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -969,6 +972,7 @@
 				21261E38290A90B800FA2FF6 /* NameLocalizable.swift in Sources */,
 				2153D67129039150009CB897 /* PastMoveValuesListView.swift in Sources */,
 				2191991A28EAD3A9002C6379 /* TextStyles.swift in Sources */,
+				2170176A29167CD000D2A402 /* SettingsView.swift in Sources */,
 				217B3B7028FBAE1400201BEC /* Location+Extensions.swift in Sources */,
 				2169D3FA28F9098D009CFE63 /* MoveCategoryViewModel.swift in Sources */,
 				212AB02028F2F4EE004067ED /* PokemonCardViewModel.swift in Sources */,

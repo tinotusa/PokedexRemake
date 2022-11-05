@@ -122,7 +122,7 @@ private extension AbilityDetail {
         let value = viewModel.abilityDetails[key, default: "N/A"]
         switch key {
         case .effectEntries:
-            GridRowButton(items: ability.effectEntries, value: value) {
+            GridRowButton(items: viewModel.localizedEffectEntries, value: value) {
                 viewModel.showingEffectEntriesListView = true
             }
         case .effectChanges:

@@ -14,7 +14,7 @@ final class AbilityDetailViewModel: ObservableObject {
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     @Published private var generation: Generation?
     @Published private(set) var abilityDetails = [AbilityDetailKey: String]()
-    
+    @Published private(set) var localizedEffectEntries = [VerboseEffect]()
     @Published var showingEffectEntriesListView = false
     @Published var showingEffectChangesListView = false
     @Published var showingFlavorTextEntriesListView = false
@@ -44,7 +44,7 @@ extension AbilityDetailViewModel {
     func loadData(ability: Ability, languageCode: String) async {
         do {
             self.generation = try await Generation(ability.generation.url)
-            
+            self.localizedEffectEntries = ability.effectEntries.localizedItems(for: languageCode)
             abilityDetails = getAbilityDetails(ability: ability, languageCode: languageCode)
             viewLoadingState = .loaded
         } catch {
@@ -58,7 +58,7 @@ extension AbilityDetailViewModel {
         if let generation {
             details[.generation] = generation.localizedName(languageCode: languageCode)
         }
-        details[.effectEntries] = "\(ability.effectEntries.localizedItems(for: languageCode).count)"
+        details[.effectEntries] = "\(localizedEffectEntries.count)"
         details[.effectChanges] = "\(ability.effectChanges.count)"
         details[.flavorTextEntries] = "\(ability.flavorTextEntries.localizedItems(for: languageCode).count)"
         details[.pokemon] = "\(ability.pokemon.count)"

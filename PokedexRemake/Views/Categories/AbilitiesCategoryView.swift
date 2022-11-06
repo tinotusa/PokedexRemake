@@ -32,6 +32,7 @@ struct AbilitiesCategoryView: View {
                 }
                 .padding()
             }
+            .navigationTitle("Abilities")
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }
@@ -46,6 +47,8 @@ private extension AbilitiesCategoryView {
 
 struct AbilitiesCategoryView_Previews: PreviewProvider {
     static var previews: some View {
-        AbilitiesCategoryView(viewModel: AbilitiesCategoryViewModel())
+        NavigationStack {
+            AbilitiesCategoryView(viewModel: AbilitiesCategoryViewModel())
+        }
     }
 }

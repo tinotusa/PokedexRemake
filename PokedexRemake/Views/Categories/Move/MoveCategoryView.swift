@@ -33,6 +33,7 @@ struct MoveCategoryView: View {
                 }
                 .padding()
             }
+            .navigationTitle("Moves")
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }
@@ -42,6 +43,8 @@ struct MoveCategoryView: View {
 
 struct MoveCategoryView_Previews: PreviewProvider {
     static var previews: some View {
-        MoveCategoryView(viewModel:  MoveCategoryViewModel())
+        NavigationStack {
+            MoveCategoryView(viewModel:  MoveCategoryViewModel())
+        }
     }
 }

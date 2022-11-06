@@ -34,6 +34,7 @@ struct PokemonCategoryView: View {
                     }
                 }
             }
+            .navigationTitle("Pokemon")
         case .error(let error):
             Text(error.localizedDescription)
         }
@@ -42,6 +43,8 @@ struct PokemonCategoryView: View {
 
 struct PokemonCategoryView_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonCategoryView(viewModel: PokemonCategoryViewModel())
+        NavigationStack {
+            PokemonCategoryView(viewModel: PokemonCategoryViewModel())
+        }
     }
 }

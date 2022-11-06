@@ -27,6 +27,7 @@ struct GenerationsCategoryView: View {
                 }
                 .padding()
             }
+            .navigationTitle("Generations")
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }

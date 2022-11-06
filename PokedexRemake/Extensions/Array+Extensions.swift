@@ -29,8 +29,18 @@ extension Array where Element: Localizable {
 
 extension Array where Element == VerboseEffect {
     func localizedEntry(language: String, shortVersion: Bool = false, effectChance: Int? = nil) -> String {
-        let entries = self.localizedItems(for: language)
-        if entries.isEmpty { return "Error" }
+        var entries = self.localizedItems(for: language)
+        // device language fallback
+        if entries.isEmpty {
+            let allLanguages = self.compactMap { $0.language.name }
+            let deviceLanguageCode = Bundle.preferredLocalizations(from: allLanguages, forPreferences: nil).first!
+            entries = self.localizedItems(for: deviceLanguageCode)
+        }
+        // english fallback is all else fails
+        if entries.isEmpty {
+            entries = self.localizedItems(for: "en")
+        }
+        
         var text = entries.first!.effect
         if shortVersion {
             text = entries.first!.shortEffect

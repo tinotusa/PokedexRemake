@@ -61,6 +61,9 @@ struct SettingsView: View {
                         }
                     }
                 }
+                .onChange(of: shouldCacheResults) { shouldCacheResults in
+                    PokeAPI.shared.shouldCacheResults = shouldCacheResults
+                }
                 .confirmationDialog("Clear cache", isPresented: $showingDeleteConfirmation) {
                     Button("Delete", role: .destructive) {
                         viewModel.clearCache()

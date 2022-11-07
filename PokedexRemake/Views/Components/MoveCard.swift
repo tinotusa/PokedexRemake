@@ -17,9 +17,11 @@ struct MoveCard: View {
         switch viewModel.viewLoadingState {
         case .loading:
             redactedLoadingView
-            .task {
-                await viewModel.loadData(move: move)
-            }
+                .onAppear {
+                    Task {
+                        await viewModel.loadData(move: move)
+                    }
+                }
         case .loaded:
             NavigationLink(value: move) {
                 VStack(alignment: .leading) {

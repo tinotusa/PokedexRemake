@@ -17,8 +17,10 @@ struct AbilityCard: View {
         switch viewModel.viewLoadingState {
         case .loading:
             loadingPlaceholder
-                .task {
-                    await viewModel.loadData(ability: ability)
+                .onAppear {
+                    Task {
+                        await viewModel.loadData(ability: ability)
+                    }
                 }
         case .loaded:
             NavigationLink(value: ability) {

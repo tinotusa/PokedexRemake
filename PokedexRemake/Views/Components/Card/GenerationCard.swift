@@ -17,8 +17,10 @@ struct GenerationCard: View {
         switch viewModel.viewLoadingState {
         case .loading:
             loadingPlaceholder
-                .task {
-                    await viewModel.loadData(generation: generation)
+                .onAppear {
+                    Task {
+                        await viewModel.loadData(generation: generation)
+                    }
                 }
         case .loaded:
             NavigationLink(value: generation) {

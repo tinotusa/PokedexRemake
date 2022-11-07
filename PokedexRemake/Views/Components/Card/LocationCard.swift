@@ -17,8 +17,10 @@ struct LocationCard: View {
         switch viewModel.viewLoadingState {
         case .loading:
             loadingPlaceholder
-                .task {
-                    await viewModel.loadData(location: location)
+                .onAppear {
+                    Task {
+                        await viewModel.loadData(location: location)
+                    }
                 }
         case .loaded:
             NavigationLink(value: location) {

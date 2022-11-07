@@ -72,7 +72,10 @@ private extension PokemonEncounterListView {
     }
     
     func detailsGrid(details: VersionEncounterDetail) -> some View {
-        ForEach(details.encounterDetails, id: \.self) { encounterDetails in
+        // Different pokemon can have the same encounter details
+        // since they are the same I can't make them Identifiable.
+        // This seems like the best solution.
+        ForEach(Array(details.encounterDetails.enumerated()), id: \.0) { index, encounterDetails in
             Grid(alignment: .leading, verticalSpacing: 8) {
                 GridRow {
                     Text("Encounter method")

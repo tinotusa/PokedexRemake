@@ -26,25 +26,17 @@ struct PokemonEncounterListView: View {
         case .loaded:
             NavigationStack {
                 ScrollView {
-                    VStack(alignment: .leading) {
+                    LazyVStack(alignment: .leading, pinnedViews: .sectionHeaders) {
                         Text("Pokemon that can be encountered at this location.")
-                        
-                        HStack {
-                            ForEach(viewModel.sortedVersions) { version in
-                                Button {
-                                    selectedVersion = version
-                                } label: {
-                                    Text(version.localizedName(languageCode: language))
-                                }
-                            }
-                        }
-                        
-                        Grid(alignment: .center){
-                            ForEach(pokemonEncounters, id: \.self) { encounter in
-                                if let pokemon = viewModel.pokemon.first(where: { $0.name == encounter.pokemon.name}) {
-                                    GridRow {
-                                        PokemonCardView(pokemon: pokemon)
-                                        encounterDetails(encounter: encounter)
+                        Divider()
+                        Section(header: versionTabs) {
+                            Grid(alignment: .center){
+                                ForEach(pokemonEncounters, id: \.self) { encounter in
+                                    if let pokemon = viewModel.pokemon.first(where: { $0.name == encounter.pokemon.name}) {
+                                        GridRow {
+                                            PokemonCardView(pokemon: pokemon)
+                                            encounterDetails(encounter: encounter)
+                                        }
                                     }
                                 }
                             }
@@ -62,7 +54,7 @@ struct PokemonEncounterListView: View {
                 }
                 .onAppear {
                     selectedVersion = viewModel.sortedVersions.first
-            }
+                }
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription)
@@ -129,6 +121,27 @@ private extension PokemonEncounterListView {
             Text("Select version to view details.")
                 .multilineTextAlignment(.leading)
                 .lineLimit(2)
+        }
+    }
+    
+    var versionTabs: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(viewModel.sortedVersions) { version in
+                    Button {
+                        selectedVersion = version
+                    } label: {
+                        Text(version.localizedName(languageCode: language))
+                    }
+                    .padding(.horizontal)
+                    .padding(.vertical, 5)
+                    .background(selectedVersion == version ? Color.selectedTab : Color.unselectedTab)
+                    .cornerRadius(5)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.vertical)
+            .background(.white)
         }
     }
 }

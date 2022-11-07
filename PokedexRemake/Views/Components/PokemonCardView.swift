@@ -18,8 +18,10 @@ struct PokemonCardView: View {
         switch viewModel.viewLoadingState {
         case .loading:
             loadingPreview
-                .task {
-                    await viewModel.loadData(from: pokemon)
+                .onAppear {
+                    Task {
+                        await viewModel.loadData(from: pokemon)
+                    }
                 }
                 .frame(width: Constants.imageSize, height: Constants.imageSize)
         case .loaded:

@@ -28,8 +28,6 @@ struct ItemDetail: View {
                     PokemonImage(url: item.sprites.default, imageSize: Constants.imageSize)
                         .frame(maxWidth: .infinity, alignment: .center)
                     
-                    HeaderBar(title: item.localizedName(languageCode: language), id: item.id)
-                    
                     // FIXME: Change me
                     Text(item.effectEntries.first!.shortEffect)
                     Text(item.effectEntries.first!.effect)
@@ -48,6 +46,7 @@ struct ItemDetail: View {
                 }
                 .padding()
             }
+            .navigationTitle(item.localizedName(languageCode: language))
             .sheet(isPresented: $viewModel.showingFlavorTextList) {
                 FlavorTextEntriesList(
                     title: item.localizedName(languageCode: language),

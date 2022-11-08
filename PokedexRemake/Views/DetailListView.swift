@@ -15,27 +15,28 @@ struct DetailListView<Content: View>: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack(alignment: .trailing) {
-            Button("Close") {
-                dismiss()
-            }
-            .foregroundColor(.accentColor)
-            .padding([.horizontal, .top])
-        
-            
-            ScrollView {
-                VStack(alignment: .leading) {
-                    HeaderBar(title: title, id: id)
-                    Text(description)
-                    Divider()
-                    content()
+        NavigationStack {
+            VStack(alignment: .trailing) {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        Text(description)
+                        Divider()
+                        content()
+                    }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
+            }
+            .navigationTitle(title)
+            .bodyStyle()
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
+            .toolbar {
+                Button("Close") {
+                    dismiss()
+                }
+                .foregroundColor(.accentColor)
             }
         }
-        .bodyStyle()
-        .presentationDetents([.medium, .large])
-        .presentationDragIndicator(.visible)
     }
 }
 

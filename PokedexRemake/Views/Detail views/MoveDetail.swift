@@ -17,6 +17,14 @@ struct MoveDetail: View {
     @StateObject private var abilityEffectChangesListViewModel = AbilityEffectChangesListViewModel()
     @StateObject private var flavorTextEntriesListViewModel = FlavorTextEntriesListViewModel()
     
+    @State private var showingPokemonListView = false
+    @State private var showingEffectEntries = false
+    @State private var showingEffectChanges = false
+    @State private var showingFlavorTextEntries = false
+    @State private var showingMachinesListView = false
+    @State private var showingPastValuesView = false
+    @State private var showingStatChanges = false
+    
     var body: some View {
         switch viewModel.viewLoadingState {
         case .loading:
@@ -46,7 +54,6 @@ private extension MoveDetail {
     var moveDetailsGrid: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                HeaderBar(title: move.localizedName(languageCode: language), id: move.id)
                 
                 Grid(alignment: .leading, verticalSpacing: Constants.verticalSpacing) {
                     ForEach(MoveDetailViewModel.MoveDetails.allCases) { moveDetailKey in
@@ -79,10 +86,8 @@ private extension MoveDetail {
             .padding()
             .bodyStyle()
         }
-    }
-    
-    func learnedByPokemonNavigationLink(value: String) -> some View {
-        NavigationLink {
+        .navigationTitle(move.localizedName(languageCode: language))
+        .sheet(isPresented: $showingPokemonListView) {
             PokemonListView(
                 title: move.localizedName(languageCode: language),
                 id: move.id,
@@ -90,13 +95,8 @@ private extension MoveDetail {
                 pokemonURLs: move.learnedByPokemon.map { $0.url },
                 viewModel: pokemonListViewModel
             )
-        } label: {
-            NavigationLabel(title: value)
         }
-    }
-    
-    func effectEntriesNavigationLink(value: String) -> some View {
-        NavigationLink {
+        .sheet(isPresented: $showingEffectEntries) {
             EffectEntriesListView(
                 title: move.localizedName(languageCode: language),
                 id: move.id,
@@ -104,6 +104,71 @@ private extension MoveDetail {
                 entries: move.effectEntries,
                 viewModel: effectEntriesListViewModel
             )
+        }
+        .sheet(isPresented: $showingEffectChanges) {
+            AbilityEffectChangesList(
+                title: move.localizedName(languageCode: language),
+                id: move.id,
+                description: "Effect changes for this move.",
+                effectChanges: move.effectChanges,
+                language: language,
+                viewModel: abilityEffectChangesListViewModel
+            )
+        }
+        .sheet(isPresented: $showingFlavorTextEntries) {
+            FlavorTextEntriesList(
+                title: move.localizedName(languageCode: language),
+                id: move.id,
+                description: "Flavor text entries for this move.",
+                language: language,
+                // TODO: does it make more sense/ is more efficient to do this in the view model (the mapping).
+                abilityFlavorTexts: viewModel.localizedFlavorTextEntries.map { entry in
+                    CustomFlavorText(
+                        flavorText: entry.flavorText,
+                        language: entry.language,
+                        versionGroup: entry.versionGroup
+                    )
+                },
+                viewModel: flavorTextEntriesListViewModel
+            )
+        }
+        .sheet(isPresented: $showingMachinesListView) {
+            MachinesListView(
+                title: move.localizedName(languageCode: language),
+                id: move.id,
+                description: "Machines that teach this move.",
+                machineURLs: move.machines.map { $0.machine.url}
+            )
+        }
+        .sheet(isPresented: $showingPastValuesView) {
+            PastMoveValuesListView(
+                title: move.localizedName(languageCode: language),
+                id: move.id,
+                description: "This move's changed stat values from different games.",
+                pastValues: move.pastValues
+            )
+        }
+        .sheet(isPresented: $showingStatChanges) {
+            MoveStatChangeListView(
+                title: move.localizedName(languageCode: language),
+                id: move.id,
+                description: "The stats this moves changes.",
+                statChanges: move.statChanges
+            )
+        }
+    }
+    
+    func learnedByPokemonNavigationLink(value: String) -> some View {
+        Button {
+            showingPokemonListView = true
+        } label: {
+            NavigationLabel(title: value)
+        }
+    }
+    
+    func effectEntriesNavigationLink(value: String) -> some View {
+        Button {
+            showingEffectEntries = true
         } label: {
             NavigationLabel(title: value)
         }
@@ -114,15 +179,8 @@ private extension MoveDetail {
         if move.effectChanges.isEmpty {
             Text(value)
         } else {
-            NavigationLink {
-                AbilityEffectChangesList(
-                    title: move.localizedName(languageCode: language),
-                    id: move.id,
-                    description: "Effect changes for this move.",
-                    effectChanges: move.effectChanges,
-                    language: language,
-                    viewModel: abilityEffectChangesListViewModel
-                )
+            Button {
+                showingEffectChanges = true
             } label: {
                 NavigationLabel(title: value)
             }
@@ -134,22 +192,8 @@ private extension MoveDetail {
         if viewModel.localizedFlavorTextEntries.isEmpty {
             Text(value)
         } else {
-            NavigationLink {
-                FlavorTextEntriesList(
-                    title: move.localizedName(languageCode: language),
-                    id: move.id,
-                    description: "Flavor text entries for this move.",
-                    language: language,
-                    // TODO: does it make more sense/ is more efficient to do this in the view model (the mapping).
-                    abilityFlavorTexts: viewModel.localizedFlavorTextEntries.map { entry in
-                        CustomFlavorText(
-                            flavorText: entry.flavorText,
-                            language: entry.language,
-                            versionGroup: entry.versionGroup
-                        )
-                    },
-                    viewModel: flavorTextEntriesListViewModel
-                )
+            Button {
+                showingFlavorTextEntries = true
             } label: {
                 NavigationLabel(title: value)
             }
@@ -188,13 +232,8 @@ private extension MoveDetail {
         if move.machines.isEmpty {
             Text(value)
         } else {
-            NavigationLink {
-                MachinesListView(
-                    title: move.localizedName(languageCode: language),
-                    id: move.id,
-                    description: "Machines that teach this move.",
-                    machineURLs: move.machines.map { $0.machine.url}
-                )
+            Button {
+                showingMachinesListView = true
             } label: {
                 NavigationLabel(title: value)
             }
@@ -206,13 +245,8 @@ private extension MoveDetail {
         if move.pastValues.isEmpty {
             Text(value)
         } else {
-            NavigationLink {
-                PastMoveValuesListView(
-                    title: move.localizedName(languageCode: language),
-                    id: move.id,
-                    description: "This move's changed stat values from different games.",
-                    pastValues: move.pastValues
-                )
+            Button {
+                showingPastValuesView = true
             } label: {
                 NavigationLabel(title: value)
             }
@@ -224,13 +258,8 @@ private extension MoveDetail {
         if move.statChanges.isEmpty {
             Text(value)
         } else {
-            NavigationLink {
-                MoveStatChangeListView(
-                    title: move.localizedName(languageCode: language),
-                    id: move.id,
-                    description: "The stats this moves changes.",
-                    statChanges: move.statChanges
-                )
+            Button {
+                showingStatChanges = true
             } label: {
                 NavigationLabel(title: value)
             }

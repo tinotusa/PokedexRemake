@@ -17,8 +17,8 @@ struct NavigationLabel: View {
                 .layoutPriority(1)
             Spacer()
             Image(systemName: "chevron.right")
-                .foregroundColor(.accentColor)
         }
+        .foregroundColor(.accentColor)
     }
 }
 

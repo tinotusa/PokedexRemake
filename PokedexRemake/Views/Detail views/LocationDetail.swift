@@ -25,15 +25,18 @@ struct LocationDetail: View {
         case .loaded:
             ScrollView {
                 VStack(alignment: .leading) {
-                    HeaderBar(title: location.localizedName(languageCode: language), id: location.id)
                     Grid(alignment: .topLeading) {
                         regionRow
                         areasRow
                     }
                 }
                 .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
             .bodyStyle()
+            .navigationTitle(
+                location.localizedName(languageCode: language).isEmpty ? location.name : location.localizedName(languageCode: language)
+            )
             .sheet(item: $selectedArea) { area in
                 LocationAreaDetail(locationArea: area)
                     .presentationDetents([.large])
@@ -83,6 +86,8 @@ private extension LocationDetail {
 
 struct LocationDetail_Previews: PreviewProvider {
     static var previews: some View {
-        LocationDetail(location: .example)
+        NavigationStack {
+            LocationDetail(location: .example)
+        }
     }
 }

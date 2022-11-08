@@ -52,8 +52,6 @@ struct PokemonDetail: View {
                         PokemonImage(url: pokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
                             .frame(maxWidth: .infinity, alignment: .center)
                         
-                        nameAndID
-                        
                         AboutTab(viewModel: aboutTabViewModel, pokemon: pokemon)
                         StatsTab(viewModel: statsTabViewModel, pokemon: pokemon)
                         EvolutionsTab(viewModel: evolutionsTabViewModel, pokemon: pokemon)
@@ -70,6 +68,7 @@ struct PokemonDetail: View {
                     }
                     .padding()
                 }
+                .navigationTitle(viewModel.pokemonSpecies.localizedName(languageCode: language))
                 .bodyStyle()
             case .error(let error):
                 ErrorView(text: error.localizedDescription)
@@ -119,6 +118,8 @@ private extension PokemonDetail {
 
 struct PokemonDetail_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonDetail(pokemon: .example)
+        NavigationStack {
+            PokemonDetail(pokemon: .example)
+        }
     }
 }

@@ -34,6 +34,7 @@ struct GenerationDetail: View {
                         }
                     }
                 }
+                .padding()
             }
             .navigationTitle(
                 viewModel.mainRegion != nil ?

@@ -29,7 +29,6 @@ struct AbilityDetail: View {
         case .loaded:
             ScrollView {
                 VStack(alignment: .leading) {
-                    HeaderBar(title: ability.localizedName(languageCode: language), id: ability.id)
                     Grid(alignment: .leading, verticalSpacing: Constants.verticalSpacing) {
                         ForEach(AbilityDetailViewModel.AbilityDetailKey.allCases) { abilityDetailKey in
                             GridRow {
@@ -42,6 +41,7 @@ struct AbilityDetail: View {
                 }
                 .padding()
             }
+            .navigationTitle(ability.localizedName(languageCode: language))
             .bodyStyle()
             .sheet(isPresented: $viewModel.showingEffectEntriesListView) {
                 EffectEntriesListView(

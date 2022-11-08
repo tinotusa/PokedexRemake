@@ -18,7 +18,6 @@ struct MachinesListView: View {
     var body: some View {
         DetailListView(
             title: title,
-            id: id,
             description: description
         ) {
             Group {

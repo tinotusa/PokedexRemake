@@ -22,7 +22,6 @@ struct AbilityEffectChangesList: View {
     var body: some View {        
         DetailListView(
             title: title,
-            id: id,
             description: description
         ) {
             Group {

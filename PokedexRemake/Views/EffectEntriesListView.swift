@@ -17,7 +17,7 @@ struct EffectEntriesListView: View {
     @ObservedObject var viewModel: EffectEntriesListViewModel
     
     var body: some View {
-        DetailListView(title: title, id: id, description: description) {
+        DetailListView(title: title, description: description) {
             VStack(alignment: .leading) {
                 if entries.isEmpty {
                     Text("No entries available")

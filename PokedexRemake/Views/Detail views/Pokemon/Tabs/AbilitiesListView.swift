@@ -17,7 +17,7 @@ struct AbilitiesListView: View {
     @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
-        DetailListView(title: title, id: pokemon.id, description: description) {
+        DetailListView(title: title, description: description) {
             Group {
                 switch viewModel.viewLoadingState {
                 case .loading:

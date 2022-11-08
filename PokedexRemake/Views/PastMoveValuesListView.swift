@@ -16,8 +16,7 @@ struct PastMoveValuesListView: View {
     @StateObject private var viewModel = PastMoveValuesListViewModel()
     
     var body: some View {
-        
-        DetailListView(title: title, id: id, description: description) {
+        DetailListView(title: title, description: description) {
             Group {
                 switch viewModel.viewLoadingState {
                 case .loading:

@@ -17,7 +17,6 @@ struct MoveStatChangeListView: View {
     var body: some View {
         DetailListView(
             title: title,
-            id: id,
             description: description
         ) {
             ForEach(statChanges, id: \.self) { statChange in

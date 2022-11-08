@@ -9,7 +9,6 @@ import SwiftUI
 
 struct DetailListView<Content: View>: View {
     let title: String
-    let id: Int
     let description: LocalizedStringKey
     let content: () -> Content
     @Environment(\.dismiss) private var dismiss
@@ -44,7 +43,6 @@ struct DetailListView_Previews: PreviewProvider {
     static var previews: some View {
         DetailListView(
             title: "some title",
-            id: 999,
             description: "some description goes here"
         ) {
             VStack(alignment: .leading) {

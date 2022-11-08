@@ -106,22 +106,31 @@ private extension ItemDetail {
     @ViewBuilder
     func gridRowValue(for itemDetailKey: ItemDetailViewModel.ItemDetailKey) -> some View {
         let value = viewModel.itemDetails[itemDetailKey, default: "N/A"]
-        switch itemDetailKey {
-        case .attributes:
-            attributesView()
-        case .flavorTextEntries:
-            flavorTextEntriesView(value: value)
-        case .heldByPokemon:
-            heldByPokemonView(value: value)
-        default:
-            Text(viewModel.itemDetails[itemDetailKey, default: "N/A"])
+        Group {
+            switch itemDetailKey {
+            case .attributes:
+                attributesView()
+            case .flavorTextEntries:
+                flavorTextEntriesView(value: value)
+            case .heldByPokemon:
+                heldByPokemonView(value: value)
+            default:
+                Text(viewModel.itemDetails[itemDetailKey, default: "N/A"])
+            }
         }
+        .foregroundColor(value == "N/A" ? .gray : .text)
     }
     
+    @ViewBuilder
     func attributesView() -> some View {
-        VStack(alignment: .leading) {
-            ForEach(viewModel.attributes) { attribute in
-                Text(attribute.localizedName(languageCode: language))
+        if viewModel.attributes.isEmpty {
+            Text("N/A")
+                .foregroundColor(.gray)
+        } else {
+            VStack(alignment: .leading) {
+                ForEach(viewModel.attributes) { attribute in
+                    Text(attribute.localizedName(languageCode: language))
+                }
             }
         }
     }

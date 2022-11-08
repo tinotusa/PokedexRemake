@@ -8,6 +8,21 @@
 import SwiftUI
 import SwiftPokeAPI
 
+extension VerboseEffect {
+    enum EffectType {
+        case short
+        case long
+    }
+    
+    func filteredEffect(_ effectType: EffectType = .short) -> String {
+        var text = self.effect
+        if effectType == .short {
+            text = self.shortEffect
+        }
+        return text.replacingOccurrences(of: "[\\s\\n]+", with: " ", options: .regularExpression)
+    }
+}
+
 struct ItemDetail: View {
     let item: Item
     @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
@@ -27,11 +42,11 @@ struct ItemDetail: View {
                 VStack(alignment: .leading) {
                     PokemonImage(url: item.sprites.default, imageSize: Constants.imageSize)
                         .frame(maxWidth: .infinity, alignment: .center)
-                    
-                    // FIXME: Change me
-                    Text(item.effectEntries.first!.shortEffect)
-                    Text(item.effectEntries.first!.effect)
-                        .padding(.bottom)
+                    Group {
+                        Text(item.effectEntries.localizedEntry(language: language, shortVersion: true))
+                        Text(item.effectEntries.localizedEntry(language: language))
+                    }
+                    .padding(.bottom)
                     
                     Grid(alignment: .topLeading, verticalSpacing: Constants.verticalSpacing) {
                         ForEach(ItemDetailViewModel.ItemDetailKey.allCases) { itemDetailKey in

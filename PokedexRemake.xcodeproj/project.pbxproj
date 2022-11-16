@@ -41,6 +41,7 @@
 		213B0E6128FA7F89008CAD4C /* ItemCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E6028FA7F89008CAD4C /* ItemCardViewModel.swift */; };
 		213B0E6328FACCD4008CAD4C /* AbilitiesCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E6228FACCD4008CAD4C /* AbilitiesCategoryView.swift */; };
 		213B0E6528FACCEB008CAD4C /* AbilitiesCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B0E6428FACCEB008CAD4C /* AbilitiesCategoryViewModel.swift */; };
+		2142EDFC2924FA230069966E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2142EDFB2924FA230069966E /* LoadingView.swift */; };
 		2144A5432900EEF7009846AB /* LocationResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2144A5422900EEF7009846AB /* LocationResultsView.swift */; };
 		2144A5452900EF35009846AB /* LocationResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2144A5442900EF35009846AB /* LocationResultsViewModel.swift */; };
 		2144A5472900F77C009846AB /* MoveDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2144A5462900F77C009846AB /* MoveDetail.swift */; };
@@ -232,6 +233,7 @@
 		213B0E6028FA7F89008CAD4C /* ItemCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCardViewModel.swift; sourceTree = "<group>"; };
 		213B0E6228FACCD4008CAD4C /* AbilitiesCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilitiesCategoryView.swift; sourceTree = "<group>"; };
 		213B0E6428FACCEB008CAD4C /* AbilitiesCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilitiesCategoryViewModel.swift; sourceTree = "<group>"; };
+		2142EDFB2924FA230069966E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		2144A5422900EEF7009846AB /* LocationResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationResultsView.swift; sourceTree = "<group>"; };
 		2144A5442900EF35009846AB /* LocationResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationResultsViewModel.swift; sourceTree = "<group>"; };
 		2144A5462900F77C009846AB /* MoveDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveDetail.swift; sourceTree = "<group>"; };
@@ -634,6 +636,7 @@
 				2108709129126FD900489A2B /* PokemonSpeciesListView.swift */,
 				2122ED8D29136379004F503D /* AbilityListView.swift */,
 				2170176929167CD000D2A402 /* SettingsView.swift */,
+				2142EDFB2924FA230069966E /* LoadingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1053,6 +1056,7 @@
 				217BA59C29024010009FCFAD /* HeaderBar.swift in Sources */,
 				217B3B8428FBCFBC00201BEC /* MoveResultsView.swift in Sources */,
 				217B3B8128FBCC6C00201BEC /* SearchScope.swift in Sources */,
+				2142EDFC2924FA230069966E /* LoadingView.swift in Sources */,
 				213B0E5528FA468B008CAD4C /* ItemsCategoryView.swift in Sources */,
 				217B3B8928FBD2E600201BEC /* RecentlySearchedBar.swift in Sources */,
 				21261E34290A345100FA2FF6 /* Localizable.swift in Sources */,

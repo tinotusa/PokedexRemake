@@ -28,7 +28,10 @@ struct MoveDetail: View {
     var body: some View {
         switch viewModel.viewLoadingState {
         case .loading:
-            loadingView
+            LoadingView()
+                .task {
+                    await viewModel.loadData(move: move, languageCode: language)
+                }
         case .loaded:
             moveDetailsGrid
         case .error(let error):
@@ -44,13 +47,6 @@ private extension MoveDetail {
 }
 
 private extension MoveDetail {
-    var loadingView: some View {
-        ProgressView()
-            .task {
-                await viewModel.loadData(move: move, languageCode: language)
-            }
-    }
-    
     var moveDetailsGrid: some View {
         ScrollView {
             VStack(alignment: .leading) {

@@ -42,7 +42,7 @@ struct PokemonDetail: View {
         VStack {
             switch viewModel.viewLoadingState {
             case .loading:
-                ProgressView()
+                LoadingView()
                     .task {
                         await viewModel.loadData(from: pokemon)
                     }

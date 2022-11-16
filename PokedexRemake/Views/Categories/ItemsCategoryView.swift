@@ -13,7 +13,7 @@ struct ItemsCategoryView: View {
     var body: some View {
         switch viewModel.viewLoadingState {
         case .loading:
-            ProgressView()
+            LoadingView()
                 .task {
                     await viewModel.loadData()
                 }

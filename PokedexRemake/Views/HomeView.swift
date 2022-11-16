@@ -94,6 +94,7 @@ private extension HomeView {
                 locationsCategoryViewModel: locationsCategoryViewModel,
                 generationsCategoryViewModel: generationsCategoryViewModel
             )
+            .frame(maxWidth: .infinity, alignment: .center)
             Spacer()
         }
         .padding()

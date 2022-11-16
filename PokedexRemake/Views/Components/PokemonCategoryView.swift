@@ -11,7 +11,7 @@ import SwiftPokeAPI
 struct PokemonCategoryView: View {
     @ObservedObject var viewModel: PokemonCategoryViewModel
     
-    private let columns: [GridItem] = [.init(.adaptive(minimum: 200))]
+    private let columns: [GridItem] = [.init(.adaptive(minimum: 150, maximum: 200))]
     
     var body: some View {
         switch viewModel.viewLoadingState {

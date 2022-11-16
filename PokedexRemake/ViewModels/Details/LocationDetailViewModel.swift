@@ -24,7 +24,7 @@ extension LocationDetailViewModel {
             if let region = location.region {
                 self.region = try await Region(region.url)
             }
-            self.areas = try await getLocationAreas(location: location)
+            self.areas = try await getLocationAreas(location: location).sorted()
             viewLoadingState = .loaded
         } catch {
             viewLoadingState = .error(error: error)

@@ -62,6 +62,7 @@ struct ItemDetail: View {
                 .padding()
             }
             .navigationTitle(item.localizedName(languageCode: language))
+            .background(Color.background)
             .sheet(isPresented: $viewModel.showingFlavorTextList) {
                 FlavorTextEntriesList(
                     title: item.localizedName(languageCode: language),

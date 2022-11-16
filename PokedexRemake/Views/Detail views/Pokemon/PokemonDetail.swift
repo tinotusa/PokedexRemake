@@ -69,6 +69,7 @@ struct PokemonDetail: View {
                     .padding()
                 }
                 .navigationTitle(viewModel.pokemonSpecies.localizedName(languageCode: language))
+                .background(Color.background)
                 .bodyStyle()
             case .error(let error):
                 ErrorView(text: error.localizedDescription)

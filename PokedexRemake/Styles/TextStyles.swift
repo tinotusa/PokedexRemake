@@ -87,7 +87,7 @@ struct CategoryTitleStyle: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .foregroundColor(.categoryTitle)
+            .foregroundColor(.text)
             .font(.system(size: size, weight: .regular))
     }
 }

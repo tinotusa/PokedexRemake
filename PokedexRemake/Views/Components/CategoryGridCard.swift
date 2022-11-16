@@ -17,7 +17,8 @@ struct CategoryGridCard: View {
             .frame(maxWidth: 200, maxHeight: 60)
             .minimumScaleFactor(0.5)
             .padding()
-            .background(.white)
+            .foregroundColor(Color.text)
+            .background(Color.secondaryBackground)
             .cornerRadius(15)
             .shadow(
                 color: .black.opacity(0.1),

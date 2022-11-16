@@ -17,7 +17,7 @@ struct SearchBarButton: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .bodyStyle()
         .padding()
-        .background(Color.searchBarBackground)
+        .background(Color.secondaryBackground)
         .cornerRadius(Constants.cornerRadius)
         .overlay {
             RoundedRectangle(cornerRadius: Constants.cornerRadius)

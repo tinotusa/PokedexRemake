@@ -47,7 +47,7 @@ struct GenerationCard: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(.white)
+                .background(Color.secondaryBackground)
                 .cornerRadius(Constants.cornerRadius)
                 .shadow(
                     color: Constants.shadowColour,
@@ -99,7 +99,7 @@ private extension GenerationCard {
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .background(.white)
+        .background(Color.secondaryBackground)
         .cornerRadius(Constants.cornerRadius)
         .shadow(
             color: Constants.shadowColour,

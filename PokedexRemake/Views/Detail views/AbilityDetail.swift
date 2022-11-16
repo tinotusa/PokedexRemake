@@ -42,6 +42,7 @@ struct AbilityDetail: View {
                 .padding()
             }
             .navigationTitle(ability.localizedName(languageCode: language))
+            .background(Color.background)
             .bodyStyle()
             .sheet(isPresented: $viewModel.showingEffectEntriesListView) {
                 EffectEntriesListView(

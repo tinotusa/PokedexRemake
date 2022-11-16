@@ -34,6 +34,7 @@ struct MoveCategoryView: View {
                 .padding()
             }
             .navigationTitle("Moves")
+            .background(Color.background)
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }

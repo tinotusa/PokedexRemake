@@ -55,6 +55,7 @@ struct SettingsView: View {
                         .padding()
                     }
                     .navigationTitle("Settings")
+                    .background(Color.background)
                     .toolbar {
                         Button("Close") {
                             dismiss()

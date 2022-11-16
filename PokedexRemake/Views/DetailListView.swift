@@ -29,6 +29,7 @@ struct DetailListView<Content: View>: View {
             .bodyStyle()
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
+            .background(Color.secondaryBackground)
             .toolbar {
                 Button("Close") {
                     dismiss()

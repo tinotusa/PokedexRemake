@@ -22,6 +22,7 @@ struct SearchScopeTabs: View {
                             .padding(.horizontal)
                             .padding(.vertical, 5)
                             .background(isSelected(searchScope) ? Color.selectedTab : Color.unselectedTab)
+                            .foregroundColor(.text)
                             .cornerRadius(7)
                     }
                 }

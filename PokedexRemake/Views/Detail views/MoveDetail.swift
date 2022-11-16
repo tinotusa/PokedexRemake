@@ -87,6 +87,7 @@ private extension MoveDetail {
             .bodyStyle()
         }
         .navigationTitle(move.localizedName(languageCode: language))
+        .background(Color.background)
         .sheet(isPresented: $showingPokemonListView) {
             PokemonListView(
                 title: move.localizedName(languageCode: language),

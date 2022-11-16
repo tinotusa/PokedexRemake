@@ -47,6 +47,7 @@ struct HomeView: View {
                 }
                 .preferredColorScheme(isDarkMode ? .dark : .light)
             }
+            .background(Color.background)
             .scrollDismissesKeyboard(.immediately)
             .navigationDestination(for: PokemonCategoryViewModel.self) { pokemonCategoryViewModel in
                 PokemonCategoryView(viewModel: pokemonCategoryViewModel)

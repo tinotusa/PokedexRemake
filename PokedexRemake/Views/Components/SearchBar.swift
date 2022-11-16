@@ -24,9 +24,9 @@ struct SearchBar: View {
                 .autocorrectionDisabled(true)
                 .submitLabel(.search)
         }
-        .foregroundColor(.gray)
+        .foregroundColor(Color.text)
         .padding()
-        .background(.white)
+        .background(Color.secondaryBackground)
         .cornerRadius(Constants.cornerRadius)
         .overlay {
             RoundedRectangle(cornerRadius: Constants.cornerRadius)

@@ -41,6 +41,7 @@ struct GenerationDetail: View {
                 viewModel.mainRegion!.localizedName(languageCode: languageCode) :
                 generation.mainRegion.name!
             )
+            .background(Color.background)
             .sheet(isPresented: $viewModel.showingMovesList) {
                 MovesListView(
                     title: viewModel.mainRegion!.localizedName(languageCode: languageCode),

@@ -15,6 +15,7 @@ struct PokemonEncounterListView: View {
     @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
     @State private var selectedVersion: Version?
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -22,6 +23,7 @@ struct PokemonEncounterListView: View {
             ProgressView()
                 .task {
                     await viewModel.loadData(pokemonEncounters: pokemonEncounters)
+                    selectedVersion = viewModel.sortedVersions.first
                 }
         case .loaded:
             NavigationStack {
@@ -51,9 +53,6 @@ struct PokemonEncounterListView: View {
                     Button("Close") {
                         dismiss()
                     }
-                }
-                .onAppear {
-                    selectedVersion = viewModel.sortedVersions.first
                 }
             }
         case .error(let error):
@@ -139,13 +138,13 @@ private extension PokemonEncounterListView {
                     .padding(.horizontal)
                     .padding(.vertical, 5)
                     .background(selectedVersion == version ? Color.selectedTab : Color.unselectedTab)
+                    .foregroundColor(colorScheme == .dark && selectedVersion != version ?  Color.unselectedTabText : Color.selectedTabText)
                     .cornerRadius(5)
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.vertical)
-            .background(.white)
         }
+        .background(Color.background)
     }
 }
 

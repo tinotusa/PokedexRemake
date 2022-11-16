@@ -34,6 +34,7 @@ struct LocationsCategoryView: View {
                 .padding()
             }
             .navigationTitle("Locations")
+            .background(Color.background)
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }

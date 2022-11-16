@@ -33,6 +33,7 @@ struct AbilitiesCategoryView: View {
                 .padding()
             }
             .navigationTitle("Abilities")
+            .background(Color.background)
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }

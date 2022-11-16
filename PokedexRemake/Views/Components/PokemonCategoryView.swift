@@ -35,6 +35,7 @@ struct PokemonCategoryView: View {
                 }
             }
             .navigationTitle("Pokemon")
+            .background(Color.background)
         case .error(let error):
             Text(error.localizedDescription)
         }

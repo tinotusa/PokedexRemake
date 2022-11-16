@@ -33,6 +33,7 @@ struct ItemsCategoryView: View {
                 .padding([.top, .bottom, .trailing])
             }
             .navigationTitle("Items")
+            .background(Color.background)
         case .error(let error):
             ErrorView(text: error.localizedDescription)
         }

@@ -37,6 +37,7 @@ struct LocationDetail: View {
             .navigationTitle(
                 location.localizedName(languageCode: language).isEmpty ? location.name : location.localizedName(languageCode: language)
             )
+            .background(Color.background)
             .sheet(item: $selectedArea) { area in
                 LocationAreaDetail(locationArea: area)
                     .presentationDetents([.large])

@@ -9,14 +9,20 @@ import Foundation
 import SwiftPokeAPI
 import os
 
+/// View model for LocationCard.
 final class LocationCardViewModel: ObservableObject {
+    /// The loading state for the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
+    /// The Region of the location.
     @Published private(set) var region: Region?
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "LocationCardViewModel")
 }
 
 extension LocationCardViewModel {
+    
+    /// Loads the relevant data for the Location.
+    /// - Parameter location: The Location to load data from.
     @MainActor
     func loadData(location: Location) async {
         logger.debug("Loading data.")

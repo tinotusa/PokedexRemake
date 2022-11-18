@@ -9,14 +9,20 @@ import Foundation
 import SwiftPokeAPI
 import os
 
+/// View model for AbilityCard.
 final class AbilityCardViewModel: ObservableObject {
-    @Published private(set) var generation: Generation!
+    /// The generation of the Ability.
+    @Published private(set) var generation: Generation?
+    /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "AbilityCardViewModel")
 }
 
 extension AbilityCardViewModel {
+    
+    /// Loads the relevant data for the Ability.
+    /// - Parameter ability: The Ability to load data from.
     @MainActor
     func loadData(ability: Ability) async {
         logger.debug("Loading data.")
@@ -30,7 +36,14 @@ extension AbilityCardViewModel {
         }
     }
     
+    /// Returns the localised generation name.
+    /// - Parameter language: The language code to localise with.
+    /// - Returns: The localised generation name or "Error".
     func localizedGenerationName(language: String) -> String {
-        generation.localizedName(languageCode: language)
+        if let generation {
+            return generation.localizedName(languageCode: language)
+        }
+        logger.error("Failed to get localised generation name. Generation is nil.")
+        return "Error"
     }
 }

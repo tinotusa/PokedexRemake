@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftPokeAPI
 
 struct SearchView: View {
     @Binding var showingSearchView: Bool
@@ -16,11 +17,11 @@ struct SearchView: View {
     @FocusState private var focusedField: FocusedField?
     
     // view models
-    @StateObject private var pokemonResultsViewModel = PokemonResultsViewModel()
-    @StateObject private var moveResultsViewModel = MoveResultsViewModel()
-    @StateObject private var itemResultsViewModel = ItemResultsViewModel()
-    @StateObject private var abilityResultsViewModel = AbilityResultsViewModel()
-    @StateObject private var locationResultsViewModel = LocationResultsViewModel()
+    @StateObject private var pokemonResultsViewModel = SearchResultsListViewModel<Pokemon>(saveFilename: "pokemonHistory")
+    @StateObject private var moveResultsViewModel = SearchResultsListViewModel<Move>(saveFilename: "moveHistory")
+    @StateObject private var itemResultsViewModel = SearchResultsListViewModel<Item>(saveFilename: "itemHistory")
+    @StateObject private var abilityResultsViewModel = SearchResultsListViewModel<Ability>(saveFilename: "abilityHistory")
+    @StateObject private var locationResultsViewModel = SearchResultsListViewModel<Location>(saveFilename: "locationHistory")
 
     var body: some View {
         VStack {
@@ -48,15 +49,25 @@ struct SearchView: View {
             
             switch searchScope {
             case .pokemon:
-                PokemonResultsView(viewModel: pokemonResultsViewModel)
+                SearchResultsListView(viewModel: pokemonResultsViewModel) { pokemon in
+                    PokemonResultRow(pokemon: pokemon)
+                }
             case .moves:
-                MoveResultsView(viewModel: moveResultsViewModel)
+                SearchResultsListView(viewModel: moveResultsViewModel) { move in
+                    MoveCard(move: move)
+                }
             case .items:
-                ItemResultsView(viewModel: itemResultsViewModel)
+                SearchResultsListView(viewModel: itemResultsViewModel) { item in
+                    ItemCard(item: item)
+                }
             case .abilities:
-                AbilityResultsView(viewModel: abilityResultsViewModel)
+                SearchResultsListView(viewModel: abilityResultsViewModel) { ability in
+                    AbilityCard(ability: ability)
+                }
             case .locations:
-                LocationResultsView(viewModel: locationResultsViewModel)
+                SearchResultsListView(viewModel: locationResultsViewModel) { location in
+                    LocationCard(location: location)
+                }
             }
             Spacer()
         }

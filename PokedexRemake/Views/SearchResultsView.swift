@@ -65,7 +65,7 @@ struct SearchResultsView<T: SearchResultsList & ObservableObject, Content: View>
 
 struct SearchResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResultsView(viewModel: PokemonResultsViewModel()) { pokemon in
+        SearchResultsView(viewModel: SearchResultsListViewModel<Pokemon>(saveFilename: "testing")) { pokemon in
             PokemonResultRow(pokemon: pokemon)
         }
     }

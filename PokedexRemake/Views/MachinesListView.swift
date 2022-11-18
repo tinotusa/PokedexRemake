@@ -24,8 +24,10 @@ struct MachinesListView: View {
                 switch viewModel.viewLoadingState {
                 case .loading:
                     ProgressView()
-                        .task {
-                            await viewModel.loadData(urls: machineURLs)
+                        .onAppear {
+                            Task {
+                                await viewModel.loadData(urls: machineURLs)
+                            }
                         }
                 case .loaded:
                     LazyVStack {

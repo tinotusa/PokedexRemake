@@ -21,9 +21,11 @@ struct PokemonEncounterListView: View {
         switch viewModel.viewLoadingState {
         case .loading:
             ProgressView()
-                .task {
-                    await viewModel.loadData(pokemonEncounters: pokemonEncounters)
-                    selectedVersion = viewModel.sortedVersions.first
+                .onAppear {
+                    Task {
+                        await viewModel.loadData(pokemonEncounters: pokemonEncounters)
+                        selectedVersion = viewModel.sortedVersions.first
+                    }
                 }
         case .loaded:
             NavigationStack {

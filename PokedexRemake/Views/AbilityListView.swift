@@ -22,9 +22,11 @@ struct AbilityListView: View {
                 switch viewModel.viewLoadingState {
                 case .loading:
                     ProgressView()
-                        .task {
-                            viewModel.setUp(urls: abilityURLS)
-                            await viewModel.loadPage()
+                        .onAppear {
+                            Task {
+                                viewModel.setUp(urls: abilityURLS)
+                                await viewModel.loadPage()
+                            }
                         }
                 case .loaded:
                     ScrollView {

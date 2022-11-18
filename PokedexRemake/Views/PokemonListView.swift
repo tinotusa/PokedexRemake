@@ -24,8 +24,10 @@ struct PokemonListView: View {
                 switch viewModel.viewLoadingState {
                 case .loading:
                     ProgressView()
-                        .task {
-                            await viewModel.loadData(urls: pokemonURLs)
+                        .onAppear {
+                            Task {
+                                await viewModel.loadData(urls: pokemonURLs)
+                            }
                         }
                 case .loaded:
                     LazyVStack {

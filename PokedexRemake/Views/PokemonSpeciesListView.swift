@@ -19,8 +19,10 @@ struct PokemonSpeciesListView: View {
         switch viewModel.viewLoadingState {
         case .loading:
             ProgressView()
-                .task {
-                    await viewModel.loadData(speciesURL: speciesURLs)
+                .onAppear {
+                    Task {
+                        await viewModel.loadData(speciesURL: speciesURLs)
+                    }
                 }
         case .loaded:
             NavigationStack {

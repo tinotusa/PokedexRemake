@@ -22,8 +22,10 @@ struct AbilitiesListView: View {
                 switch viewModel.viewLoadingState {
                 case .loading:
                     ProgressView()
-                        .task {
-                            await viewModel.loadData(pokemon: pokemon)
+                        .onAppear {
+                            Task {
+                                await viewModel.loadData(pokemon: pokemon)
+                            }
                         }
                 case .loaded:
                     ForEach(viewModel.sortedAbilities()) { ability in

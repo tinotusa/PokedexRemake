@@ -21,8 +21,10 @@ struct MovesListView: View {
                 switch viewModel.viewLoadingState {
                 case .loading:
                     ProgressView()
-                        .task {
-                            await viewModel.loadData(moveURLS: moveURLS)
+                        .onAppear {
+                            Task {
+                                await viewModel.loadData(moveURLS: moveURLS)
+                            }
                         }
                 case .loaded:
                     LazyVStack(alignment: .leading) {

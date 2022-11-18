@@ -21,8 +21,10 @@ struct PastMoveValuesListView: View {
                 switch viewModel.viewLoadingState {
                 case .loading:
                     ProgressView()
-                        .task {
-                            await viewModel.loadData(pastValues: pastValues)
+                        .onAppear {
+                            Task {
+                                await viewModel.loadData(pastValues: pastValues)
+                            }
                         }
                 case .loaded:
                     ForEach(pastValues, id: \.self) { pastValue in

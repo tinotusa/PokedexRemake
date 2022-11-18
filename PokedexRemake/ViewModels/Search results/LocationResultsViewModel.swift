@@ -23,7 +23,8 @@ final class LocationResultsViewModel: ObservableObject, SearchResultsList {
             }
         }
     }
-    /// A boolean value indicating that a search is loading.
+    
+    @Published var showingClearHistoryDialog = false
     @Published private(set) var isSearchLoading = false
     @Published private(set) var errorMessage: String?
     private(set) var emptyPlaceholderText: LocalizedStringKey = "Search for a location."

@@ -18,6 +18,8 @@ protocol SearchResultsList: AnyObject {
     var emptyPlaceholderText: LocalizedStringKey { get }
     /// The search results.
     var results: [Element] { get set }
+    /// A Boolean value indicating whether the clear history dialog is showing.
+    var showingClearHistoryDialog: Bool { get set }
     /// A boolean value indicating whether or not the search is currently loading.
     var isSearchLoading: Bool { get }
     /// An optional error message to be displayed if it is not nil.

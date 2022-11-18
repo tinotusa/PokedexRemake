@@ -13,8 +13,6 @@ struct SearchResultsView<T: SearchResultsList & ObservableObject, Content: View>
     @ObservedObject var viewModel: T
     var content: (T.Element) -> Content
     
-    @State private var showingClearHistoryDialog = false
-    
     var body: some View {
         if viewModel.results.isEmpty {
             EmptySearchHistoryView(
@@ -26,7 +24,7 @@ struct SearchResultsView<T: SearchResultsList & ObservableObject, Content: View>
             ScrollView {
                 LazyVStack {
                     RecentlySearchedBar {
-                        showingClearHistoryDialog = true
+                        viewModel.showingClearHistoryDialog = true
                     }
                     
                     if viewModel.isSearchLoading {
@@ -49,7 +47,7 @@ struct SearchResultsView<T: SearchResultsList & ObservableObject, Content: View>
             }
             .confirmationDialog(
                 "Clear history",
-                isPresented: $showingClearHistoryDialog
+                isPresented: $viewModel.showingClearHistoryDialog
             ) {
                 Button("Clear history", role: .destructive) {
                     do {

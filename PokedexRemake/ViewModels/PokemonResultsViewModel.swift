@@ -20,6 +20,7 @@ final class PokemonResultsViewModel: ObservableObject, SearchResultsList {
         }
     }
     @Published private(set) var errorMessage: String?
+    @Published var showingClearHistoryDialog = false
     @Published private(set) var isSearchLoading = false
     private(set) var emptyPlaceholderText = LocalizedStringKey("Search for a pokemon")
     

@@ -58,6 +58,7 @@ private extension LocationDetail {
                 Text(region.localizedName(languageCode: language))
             } else {
                 Text("N/A")
+                    .foregroundColor(.gray)
             }
         }
     }
@@ -66,17 +67,22 @@ private extension LocationDetail {
         GridRow {
             Text("Areas")
                 .foregroundColor(.gray)
-            VStack(alignment: .leading) {
-                ForEach(viewModel.areas) { area in
-                    Button {
-                        selectedArea = area
-                    } label: {
-                        if let name = area.localizedName(languageCode: language),
-                           !name.isEmpty
-                        {
-                            Text(name)
-                        } else {
-                            Text(area.name)
+            if viewModel.areas.isEmpty {
+                Text("N/A")
+                    .foregroundColor(.gray)
+            } else {
+                VStack(alignment: .leading) {
+                    ForEach(viewModel.areas) { area in
+                        Button {
+                            selectedArea = area
+                        } label: {
+                            if let name = area.localizedName(languageCode: language),
+                               !name.isEmpty
+                            {
+                                Text(name)
+                            } else {
+                                Text(area.name)
+                            }
                         }
                     }
                 }

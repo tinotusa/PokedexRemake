@@ -15,15 +15,13 @@ struct DetailListView<Content: View>: View {
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .trailing) {
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        Text(description)
-                        Divider()
-                        content()
-                    }
-                    .padding(.horizontal)
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Text(description)
+                    Divider()
+                    content()
                 }
+                .padding(.horizontal)
             }
             .navigationTitle(title)
             .bodyStyle()

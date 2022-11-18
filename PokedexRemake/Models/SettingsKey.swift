@@ -12,11 +12,9 @@ import os
 
 /// An enum that holds the keys for AppStorage settings.
 struct SettingsKey {
-    static let isDarkMode = "isDarkMode"
     static let language = "language"
     static let shouldCacheResults = "shouldCacheResults"
     
     static let defaultLanguage = "en"
-    static let defaultIsDarkMode = false
     static let defaultCacheSetting = true
 }

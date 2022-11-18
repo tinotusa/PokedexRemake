@@ -10,7 +10,6 @@ import SwiftPokeAPI
 
 struct SettingsView: View {
     @AppStorage(SettingsKey.language) private var languageCode = SettingsKey.defaultLanguage
-    @AppStorage(SettingsKey.isDarkMode) private var isDarkMode = SettingsKey.defaultIsDarkMode
     @AppStorage(SettingsKey.shouldCacheResults) private var shouldCacheResults = SettingsKey.defaultCacheSetting
     
     @StateObject private var viewModel = SettingsViewModel()
@@ -31,7 +30,6 @@ struct SettingsView: View {
                     ScrollView {
                         VStack {
                             Toggle("Should cache results", isOn: $shouldCacheResults)
-                            Toggle("Dark mode", isOn: $isDarkMode)
                             HStack {
                                 Text("Language")
                                 Spacer()
@@ -76,7 +74,6 @@ struct SettingsView: View {
                 ErrorView(text: error.localizedDescription)
             }
         }
-        .preferredColorScheme(isDarkMode ? .dark : .light)
     }
 }
 

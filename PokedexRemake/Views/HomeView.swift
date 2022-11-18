@@ -18,7 +18,6 @@ struct HomeView: View {
     @StateObject private var abilitiesCategoryViewModel = AbilitiesCategoryViewModel()
     @StateObject private var locationsCategoryViewModel = LocationsCategoryViewModel()
     @StateObject private var generationsCategoryViewModel = GenerationsCategoryViewModel()
-    @AppStorage(SettingsKey.isDarkMode) private var isDarkMode = SettingsKey.defaultIsDarkMode
     
     @State private var showingSettings = false
     
@@ -45,7 +44,6 @@ struct HomeView: View {
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
                 }
-                .preferredColorScheme(isDarkMode ? .dark : .light)
             }
             .background(Color.background)
             .scrollDismissesKeyboard(.immediately)

@@ -11,7 +11,7 @@ import SwiftPokeAPI
 struct PastMoveValueView: View {
     let pastValue: PastMoveStatValues
     @StateObject private var viewModel = PastMoveValueViewModel()
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     @StateObject private var effectEntriesListViewModel = EffectEntriesListViewModel()
     var body: some View {
         switch viewModel.viewLoadingState {

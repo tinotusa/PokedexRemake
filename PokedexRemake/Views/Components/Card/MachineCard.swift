@@ -11,7 +11,7 @@ import SwiftPokeAPI
 struct MachineCard: View {
     let machine: Machine
     @StateObject private var viewModel = MachineCardViewModel()
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
         switch viewModel.viewLoadingState {

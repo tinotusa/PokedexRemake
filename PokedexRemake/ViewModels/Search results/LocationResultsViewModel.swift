@@ -99,14 +99,14 @@ private extension LocationResultsViewModel {
     /// Loads the locations search history from disk.
     /// - returns: An array of Locations.
     func loadHistoryFromDisk() throws -> [Location] {
-        try fileIOManager.load([Location].self, documentName: Self.saveFilename)
+        try fileIOManager.load([Location].self, filename: Self.saveFilename)
     }
     
     /// Saves the locations search history from disk.
     func saveHistoryToDisk() {
         logger.debug("Saving locations history.")
         do {
-            try fileIOManager.write(self.results, documentName: Self.saveFilename)
+            try fileIOManager.write(self.results, filename: Self.saveFilename)
             logger.debug("Successfully saved locations history.")
         } catch {
             logger.error("Failed to save locations history to disk. \(error)")

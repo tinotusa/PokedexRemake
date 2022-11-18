@@ -10,7 +10,7 @@ import SwiftPokeAPI
 
 struct TypeTag: View {
     let type: `Type`
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
         Text(type.localizedName(languageCode: language))

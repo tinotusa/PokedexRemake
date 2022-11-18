@@ -10,7 +10,7 @@ import SwiftPokeAPI
 
 struct LocationAreaDetail: View {
     let locationArea: LocationArea
-    @AppStorage(SettingsKey.language.rawValue) private var languageCode = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var languageCode = SettingsKey.defaultLanguage
     @StateObject private var viewModel = LocationAreaDetailViewModel()
     @Environment(\.dismiss) private var dismiss
     var body: some View {

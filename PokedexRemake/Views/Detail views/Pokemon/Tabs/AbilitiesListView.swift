@@ -14,7 +14,7 @@ struct AbilitiesListView: View {
     @ObservedObject var viewModel: AbilitiesListViewModel
     let pokemon: Pokemon
     
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
         DetailListView(title: title, description: description) {

@@ -12,7 +12,7 @@ struct PokemonEncounterListView: View {
     let locationArea: LocationArea
     let pokemonEncounters: [PokemonEncounter]
     @StateObject private var viewModel = PokemonEncounterListViewModel()
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     @State private var selectedVersion: Version?
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme

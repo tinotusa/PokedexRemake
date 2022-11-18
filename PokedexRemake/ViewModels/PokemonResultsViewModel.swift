@@ -32,7 +32,7 @@ extension PokemonResultsViewModel {
     func loadData() {
         logger.debug("Loading data from disk.")
         do {
-            self.results = try fileIOManager.load([Pokemon].self, documentName: Self.saveFilename)
+            self.results = try fileIOManager.load([Pokemon].self, filename: Self.saveFilename)
             logger.debug("Successfully loaded data from disk.")
             viewLoadingState = .loaded
         } catch CocoaError.fileReadNoSuchFile {
@@ -99,7 +99,7 @@ private extension PokemonResultsViewModel {
     func saveToDisk() {
         logger.debug("Saving pokemon results to disk.")
         do {
-            try fileIOManager.write(self.results, documentName: Self.saveFilename)
+            try fileIOManager.write(self.results, filename: Self.saveFilename)
             logger.debug("Successfully saved pokemon results to disk.")
         } catch {
             logger.error("Failed to save to disk. \(error)")

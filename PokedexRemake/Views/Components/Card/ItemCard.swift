@@ -10,7 +10,7 @@ import SwiftPokeAPI
 
 struct ItemCard: View {
     let item: Item
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     @StateObject private var viewModel = ItemCardViewModel()
     
     var body: some View {

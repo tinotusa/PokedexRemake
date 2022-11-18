@@ -12,7 +12,7 @@ struct PokemonSpeciesListView: View {
     let title: String
     let speciesURLs: [URL]
     @ObservedObject var viewModel: PokemonSpeciesListViewModel
-    @AppStorage(SettingsKey.language.rawValue) private var languageCode = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var languageCode = SettingsKey.defaultLanguage
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {

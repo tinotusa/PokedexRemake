@@ -33,7 +33,7 @@ extension AbilityResultsViewModel {
     @MainActor
     func loadData() {
         do {
-            self.results = try fileIOManager.load([Ability].self, documentName: Self.saveFilename)
+            self.results = try fileIOManager.load([Ability].self, filename: Self.saveFilename)
             viewLoadingState = .loaded
         } catch CocoaError.fileReadNoSuchFile {
             logger.error("Failed to load history from disk. File doesn't exit.")
@@ -70,7 +70,7 @@ extension AbilityResultsViewModel {
     /// Saves the abilties search history to disk.
     func saveHistoryToDisk() {
         do {
-            try fileIOManager.write(self.results, documentName: Self.saveFilename)
+            try fileIOManager.write(self.results, filename: Self.saveFilename)
         } catch {
             logger.error("Failed to write abilities search history to disk. \(error)")
         }

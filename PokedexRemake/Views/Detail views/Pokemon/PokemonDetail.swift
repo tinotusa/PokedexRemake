@@ -29,7 +29,7 @@ extension ButtonStyle where Self == LargeBlueButtonStyle {
 struct PokemonDetail: View {
     let pokemon: Pokemon
     @StateObject private var viewModel = PokemonDetailViewModel()
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     
     // tab view models
     @StateObject private var aboutTabViewModel = AboutTabViewModel()

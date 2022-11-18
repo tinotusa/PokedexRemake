@@ -10,7 +10,7 @@ import SwiftPokeAPI
 
 struct AbilityCard: View {
     let ability: Ability
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     @StateObject private var viewModel = AbilityCardViewModel()
     
     var body: some View {

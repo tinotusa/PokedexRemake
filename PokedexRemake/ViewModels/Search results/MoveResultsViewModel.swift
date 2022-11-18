@@ -96,13 +96,13 @@ extension MoveResultsViewModel {
 
 private extension MoveResultsViewModel {
     func loadFromDisk() throws -> [Move] {
-        try fileIOManager.load([Move].self, documentName: Self.saveFilename)
+        try fileIOManager.load([Move].self, filename: Self.saveFilename)
     }
     
     func saveToDisk() {
         logger.debug("Saving data to disk.")
         do {
-            try fileIOManager.write(self.results, documentName: Self.saveFilename)
+            try fileIOManager.write(self.results, filename: Self.saveFilename)
             logger.debug("Successfully saved data to disk.")
         } catch {
             logger.error("Failed to save to disk. \(error)")

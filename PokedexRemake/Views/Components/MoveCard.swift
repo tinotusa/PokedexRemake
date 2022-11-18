@@ -10,7 +10,7 @@ import SwiftPokeAPI
 
 struct MoveCard: View {
     let move: Move
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     @StateObject private var viewModel = MoveCardViewModel()
     
     var body: some View {

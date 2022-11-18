@@ -17,7 +17,7 @@ struct AbilityDetail: View {
     @StateObject private var flavorTextEntriesListViewModel = FlavorTextEntriesListViewModel()
     @StateObject private var pokemonListViewModel = PokemonListViewModel()
     
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
         switch viewModel.viewLoadingState {

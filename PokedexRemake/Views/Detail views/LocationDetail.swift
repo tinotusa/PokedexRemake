@@ -13,7 +13,7 @@ struct LocationDetail: View {
     @StateObject private var viewModel = LocationDetailViewModel()
     @State private var selectedArea: LocationArea?
     
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
         switch viewModel.viewLoadingState {

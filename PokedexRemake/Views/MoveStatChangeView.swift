@@ -11,7 +11,7 @@ import SwiftPokeAPI
 struct MoveStatChangeView: View {
     let statChange: MoveStatChange
     @StateObject private var viewModel = MoveStatChangeViewModel()
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
         switch viewModel.viewLoadingState {

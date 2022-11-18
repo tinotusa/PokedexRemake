@@ -12,7 +12,7 @@ struct PokemonResultRow: View {
     let pokemon: Pokemon
     
     @StateObject private var viewModel = PokemonResultRowViewModel()
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
         switch viewModel.viewLoadingState {

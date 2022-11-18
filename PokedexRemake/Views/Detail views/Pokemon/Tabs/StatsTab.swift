@@ -13,7 +13,7 @@ struct StatsTab: View {
     @ObservedObject var viewModel: StatsTabViewModel
     let pokemon: Pokemon
     
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
         ExpandableTab(title: "Stats") {

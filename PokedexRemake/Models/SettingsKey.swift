@@ -10,10 +10,11 @@ import SwiftUI
 import SwiftPokeAPI
 import os
 
-enum SettingsKey: String {
-    case isDarkMode
-    case language
-    case shouldCacheResults
+/// An enum that holds the
+struct SettingsKey {
+    static let isDarkMode = "isDarkMode"
+    static let language = "language"
+    static let shouldCacheResults = "shouldCacheResults"
     
     static let defaultLanguage = "en"
     static let defaultIsDarkMode = false

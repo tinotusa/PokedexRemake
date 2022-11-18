@@ -10,7 +10,7 @@ import SwiftPokeAPI
 
 struct LocationCard: View {
     let location: Location
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     @StateObject private var viewModel = LocationCardViewModel()
     
     var body: some View {

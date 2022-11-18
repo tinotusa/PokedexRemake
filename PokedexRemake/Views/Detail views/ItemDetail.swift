@@ -25,7 +25,7 @@ extension VerboseEffect {
 
 struct ItemDetail: View {
     let item: Item
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     @StateObject private var viewModel = ItemDetailViewModel()
     @StateObject private var flavorTextEntriesListViewModel = FlavorTextEntriesListViewModel()
     @StateObject private var pokemonListViewModel = PokemonListViewModel()

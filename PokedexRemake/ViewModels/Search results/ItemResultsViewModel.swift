@@ -39,7 +39,7 @@ extension ItemResultsViewModel {
     func loadData() {
         logger.debug("Loading data.")
         do {
-            self.results = try fileIOManager.load([Item].self, documentName: Self.saveFilename)
+            self.results = try fileIOManager.load([Item].self, filename: Self.saveFilename)
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data from disk.")
         } catch CocoaError.fileReadNoSuchFile {
@@ -53,7 +53,7 @@ extension ItemResultsViewModel {
     
     func saveHistoryToDisk() {
         do {
-            try fileIOManager.write(self.results, documentName: Self.saveFilename)
+            try fileIOManager.write(self.results, filename: Self.saveFilename)
         } catch {
             logger.error("Failed to write search history to disk. \(error)")
         }

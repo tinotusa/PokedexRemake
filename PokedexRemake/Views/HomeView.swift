@@ -18,7 +18,7 @@ struct HomeView: View {
     @StateObject private var abilitiesCategoryViewModel = AbilitiesCategoryViewModel()
     @StateObject private var locationsCategoryViewModel = LocationsCategoryViewModel()
     @StateObject private var generationsCategoryViewModel = GenerationsCategoryViewModel()
-    @AppStorage(SettingsKey.isDarkMode.rawValue) private var isDarkMode = SettingsKey.defaultIsDarkMode
+    @AppStorage(SettingsKey.isDarkMode) private var isDarkMode = SettingsKey.defaultIsDarkMode
     
     @State private var showingSettings = false
     

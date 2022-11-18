@@ -11,7 +11,7 @@ import SwiftPokeAPI
 struct GenerationDetail: View {
     let generation: Generation
     @StateObject private var viewModel = GenerationDetailViewModel()
-    @AppStorage(SettingsKey.language.rawValue) private var languageCode = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var languageCode = SettingsKey.defaultLanguage
     @StateObject private var movesListViewModel = MovesListViewModel()
     @StateObject private var pokemonListViewModel = PokemonListViewModel()
     @StateObject private var pokemonSpeciesListViewModel = PokemonSpeciesListViewModel()

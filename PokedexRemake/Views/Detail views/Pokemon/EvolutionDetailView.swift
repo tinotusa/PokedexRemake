@@ -11,7 +11,7 @@ import SwiftPokeAPI
 struct EvolutionDetailView: View {
     let evolutionDetail: EvolutionDetail
     @StateObject private var viewModel = EvolutionDetailViewModel()
-    @AppStorage(SettingsKey.language.rawValue) var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) var language = SettingsKey.defaultLanguage
     
     var body: some View {
         switch viewModel.viewLoadingState {

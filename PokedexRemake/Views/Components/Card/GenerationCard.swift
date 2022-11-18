@@ -11,7 +11,7 @@ import SwiftPokeAPI
 struct GenerationCard: View {
     let generation: Generation
     @StateObject private var viewModel = GenerationCardViewModel()
-    @AppStorage(SettingsKey.language.rawValue) private var language = SettingsKey.defaultLanguage
+    @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     
     var body: some View {
         switch viewModel.viewLoadingState {

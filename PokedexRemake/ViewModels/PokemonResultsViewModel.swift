@@ -27,7 +27,7 @@ final class PokemonResultsViewModel: ObservableObject, SearchResultsList {
     @Published var showingClearPokemonConfirmationDialog = false
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     
-    static let saveFilename = "pokemonSearchResults"
+    let saveFilename = "pokemonSearchResults"
     let fileIOManager = FileIOManager()
     private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonResultsViewViewModel")
 }

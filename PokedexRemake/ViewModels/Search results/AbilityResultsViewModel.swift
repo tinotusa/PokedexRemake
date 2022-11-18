@@ -28,7 +28,7 @@ final class AbilityResultsViewModel: ObservableObject, SearchResultsList {
     @Published var showingClearHistoryDialog = false
     
     let fileIOManager = FileIOManager()
-    static let saveFilename = "abilityResults"
+    let saveFilename = "abilityResults"
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "AbilityResultsViewModel")
 }
 

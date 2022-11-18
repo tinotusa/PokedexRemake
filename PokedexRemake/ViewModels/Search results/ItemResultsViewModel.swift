@@ -10,6 +10,7 @@ import SwiftPokeAPI
 import SwiftUI
 import os
 
+/// View model for ItemResults view.
 final class ItemResultsViewModel: ObservableObject, SearchResultsList {
     private(set) var emptyPlaceholderText: LocalizedStringKey = "Search for an item."
     
@@ -34,7 +35,7 @@ final class ItemResultsViewModel: ObservableObject, SearchResultsList {
     @Published var showingClearHistoryDialog = false
     
     let fileIOManager = FileIOManager()
-    static let saveFilename = "itemResults"
+    let saveFilename = "itemResults"
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "ItemResultsViewModel")
 }
 
@@ -47,7 +48,7 @@ extension ItemResultsViewModel {
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data from disk.")
         } catch CocoaError.fileReadNoSuchFile {
-            logger.debug("The file \(Self.saveFilename) has not been created yet.")
+            logger.debug("The file \(self.saveFilename) has not been created yet.")
             viewLoadingState = .loaded
         } catch {
             logger.error("Failed to load data from disk. \(error)")

@@ -25,7 +25,7 @@ protocol SearchResultsList: AnyObject {
     /// An optional error message to be displayed if it is not nil.
     var errorMessage: String? { get }
     /// The filename of the save history on disk.
-    static var saveFilename: String { get }
+    var saveFilename: String { get }
 
     /// Executes a search based on the given name.
     /// - parameter name: The name or id to search for.
@@ -35,7 +35,7 @@ protocol SearchResultsList: AnyObject {
 extension SearchResultsList {
     /// Deletes the history on disk and clears the history in memory.
     func clearHistory() throws {
-        try FileIOManager().delete(Self.saveFilename)
+        try FileIOManager().delete(saveFilename)
         results = []
     }
     
@@ -55,11 +55,11 @@ extension SearchResultsList {
     /// Loads the elements from disk.
     /// - Returns: An array of Elements.
     func loadHistoryFromDisk() throws -> [Element] {
-        try fileIOManager.load([Element].self, filename: Self.saveFilename)
+        try fileIOManager.load([Element].self, filename: saveFilename)
     }
     
     /// Saves the elements search history from disk.
     func saveHistoryToDisk() throws {
-        try fileIOManager.write(results, filename: Self.saveFilename)
+        try fileIOManager.write(results, filename: saveFilename)
     }
 }

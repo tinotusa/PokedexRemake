@@ -29,7 +29,7 @@ final class LocationResultsViewModel: ObservableObject, SearchResultsList {
     @Published private(set) var errorMessage: String?
     private(set) var emptyPlaceholderText: LocalizedStringKey = "Search for a location."
     /// The file name of the locations history on disk
-    static let saveFilename = "locationResults"
+    let saveFilename = "locationResults"
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "LocationResultsViewModel")
     let fileIOManager = FileIOManager()
@@ -45,7 +45,7 @@ extension LocationResultsViewModel {
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")
         } catch CocoaError.fileReadNoSuchFile {
-            logger.debug("File \(Self.saveFilename) has not been created.")
+            logger.debug("File \(self.saveFilename) has not been created.")
             viewLoadingState = .loaded
         } catch {
             logger.error("Failed to load data. \(error)")

@@ -116,7 +116,7 @@ private extension StatsTabViewModel {
     }
     
     func getDamageRelations(for types: Set<`Type`>) async throws -> [TypeRelationKey: [`Type`]] {
-        var damageRelations = [TypeRelationKey: [`Type`]]()
+        var damageRelations = [TypeRelationKey: Set<`Type`>]()
         for type in types {
             async let noDamageTo = Globals.getTypes(urls: type.damageRelations.noDamageTo.map { $0.url })
             async let halfDamageTo = Globals.getTypes(urls: type.damageRelations.halfDamageTo.map { $0.url })
@@ -125,14 +125,14 @@ private extension StatsTabViewModel {
             async let halfDamageFrom = Globals.getTypes(urls: type.damageRelations.halfDamageFrom.map { $0.url })
             async let doubleDamageFrom = Globals.getTypes(urls: type.damageRelations.doubleDamageFrom.map { $0.url })
             
-            damageRelations[.noDamageTo, default: []].append(contentsOf: try await noDamageTo.sorted())
-            damageRelations[.halfDamageTo, default: []].append(contentsOf: try await halfDamageTo.sorted())
-            damageRelations[.doubleDamageTo, default: []].append(contentsOf: try await doubleDamageTo.sorted())
-            damageRelations[.noDamageFrom, default: []].append(contentsOf: try await noDamageFrom.sorted())
-            damageRelations[.halfDamageFrom, default: []].append(contentsOf: try await halfDamageFrom.sorted())
-            damageRelations[.doubleDamageFrom, default: []].append(contentsOf: try await doubleDamageFrom.sorted())
+            damageRelations[.noDamageTo, default: []].formUnion(try await noDamageTo.sorted())
+            damageRelations[.halfDamageTo, default: []].formUnion(try await halfDamageTo.sorted())
+            damageRelations[.doubleDamageTo, default: []].formUnion(try await doubleDamageTo.sorted())
+            damageRelations[.noDamageFrom, default: []].formUnion(try await noDamageFrom.sorted())
+            damageRelations[.halfDamageFrom, default: []].formUnion(try await halfDamageFrom.sorted())
+            damageRelations[.doubleDamageFrom, default: []].formUnion(try await doubleDamageFrom.sorted())
         }
-        return damageRelations
+        return damageRelations.mapValues { $0.sorted() }
     }
     
     func getTypes(from resources: [NamedAPIResource]) async -> Set<`Type`> {

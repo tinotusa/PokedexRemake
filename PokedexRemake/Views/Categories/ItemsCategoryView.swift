@@ -14,8 +14,10 @@ struct ItemsCategoryView: View {
         switch viewModel.viewLoadingState {
         case .loading:
             LoadingView()
-                .task {
-                    await viewModel.loadData()
+                .onAppear {
+                    Task {
+                        await viewModel.loadData()
+                    }
                 }
         case .loaded:
             ScrollView {

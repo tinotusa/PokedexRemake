@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// The state of a view.
 enum ViewLoadingState {
     case loading
     case loaded

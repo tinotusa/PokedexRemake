@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftPokeAPI
 import os
 
-/// An enum that holds the
+/// An enum that holds the keys for AppStorage settings.
 struct SettingsKey {
     static let isDarkMode = "isDarkMode"
     static let language = "language"

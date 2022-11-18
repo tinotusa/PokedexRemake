@@ -8,6 +8,7 @@
 import Foundation
 import SwiftPokeAPI
 
+/// A type that can be localized by name.
 protocol NameLocalizable {
     var name: String { get }
     var names: [Name] { get }

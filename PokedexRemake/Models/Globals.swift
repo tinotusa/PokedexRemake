@@ -26,19 +26,19 @@ struct Globals {
         return try await PokemonSpecies(pokemon.species.url)
     }
     
-    /// Fetches moves from the given URLs.
+    /// Fetches items from the given URLs.
     ///
     /// The offset skips the first n elements and fetches moves from offset to offset + limit
     ///
     ///     let urls: [URL] = [...]
     ///     let offset = 10
-    ///     let moves = getMoves(urls: urls, offset: offset) // starts from urls[offset..< offset + limit]
+    ///     let moves = getItems(Move.self, urls: urls, offset: offset) // starts from urls[offset..< offset + limit]
     ///
     /// - Parameters:
     ///   - urls: The URLs for the moves.
     ///   - limit: The number of moves to fetch.
     ///   - offset: The offset to start from within the URLs.
-    /// - Returns: A set of Moves.
+    /// - Returns: A set of items.
     static func getItems<T: Codable & SearchableByURL>(_ type: T.Type, urls: [URL], limit: Int = 0, offset: Int = 0) async throws -> Set<T> {
         var limit = limit
         var offset = offset
@@ -61,10 +61,20 @@ struct Globals {
         }
     }
     
+    /// Formats the given ID.
+    ///
+    ///     let formattedID = Globals.formattedID(1)
+    ///     print(formattedID) // "#001"
+    ///
+    /// - Parameter id: The ID to format
+    /// - Returns: The formatted ID.
     static func formattedID(_ id: Int) -> String {
         String(format: "#%03d", id)
     }
     
+    /// Returns a sorted array of Types.
+    /// - Parameter types: The set of types to sort.
+    /// - Returns: A sorted array of Types.
     static func sortedTypes(_ types: Set<`Type`>) -> [`Type`] {
         types.sorted()
     }

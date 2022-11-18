@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+/// The search scopes for the search bar.
 enum SearchScope: String, CaseIterable, Identifiable {
     case pokemon
     case moves
@@ -17,6 +18,7 @@ enum SearchScope: String, CaseIterable, Identifiable {
     
     var id: Self { self }
     
+    /// A localized title for the search scope.
     var title: LocalizedStringKey {
         LocalizedStringKey(self.rawValue.capitalized)
     }

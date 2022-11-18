@@ -14,9 +14,13 @@ final class LocationResultsViewModel: ObservableObject, SearchResultsList {
     /// The state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     /// The locations search results.
-    @Published private(set) var results = [Location]() {
+    @Published var results = [Location]() {
         didSet {
-            saveHistoryToDisk()
+            do {
+                try saveHistoryToDisk()
+            } catch {
+                logger.debug("Failed to save history to disk. \(error)")
+            }
         }
     }
     /// A boolean value indicating that a search is loading.
@@ -27,7 +31,7 @@ final class LocationResultsViewModel: ObservableObject, SearchResultsList {
     static let saveFilename = "locationResults"
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "LocationResultsViewModel")
-    private let fileIOManager = FileIOManager()
+    let fileIOManager = FileIOManager()
 }
 
 extension LocationResultsViewModel {
@@ -63,53 +67,13 @@ extension LocationResultsViewModel {
         }
         do {
             let location = try await Location(name)
-            let moved = self.results.moveToTop(location)
+            let moved = moveToTop(location)
             if !moved {
                 self.results.insert(location, at: 0)
             }
         } catch {
             logger.error("Failed to find location with name: \(name). \(error)")
             errorMessage = "No location with name \"\(name)\" found."
-        }
-    }
-    
-    /// Clears the in memory and on disk history.
-    @MainActor
-    func clearHistory() {
-        logger.debug("Clearing history.")
-        do {
-            try fileIOManager.delete(Self.saveFilename)
-            self.results = []
-            logger.debug("Successfully cleared history.")
-        } catch {
-            logger.error("Failed to clear history. \(error)")
-        }
-    }
-    
-    @MainActor
-    func moveToTop(_ location: Location) {
-        let moved = self.results.moveToTop(location)
-        if !moved {
-            logger.error("Failed to move location: \(location.id) to top.")
-        }
-    }
-}
-
-private extension LocationResultsViewModel {
-    /// Loads the locations search history from disk.
-    /// - returns: An array of Locations.
-    func loadHistoryFromDisk() throws -> [Location] {
-        try fileIOManager.load([Location].self, filename: Self.saveFilename)
-    }
-    
-    /// Saves the locations search history from disk.
-    func saveHistoryToDisk() {
-        logger.debug("Saving locations history.")
-        do {
-            try fileIOManager.write(self.results, filename: Self.saveFilename)
-            logger.debug("Successfully saved locations history.")
-        } catch {
-            logger.error("Failed to save locations history to disk. \(error)")
         }
     }
 }

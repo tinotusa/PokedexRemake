@@ -13,7 +13,7 @@ import os
 
 final class MoveResultsViewModel: ObservableObject, SearchResultsList {
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
-    @Published private(set) var results = [Move]() {
+    @Published var results = [Move]() {
         didSet {
             saveToDisk()
         }
@@ -24,7 +24,7 @@ final class MoveResultsViewModel: ObservableObject, SearchResultsList {
     private(set) var emptyPlaceholderText: LocalizedStringKey = "Search for a move."
     
     static let saveFilename = "moveResults"
-    private let fileIOManager = FileIOManager()
+    let fileIOManager = FileIOManager()
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "MoveResultsViewModel")
 }
 
@@ -75,23 +75,23 @@ extension MoveResultsViewModel {
         }
     }
     
-    @MainActor
-    func clearHistory() {
-        do {
-            try fileIOManager.delete(Self.saveFilename)
-            self.results = []
-            logger.debug("Cleared move search history.")
-        } catch {
-            logger.error("Failed to clear history. \(error)")
-        }
-    }
-    
-    func moveToTop(_ move: Move) {
-        let moved = self.results.moveToTop(move)
-        if !moved {
-            logger.error("Failed to move move \(move.id) to top.")
-        }
-    }
+//    @MainActor
+//    func clearHistory() {
+//        do {
+//            try fileIOManager.delete(Self.saveFilename)
+//            self.results = []
+//            logger.debug("Cleared move search history.")
+//        } catch {
+//            logger.error("Failed to clear history. \(error)")
+//        }
+//    }
+//
+//    func moveToTop(_ move: Move) {
+//        let moved = self.results.moveToTop(move)
+//        if !moved {
+//            logger.error("Failed to move move \(move.id) to top.")
+//        }
+//    }
 }
 
 private extension MoveResultsViewModel {

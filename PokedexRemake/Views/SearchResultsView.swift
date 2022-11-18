@@ -52,7 +52,11 @@ struct SearchResultsView<T: SearchResultsList & ObservableObject, Content: View>
                 isPresented: $showingClearHistoryDialog
             ) {
                 Button("Clear history", role: .destructive) {
-                    viewModel.clearHistory()
+                    do {
+                        try viewModel.clearHistory()
+                    } catch {
+                        print("Failed to clear history. \(error)")
+                    }
                 }
             } message: {
                 Text("Clear recently searched history")

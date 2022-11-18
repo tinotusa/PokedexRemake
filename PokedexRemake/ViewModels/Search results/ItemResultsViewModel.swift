@@ -13,9 +13,13 @@ import os
 final class ItemResultsViewModel: ObservableObject, SearchResultsList {
     private(set) var emptyPlaceholderText: LocalizedStringKey = "Search for an item."
     
-    @Published private(set) var results = [Item]() {
+    @Published var results = [Item]() {
         didSet {
-            saveHistoryToDisk()
+            do {
+                try saveHistoryToDisk()
+            } catch {
+                logger.error("Failed to save history to disk. \(error)")
+            }
         }
     }
     @Published private(set) var hasNextPage = true
@@ -29,7 +33,7 @@ final class ItemResultsViewModel: ObservableObject, SearchResultsList {
     @Published private(set) var isSearchLoading = false
     @Published var showingClearHistoryDialog = false
     
-    private let fileIOManager = FileIOManager()
+    let fileIOManager = FileIOManager()
     static let saveFilename = "itemResults"
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "ItemResultsViewModel")
 }
@@ -39,7 +43,7 @@ extension ItemResultsViewModel {
     func loadData() {
         logger.debug("Loading data.")
         do {
-            self.results = try fileIOManager.load([Item].self, filename: Self.saveFilename)
+            self.results = try loadHistoryFromDisk()
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data from disk.")
         } catch CocoaError.fileReadNoSuchFile {
@@ -48,14 +52,6 @@ extension ItemResultsViewModel {
         } catch {
             logger.error("Failed to load data from disk. \(error)")
             viewLoadingState = .error(error: error)
-        }
-    }
-    
-    func saveHistoryToDisk() {
-        do {
-            try fileIOManager.write(self.results, filename: Self.saveFilename)
-        } catch {
-            logger.error("Failed to write search history to disk. \(error)")
         }
     }
     
@@ -70,35 +66,13 @@ extension ItemResultsViewModel {
         }
         do {
             let item = try await Item(name)
-            let moved = results.moveToTop(item)
+            let moved = moveToTop(item)
             if !moved {
                 self.results.insert(item, at: 0)
             }
         } catch {
             logger.error("Failed to find item with name: \(name). \(error)")
             errorMessage = "Failed to find an item with the name \(name)."
-        }
-    }
-    
-    /// Moves the given item to index 0.
-    /// - parameter item: The item to move.
-    @MainActor
-    func moveToTop(_ item: Item) {
-        let moved = results.moveToTop(item)
-        if !moved {
-            logger.error("Failed to move item \(item.id). Item wasn't in the array")
-        }
-    }
-    
-    /// Clears the item search history and deletes it from disk.
-    @MainActor
-    func clearHistory() {
-        do {
-            try fileIOManager.delete(Self.saveFilename)
-            self.results = []
-            logger.debug("Successfully deleted items history from disk.")
-        } catch {
-            logger.error("Failed to delete file name \(Self.saveFilename) from disk. \(error)")
         }
     }
 }

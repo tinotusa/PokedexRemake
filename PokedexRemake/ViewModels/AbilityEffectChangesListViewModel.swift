@@ -40,7 +40,7 @@ extension AbilityEffectChangesListViewModel {
                     }
                 }
                 let versionGroup = try await VersionGroup(effectChange.versionGroup.url)
-                let versions = try await Globals.getVersions(from: [versionGroup])
+                let versions = try await Globals.getItems(Version.self, urls: versionGroup.versions.map { $0.url })
                 localizedEffectVersions.append(.init(effectEntries: effects, versions: Array(versions)))
             }
             

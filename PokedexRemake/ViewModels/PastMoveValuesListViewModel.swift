@@ -23,9 +23,9 @@ extension PastMoveValuesListViewModel {
     func loadData(pastValues: [PastMoveStatValues]) async {
         logger.debug("Loading data.")
         do {
-            self.types = try await Globals.getTypes(urls: pastValues.compactMap { $0.type?.url })
-            self.versionGroups = try await Globals.getVersionGroups(from: pastValues.compactMap { $0.versionGroup.url })
-            self.versions = try await Globals.getVersions(from: versionGroups)
+            self.types = try await Globals.getItems(`Type`.self, urls: pastValues.compactMap { $0.type?.url })
+            self.versionGroups = try await Globals.getItems(VersionGroup.self, urls: pastValues.compactMap { $0.versionGroup.url })
+            self.versions = try await Globals.getItems(Version.self, urls: versionGroups.flatMap { $0.versions.map { $0.url } })
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")
         } catch {

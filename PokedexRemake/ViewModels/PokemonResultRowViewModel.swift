@@ -26,7 +26,7 @@ extension PokemonResultRowViewModel {
         logger.debug("Loading data.")
         do {
             self.pokemonSpecies = try await Globals.getPokemonSpecies(from: pokemon)
-            self.types = try await Globals.getTypes(urls: pokemon.types.map { $0.type.url } )
+            self.types = try await Globals.getItems(`Type`.self, urls: pokemon.types.map { $0.type.url })
             self.generation = try await Globals.getGeneration(from: pokemonSpecies)
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")

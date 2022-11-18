@@ -48,7 +48,7 @@ extension StatsTabViewModel {
         logger.debug("Loading stats tab data.")
         do {
             async let stats = getStats(for: pokemon)
-            async let types = Globals.getTypes(urls: pokemon.types.map { $0.type.url })
+            async let types = Globals.getItems(`Type`.self, urls: pokemon.types.map { $0.type.url })
             
             let damageRelations = try await getDamageRelations(for: types)
             
@@ -118,12 +118,12 @@ private extension StatsTabViewModel {
     func getDamageRelations(for types: Set<`Type`>) async throws -> [TypeRelationKey: [`Type`]] {
         var damageRelations = [TypeRelationKey: Set<`Type`>]()
         for type in types {
-            async let noDamageTo = Globals.getTypes(urls: type.damageRelations.noDamageTo.map { $0.url })
-            async let halfDamageTo = Globals.getTypes(urls: type.damageRelations.halfDamageTo.map { $0.url })
-            async let doubleDamageTo = Globals.getTypes(urls: type.damageRelations.doubleDamageTo.map { $0.url })
-            async let noDamageFrom = Globals.getTypes(urls: type.damageRelations.noDamageFrom.map { $0.url })
-            async let halfDamageFrom = Globals.getTypes(urls: type.damageRelations.halfDamageFrom.map { $0.url })
-            async let doubleDamageFrom = Globals.getTypes(urls: type.damageRelations.doubleDamageFrom.map { $0.url })
+            async let noDamageTo = Globals.getItems(`Type`.self, urls: type.damageRelations.noDamageTo.map { $0.url })
+            async let halfDamageTo = Globals.getItems(`Type`.self, urls: type.damageRelations.halfDamageTo.map { $0.url })
+            async let doubleDamageTo = Globals.getItems(`Type`.self, urls: type.damageRelations.doubleDamageTo.map { $0.url })
+            async let noDamageFrom = Globals.getItems(`Type`.self, urls: type.damageRelations.noDamageFrom.map { $0.url })
+            async let halfDamageFrom = Globals.getItems(`Type`.self, urls: type.damageRelations.halfDamageFrom.map { $0.url })
+            async let doubleDamageFrom = Globals.getItems(`Type`.self, urls: type.damageRelations.doubleDamageFrom.map { $0.url })
             
             damageRelations[.noDamageTo, default: []].formUnion(try await noDamageTo.sorted())
             damageRelations[.halfDamageTo, default: []].formUnion(try await halfDamageTo.sorted())

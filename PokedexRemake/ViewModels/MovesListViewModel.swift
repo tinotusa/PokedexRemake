@@ -42,7 +42,7 @@ extension MovesListViewModel {
         self.urls = moveURLS
         
         do {
-            self.moves = try await Globals.getMoves(urls: urls, limit: limit)
+            self.moves = try await Globals.getItems(Move.self, urls: urls, limit: limit)
             viewLoadingState = .loaded
         } catch {
             logger.error("Failed load data.")
@@ -53,7 +53,7 @@ extension MovesListViewModel {
     @MainActor
     func getNextPage() async {
         do {
-            let moves = try await Globals.getMoves(urls: self.urls, limit: 20, offset: offset)
+            let moves = try await Globals.getItems(Move.self, urls: self.urls, limit: limit, offset: offset)
             self.moves.formUnion(moves)
             logger.debug("Successfully got the next page.")
         } catch {

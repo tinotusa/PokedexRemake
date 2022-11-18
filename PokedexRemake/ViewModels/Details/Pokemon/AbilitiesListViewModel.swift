@@ -17,7 +17,7 @@ extension AbilitiesListViewModel {
     @MainActor
     func loadData(pokemon: Pokemon) async {
         do {
-            self.abilities = try await Globals.getAbilities(urls: pokemon.abilities.map { $0.ability.url })
+            self.abilities = try await Globals.getItems(Ability.self, urls: pokemon.abilities.map { $0.ability.url })
             viewLoadingState = .loaded
         } catch {
             viewLoadingState = .error(error: error)

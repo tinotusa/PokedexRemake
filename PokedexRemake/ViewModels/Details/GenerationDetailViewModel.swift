@@ -46,12 +46,12 @@ extension GenerationDetailViewModel {
     func loadData(generation: Generation, languageCode: String) async {
         do {
             self.mainRegion = try await Region(generation.mainRegion.url)
-            let versionGroups = try await Globals.getVersionGroups(from: generation.versionGroups.map { $0.url })
+            let versionGroups = try await Globals.getItems(VersionGroup.self, urls: generation.versionGroups.map { $0.url })
             self.versionGroups.append(contentsOf: versionGroups)
-            let versions = try await Globals.getVersions(from: versionGroups).sorted()
+            let versions = try await Globals.getItems(Version.self, urls: versionGroups.flatMap { $0.versions.map { $0.url } }).sorted()
             self.versions.append(contentsOf: versions)
             
-            let types = try await Globals.getTypes(urls: generation.types.map { $0.url }).sorted()
+            let types = try await Globals.getItems(`Type`.self, urls: generation.types.map { $0.url }).sorted()
             self.types.append(contentsOf: types)
             self.details = getGenerationDetails(generation: generation, languageCode: languageCode)
             viewLoadingState = .loaded

@@ -10,99 +10,54 @@ import SwiftPokeAPI
 import os
 import SwiftUI
 
+/// A struct that holds functions that are used throughout the app.
 struct Globals {
-    static func getTypes(urls: [URL]) async throws -> Set<`Type`> {
-        try await withThrowingTaskGroup(of: `Type`.self) { group in
-            for url in urls {
-                group.addTask {
-                    return try await `Type`(url)
-                }
-            }
-            var types = Set<`Type`>()
-            for try await type in group {
-                types.insert(type)
-            }
-            return types
-        }
-    }
-    
+    /// Gets a Generation from a PokemonSpecies.
+    /// - Parameter pokemonSpecies: The PokemonSpecies to get the Generation from.
+    /// - Returns: The Generation for the PokemonSpecies.
     static func getGeneration(from pokemonSpecies: PokemonSpecies) async throws -> Generation {
         return try await Generation(pokemonSpecies.generation.url)
     }
     
+    /// Gets the PokemonSpecies of a Pokemon.
+    /// - Parameter pokemon: The pokemon to get the species from.
+    /// - Returns: The PokemonSpecies for the pokemon.
     static func getPokemonSpecies(from pokemon: Pokemon) async throws -> PokemonSpecies {
         return try await PokemonSpecies(pokemon.species.url)
     }
     
-    static func getMoves(urls: [URL], limit: Int = 0, offset: Int = 0) async throws -> Set<Move> {
+    /// Fetches moves from the given URLs.
+    ///
+    /// The offset skips the first n elements and fetches moves from offset to offset + limit
+    ///
+    ///     let urls: [URL] = [...]
+    ///     let offset = 10
+    ///     let moves = getMoves(urls: urls, offset: offset) // starts from urls[offset..< offset + limit]
+    ///
+    /// - Parameters:
+    ///   - urls: The URLs for the moves.
+    ///   - limit: The number of moves to fetch.
+    ///   - offset: The offset to start from within the URLs.
+    /// - Returns: A set of Moves.
+    static func getItems<T: Codable & SearchableByURL>(_ type: T.Type, urls: [URL], limit: Int = 0, offset: Int = 0) async throws -> Set<T> {
         var limit = limit
         var offset = offset
         if limit == 0 {
             limit = urls.count
             offset = 0
         }
-        return try await withThrowingTaskGroup(of: Move.self) { group in
+        return try await withThrowingTaskGroup(of: T.self) { group in
             for (i, url) in urls.enumerated() where i >= offset && i < offset + limit {
                 group.addTask {
-                    return try await Move(url)
+                    return try await T(url)
                 }
             }
             
-            var moves = Set<Move>()
-            for try await move in group {
-                moves.insert(move)
+            var items = Set<T>()
+            for try await item in group {
+                items.insert(item)
             }
-            return moves
-        }
-    }
-    
-    static func getAbilities(urls: [URL]) async throws -> Set<Ability> {
-        try await withThrowingTaskGroup(of: Ability.self) { group in
-            for url in urls {
-                group.addTask {
-                    return try await Ability(url)
-                }
-            }
-            
-            var abilities = Set<Ability>()
-            for try await ability in group {
-                abilities.insert(ability)
-            }
-            return abilities
-        }
-    }
-    
-    static func getVersionGroups(from urls: [URL]) async throws -> Set<VersionGroup> {
-        try await withThrowingTaskGroup(of: VersionGroup.self) { group in
-            for url in urls {
-                group.addTask {
-                    return try await VersionGroup(url)
-                }
-            }
-            
-            var versionGroups = Set<VersionGroup>()
-            for try await versionGroup in group {
-                versionGroups.insert(versionGroup)
-            }
-            return versionGroups
-        }
-    }
-    
-    static func getVersions(from versionGroups: Set<VersionGroup>) async throws -> Set<Version> {
-        try await withThrowingTaskGroup(of: Version.self) { group in
-            for versionGroup in versionGroups {
-                for version in versionGroup.versions {
-                    group.addTask {
-                        return try await Version(version.url)
-                    }
-                }
-            }
-            
-            var versions = Set<Version>()
-            for try await version in group {
-                versions.insert(version)
-            }
-            return versions
+            return items
         }
     }
     

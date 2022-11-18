@@ -22,8 +22,8 @@ extension FlavorTextEntriesListViewModel {
     func loadData(abilityFlavorTexts: [CustomFlavorText]) async {
         logger.debug("Loading data.")
         do {
-            self.versionGroups = try await Globals.getVersionGroups(from: abilityFlavorTexts.compactMap { $0.versionGroup.url })
-            self.versions = try await Globals.getVersions(from: versionGroups)
+            self.versionGroups = try await Globals.getItems(VersionGroup.self, urls: abilityFlavorTexts.compactMap { $0.versionGroup.url })
+            self.versions = try await Globals.getItems(Version.self, urls: versionGroups.flatMap { $0.versions.map { $0.url } })
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")
         } catch {

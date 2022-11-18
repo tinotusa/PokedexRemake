@@ -37,7 +37,7 @@ extension MachineCardViewModel {
             self.move = try await Move(machine.move.url)
             self.versionGroup = try await VersionGroup(machine.versionGroup.url)
             if let versionGroup {
-                self.versions = try await Globals.getVersions(from: [versionGroup])
+                self.versions = try await Globals.getItems(Version.self, urls: versionGroup.versions.map { $0.url } )
             } else {
                 logger.error("Failed to get version group from machine \(machine.id).")
                 viewLoadingState = .error(error: MachineCardError.noVersionGroup)

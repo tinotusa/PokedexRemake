@@ -48,7 +48,7 @@ extension PastMoveValueViewModel {
             }
             self.versionGroup = try await VersionGroup(pastValue.versionGroup.url)
             if let versionGroup {
-                self.versions = try await Globals.getVersions(from: [versionGroup])
+                self.versions = try await Globals.getItems(Version.self, urls: versionGroup.versions.map { $0.url })
             }
             viewLoadingState = .loaded
             self.pastValues = getPastValues(pastValue: pastValue)

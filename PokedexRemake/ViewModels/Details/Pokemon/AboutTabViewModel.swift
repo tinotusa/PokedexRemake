@@ -10,16 +10,25 @@ import SwiftUI
 import SwiftPokeAPI
 import os
 
+/// View Model for AboutTab.
 final class AboutTabViewModel: ObservableObject {
-    @Published private(set) var pokemonSpecies: PokemonSpecies!
-    @Published private(set) var types: Set<`Type`>!
-    @Published private(set) var items: Set<Item>!
-    @Published private(set) var versions: Set<Version>!
+    /// The PokemonSpecies to be displayed.
+    @Published private(set) var pokemonSpecies: PokemonSpecies?
+    /// The types to be displayed.
+    @Published private(set) var types = Set<`Type`>()
+    /// The items to be displayed.
+    @Published private(set) var items = Set<Item>()
+    /// The versions to be displayed.
+    @Published private(set) var versions = Set<Version>()
+    /// The Pokemon's flavor text entries.
+    @Published private(set) var flavorTextEntries = [FlavorText]()
     
     private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "AboutTabViewModel")
+    /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
+    /// Whether or not all of the entries are begin shown.
     @Published var showAllEntries = false
-    @Published private(set) var language = SettingsKey.defaultLanguage
+    
     @Published private(set) var aboutInfo = [AboutInfo: String]()
     let minEntryCount = 3
     
@@ -41,127 +50,48 @@ final class AboutTabViewModel: ObservableObject {
 }
 
 extension AboutTabViewModel {
+    /// Loads relevant data for the AboutTab.
+    /// - Parameters:
+    ///   - pokemon: The Pokemon to load data from.
+    ///   - languageCode: The language code used for localisations.
     @MainActor
-    func loadData(pokemon: Pokemon) async {
+    func loadData(pokemon: Pokemon, languageCode: String) async {
+        logger.debug("Loading data.")
         do {
-            let pokemonSpecies = try await getPokemonSpecies(from: pokemon)
+            let pokemonSpecies = try await PokemonSpecies(pokemon.species.url)
             
-            async let versions = loadVersions(pokemonSpecies: pokemonSpecies)
-            async let items = getHeldItems(pokemon: pokemon)
-            async let types = getTypes(from: pokemon)
+            async let versions = Globals.getItems(Version.self, urls: pokemonSpecies.flavorTextEntries.compactMap { $0.version?.url })
+            async let items = Globals.getItems(Item.self, urls: pokemon.heldItems.map { $0.item.url })
+            async let types = Globals.getItems(`Type`.self, urls: pokemon.types.map { $0.type.url })
             
             self.pokemonSpecies = pokemonSpecies
-            self.versions = await versions
-            self.items = await items
+            self.versions = try await versions
+            self.items = try await items
             self.types = try await types
             
-            self.aboutInfo = getAboutInfo(pokemon: pokemon, pokemonSpecies: pokemonSpecies)
-            
+            self.aboutInfo = getAboutInfo(pokemon: pokemon, pokemonSpecies: pokemonSpecies, languageCode: languageCode)
+            self.flavorTextEntries = pokemonSpecies.flavorTextEntries.localizedItems(for: languageCode)
             viewLoadingState = .loaded
+            logger.debug("Successfully loaded data for pokemon \(pokemon.id)")
         } catch {
-            logger.error("Failed to load data.")
+            logger.error("Failed to load data for pokemon \(pokemon.id). \(error)")
             viewLoadingState = .error(error: error)
         }
     }
-    
-    func showEntries(from flavorTexts: [FlavorText]) -> [FlavorText] {
-        if showAllEntries {
-            return flavorTexts
-        } else {
-            if flavorTexts.count <= minEntryCount {
-                return flavorTexts
-            }
-            return Array(flavorTexts[ ..<minEntryCount])
-        }
-    }
-    
-    func sortedTypes() -> [`Type`] {
-        types.sorted()
-    }
 }
+
 // MARK: Private functions
 private extension AboutTabViewModel {
-    func getPokemonSpecies(from pokemon: Pokemon) async throws -> PokemonSpecies {
-        do {
-            return try await PokemonSpecies(pokemon.species.url)
-        } catch {
-            logger.error("Failed to get pokemon species from pokemon with id \(pokemon.id). \(error)")
-            throw error
-        }
-    }
-    func loadVersions(pokemonSpecies: PokemonSpecies) async -> Set<Version> {
-        let versions = await withTaskGroup(of: Version?.self) { group in
-            for entry in pokemonSpecies.flavorTextEntries {
-                group.addTask { [weak self] in
-                    do {
-                        guard let name = entry.version?.name else {
-                            return nil
-                        }
-                        return try await Version(name)
-                    } catch {
-                        self?.logger.error("Failed to get version. \(error)")
-                    }
-                    return nil
-                }
-            }
-            
-            var versions = Set<Version>()
-            for await version in group {
-                guard let version else { continue }
-                versions.insert(version)
-            }
-            return versions
-        }
-        
-        return versions
-    }
-    
-    func getHeldItems(pokemon: Pokemon) async -> Set<Item> {
-        let items = await withTaskGroup(of: Item?.self) { group in
-            for heldItem in pokemon.heldItems {
-                group.addTask { [weak self] in
-                    do {
-                        guard let name = heldItem.item.name else {
-                            return nil
-                        }
-                        return try await Item(name)
-                    } catch {
-                        self?.logger.error("Failed to get item. \(error)")
-                    }
-                    return nil
-                }
-            }
-            
-            var items = Set<Item>()
-            for await item in group {
-                guard let item else { continue }
-                items.insert(item)
-            }
-            return items
-        }
-        
-        return items
-    }
-    
-    func getTypes(from pokemon: Pokemon) async throws  -> Set<`Type`> {
-        try await withThrowingTaskGroup(of: `Type`.self) { group in
-            for pokemonType in pokemon.types {
-                group.addTask {
-                    return try await `Type`(pokemonType.type.url)
-                }
-            }
-            var types = Set<`Type`>()
-            for try await type in group {
-                types.insert(type)
-            }
-            return types
-        }
-    }
-    
-    func getAboutInfo(pokemon: Pokemon, pokemonSpecies: PokemonSpecies) -> [AboutInfo: String] {
+    /// Gets all the relevant fields about a pokemon.
+    /// - Parameters:
+    ///   - pokemon: The Pokemon to get data from.
+    ///   - pokemonSpecies: The PokemonSpecies to get data from.
+    ///   - languageCode: The language code used for localisation.
+    /// - Returns: A dictionary of AboutInfo and String
+    func getAboutInfo(pokemon: Pokemon, pokemonSpecies: PokemonSpecies, languageCode: String) -> [AboutInfo: String] {
         var aboutInfo: [AboutInfo: String] = [:]
         
-        aboutInfo[.name] = pokemonSpecies.localizedName(languageCode: language)
+        aboutInfo[.name] = pokemonSpecies.localizedName(languageCode: languageCode)
         aboutInfo[.types] = "\(pokemon.types.count) types"
         aboutInfo[.height] = Measurement(value: Double(pokemon.height), unit: UnitLength.decimeters).formatted()
         aboutInfo[.weight] = Measurement(value: Double(pokemon.weightInKG), unit: UnitMass.kilograms).formatted()

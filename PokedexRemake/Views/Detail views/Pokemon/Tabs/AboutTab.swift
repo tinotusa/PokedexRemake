@@ -20,7 +20,7 @@ struct AboutTab: View {
             case .loading:
                 ProgressView()
                     .task {
-                        await viewModel.loadData(pokemon: pokemon)
+                        await viewModel.loadData(pokemon: pokemon, languageCode: language)
                     }
             case .loaded:
                 VStack(alignment: .leading) {
@@ -35,7 +35,7 @@ struct AboutTab: View {
                                 switch aboutInfoKey {
                                 case .types:
                                     HStack {
-                                        ForEach(viewModel.sortedTypes()) { type in
+                                        ForEach(Globals.sortedTypes(viewModel.types)) { type in
                                             TypeTag(type: type)
                                         }
                                     }
@@ -81,19 +81,32 @@ private extension AboutTab {
     
     @ViewBuilder
     var entriesList: some View {
-        let entries = viewModel.pokemonSpecies.flavorTextEntries.localizedItems(for: language)
-        ForEach(viewModel.showEntries(from: entries)) { flavorText in
-            VStack(alignment: .leading) {
-                if let name = flavorText.version?.name,
-                   let version = viewModel.versions.first(where: { $0.name == name })
-                {
-                    Text(version.localizedName(languageCode: language))
+        if viewModel.showAllEntries {
+            ForEach(viewModel.flavorTextEntries) { flavorText in
+                VStack(alignment: .leading) {
+                    if let name = flavorText.version?.name,
+                       let version = viewModel.versions.first(where: { $0.name == name })
+                    {
+                        Text(version.localizedName(languageCode: language))
+                    }
+                    Text(flavorText.filteredText())
+                    Divider()
                 }
-                Text(flavorText.filteredText())
-                Divider()
+            }
+        } else {
+            ForEach(viewModel.flavorTextEntries[0..<viewModel.minEntryCount]) { flavorText in
+                VStack(alignment: .leading) {
+                    if let name = flavorText.version?.name,
+                       let version = viewModel.versions.first(where: { $0.name == name })
+                    {
+                        Text(version.localizedName(languageCode: language))
+                    }
+                    Text(flavorText.filteredText())
+                    Divider()
+                }
             }
         }
-        if entries.count > viewModel.minEntryCount {
+        if viewModel.flavorTextEntries.count > viewModel.minEntryCount {
             showMoreButtonRow
         }
     }

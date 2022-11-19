@@ -10,21 +10,32 @@ import SwiftPokeAPI
 import os
 import SwiftUI
 
+/// Stat data used for the chart.
 struct StatData: Identifiable {
+    /// The localised name of the stat.
     let localizedName: String
+    /// The value of the stat.
     let value: Int
+    /// A unique identifier for this data point.
     let id = UUID()
 }
 
+/// View model for StatsTab.
 final class StatsTabViewModel: ObservableObject {
-    @Published private(set) var stats: Set<Stat>!
-    @Published private(set) var types: Set<`Type`>!
-    
+    /// The stats of the Pokemon.
+    @Published private(set) var stats = Set<Stat>()
+    /// The types of the Pokemon.
+    @Published private(set) var types = Set<`Type`>()
+    /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
+    /// An array of StatData to display in a chart.
     @Published private(set) var data = [StatData]()
-    private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "StatsTabViewModel")
+    /// The damage relations and types.
     @Published private(set) var damageRelations = [TypeRelationKey: [`Type`]]()
     
+    private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "StatsTabViewModel")
+    
+    /// Keys for the damage relations.
     enum TypeRelationKey: String, CaseIterable, Identifiable {
         case noDamageTo = "no damage to"
         case halfDamageTo = "half damage to"
@@ -33,21 +44,27 @@ final class StatsTabViewModel: ObservableObject {
         case halfDamageFrom = "half damage from"
         case doubleDamageFrom = "double damage from"
         
+        /// The title for the key.
         var title: LocalizedStringKey {
             LocalizedStringKey(self.rawValue.localizedCapitalized)
         }
         
+        /// A unique identifier for the key.
         var id: Self { self }
     }
 }
 
 // MARK: Public functions
 extension StatsTabViewModel {
+    /// Loads the relevant data from the given Pokemon.
+    /// - Parameters:
+    ///   - pokemon: The Pokemon to load data from.
+    ///   - language: The language code used for localisation.
     @MainActor
     func loadData(pokemon: Pokemon, language: String) async {
         logger.debug("Loading stats tab data.")
         do {
-            async let stats = getStats(for: pokemon)
+            async let stats = Globals.getItems(Stat.self, urls: pokemon.stats.map { $0.stat.url })
             async let types = Globals.getItems(`Type`.self, urls: pokemon.types.map { $0.type.url })
             
             let damageRelations = try await getDamageRelations(for: types)
@@ -70,25 +87,11 @@ extension StatsTabViewModel {
 
 // MARK: Private functions
 private extension StatsTabViewModel {
-    func getStats(for pokemon: Pokemon) async throws -> Set<Stat> {
-        logger.debug("Gettings stats for pokemon with id: \(pokemon.id).")
-        
-        return try await withThrowingTaskGroup(of: Stat.self) { group in
-            for pokemonStat in pokemon.stats {
-                group.addTask {
-                    return try await Stat(pokemonStat.stat.url)
-                }
-            }
-            
-            var stats = Set<Stat>()
-            for try await stat in group {
-                stats.insert(stat)
-            }
-            logger.debug("Successfully got \(stats.count) stats for pokemon with id: \(pokemon.id).")
-            return stats
-        }
-    }
-    
+    /// Returns an array of StatData.
+    /// - Parameters:
+    ///   - pokemon: The Pokemon to get stat data form.
+    ///   - language: The language code used for localisation.
+    /// - Returns: An array of StatData.
     func getChartData(for pokemon: Pokemon, language: String) -> [StatData] {
         logger.debug("Getting chart data.")
         
@@ -115,6 +118,9 @@ private extension StatsTabViewModel {
         return data
     }
     
+    /// Returns all of the damage relations based on this Pokemon's types.
+    /// - Parameter types: The types to get the damage relations for.
+    /// - Returns: A dictionary of TypeRelationKey and array of Types.
     func getDamageRelations(for types: Set<`Type`>) async throws -> [TypeRelationKey: [`Type`]] {
         var damageRelations = [TypeRelationKey: Set<`Type`>]()
         for type in types {
@@ -133,30 +139,5 @@ private extension StatsTabViewModel {
             damageRelations[.doubleDamageFrom, default: []].formUnion(try await doubleDamageFrom.sorted())
         }
         return damageRelations.mapValues { $0.sorted() }
-    }
-    
-    func getTypes(from resources: [NamedAPIResource]) async -> Set<`Type`> {
-        await withTaskGroup(of: `Type`?.self) { group in
-            for resource in resources {
-                group.addTask { [weak self] in
-                    do {
-                        guard let name = resource.name else {
-                            return nil
-                        }
-                        return try await Type(name)
-                    } catch {
-                        self?.logger.error("Failed to get type \(error)")
-                    }
-                    return nil
-                }
-            }
-            
-            var types = Set<`Type`>()
-            for await type in group {
-                guard let type else { continue }
-                types.insert(type)
-            }
-            return types
-        }
     }
 }

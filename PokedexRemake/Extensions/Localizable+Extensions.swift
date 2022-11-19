@@ -12,3 +12,4 @@ extension VersionGroupFlavorText: Localizable { }
 extension FlavorText: Localizable { }
 extension AbilityFlavorText: Localizable { }
 extension VerboseEffect: Localizable { }
+extension MoveFlavorText: Localizable { }

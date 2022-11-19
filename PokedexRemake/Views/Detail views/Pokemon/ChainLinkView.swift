@@ -21,7 +21,9 @@ struct ChainLinkView: View {
                 }
         case .loaded:
             HStack {
-                PokemonCardView(pokemon: viewModel.evolvesFromPokemon)
+                if let evolvesFromPokemon = viewModel.evolvesFromPokemon {
+                    PokemonCardView(pokemon: evolvesFromPokemon)
+                }
 
                 Spacer()
                 VStack {
@@ -31,7 +33,9 @@ struct ChainLinkView: View {
                     }
                 }
                 Spacer()
-                PokemonCardView(pokemon: viewModel.pokemon)
+                if let pokemon = viewModel.pokemon {
+                    PokemonCardView(pokemon: pokemon)
+                }
             }
             .bodyStyle()
         case .error(let error):

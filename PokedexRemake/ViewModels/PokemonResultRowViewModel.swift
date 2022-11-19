@@ -25,9 +25,9 @@ extension PokemonResultRowViewModel {
     func loadData(pokemon: Pokemon) async {
         logger.debug("Loading data.")
         do {
-            self.pokemonSpecies = try await Globals.getPokemonSpecies(from: pokemon)
+            self.pokemonSpecies = try await PokemonSpecies(pokemon.species.url)
             self.types = try await Globals.getItems(`Type`.self, urls: pokemon.types.map { $0.type.url })
-            self.generation = try await Globals.getGeneration(from: pokemonSpecies)
+            self.generation = try await Generation(pokemonSpecies.generation.url)
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")
         } catch {
@@ -35,16 +35,4 @@ extension PokemonResultRowViewModel {
             viewLoadingState = .error(error: error)
         }
     }
-    
-//    func localizedName(for pokemonSpecies: PokemonSpecies, language: String) -> String {
-//        pokemonSpecies.names.localizedName(language: language, default: pokemonSpecies.name)
-//    }
-//    
-//    func localizedGenerationName(_ generation: Generation, language: String) -> String {
-//        generation.names.localizedName(language: language, default: generation.name)
-//    }
-//    
-//    func localizedTypeName(_ type: `Type`, language: String) -> String {
-//        type.names.localizedName(language: language, default: type.name)
-//    }
 }

@@ -12,20 +12,6 @@ import SwiftUI
 
 /// A struct that holds functions that are used throughout the app.
 struct Globals {
-    /// Gets a Generation from a PokemonSpecies.
-    /// - Parameter pokemonSpecies: The PokemonSpecies to get the Generation from.
-    /// - Returns: The Generation for the PokemonSpecies.
-    static func getGeneration(from pokemonSpecies: PokemonSpecies) async throws -> Generation {
-        return try await Generation(pokemonSpecies.generation.url)
-    }
-    
-    /// Gets the PokemonSpecies of a Pokemon.
-    /// - Parameter pokemon: The pokemon to get the species from.
-    /// - Returns: The PokemonSpecies for the pokemon.
-    static func getPokemonSpecies(from pokemon: Pokemon) async throws -> PokemonSpecies {
-        return try await PokemonSpecies(pokemon.species.url)
-    }
-    
     /// Fetches items from the given URLs.
     ///
     /// The offset skips the first n elements and fetches moves from offset to offset + limit

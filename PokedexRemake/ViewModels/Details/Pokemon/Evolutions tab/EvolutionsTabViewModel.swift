@@ -9,13 +9,16 @@ import Foundation
 import SwiftPokeAPI
 import os
 
+/// View model for EvolutionsTab.
 final class EvolutionsTabViewModel: ObservableObject {
-//    @Published private(set) var pokemonSpecies: PokemonSpecies!
+    /// The pokemon's evolution chain links.
     @Published private(set) var chainLinks = [ChainLink]()
+    /// The loading state for the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "EvolutionsTabViewModel")
     
+    /// Errors for the EvolutionsTab
     enum EvolutionsTabError: Error {
         case noChainLinkURL
         case failedToGetID
@@ -24,15 +27,16 @@ final class EvolutionsTabViewModel: ObservableObject {
 
 // MARK: Public functions
 extension EvolutionsTabViewModel {
+    /// Loads the relevant data from the given Pokemon.
+    /// - Parameter pokemon: The Pokemon to load data from.
     @MainActor
     func loadData(pokemon: Pokemon) async {
         logger.debug("Loading data.")
         do {
-            let pokemonSpecies = try await Globals.getPokemonSpecies(from: pokemon)
+            let pokemonSpecies = try await PokemonSpecies(pokemon.species.url)
             let evolutionChain = try await getEvolutionChain(for: pokemonSpecies)
             
             self.chainLinks = getChainLinks(from: evolutionChain)
-//            let pokemonSpecies = await getPokemonSpecies(for: chainLinks)
             
             viewLoadingState = .loaded
             
@@ -46,6 +50,9 @@ extension EvolutionsTabViewModel {
 
 // MARK: Private functions
 private extension EvolutionsTabViewModel {
+    /// Returns the EvolutionChain for the PokemonSpecies.
+    /// - Parameter pokemonSpecies: The PokemonSpecies to get the EvolutionChain from.
+    /// - Returns: An EvolutionChain.
     func getEvolutionChain(for pokemonSpecies: PokemonSpecies) async throws -> EvolutionChain {
         guard let chainURL = pokemonSpecies.evolutionChain?.url else {
             logger.debug("Pokemon species with id: \(pokemonSpecies.id) has no evolution chain.")
@@ -54,6 +61,9 @@ private extension EvolutionsTabViewModel {
         return try await EvolutionChain(chainURL)
     }
     
+    /// Returns the ChainLinks for the Pokemon's evolution.
+    /// - Parameter evolutionChain: The EvolutionChain to get the ChainLinks from.
+    /// - Returns: An array of ChainLinks representing the Pokemon's evolutions.
     func getChainLinks(from evolutionChain: EvolutionChain) -> [ChainLink] {
         var chainLinks = [ChainLink]()
         var queue = [ChainLink]()
@@ -66,51 +76,5 @@ private extension EvolutionsTabViewModel {
             queue.append(contentsOf: current.evolvesTo)
         }
         return chainLinks
-    }
-    
-    func getPokemonSpecies(for chainLinks: [ChainLink]) async -> Set<PokemonSpecies> {
-        await withTaskGroup(of: PokemonSpecies?.self) { group in
-            for chainLink in chainLinks {
-                group.addTask { [weak self] in
-                    do {
-                        guard let speciesName = chainLink.species.name else {
-                            self?.logger.debug("Failed to get species name from chain link. \(chainLink.species.url)")
-                            return nil
-                        }
-                        return try await PokemonSpecies(speciesName)
-                    } catch {
-                        self?.logger.error("Failed to get pokemon species. \(error)")
-                    }
-                    return nil
-                }
-            }
-            var pokemonSpeciesSet = Set<PokemonSpecies>()
-            for await pokemonSpecies in group {
-                guard let pokemonSpecies else { continue }
-                pokemonSpeciesSet.insert(pokemonSpecies)
-            }
-            return pokemonSpeciesSet
-        }
-    }
-    
-    func getPokemon(from pokemonSpeciesArray: Set<PokemonSpecies>) async -> Set<Pokemon> {
-        await withTaskGroup(of: Pokemon?.self) { group in
-            for pokemonSpecies in pokemonSpeciesArray {
-                group.addTask { [weak self] in
-                    do {
-                        return try await Pokemon(pokemonSpecies.name)
-                    } catch {
-                        self?.logger.error("Failed to get pokemon. \(error)")
-                    }
-                    return nil
-                }
-            }
-            var pokemonSet = Set<Pokemon>()
-            for await pokemon in group {
-                guard let pokemon else { continue }
-                pokemonSet.insert(pokemon)
-            }
-            return pokemonSet
-        }
     }
 }

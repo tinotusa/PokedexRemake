@@ -10,21 +10,33 @@ import SwiftPokeAPI
 import SwiftUI
 import os
 
+/// View model for ItemDetail.
 final class ItemDetailViewModel: ObservableObject {
+    /// The flingEffect of the Item to be displayed.
     @Published private(set) var flingEffect: ItemFlingEffect?
+    /// The category of the Item to be displayed.
     @Published private(set) var category: ItemCategory?
+    /// The babyTrigger of the Item to be displayed.
     @Published private(set) var babyTrigger: EvolutionChain?
+    /// The attributes of the Item to be displayed.
     @Published private(set) var attributes = [ItemAttribute]()
+    /// The localizedFlavorTextEntries of the Item to be displayed.
     @Published private(set) var localizedFlavorTextEntries = [VersionGroupFlavorText]()
+    /// The itemDetails of the Item to be displayed.
     @Published private(set) var itemDetails: [ItemDetailKey: String] = [:]
+    /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
+    
+    /// A Boolean value indicating whether or not the flavorText list is showing.
     @Published var showingFlavorTextList = false
+    /// A Boolean value indicating whether or not the machines list is showing.
     @Published var showingMachinesList = false
+    /// A Boolean value indicating whether or not the pokemon list is showing.
     @Published var showingPokemonList = false
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "ItemDetailViewModel")
-    private var languageCode = SettingsKey.defaultLanguage
     
+    /// The item detail keys.
     enum ItemDetailKey: String, CaseIterable, Identifiable {
         case cost
         case flingPower = "fling power"
@@ -36,8 +48,10 @@ final class ItemDetailViewModel: ObservableObject {
         case babyTriggerFor = "Baby trigger for"
         case machines
         
+        /// A unique identifier for the key.
         var id: Self { self }
         
+        /// The localised title for the key.
         var title: LocalizedStringKey {
             LocalizedStringKey(self.rawValue.localizedCapitalized)
         }
@@ -45,9 +59,13 @@ final class ItemDetailViewModel: ObservableObject {
 }
 
 extension ItemDetailViewModel {
+    /// Loads the relevant data for the view.
+    /// - Parameters:
+    ///   - item: The Item to load data from.
+    ///   - languageCode: The language code used for localisations.
     @MainActor
     func loadData(item: Item, languageCode: String) async {
-        self.languageCode = languageCode
+        logger.debug("Loading data.")
         do {
             if let flingEffect = item.flingEffect {
                 self.flingEffect = try await ItemFlingEffect(flingEffect.url)
@@ -56,45 +74,27 @@ extension ItemDetailViewModel {
             if let babyTriggerFor = item.babyTriggerFor {
                 self.babyTrigger = try await EvolutionChain(babyTriggerFor.url)
             }
-            self.attributes = try await getItemAttributes(item: item).sorted()
+            self.attributes = try await Globals.getItems(ItemAttribute.self, urls: item.attributes.map { $0.url }).sorted()
             
-            self.localizedFlavorTextEntries = getLocalizedFlavorTextEntries(item: item)
-            self.itemDetails = getItemDetails(item: item)
+            self.localizedFlavorTextEntries = item.flavorTextEntries.localizedItems(for: languageCode)
+            self.itemDetails = getItemDetails(item: item, languageCode: languageCode)
             
             viewLoadingState = .loaded
+            logger.debug("Successfully loaded data for item with id: \(item.id)")
         } catch {
             viewLoadingState = .error(error: error)
+            logger.error("Failed to load data for item with id: \(item.id). \(error)")
         }
     }
-    
-    func getItemAttributes(item: Item) async throws -> [ItemAttribute] {
-        try await withThrowingTaskGroup(of: ItemAttribute.self) { group in
-            for attribute in item.attributes {
-                group.addTask {
-                    try await ItemAttribute(attribute.url)
-                }
-            }
-            
-            var attributes = Set<ItemAttribute>()
-            for try await attribute in group {
-                attributes.insert(attribute)
-            }
-            return Array(attributes)
-        }
-    }
-    
-    func getLocalizedFlavorTextEntries(item: Item) -> [VersionGroupFlavorText] {
-        var entries: [VersionGroupFlavorText]?
-        entries = item.flavorTextEntries.localizedItems(for: "en")
-        // TODO: Do i need to filter these flavor texts? (an extension on the type itself?)
-        if let entries {
-            return entries
-        }
-        logger.error("Failed to get localized flavor text entries")
-        return []
-    }
-    
-    func getItemDetails(item: Item) -> [ItemDetailKey: String] {
+}
+
+private extension ItemDetailViewModel {
+    /// Returns a dictionary of the item's details and values.
+    /// - Parameters:
+    ///   - item: The item to get details from.
+    ///   - languageCode: The language code used for localisation.
+    /// - Returns: A dictionary of item detail keys and values.
+    func getItemDetails(item: Item, languageCode: String) -> [ItemDetailKey: String] {
         var details = [ItemDetailKey: String]()
         details[.cost] = "\(item.cost)"
         if let flingPower = item.flingPower {
@@ -105,7 +105,7 @@ extension ItemDetailViewModel {
         }
         details[.attributes] = "\(item.attributes.count)"
         if let category {
-            details[.category] = category.localizedName(languageCode: self.languageCode)
+            details[.category] = category.localizedName(languageCode: languageCode)
         }
         details[.flavorTextEntries] = "\(localizedFlavorTextEntries.count)"
         details[.heldByPokemon] = "\(item.heldByPokemon.count)"

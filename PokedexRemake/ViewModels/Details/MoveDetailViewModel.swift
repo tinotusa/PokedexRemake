@@ -10,21 +10,32 @@ import SwiftUI
 import SwiftPokeAPI
 import os
 
+/// View model for MoveDetail.
 final class MoveDetailViewModel: ObservableObject {
+    /// The loading state for the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
+    /// The type of the Move to be displayed.
     @Published private(set) var type: `Type`?
+    /// The damageClass of the Move to be displayed.
     @Published private(set) var damageClass: MoveDamageClass?
+    /// The moveTarget of the Move to be displayed.
     @Published private(set) var moveTarget: MoveTarget?
+    /// The generation of the Move to be displayed.
     @Published private(set) var generation: Generation?
+    /// The ailment of the Move to be displayed.
     @Published private(set) var ailment: MoveAilment?
+    /// The category of the Move to be displayed.
     @Published private(set) var category: MoveCategory?
     
     @Published private(set) var localizedFlavorTextEntries = [MoveFlavorText]()
+    /// The moveDetails of the Move.
     @Published private(set) var moveDetails = [MoveDetails: String]()
+    /// The metaDetails of the Move.
     @Published private(set) var metaDetails = [MoveMetaDetails: String]()
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "MoveDetailViewModel")
-
+    
+    /// The move detail keys.
     enum MoveDetails: String, CaseIterable, Identifiable {
         case type
         case damageClass = "damage class"
@@ -43,13 +54,16 @@ final class MoveDetailViewModel: ObservableObject {
         case pastValues = "past values"
         case statChanges = "stat changes"
         
+        /// A unique identifier for the key.
         var id: Self { self }
         
+        /// A title for the key.
         var title: LocalizedStringKey {
             LocalizedStringKey(self.rawValue.localizedCapitalized)
         }
     }
     
+    /// The move meta detail keys.
     enum MoveMetaDetails: String, CaseIterable, Identifiable {
         case ailment
         case category
@@ -64,8 +78,10 @@ final class MoveDetailViewModel: ObservableObject {
         case flinchChance = "flinch chance"
         case statChance = "stat chance"
         
+        /// A unique identifier for the key.
         var id: Self { self }
         
+        /// A localised title for the key.
         var title: LocalizedStringKey {
             LocalizedStringKey(self.rawValue.localizedCapitalized)
         }
@@ -73,20 +89,43 @@ final class MoveDetailViewModel: ObservableObject {
 }
 
 extension MoveDetailViewModel {
+    /// Loads the relevant data for a Move.
+    /// - Parameters:
+    ///   - move: The move to load data from.
+    ///   - languageCode: The language code used for localisation.
     @MainActor
     func loadData(move: Move, languageCode: String) async {
         logger.debug("Loading data.")
         do {
-            // TODO: Add async lets to help speed this up
-            self.type = try await `Type`(move.type.url)
-            self.damageClass = try await MoveDamageClass(move.damageClass.url)
-            self.moveTarget = try await MoveTarget(move.target.url)
-            self.generation = try await Generation(move.generation.url)
-            if let meta = move.meta {
-                self.ailment = try await MoveAilment(meta.ailment.url)
-                self.category = try await MoveCategory(meta.category.url)
+            try await withThrowingTaskGroup(of: Void.self) { (group) -> Void in
+                group.addTask {
+                    self.type = try await `Type`(move.type.url)
+                }
+                group.addTask {
+                    self.damageClass = try await MoveDamageClass(move.damageClass.url)
+                }
+                group.addTask {
+                    self.moveTarget = try await MoveTarget(move.target.url)
+                }
+                group.addTask {
+                    self.generation = try await Generation(move.generation.url)
+                }
+                
+                group.addTask {
+                    if let meta = move.meta {
+                        self.ailment = try await MoveAilment(meta.ailment.url)
+                    }
+                }
+                group.addTask {
+                    if let meta = move.meta {
+                        self.category = try await MoveCategory(meta.category.url)
+                    }
+                }
+                
+                try await group.waitForAll()
             }
-            self.localizedFlavorTextEntries = getLocalizedMoveFlavorTextEntries(entries: move.flavorTextEntries, languageCode: languageCode)
+            
+            self.localizedFlavorTextEntries = move.flavorTextEntries.localizedItems(for: languageCode)
             self.moveDetails = getMoveDetails(move: move, languageCode: languageCode)
             self.metaDetails = getMoveMetaDetails(move: move, languageCode: languageCode)
        
@@ -100,29 +139,11 @@ extension MoveDetailViewModel {
 }
 
 private extension MoveDetailViewModel {
-    func getLocalizedMoveFlavorTextEntries(entries: [MoveFlavorText], languageCode: String) -> [MoveFlavorText] {
-        logger.debug("Getting localized move flavor text entries.")
-        var localizedEntries: [MoveFlavorText]?
-        localizedEntries = entries.filter { $0.language.name == languageCode }
-        if localizedEntries == nil {
-            let availableLanguageCodes = entries.compactMap { $0.language.name }
-            let deviceLanguageCode = Bundle.preferredLocalizations(from: availableLanguageCodes, forPreferences: nil).first!
-            localizedEntries = entries.filter { $0.language.name == deviceLanguageCode }
-        }
-        
-        if localizedEntries == nil {
-            localizedEntries = entries.filter { $0.language.name == SettingsKey.defaultLanguage }
-        }
-        
-        if let localizedEntries {
-            logger.debug("Got \(localizedEntries.count) localized entries.")
-            return localizedEntries
-        }
-        
-        logger.debug("Failed to get any localized move flavor texts.")
-        return []
-    }
-    
+    /// Returns the move details in key value pairs.
+    /// - Parameters:
+    ///   - move: The Move to get detail from.
+    ///   - languageCode: The language code used for localisations.
+    /// - Returns: A dictionary of MoveDetailKeys and Strings.
     func getMoveDetails(move: Move, languageCode: String) -> [MoveDetails: String] {
         var moveDetails = [MoveDetails: String]()
         if let name = move.type.name {
@@ -134,8 +155,8 @@ private extension MoveDetailViewModel {
         if let moveTarget {
             moveDetails[.target] = moveTarget.localizedName(languageCode: languageCode)
         }
-        if let accurary = move.accuracy {
-            moveDetails[.accuracy] = accurary.formatted(.percent)
+        if let accuracy = move.accuracy {
+            moveDetails[.accuracy] = accuracy.formatted(.percent)
         }
         if let effectChance = move.effectChance {
             moveDetails[.effectChance] = effectChance.formatted(.percent)
@@ -159,6 +180,11 @@ private extension MoveDetailViewModel {
         return moveDetails
     }
     
+    /// Returns the move meta details in a dictionary.
+    /// - Parameters:
+    ///   - move: The Move to get the meta details from.
+    ///   - languageCode: The language code used for localisations.
+    /// - Returns: A dictionary of MoveMetaDetails and Strings.
     func getMoveMetaDetails(move: Move, languageCode: String) -> [MoveMetaDetails: String] {
         var metaDetails = [MoveMetaDetails: String]()
         guard let meta = move.meta else {

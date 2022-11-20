@@ -8,21 +8,23 @@
 import SwiftUI
 import SwiftPokeAPI
 
-struct LargeBlueButtonStyle: ButtonStyle {
+// TODO: Move me
+struct DropdownButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .title2Style()
-            .fontWeight(.light)
-            .padding(.horizontal)
-            .padding(.vertical, 3)
-            .background(Color.accentColor.opacity(0.7))
-            .cornerRadius(10)
+        HStack {
+            configuration.label
+            Spacer()
+            Image(systemName: "chevron.down")
+                .foregroundColor(.accentColor)
+        }
+        .title2Style()
+        .fontWeight(.light)
     }
 }
 
-extension ButtonStyle where Self == LargeBlueButtonStyle {
-    static var largeBlueButton: LargeBlueButtonStyle {
-        LargeBlueButtonStyle()
+extension ButtonStyle where Self == DropdownButtonStyle {
+    static var dropDownButtonStyle: DropdownButtonStyle {
+        DropdownButtonStyle()
     }
 }
 
@@ -44,7 +46,7 @@ struct PokemonDetail: View {
             case .loading:
                 LoadingView()
                     .task {
-                        await viewModel.loadData(from: pokemon)
+                        await viewModel.loadData(from: pokemon, languageCode: language)
                     }
             case .loaded:
                 ScrollView {
@@ -59,16 +61,16 @@ struct PokemonDetail: View {
                         Button("Moves") {
                             viewModel.showingMovesSheet = true
                         }
-                        .buttonStyle(.largeBlueButton)
+                        .buttonStyle(.dropDownButtonStyle)
                         
                         Button("Abilities") {
-                            viewModel.showingAbiltiesSheet = true
+                            viewModel.showingAbilitiesSheet = true
                         }
-                        .buttonStyle(.largeBlueButton)
+                        .buttonStyle(.dropDownButtonStyle)
                     }
                     .padding()
                 }
-                .navigationTitle(viewModel.pokemonSpecies.localizedName(languageCode: language))
+                .navigationTitle(viewModel.localizedName)
                 .background(Color.background)
                 .bodyStyle()
             case .error(let error):
@@ -77,7 +79,7 @@ struct PokemonDetail: View {
         }
         .sheet(isPresented: $viewModel.showingMovesSheet) {
             MovesListView(
-                title: viewModel.pokemonSpecies.localizedName(languageCode: language),
+                title: viewModel.localizedName,
                 id: pokemon.id,
                 description: "Moves this pokemon can learn.",
                 moveURLS: pokemon.moves.map { $0.move.url },
@@ -86,9 +88,9 @@ struct PokemonDetail: View {
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
         }
-        .sheet(isPresented: $viewModel.showingAbiltiesSheet) {
+        .sheet(isPresented: $viewModel.showingAbilitiesSheet) {
             AbilitiesListView(
-                title: viewModel.pokemonSpecies.localizedName(languageCode: language),
+                title: viewModel.localizedName,
                 description: "Abilities this pokemon has.",
                 viewModel: abilitiesListViewModel,
                 pokemon: pokemon
@@ -107,7 +109,7 @@ private extension PokemonDetail {
     
     var nameAndID: some View {
         HStack {
-            Text(viewModel.pokemonSpecies.localizedName(languageCode: language))
+            Text(viewModel.localizedName)
             Spacer()
             Text(Globals.formattedID(pokemon.id))
                 .foregroundColor(.gray)

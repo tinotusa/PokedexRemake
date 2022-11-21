@@ -22,7 +22,9 @@ struct PokemonResultRow: View {
                     await viewModel.loadData(pokemon: pokemon)
                 }
         case .loaded:
-            NavigationLink(value: pokemon) {
+            NavigationLink {
+                PokemonDetail(pokemon: pokemon)
+            } label: {
                 HStack {
                     PokemonImage(url: pokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
                     

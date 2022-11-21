@@ -98,25 +98,25 @@ extension MoveDetailViewModel {
         logger.debug("Loading data.")
         do {
             try await withThrowingTaskGroup(of: Void.self) { (group) -> Void in
-                group.addTask {
+                group.addTask { @MainActor in
                     self.type = try await `Type`(move.type.url)
                 }
-                group.addTask {
+                group.addTask { @MainActor in
                     self.damageClass = try await MoveDamageClass(move.damageClass.url)
                 }
-                group.addTask {
+                group.addTask { @MainActor in
                     self.moveTarget = try await MoveTarget(move.target.url)
                 }
-                group.addTask {
+                group.addTask { @MainActor in
                     self.generation = try await Generation(move.generation.url)
                 }
                 
-                group.addTask {
+                group.addTask { @MainActor in
                     if let meta = move.meta {
                         self.ailment = try await MoveAilment(meta.ailment.url)
                     }
                 }
-                group.addTask {
+                group.addTask { @MainActor in
                     if let meta = move.meta {
                         self.category = try await MoveCategory(meta.category.url)
                     }

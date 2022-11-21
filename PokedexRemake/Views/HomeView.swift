@@ -6,18 +6,19 @@
 //
 
 import SwiftUI
+import SwiftPokeAPI
 
 struct HomeView: View {
     @State private var isShowingSearchView = false
     @Namespace private var namespace
     
     // MARK: - Category view models
-    @StateObject private var pokemonCategoryViewModel = PokemonCategoryViewModel()
-    @StateObject private var moveCategoryViewModel = MoveCategoryViewModel()
-    @StateObject private var itemsCategoryViewModel = ItemsCategoryViewModel()
-    @StateObject private var abilitiesCategoryViewModel = AbilitiesCategoryViewModel()
-    @StateObject private var locationsCategoryViewModel = LocationsCategoryViewModel()
-    @StateObject private var generationsCategoryViewModel = GenerationsCategoryViewModel()
+    @StateObject private var pokemonCategoryViewModel = CategoryViewModel<Pokemon>()
+    @StateObject private var moveCategoryViewModel = CategoryViewModel<Move>()
+    @StateObject private var itemsCategoryViewModel = CategoryViewModel<Item>()
+    @StateObject private var abilitiesCategoryViewModel = CategoryViewModel<Ability>()
+    @StateObject private var locationsCategoryViewModel = CategoryViewModel<Location>()
+    @StateObject private var generationsCategoryViewModel = CategoryViewModel<Generation>()
     
     @State private var showingSettings = false
     
@@ -47,24 +48,6 @@ struct HomeView: View {
             }
             .background(Color.background)
             .scrollDismissesKeyboard(.immediately)
-            .navigationDestination(for: PokemonCategoryViewModel.self) { pokemonCategoryViewModel in
-                PokemonCategoryView(viewModel: pokemonCategoryViewModel)
-            }
-            .navigationDestination(for: MoveCategoryViewModel.self) { moveCategoryViewModel in
-                MoveCategoryView(viewModel: moveCategoryViewModel)
-            }
-            .navigationDestination(for: ItemsCategoryViewModel.self) { itemsCategoryViewModel in
-                ItemsCategoryView(viewModel: itemsCategoryViewModel)
-            }
-            .navigationDestination(for: AbilitiesCategoryViewModel.self) { abilitiesCategoryViewModel in
-                AbilitiesCategoryView(viewModel: abilitiesCategoryViewModel)
-            }
-            .navigationDestination(for: LocationsCategoryViewModel.self) { locationsCategoryViewModel in
-                LocationsCategoryView(viewModel: locationsCategoryViewModel)
-            }
-            .navigationDestination(for: GenerationsCategoryViewModel.self) { generationsCategoryViewModel in
-                GenerationsCategoryView(viewModel: generationsCategoryViewModel)
-            }
         }
     }
 }

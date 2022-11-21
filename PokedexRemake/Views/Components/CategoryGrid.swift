@@ -6,38 +6,65 @@
 //
 
 import SwiftUI
+import SwiftPokeAPI
 
 struct CategoryGrid: View {
-    @ObservedObject var pokemonCategoryViewModel: PokemonCategoryViewModel
-    @ObservedObject var moveCategoryViewModel: MoveCategoryViewModel
-    @ObservedObject var itemsCategoryViewModel: ItemsCategoryViewModel
-    @ObservedObject var abilitiesCategoryViewModel: AbilitiesCategoryViewModel
-    @ObservedObject var locationsCategoryViewModel: LocationsCategoryViewModel
-    @ObservedObject var generationsCategoryViewModel: GenerationsCategoryViewModel
+    @ObservedObject var pokemonCategoryViewModel: CategoryViewModel<Pokemon>
+    @ObservedObject var moveCategoryViewModel: CategoryViewModel<Move>
+    @ObservedObject var itemsCategoryViewModel: CategoryViewModel<Item>
+    @ObservedObject var abilitiesCategoryViewModel: CategoryViewModel<Ability>
+    @ObservedObject var locationsCategoryViewModel: CategoryViewModel<Location>
+    @ObservedObject var generationsCategoryViewModel: CategoryViewModel<Generation>
+    
+    @StateObject private var test = CategoryViewModel<Move>()
     
     var body: some View {
         Grid(horizontalSpacing: 20, verticalSpacing: 10) {
             GridRow {
-                NavigationLink(value: pokemonCategoryViewModel) {
+                NavigationLink {
+                    CategoryView(viewModel: pokemonCategoryViewModel, title: "Pokemon") { pokemon in
+                        PokemonResultRow(pokemon: pokemon)
+                    }
+                } label: {
                     CategoryGridCard(title: "Pokemon")
                 }
-                NavigationLink(value: moveCategoryViewModel) {
+                NavigationLink {
+                    CategoryView(viewModel: moveCategoryViewModel, title: "Moves") { move in
+                        MoveCard(move: move)
+                    }
+                } label: {
                     CategoryGridCard(title: "Moves")
                 }
             }
             GridRow {
-                NavigationLink(value: itemsCategoryViewModel) {
+                NavigationLink {
+                    CategoryView(viewModel: itemsCategoryViewModel, title: "Items") { item in
+                        ItemCard(item: item)
+                    }
+                } label: {
                     CategoryGridCard(title: "Items")
                 }
-                NavigationLink(value: abilitiesCategoryViewModel) {
+                NavigationLink {
+                    CategoryView(viewModel: abilitiesCategoryViewModel, title: "Abilities") { ability in
+                        AbilityCard(ability: ability)
+                    }
+                } label: {
                     CategoryGridCard(title: "Abilities")
                 }
             }
             GridRow {
-                NavigationLink(value: locationsCategoryViewModel) {
+                NavigationLink {
+                    CategoryView(viewModel: locationsCategoryViewModel, title: "Locations") { location in
+                        LocationCard(location: location)
+                    }
+                } label: {
                     CategoryGridCard(title: "Locations")
                 }
-                NavigationLink(value: generationsCategoryViewModel) {
+                NavigationLink {
+                    CategoryView(viewModel: generationsCategoryViewModel, title: "Generations") { generation in
+                        GenerationCard(generation: generation)
+                    }
+                } label: {
                     CategoryGridCard(title: "Generations")
                 }
             }
@@ -48,12 +75,12 @@ struct CategoryGrid: View {
 struct CategoryGrid_Previews: PreviewProvider {
     static var previews: some View {
         CategoryGrid(
-            pokemonCategoryViewModel: PokemonCategoryViewModel(),
-            moveCategoryViewModel: MoveCategoryViewModel(),
-            itemsCategoryViewModel: ItemsCategoryViewModel(),
-            abilitiesCategoryViewModel: AbilitiesCategoryViewModel(),
-            locationsCategoryViewModel: LocationsCategoryViewModel(),
-            generationsCategoryViewModel: GenerationsCategoryViewModel()
+            pokemonCategoryViewModel: CategoryViewModel<Pokemon>(),
+            moveCategoryViewModel: CategoryViewModel<Move>(),
+            itemsCategoryViewModel: CategoryViewModel<Item>(),
+            abilitiesCategoryViewModel: CategoryViewModel<Ability>(),
+            locationsCategoryViewModel: CategoryViewModel<Location>(),
+            generationsCategoryViewModel: CategoryViewModel<Generation>()
         )
     }
 }

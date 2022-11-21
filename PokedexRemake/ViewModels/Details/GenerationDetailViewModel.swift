@@ -62,15 +62,15 @@ extension GenerationDetailViewModel {
         logger.debug("Loading data for generation with id: \(generation.id).")
         do {
             try await withThrowingTaskGroup(of: Void.self) { group in
-                group.addTask {
+                group.addTask { @MainActor in
                     self.mainRegion = try await Region(generation.mainRegion.url)
                 }
-                group.addTask {
+                group.addTask { @MainActor in
                     let versionGroups = try await Globals.getItems(VersionGroup.self, urls: generation.versionGroups.urls()).sorted()
                     self.versions = try await Globals.getItems(Version.self, urls: versionGroups.flatMap { $0.versions.urls() }).sorted()
                     self.versionGroups = versionGroups
                 }
-                group.addTask {
+                group.addTask { @MainActor in
                     self.types = try await Globals.getItems(`Type`.self, urls: generation.types.urls()).sorted()
                 }
                 

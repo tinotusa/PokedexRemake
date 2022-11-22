@@ -14,7 +14,7 @@ final class AbilityListViewModel: ObservableObject, Pageable {
     
     @Published private(set) var values = [Ability]()
     @Published private(set) var pageInfo = PageInfo(limit: 20)
-    @Published private(set) var pageState = PaginationState.loadingFirstPage
+    @Published var pageState = PaginationState.loadingFirstPage
     
     private var urls = [URL]()
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "AbilityListViewModel")

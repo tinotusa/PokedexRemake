@@ -18,6 +18,9 @@ protocol Pageable {
     /// The current pages information.
     var pageInfo: PageInfo { get }
     
+    /// The state of the page.
+    var pageState: PaginationState { get set }
+    
     /// Fetches values based of the given page info.
     /// - Parameter pageInfo: The current page info.
     /// - Returns: A tuple of items and the information about the next page.

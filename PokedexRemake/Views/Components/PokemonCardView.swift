@@ -20,7 +20,7 @@ struct PokemonCardView: View {
             loadingPreview
                 .onAppear {
                     Task {
-                        await viewModel.loadData(from: pokemon)
+                        await viewModel.loadData(from: pokemon, languageCode: language)
                     }
                 }
                 .frame(width: Constants.imageSize, height: Constants.imageSize)
@@ -30,7 +30,7 @@ struct PokemonCardView: View {
                     PokemonImage(url: pokemon.sprites.other.officialArtwork.frontDefault, imageSize: Constants.imageSize)
                     
                     HStack {
-                        Text(viewModel.pokemonSpecies.localizedName(languageCode: language))
+                        Text(viewModel.localizedName)
                             .layoutPriority(1)
                         Text(Globals.formattedID(pokemon.id))
                             .foregroundColor(.gray)
@@ -39,12 +39,12 @@ struct PokemonCardView: View {
                     .lineLimit(1)
                     ViewThatFits(in: .horizontal) {
                         HStack {
-                            ForEach(Globals.sortedTypes(viewModel.types)) { type in
+                            ForEach(viewModel.types) { type in
                                 TypeTag(type: type)
                             }
                         }
                         VStack(alignment: .leading, spacing: 5) {
-                            ForEach(Globals.sortedTypes(viewModel.types)) { type in
+                            ForEach(viewModel.types) { type in
                                 TypeTag(type: type)
                             }
                         }

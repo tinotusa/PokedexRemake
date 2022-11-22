@@ -19,7 +19,7 @@ struct MoveCard: View {
             redactedLoadingView
                 .onAppear {
                     Task {
-                        await viewModel.loadData(move: move)
+                        await viewModel.loadData(move: move, languageCode: language)
                     }
                 }
         case .loaded:
@@ -41,9 +41,11 @@ struct MoveCard: View {
                     )
                     .lineLimit(1)
                     .foregroundColor(.gray)
-                    HStack {
-                        TypeTag(type: viewModel.type)
-                        Text(viewModel.damageClass.localizedName(languageCode: language))
+                    if let type = viewModel.type {
+                        HStack {
+                            TypeTag(type: type)
+                            Text(viewModel.localizedDamageClassname)
+                        }
                     }
                 }
                 .bodyStyle()

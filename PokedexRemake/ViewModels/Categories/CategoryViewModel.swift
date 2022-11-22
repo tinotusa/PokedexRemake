@@ -9,11 +9,13 @@ import Foundation
 import SwiftPokeAPI
 import os
 
+/// View model for CategoryView.
 final class CategoryViewModel<T: Codable & Hashable & Identifiable & SearchableByURL & Comparable>: ObservableObject, Pageable {
     @Published var values = [T]()
     @Published var pageInfo = PageInfo()
+    /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
-    @Published private(set) var pageState = PaginationState.loadingFirstPage
+    @Published var pageState = PaginationState.loadingFirstPage
     
     private var logger = Logger(subsystem: "com.tinotusa.Pokedex", category: "CategoryViewViewModel")
     
@@ -21,6 +23,7 @@ final class CategoryViewModel<T: Codable & Hashable & Identifiable & SearchableB
         case noNextPage
     }
     
+    /// Loads page data based on the page state and page info.
     @MainActor
     func loadPage() async {
         switch pageState {
@@ -36,7 +39,7 @@ final class CategoryViewModel<T: Codable & Hashable & Identifiable & SearchableB
                 logger.error("Failed to load page. \(error)")
                 viewLoadingState = .error(error: error)
             }
-        // TODO: is this an error.
+        // TODO: is this an error?
         case .loaded, .loadingNextPage:
             do {
                 logger.debug("Loading next page.")
@@ -54,6 +57,9 @@ final class CategoryViewModel<T: Codable & Hashable & Identifiable & SearchableB
         }
     }
     
+    /// Loads page data.
+    /// - Parameter pageInfo: The current page's information used for loading.
+    /// - Returns: The array of items and the next pages information.
     func loadPage(pageInfo: PageInfo) async throws -> (items: [T], pageInfo: PageInfo) {
         let items = try await Resource<T>(limit: pageInfo.limit, offset: pageInfo.offset)
         return (

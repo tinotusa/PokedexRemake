@@ -19,7 +19,7 @@ struct PokemonResultRow: View {
         case .loading:
             loadingPlaceholder
                 .task {
-                    await viewModel.loadData(pokemon: pokemon)
+                    await viewModel.loadData(pokemon: pokemon, languageCode: language)
                 }
         case .loaded:
             NavigationLink {
@@ -30,9 +30,9 @@ struct PokemonResultRow: View {
                     
                     VStack(alignment: .leading) {
                         HStack {
-                            Text(viewModel.pokemonSpecies.localizedName(languageCode: language))
+                            Text(viewModel.localizedName)
                             Spacer()
-                            Text(viewModel.generation.localizedName(languageCode: language))
+                            Text(viewModel.localizedGenerationName)
                                 .foregroundColor(.gray)
                         }
                         

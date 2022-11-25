@@ -95,7 +95,11 @@ struct ItemDetail: View {
                 )
             }
         case .error(let error):
-            ErrorView(text: error.localizedDescription)
+            ErrorView(text: error.localizedDescription) {
+                Task {
+                    await viewModel.loadData(item: item, languageCode: language)
+                }
+            }
         }
     }
 }

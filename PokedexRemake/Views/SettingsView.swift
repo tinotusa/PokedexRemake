@@ -71,7 +71,11 @@ struct SettingsView: View {
                     Text("Clear cache")
                 }
             case .error(let error):
-                ErrorView(text: error.localizedDescription)
+                ErrorView(text: error.localizedDescription) {
+                    Task {
+                        await viewModel.loadLanguages()
+                    }
+                }
             }
         }
     }

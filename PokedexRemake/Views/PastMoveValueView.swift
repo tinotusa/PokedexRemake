@@ -67,7 +67,11 @@ struct PastMoveValueView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .bodyStyle()
         case .error(let error):
-            ErrorView(text: error.localizedDescription)
+            ErrorView(text: error.localizedDescription) {
+                Task {
+                    await viewModel.loadData(pastValue: pastValue)
+                }
+            }
         }
     }
 }

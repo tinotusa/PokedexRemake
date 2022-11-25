@@ -39,7 +39,11 @@ struct MoveDetail: View {
         case .loaded:
             moveDetailsGrid
         case .error(let error):
-            ErrorView(text: error.localizedDescription)
+            ErrorView(text: error.localizedDescription) {
+                Task {
+                    await viewModel.loadData(move: move, languageCode: language)
+                }
+            }
         }
     }
 }

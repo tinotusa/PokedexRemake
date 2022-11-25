@@ -52,7 +52,11 @@ struct AbilityListView: View {
                         .padding()
                     }
                 case .error(let error):
-                    ErrorView(text: error.localizedDescription)
+                    ErrorView(text: error.localizedDescription) {
+                        Task {
+                            await viewModel.loadPage()
+                        }
+                    }
                 }
             }
             .navigationTitle(title)
@@ -60,7 +64,7 @@ struct AbilityListView: View {
                 Button("Close") {
                     dismiss()
                 }
-        }
+            }
         }
     }
 }

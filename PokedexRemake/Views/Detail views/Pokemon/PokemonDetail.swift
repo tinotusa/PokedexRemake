@@ -80,7 +80,11 @@ struct PokemonDetail: View {
                 .background(Color.background)
                 .bodyStyle()
             case .error(let error):
-                ErrorView(text: error.localizedDescription)
+                ErrorView(text: error.localizedDescription) {
+                    Task {
+                        await viewModel.loadData(from: pokemon, languageCode: language)
+                    }
+                }
             }
         }
         .sheet(isPresented: $viewModel.showingMovesSheet) {

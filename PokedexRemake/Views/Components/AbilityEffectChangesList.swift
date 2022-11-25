@@ -17,8 +17,6 @@ struct AbilityEffectChangesList: View {
     
     @ObservedObject var viewModel: AbilityEffectChangesListViewModel
     
-    
-    
     var body: some View {        
         DetailListView(
             title: title,
@@ -48,7 +46,11 @@ struct AbilityEffectChangesList: View {
                     }
                     .bodyStyle()
                 case .error(let error):
-                    ErrorView(text: error.localizedDescription)
+                    ErrorView(text: error.localizedDescription) {
+                        Task {
+                            await viewModel.loadData(effectChanges: effectChanges, languageCode: language)
+                        }
+                    }
                 }
             }
         }

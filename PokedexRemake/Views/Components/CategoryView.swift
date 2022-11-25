@@ -40,7 +40,11 @@ struct CategoryView<T: Hashable & Codable & SearchableByURL & Identifiable & Com
             .navigationTitle(title)
             .background(Color.background)
         case .error(let error):
-            ErrorView(text: error.localizedDescription)
+            ErrorView(text: error.localizedDescription) {
+                Task {
+                    await viewModel.loadPage()
+                }
+            }
         }
     }
 }

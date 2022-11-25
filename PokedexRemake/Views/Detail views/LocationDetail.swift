@@ -44,7 +44,11 @@ struct LocationDetail: View {
                     .presentationDragIndicator(.visible)
             }
         case .error(let error):
-            ErrorView(text: error.localizedDescription)
+            ErrorView(text: error.localizedDescription) {
+                Task {
+                    await viewModel.loadData(location: location)
+                }
+            }
         }
     }
 }

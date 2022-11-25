@@ -36,7 +36,11 @@ struct EvolutionsTab: View {
                 }
                 .bodyStyle()
             case .error(let error):
-                ErrorView(text: error.localizedDescription)
+                ErrorView(text: error.localizedDescription) {
+                    Task {
+                        await viewModel.loadData(pokemon: pokemon)
+                    }
+                }
             }
         }
     }

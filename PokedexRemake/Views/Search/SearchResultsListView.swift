@@ -25,7 +25,11 @@ struct SearchResultsListView<T: Identifiable & Codable & Equatable & SearchableB
                 content(pokemon)
             }
         case .error(let error):
-            ErrorView(text: error.localizedDescription)
+            ErrorView(text: error.localizedDescription) {
+                Task {
+                    viewModel.loadData()
+                }
+            }
         }
     }
 }

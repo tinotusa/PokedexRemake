@@ -44,7 +44,11 @@ struct MachineCard: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         case .error(let error):
-            ErrorView(text: error.localizedDescription)
+            ErrorView(text: error.localizedDescription) {
+                Task {
+                    await viewModel.loadData(machine: machine)
+                }
+            }
         }
     }
 }

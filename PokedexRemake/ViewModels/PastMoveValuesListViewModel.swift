@@ -9,10 +9,15 @@ import Foundation
 import SwiftPokeAPI
 import os
 
+/// View model for PastMoveValues.
 final class PastMoveValuesListViewModel: ObservableObject {
+    /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
+    /// The Types of the PastMoves.
     @Published private(set) var types = Set<`Type`>()
+    /// The VersionGroups of the PastMoves.
     @Published private(set) var versionGroups = Set<VersionGroup>()
+    /// The Versions of the past moves.
     @Published private(set) var versions = Set<Version>()
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PastMoveValuesListViewModel")

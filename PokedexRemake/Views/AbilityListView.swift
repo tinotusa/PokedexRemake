@@ -10,11 +10,16 @@ import SwiftPokeAPI
 
 struct AbilityListView: View {
     let title: String
-    let description: String
-    let abilityURLS: [URL]
+    let description: LocalizedStringKey
     
-    @StateObject private var viewModel = AbilityListViewModel()
+    @StateObject private var viewModel: AbilityListViewModel
     @Environment(\.dismiss) private var dismiss
+    
+    init(title: String, description: LocalizedStringKey, abilityURLs: [URL]) {
+        self.title = title
+        self.description = description
+        _viewModel = StateObject(wrappedValue: AbilityListViewModel(urls: abilityURLs))
+    }
     
     var body: some View {
         NavigationStack {
@@ -24,7 +29,6 @@ struct AbilityListView: View {
                     ProgressView()
                         .onAppear {
                             Task {
-                                viewModel.setUp(urls: abilityURLS)
                                 await viewModel.loadPage()
                             }
                         }
@@ -33,7 +37,7 @@ struct AbilityListView: View {
                         LazyVStack(alignment: .leading, spacing: 10) {
                             Text(description)
                             Divider()
-                            ForEach(viewModel.values) { ability in
+                            ForEach(viewModel.abilities) { ability in
                                 AbilityCard(ability: ability)
                             }
                             if viewModel.hasNextPage {
@@ -66,7 +70,7 @@ struct AbilityListView_Previews: PreviewProvider {
         AbilityListView(
             title: "some title",
             description: "some description",
-            abilityURLS: [
+            abilityURLs: [
                 URL(string: "https://pokeapi.co/api/v2/ability/1")!,
                 URL(string: "https://pokeapi.co/api/v2/ability/2")!,
                 URL(string: "https://pokeapi.co/api/v2/ability/3")!,

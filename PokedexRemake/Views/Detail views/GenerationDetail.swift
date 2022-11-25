@@ -13,11 +13,12 @@ struct GenerationDetail: View {
     @StateObject private var viewModel = GenerationDetailViewModel()
     @AppStorage(SettingsKey.language) private var languageCode = SettingsKey.defaultLanguage
     @StateObject private var movesListViewModel: MovesListViewModel
-    @StateObject private var pokemonSpeciesListViewModel = PokemonSpeciesListViewModel()
+    @StateObject private var pokemonSpeciesListViewModel: PokemonSpeciesListViewModel
     
     init(generation: Generation) {
         self.generation = generation
         _movesListViewModel = StateObject(wrappedValue: MovesListViewModel(urls: generation.moves.urls()))
+        _pokemonSpeciesListViewModel = StateObject(wrappedValue: PokemonSpeciesListViewModel(pokemonSpeciesURLs: generation.pokemonSpecies.urls()))
     }
     
     var body: some View {
@@ -58,7 +59,6 @@ struct GenerationDetail: View {
             .sheet(isPresented: $viewModel.showingPokemonSpeciesList) {
                 PokemonSpeciesListView(
                     title: generation.localizedName(languageCode: languageCode),
-                    speciesURLs: generation.pokemonSpecies.map { $0.url },
                     viewModel: pokemonSpeciesListViewModel
                 )
                 .presentationDetents([.large])
@@ -68,7 +68,7 @@ struct GenerationDetail: View {
                 AbilityListView(
                     title: generation.localizedName(languageCode: languageCode),
                     description: "Abilities introduced in this generation",
-                    abilityURLS: generation.abilities.map { $0.url }
+                    abilityURLs: generation.abilities.map { $0.url }
                 )
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)

@@ -13,6 +13,7 @@ extension Language {
     /// The name of the language in its own language.
     ///
     /// e.g ko -> 한국어
+    ///
     /// ja -> 日本語
     ///
     /// - returns: The localised name for the language.
@@ -32,14 +33,20 @@ extension Language {
     }
 }
 
+/// View model for SettingsView.
 final class SettingsViewModel: ObservableObject {
+    /// The languages for localisations.
     @Published private(set) var languages = [Language]()
+    /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     
-    private static let saveFilename = "languagesSaveFile"
+    /// The save file name for the languages.
+    private let saveFilename = "languagesSaveFile"
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "SettingsViewModel")
     
+    /// The size of the cache.
+    /// - Returns: The size of the cache in bytes.
     func cacheSize() -> String {
         do {
             let size = try PokeAPI.shared.cacheSize()
@@ -50,16 +57,18 @@ final class SettingsViewModel: ObservableObject {
         return 0.formatted(.byteCount(style: .file))
     }
     
+    /// Clears the in memory cache.
     func clearCache() {
         PokeAPI.shared.clearCache()
     }
     
     @MainActor
+    /// Loads the languages either from disk or fetched from Pokeapi.co.
     func loadLanguages() async {
         logger.debug("Loading languages.")
         let fileManager = FileManager.default
         let documentsURL = fileManager.documentsURL()
-        let saveFileURL =  documentsURL.appending(path: Self.saveFilename)
+        let saveFileURL =  documentsURL.appending(path: self.saveFilename)
         
         if let data = try? Data(contentsOf: saveFileURL) {
             do {

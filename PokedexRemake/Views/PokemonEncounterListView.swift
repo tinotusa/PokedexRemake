@@ -24,7 +24,7 @@ struct PokemonEncounterListView: View {
                 .onAppear {
                     Task {
                         await viewModel.loadData(pokemonEncounters: pokemonEncounters)
-                        selectedVersion = viewModel.sortedVersions.first
+                        selectedVersion = viewModel.versions.first
                     }
                 }
         case .loaded:
@@ -131,7 +131,7 @@ private extension PokemonEncounterListView {
     var versionTabs: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(viewModel.sortedVersions) { version in
+                ForEach(viewModel.versions) { version in
                     Button {
                         selectedVersion = version
                     } label: {

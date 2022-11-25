@@ -10,7 +10,6 @@ import SwiftPokeAPI
 
 struct PokemonSpeciesListView: View {
     let title: String
-    let speciesURLs: [URL]
     @ObservedObject var viewModel: PokemonSpeciesListViewModel
     @AppStorage(SettingsKey.language) private var languageCode = SettingsKey.defaultLanguage
     @Environment(\.dismiss) private var dismiss
@@ -21,14 +20,14 @@ struct PokemonSpeciesListView: View {
             ProgressView()
                 .onAppear {
                     Task {
-                        await viewModel.loadData(speciesURL: speciesURLs)
+                        await viewModel.loadPage()
                     }
                 }
         case .loaded:
             NavigationStack {
                 ScrollView {
                     LazyVGrid(columns: [.init(.adaptive(minimum: 100))]) {
-                        ForEach(viewModel.pokemonGroup) { pokemonGroup in
+                        ForEach(viewModel.pokemonDataArray) { pokemonGroup in
                             VStack(spacing: 0) {
                                 AsyncImage(url: pokemonGroup.pokemon.sprites.frontDefault) { image in
                                     image
@@ -47,7 +46,7 @@ struct PokemonSpeciesListView: View {
                             ProgressView()
                                 .onAppear {
                                     Task {
-                                        await viewModel.getNextPage()
+                                        await viewModel.loadPage()
                                     }
                                 }
                         }
@@ -72,8 +71,7 @@ struct PokemonSpeciesListView_Previews: PreviewProvider {
     static var previews: some View {
         PokemonSpeciesListView(
             title: "Test title",
-            speciesURLs: Generation.example.pokemonSpecies.map { $0.url },
-            viewModel: PokemonSpeciesListViewModel()
+            viewModel: PokemonSpeciesListViewModel(pokemonSpeciesURLs: Generation.example.pokemonSpecies.map { $0.url })
         )
     }
 }

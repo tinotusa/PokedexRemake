@@ -9,11 +9,17 @@ import Foundation
 import SwiftPokeAPI
 import os
 
+/// View model for PokemonEncounterListView.
 final class PokemonEncounterListViewModel: ObservableObject {
+    /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
+    /// The Pokemon to be displayed
     @Published private(set) var pokemon = [Pokemon]()
+    /// The PokemonSpecies to be displayed.
     @Published private(set) var pokemonSpecies = [PokemonSpecies]()
-    @Published private var versions = Set<Version>()
+    /// The Versions of the Pokemon.
+    @Published private(set) var versions = [Version]()
+    /// The EncounterMethods for the Pokemon.
     @Published private(set) var encounterMethods = Set<EncounterMethod>()
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonEncounterListViewModel")
@@ -21,92 +27,36 @@ final class PokemonEncounterListViewModel: ObservableObject {
 
 extension PokemonEncounterListViewModel {
     @MainActor
+    /// Loads the relevant data from the array of PokemonEncounters.
+    /// - Parameter pokemonEncounters: The PokemonEncounters to load data from.
     func loadData(pokemonEncounters: [PokemonEncounter]) async {
+        logger.debug("Loading data.")
         do {
-            self.pokemon = try await getPokemon(pokemonEncounters: pokemonEncounters)
-            self.pokemonSpecies = try await getPokemonSpecies(pokemonArray: pokemon)
-            self.versions.formUnion(try await getVersions(pokemonEncounters: pokemonEncounters))
-            self.encounterMethods.formUnion(try await getEncounterMethods(pokemonEncounters: pokemonEncounters))
+            try await withThrowingTaskGroup(of: Void.self) { group in
+                group.addTask { @MainActor in
+                    self.pokemon = try await Globals.getItems(Pokemon.self, urls: pokemonEncounters.map { $0.pokemon.url }).sorted()
+                    self.pokemonSpecies = try await Globals.getItems(PokemonSpecies.self, urls: self.pokemon.map { $0.species.url }).sorted()
+                }
+                group.addTask { @MainActor in
+                    let versions = try await Globals.getItems(Version.self, urls: pokemonEncounters.flatMap { $0.versionDetails.map { $0.version.url } })
+                    self.versions.append(contentsOf: versions.sorted())
+                }
+                group.addTask { @MainActor in
+                    let encounterMethods = try await Globals.getItems(
+                        EncounterMethod.self,
+                        urls: pokemonEncounters.flatMap { $0.versionDetails.flatMap { $0.encounterDetails.map { $0.method.url } } }
+                    )
+                    self.encounterMethods.formUnion(encounterMethods)
+                }
+                
+                try await group.waitForAll()
+            }
+            
             viewLoadingState = .loaded
+            logger.debug("Successfully loaded data.")
         } catch {
             viewLoadingState = .error(error: error)
-        }
-    }
-    
-    var sortedVersions: [Version] {
-        self.versions.sorted()
-    }
-}
-
-private extension PokemonEncounterListViewModel {
-    func getPokemon(pokemonEncounters: [PokemonEncounter]) async throws -> [Pokemon] {
-        try await withThrowingTaskGroup(of: Pokemon.self) { group in
-            for encounter in pokemonEncounters {
-                group.addTask {
-                    return try await Pokemon(encounter.pokemon.url)
-                }
-            }
-            
-            var pokemonArray = [Pokemon]()
-            for try await pokemon in group {
-                pokemonArray.append(pokemon)
-            }
-         
-            return pokemonArray.sorted()
-        }
-    }
-    
-    func getPokemonSpecies(pokemonArray: [Pokemon]) async throws -> [PokemonSpecies] {
-        try await withThrowingTaskGroup(of: PokemonSpecies.self) { group in
-            for pokemon in pokemonArray {
-                group.addTask {
-                    return try await PokemonSpecies(pokemon.species.url)
-                }
-            }
-            
-            var pokemonArray = [PokemonSpecies]()
-            for try await pokemon in group {
-                pokemonArray.append(pokemon)
-            }
-            return pokemonArray.sorted()
-        }
-    }
-    
-    func getVersions(pokemonEncounters: [PokemonEncounter]) async throws -> [Version] {
-        try await withThrowingTaskGroup(of: Version.self) { group in
-            for encounter in pokemonEncounters {
-                for versionDetail in encounter.versionDetails {
-                    group.addTask {
-                        return try await Version(versionDetail.version.url)
-                    }
-                }
-            }
-            
-            var versions = [Version]()
-            for try await version in group {
-                versions.append(version)
-            }
-            return versions
-        }
-    }
-    
-    func getEncounterMethods(pokemonEncounters: [PokemonEncounter]) async throws -> [EncounterMethod] {
-        try await withThrowingTaskGroup(of: EncounterMethod.self) { group in
-            for encounter in pokemonEncounters {
-                for test in encounter.versionDetails {
-                    for anotherOne in test.encounterDetails {
-                        group.addTask {
-                            return try await EncounterMethod(anotherOne.method.url)
-                        }
-                    }
-                }
-            }
-            
-            var methods = [EncounterMethod]()
-            for try await encounterMethod in group {
-                methods.append(encounterMethod)
-            }
-            return methods
+            logger.error("Failed to load data. \(error)")
         }
     }
 }

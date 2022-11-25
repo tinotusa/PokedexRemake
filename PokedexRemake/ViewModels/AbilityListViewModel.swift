@@ -25,10 +25,6 @@ extension AbilityListViewModel {
         self.urls = urls
     }
     
-    var hasNextPage: Bool {
-        pageInfo.hasNextPage
-    }
-    
     @MainActor
     func loadPage() async {
         if !pageInfo.hasNextPage {

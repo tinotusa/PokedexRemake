@@ -16,3 +16,10 @@ protocol Pageable {
     /// Fetches some page info.
     func loadPage() async
 }
+
+extension  Pageable {
+    /// A Boolean value indicating whether or not there is a next page.
+    var hasNextPage: Bool {
+        pageInfo.hasNextPage
+    }
+}

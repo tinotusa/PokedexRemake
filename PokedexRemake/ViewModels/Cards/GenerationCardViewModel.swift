@@ -11,48 +11,58 @@ import os
 
 /// View model for GenerationCard.
 final class GenerationCardViewModel: ObservableObject {
+    /// The generation to display.
+    private var generation: Generation
     /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     /// The Region of the Generation.
-    @Published private(set) var region: Region?
+    @Published private var region: Region?
     /// The versions of this Generation.
-    @Published private var versions = Set<Version>()
+    @Published private(set) var versions = [Version]()
+    /// The localised generation name.
+    @Published private(set) var generationName = "Error"
+    /// The localised region name.
+    @Published private(set) var regionName = "Error"
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "GenerationCardViewModel")
+    
+    /// Creates the view model.
+    /// - Parameter generation: The Generation to display.
+    init(generation: Generation) {
+        self.generation = generation
+    }
 }
 
 extension GenerationCardViewModel {
-    /// Returns the Versions of the Generation in sorted order.
-    /// - Returns: A sorted array of Versions.
-    func sortedVersions() -> [Version] {
-        self.versions.sorted()
-    }
-    
     @MainActor
     /// Loads the data from the Generation.
-    /// - Parameter generation: The Generation to load data from.
-    func loadData(generation: Generation) async {
-        logger.debug("Loading data.")
+    /// - Parameter languageCode: The language code used for localisations.
+    func loadData(languageCode: String) async {
+        logger.debug("Loading data for generation with id: \(self.generation.id).")
         do {
-            self.region = try await Region(generation.mainRegion.url)
-            let versionGroups = try await Globals.getItems(VersionGroup.self, urls: generation.versionGroups.map { $0.url })
-            self.versions = try await Globals.getItems(Version.self, urls: versionGroups.flatMap { $0.versions.map { $0.url } })
+            try await withThrowingTaskGroup(of: Void.self) { group in
+                group.addTask { @MainActor [weak self] in
+                    guard let self else { return }
+                    let region = try await Region(self.generation.mainRegion.url)
+                    self.region = region
+                    self.regionName = region.localizedName(languageCode: languageCode)
+                }
+                group.addTask { @MainActor [weak self] in
+                    guard let self else { return }
+                    let versionGroups = try await Globals.getItems(VersionGroup.self, urls: self.generation.versionGroups.map { $0.url })
+                    self.versions = try await Globals.getItems(Version.self, urls: versionGroups.flatMap { $0.versions.map { $0.url } }).sorted()
+                }
+                
+                try await group.waitForAll()
+            }
+            
+            generationName = generation.localizedName(languageCode: languageCode)
+            
             viewLoadingState = .loaded
-            logger.debug("Successfully loaded data.")
+            logger.debug("Successfully loaded data for generation with id: \(self.generation.id).")
         } catch {
             viewLoadingState = .error(error: error)
-            logger.error("Failed to load data for generation with id: \(generation.id). \(error)")
+            logger.error("Failed to load data for generation with id: \(self.generation.id). \(error)")
         }
-    }
-    
-    /// Returns the localised name for the Region.
-    /// - Parameter languageCode: The language code to localise with.
-    /// - Returns: The localised name or "Error"
-    func localizedRegionName(languageCode: String) -> String {
-        guard let region else {
-            logger.error("Failed to get localized region name. region is nil.")
-            return "Error"
-        }
-        return region.localizedName(languageCode: languageCode)
     }
 }

@@ -11,7 +11,12 @@ import SwiftPokeAPI
 struct ItemCard: View {
     let item: Item
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
-    @StateObject private var viewModel = ItemCardViewModel()
+    @StateObject private var viewModel: ItemCardViewModel
+    
+    init(item: Item) {
+        self.item = item
+        _viewModel = StateObject(wrappedValue: ItemCardViewModel(item: item))
+    }
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -19,7 +24,7 @@ struct ItemCard: View {
             loadingPlaceholder
                 .onAppear {
                     Task {
-                        await viewModel.loadData(item: item)
+                        await viewModel.loadData(languageCode: language)
                     }
                 }
         case .loaded:
@@ -30,17 +35,17 @@ struct ItemCard: View {
                     PokemonImage(url: item.sprites.default, imageSize: Constants.imageSize)
                     VStack(alignment: .leading) {
                         HStack {
-                            Text(item.localizedName(languageCode: language))
+                            Text(viewModel.itemName)
                             Spacer()
                             Text(Globals.formattedID(item.id))
                                 .foregroundColor(.gray)
                         }
                         .subtitle2Style()
-                        Text(item.effectEntries.localizedEntry(language: language, shortVersion: true))
+                        Text(viewModel.effectEntry)
                             .lineLimit(1)
                             .foregroundColor(.gray)
                         HStack {
-                            Text(viewModel.localizedItemCategoryName(language: language))
+                            Text(viewModel.itemCategoryName)
                             Spacer()
                             if item.cost != 0 {
                                 Text("Cost: \(item.cost)")
@@ -53,7 +58,7 @@ struct ItemCard: View {
         case .error(let error):
             ErrorView(text: error.localizedDescription) {
                 Task {
-                    await viewModel.loadData(item: item)
+                    await viewModel.loadData(languageCode: language)
                 }
             }
         }

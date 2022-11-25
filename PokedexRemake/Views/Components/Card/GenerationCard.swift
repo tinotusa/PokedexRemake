@@ -9,9 +9,14 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct GenerationCard: View {
-    let generation: Generation
-    @StateObject private var viewModel = GenerationCardViewModel()
+    private let generation: Generation
+    @StateObject private var viewModel: GenerationCardViewModel
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
+    
+    init(generation: Generation) {
+        self.generation = generation
+        _viewModel = StateObject(wrappedValue: GenerationCardViewModel(generation: generation))
+    }
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -19,7 +24,7 @@ struct GenerationCard: View {
             loadingPlaceholder
                 .onAppear {
                     Task {
-                        await viewModel.loadData(generation: generation)
+                        await viewModel.loadData(languageCode: language)
                     }
                 }
         case .loaded:
@@ -27,10 +32,10 @@ struct GenerationCard: View {
                 GenerationDetail(generation: generation)
             } label: {
                 VStack {
-                    Text(generation.localizedName(languageCode: language))
+                    Text(viewModel.generationName)
                         .title2Style()
                         .fontWeight(.light)
-                    Text(viewModel.localizedRegionName(languageCode: language))
+                    Text(viewModel.regionName)
                         .foregroundColor(.gray)
                         .subtitleStyle()
                     ViewThatFits(in: .horizontal) {
@@ -62,7 +67,7 @@ struct GenerationCard: View {
         case .error(let error):
             ErrorView(text: error.localizedDescription) {
                 Task {
-                    await viewModel.loadData(generation: generation)
+                    await viewModel.loadData(languageCode: language)
                 }
             }
         }
@@ -70,6 +75,7 @@ struct GenerationCard: View {
     }
 }
 
+// MARK: - Subviews
 private extension GenerationCard {
     enum Constants {
         static let cornerRadius = 8.0
@@ -83,7 +89,7 @@ private extension GenerationCard {
     }
     
     var versionsList: some View {
-        ForEach(viewModel.sortedVersions()) { version in
+        ForEach(viewModel.versions) { version in
             Text(version.localizedName(languageCode: language))
             Divider()
         }

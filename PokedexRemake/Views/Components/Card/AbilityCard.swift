@@ -11,7 +11,12 @@ import SwiftPokeAPI
 struct AbilityCard: View {
     let ability: Ability
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
-    @StateObject private var viewModel = AbilityCardViewModel()
+    @StateObject private var viewModel: AbilityCardViewModel
+    
+    init(ability: Ability) {
+        self.ability = ability
+        _viewModel = StateObject(wrappedValue: AbilityCardViewModel(ability: ability))
+    }
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -19,7 +24,7 @@ struct AbilityCard: View {
             loadingPlaceholder
                 .onAppear {
                     Task {
-                        await viewModel.loadData(ability: ability)
+                        await viewModel.loadData(languageCode: language)
                     }
                 }
         case .loaded:
@@ -28,24 +33,24 @@ struct AbilityCard: View {
             } label: {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text(ability.localizedName(languageCode: language))
+                        Text(viewModel.abilityName)
                         Spacer()
                         Text(Globals.formattedID(ability.id))
                             .foregroundColor(.gray)
                     }
                     .subtitleStyle()
-                    Text(ability.effectEntries.localizedEntry(language: language, shortVersion: true))
+                    Text(viewModel.effectEntry)
                         .lineLimit(2)
                         .multilineTextAlignment(.leading)
                         .foregroundColor(.gray)
-                    Text(viewModel.localizedGenerationName(language: language))
+                    Text(viewModel.generationName)
                 }
                 .bodyStyle()
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription) {
                 Task {
-                    await viewModel.loadData(ability: ability)
+                    await viewModel.loadData(languageCode: language)
                 }
             }
         }

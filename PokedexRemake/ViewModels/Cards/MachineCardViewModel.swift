@@ -11,6 +11,8 @@ import os
 
 /// View model for MachineCard.
 final class MachineCardViewModel: ObservableObject {
+    /// The machine to display.
+    private var machine: Machine
     /// The loading state for the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     /// The machines Item.
@@ -20,9 +22,20 @@ final class MachineCardViewModel: ObservableObject {
     /// The machines VersionGroup.
     @Published private(set) var versionGroup: VersionGroup?
     /// The machines Versions.
-    @Published private(set) var versions = Set<Version>()
+    @Published private(set) var versions = [Version]()
+    
+    /// The localised name for the Machine's Item.
+    @Published private(set) var itemName = "Error"
+    /// The localised name for the Machine's Move.
+    @Published private(set) var moveName = "Error"
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "MachineCardViewModel")
+    
+    /// Creates the view model/
+    /// - Parameter machine: The Machine to display.
+    init(machine: Machine) {
+        self.machine = machine
+    }
     
     /// Errors for the MachineCard
     enum MachineCardError: Error, LocalizedError {
@@ -37,34 +50,46 @@ final class MachineCardViewModel: ObservableObject {
 }
 
 extension MachineCardViewModel {
-    
     /// Loads the data from the given machine.
     /// - Parameter machine: The Machine to load data from.
     @MainActor
-    func loadData(machine: Machine) async {
+    func loadData(languageCode: String) async {
         do {
             logger.debug("Loading data.")
-            self.item = try await Item(machine.item.url)
-            self.move = try await Move(machine.move.url)
-            self.versionGroup = try await VersionGroup(machine.versionGroup.url)
+            try await withThrowingTaskGroup(of: Void.self) { group in
+                group.addTask { @MainActor [weak self] in
+                    guard let self else { return }
+                    let item = try await Item(self.machine.item.url)
+                    self.item = item
+                    self.itemName = item.localizedName(languageCode: languageCode)
+                }
+                group.addTask { @MainActor [weak self] in
+                    guard let self else { return }
+                    let move = try await Move(self.machine.move.url)
+                    self.move = move
+                    self.moveName = move.localizedName(languageCode: languageCode)
+                }
+                group.addTask { @MainActor [weak self] in
+                    guard let self else { return }
+                    self.versionGroup = try await VersionGroup(self.machine.versionGroup.url)
+                }
+                
+                try await group.waitForAll()
+            }
+            
             if let versionGroup {
-                self.versions = try await Globals.getItems(Version.self, urls: versionGroup.versions.map { $0.url } )
+                self.versions = try await Globals.getItems(Version.self, urls: versionGroup.versions.map { $0.url } ).sorted()
             } else {
-                logger.error("Failed to get version group from machine \(machine.id).")
+                logger.error("Failed to get version group from machine \(self.machine.id).")
                 viewLoadingState = .error(error: MachineCardError.noVersionGroup)
                 return
             }
+
             viewLoadingState = .loaded
             logger.debug("Successfully loaded machine card data.")
         } catch {
-            logger.error("Failed to load data for machine \(machine.id). \(error)")
+            logger.error("Failed to load data for machine \(self.machine.id). \(error)")
             viewLoadingState = .error(error: error)
         }
-    }
-    
-    /// Returns sorted Versions
-    /// - Returns: A sorted array of Versions.
-    func sortedVersions() -> [Version] {
-        self.versions.sorted()
     }
 }

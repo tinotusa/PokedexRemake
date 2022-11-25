@@ -9,9 +9,14 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct LocationCard: View {
-    let location: Location
+    private let location: Location
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
-    @StateObject private var viewModel = LocationCardViewModel()
+    @StateObject private var viewModel: LocationCardViewModel
+    
+    init(location: Location) {
+        self.location = location
+        _viewModel = StateObject(wrappedValue: LocationCardViewModel(location: location))
+    }
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -19,7 +24,7 @@ struct LocationCard: View {
             loadingPlaceholder
                 .onAppear {
                     Task {
-                        await viewModel.loadData(location: location)
+                        await viewModel.loadData(languageCode: language)
                     }
                 }
         case .loaded:
@@ -28,22 +33,20 @@ struct LocationCard: View {
             } label: {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text(location.localizedName(languageCode: language))
+                        Text(viewModel.locationName)
                         Spacer()
                         Text(Globals.formattedID(location.id))
                             .foregroundColor(.gray)
                     }
                     .subtitleStyle()
-                    if let region = viewModel.region {
-                        Text(region.localizedName(languageCode: language))
-                    }
+                    Text(viewModel.regionName)
                 }
                 .bodyStyle()
             }
         case .error(let error):
             ErrorView(text: error.localizedDescription) {
                 Task {
-                    await viewModel.loadData(location: location)
+                    await viewModel.loadData(languageCode: language)
                 }
             }
         }

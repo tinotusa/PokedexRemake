@@ -11,12 +11,23 @@ import os
 
 /// View model for LocationCard.
 final class LocationCardViewModel: ObservableObject {
+    /// The location to be displayed.
+    private var location: Location
     /// The loading state for the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     /// The Region of the location.
-    @Published private(set) var region: Region?
-    
+    @Published private var region: Region?
+    /// The localised name of the location.
+    @Published private(set) var locationName = "Error"
+    /// The localised name of the region.
+    @Published private(set) var regionName = "Error"
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "LocationCardViewModel")
+    
+    /// Creates the view model.
+    /// - Parameter location: The location to be displayed.
+    init(location: Location) {
+        self.location = location
+    }
 }
 
 extension LocationCardViewModel {
@@ -24,8 +35,8 @@ extension LocationCardViewModel {
     /// Loads the relevant data for the Location.
     /// - Parameter location: The Location to load data from.
     @MainActor
-    func loadData(location: Location) async {
-        logger.debug("Loading data.")
+    func loadData(languageCode: String) async {
+        logger.debug("Loading data for location with id: \(self.location.id).")
         
         guard let region = location.region else {
             logger.debug("Region is nil.")
@@ -34,11 +45,14 @@ extension LocationCardViewModel {
         }
         
         do {
-            self.region = try await Region(region.url)
+            let region = try await Region(region.url)
+            self.region = region
+            locationName = location.localizedName(languageCode: languageCode)
+            regionName = region.localizedName(languageCode: languageCode)
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")
         } catch {
-            logger.error("Failed to load data for location with id: \(location.id). \(error)")
+            logger.error("Failed to load data for location with id: \(self.location.id). \(error)")
             viewLoadingState = .error(error: error)
         }
     }

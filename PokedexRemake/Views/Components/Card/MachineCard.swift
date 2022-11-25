@@ -9,25 +9,32 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct MachineCard: View {
-    let machine: Machine
-    @StateObject private var viewModel = MachineCardViewModel()
+    private let machine: Machine
+    @StateObject private var viewModel: MachineCardViewModel
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
+    
+    init(machine: Machine) {
+        self.machine = machine
+        _viewModel = StateObject(wrappedValue: MachineCardViewModel(machine: machine))
+    }
     
     var body: some View {
         switch viewModel.viewLoadingState {
         case .loading:
             loadingPlaceholder
-                .task {
-                    await viewModel.loadData(machine: machine)
+                .onAppear {
+                    Task {
+                        await viewModel.loadData(languageCode: language)
+                    }
                 }
         case .loaded:
-            if let item = viewModel.item, let move = viewModel.move {
+            if let item = viewModel.item {
                 HStack {
                     PokemonImage(url: item.sprites.default, imageSize: 80)
                     VStack(alignment: .leading, spacing: 0) {
-                        Text(item.localizedName(languageCode: language))
+                        Text(viewModel.itemName)
                             .subtitleStyle()
-                        Text(move.localizedName(languageCode: language))
+                        Text(viewModel.moveName)
                         
                         ViewThatFits(in: .horizontal) {
                             HStack {
@@ -46,7 +53,7 @@ struct MachineCard: View {
         case .error(let error):
             ErrorView(text: error.localizedDescription) {
                 Task {
-                    await viewModel.loadData(machine: machine)
+                    await viewModel.loadData(languageCode: language)
                 }
             }
         }
@@ -79,10 +86,9 @@ extension MachineCard {
     
     @ViewBuilder
     func versionsList(showDivider: Bool = true) -> some View {
-        let versions = viewModel.sortedVersions()
-        ForEach(versions) { version in
+        ForEach(viewModel.versions) { version in
             Text(version.localizedName(languageCode: language))
-            if showDivider && version != versions.last {
+            if showDivider && version != viewModel.versions.last {
                 Divider()
             }
         }

@@ -47,15 +47,22 @@ extension PokemonSpeciesListViewModel {
     @MainActor
     /// Fetches a page based on the current pageInfo.
     func loadPage() async {
+        logger.debug("Loading page.")
         do {
             let pokemonDataArray = try await getPokemonSpecies().sorted { $0.pokemon.id < $1.pokemon.id }
             pageInfo.updateOffset()
             pageInfo.hasNextPage = pokemonDataArray.count == pageInfo.limit
             self.pokemonDataArray.append(contentsOf: pokemonDataArray)
-            
-            viewLoadingState = .loaded
+            if !hasLoadedFirstPage {
+                viewLoadingState = .loaded
+                pageInfo.hasLoadedFirstPage = true
+            }
+            logger.debug("Successfully loaded page. loaded \(pokemonDataArray.count) items.")
         } catch {
-            viewLoadingState = .error(error: error)
+            if !hasLoadedFirstPage {
+                viewLoadingState = .error(error: error)
+            }
+            logger.error("Failed to load page. \(error)")
         }
     }
 }

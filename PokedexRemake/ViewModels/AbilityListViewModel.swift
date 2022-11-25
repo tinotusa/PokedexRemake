@@ -45,8 +45,7 @@ extension AbilityListViewModel {
             self.pageInfo.hasNextPage = abilities.count == pageInfo.limit
             if !hasLoadedFirstPage {
                 viewLoadingState = .loaded
-            } else {
-                pageInfo.hasNextPage = true
+                pageInfo.hasLoadedFirstPage = true
             }
             logger.debug("Successfully loaded the page. loaded \(abilities.count) items.")
         } catch {

@@ -18,8 +18,10 @@ struct PokemonResultRow: View {
         switch viewModel.viewLoadingState {
         case .loading:
             loadingPlaceholder
-                .task {
-                    await viewModel.loadData(pokemon: pokemon, languageCode: language)
+                .onAppear {
+                    Task {
+                        await viewModel.loadData(pokemon: pokemon, languageCode: language)
+                    }
                 }
         case .loaded:
             NavigationLink {

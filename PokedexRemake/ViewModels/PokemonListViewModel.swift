@@ -41,10 +41,15 @@ extension PokemonListViewModel {
             self.pokemon.append(contentsOf: pokemon.sorted())
             pageInfo.updateOffset()
             pageInfo.hasNextPage = pokemon.count == pageInfo.limit
-            viewLoadingState = .loaded
+            if !hasLoadedFirstPage {
+                viewLoadingState = .loaded
+                pageInfo.hasLoadedFirstPage = true
+            }
             logger.debug("Successfully loaded the page.")
         } catch {
-            viewLoadingState = .error(error: error)
+            if !hasLoadedFirstPage {
+                viewLoadingState = .error(error: error)
+            }
             logger.error("Failed to load the page. \(error)")
         }
     }

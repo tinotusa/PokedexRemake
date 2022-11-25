@@ -38,11 +38,16 @@ extension MachinesListViewModel {
             let machines = try await Globals.getItems(Machine.self, urls: urls, limit: pageInfo.limit, offset: pageInfo.offset)
             self.machines.append(contentsOf: machines.sorted())
             pageInfo.updateOffset()
-            viewLoadingState = .loaded
+            if !hasLoadedFirstPage {
+                viewLoadingState = .loaded
+                pageInfo.hasLoadedFirstPage = true
+            }
             logger.debug("Successfully loaded data.")
         } catch {
             logger.error("Failed to load data. \(error)")
-            viewLoadingState = .error(error: error)
+            if !hasLoadedFirstPage {
+                viewLoadingState = .error(error: error)
+            }
         }
     }
 }

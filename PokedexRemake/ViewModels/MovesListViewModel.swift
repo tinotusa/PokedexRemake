@@ -41,10 +41,15 @@ extension MovesListViewModel {
             pageInfo.updateOffset()
             pageInfo.hasNextPage = moves.count == pageInfo.limit
             logger.debug("Successfully loaded moves count: \(moves.count)")
-            viewLoadingState = .loaded
+            if !hasLoadedFirstPage {
+                viewLoadingState = .loaded
+                pageInfo.hasLoadedFirstPage = true
+            }
         } catch {
             logger.error("Failed load data.")
-            viewLoadingState = .error(error: error)
+            if !hasLoadedFirstPage {
+                viewLoadingState = .error(error: error)
+            }
         }
     }
 }

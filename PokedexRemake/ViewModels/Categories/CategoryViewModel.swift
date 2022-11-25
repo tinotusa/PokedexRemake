@@ -12,7 +12,7 @@ import os
 /// View model for CategoryView.
 final class CategoryViewModel<T: Codable & Hashable & Identifiable & SearchableByURL & Comparable>: ObservableObject, Pageable {
     @Published var values = [T]()
-    @Published var pageInfo = PageInfo()
+    @Published private(set) var pageInfo = PageInfo()
     /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     

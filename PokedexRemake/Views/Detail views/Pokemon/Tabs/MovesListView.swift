@@ -10,9 +10,7 @@ import SwiftPokeAPI
 
 struct MovesListView: View {
     let title: String
-    let id: Int
     let description: LocalizedStringKey
-    let moveURLS: [URL]
     @ObservedObject var viewModel: MovesListViewModel
     
     var body: some View {
@@ -23,19 +21,19 @@ struct MovesListView: View {
                     ProgressView()
                         .onAppear {
                             Task {
-                                await viewModel.loadData(moveURLS: moveURLS)
+                                await viewModel.loadPage()
                             }
                         }
                 case .loaded:
                     LazyVStack(alignment: .leading) {
-                        ForEach(viewModel.sortedMoves()) { move in
+                        ForEach(viewModel.moves) { move in
                             MoveCard(move: move)
                             Divider()
                         }
                         if viewModel.hasNextPage {
                             ProgressView()
                                 .task {
-                                    await viewModel.getNextPage()
+                                    await viewModel.loadPage()
                                 }
                         }
                     }
@@ -53,10 +51,8 @@ struct MovesListView_Previews: PreviewProvider {
     static var previews: some View {
         MovesListView(
             title: "Pokemon name",
-            id: 123,
             description: "Some description here",
-            moveURLS: [],
-            viewModel: MovesListViewModel()
+            viewModel: MovesListViewModel(urls: [])
         )
     }
 }

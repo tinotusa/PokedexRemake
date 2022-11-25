@@ -37,8 +37,13 @@ struct PokemonDetail: View {
     @StateObject private var aboutTabViewModel = AboutTabViewModel()
     @StateObject private var statsTabViewModel = StatsTabViewModel()
     @StateObject private var evolutionsTabViewModel = EvolutionsTabViewModel()
-    @StateObject private var movesListViewModel = MovesListViewModel()
+    @StateObject private var movesListViewModel: MovesListViewModel
     @StateObject private var abilitiesListViewModel = AbilitiesListViewModel()
+    
+    init(pokemon: Pokemon) {
+        self.pokemon = pokemon
+        _movesListViewModel = StateObject(wrappedValue: MovesListViewModel(urls: pokemon.moves.map { $0.move.url }))
+    }
     
     var body: some View {
         VStack {
@@ -80,9 +85,7 @@ struct PokemonDetail: View {
         .sheet(isPresented: $viewModel.showingMovesSheet) {
             MovesListView(
                 title: viewModel.localizedName,
-                id: pokemon.id,
                 description: "Moves this pokemon can learn.",
-                moveURLS: pokemon.moves.map { $0.move.url },
                 viewModel: movesListViewModel
             )
                 .presentationDetents([.large])

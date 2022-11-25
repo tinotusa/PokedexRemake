@@ -12,12 +12,12 @@ struct GenerationDetail: View {
     let generation: Generation
     @StateObject private var viewModel = GenerationDetailViewModel()
     @AppStorage(SettingsKey.language) private var languageCode = SettingsKey.defaultLanguage
-    @StateObject private var movesListViewModel = MovesListViewModel()
+    @StateObject private var movesListViewModel: MovesListViewModel
     @StateObject private var pokemonSpeciesListViewModel = PokemonSpeciesListViewModel()
     
     init(generation: Generation) {
         self.generation = generation
-        
+        _movesListViewModel = StateObject(wrappedValue: MovesListViewModel(urls: generation.moves.urls()))
     }
     
     var body: some View {
@@ -49,9 +49,7 @@ struct GenerationDetail: View {
             .sheet(isPresented: $viewModel.showingMovesList) {
                 MovesListView(
                     title: viewModel.mainRegion!.localizedName(languageCode: languageCode),
-                    id: generation.id,
                     description: "Moves in this generation",
-                    moveURLS: generation.moves.map { $0.url },
                     viewModel: movesListViewModel
                 )
                 .presentationDetents([.large])

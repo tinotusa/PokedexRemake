@@ -9,59 +9,42 @@ import Foundation
 import SwiftPokeAPI
 import os
 
-final class MovesListViewModel: ObservableObject {
-    @Published private(set) var pokemonSpecies: PokemonSpecies!
-    @Published private(set) var hasNextPage = true
-    
-    @Published private var moves = Set<Move>() {
-        willSet {
-            page += 1
-            if abs(moves.count - newValue.count) < limit {
-                hasNextPage = false
-            }
-        }
-    }
+/// View model for MovesListView.
+final class MovesListViewModel: ObservableObject, Pageable {
+    /// The PokemonSpecies of the Move
+    @Published private(set) var pokemonSpecies: PokemonSpecies?
+    /// The Moves to be displayed.
+    @Published private(set) var moves = [Move]()
+    /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
-    
-    private var urls = [URL]()
-    private var page = 0 {
-        didSet {
-            offset = page * limit
-        }
-    }
-    private var offset = 0
-    private let limit = 20
+    @Published private(set) var pageInfo = PageInfo()
+    /// The urls of the moves to fetch.
+    private var urls: [URL]
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "MovesTabViewModel")
+    
+    /// Creates the view model with the given urls.
+    /// - Parameter urls: The move urls to fetch.
+    init(urls: [URL]) {
+        self.urls = urls
+    }
 }
 
 extension MovesListViewModel {
+    /// Loads data from the pageInfo offset.
     @MainActor
-    func loadData(moveURLS: [URL]) async {
+    func loadPage() async {
         logger.debug("Loading data.")
-        self.urls = moveURLS
-        
         do {
-            self.moves = try await Globals.getItems(Move.self, urls: urls, limit: limit)
+            let moves = try await Globals.getItems(Move.self, urls: urls, limit: pageInfo.limit, offset: pageInfo.offset)
+            self.moves.append(contentsOf: moves.sorted())
+            pageInfo.updateOffset()
+            pageInfo.hasNextPage = moves.count == pageInfo.limit
+            logger.debug("Successfully loaded moves count: \(moves.count)")
             viewLoadingState = .loaded
         } catch {
             logger.error("Failed load data.")
             viewLoadingState = .error(error: error)
         }
-    }
-    
-    @MainActor
-    func getNextPage() async {
-        do {
-            let moves = try await Globals.getItems(Move.self, urls: self.urls, limit: limit, offset: offset)
-            self.moves.formUnion(moves)
-            logger.debug("Successfully got the next page.")
-        } catch {
-            logger.error("Failed to get next page. \(error)")
-        }
-    }
-    
-    func sortedMoves() -> [Move] {
-        moves.sorted()
     }
 }

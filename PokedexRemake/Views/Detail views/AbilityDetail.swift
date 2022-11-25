@@ -12,7 +12,6 @@ struct AbilityDetail: View {
     let ability: Ability
     @StateObject private var viewModel = AbilityDetailViewModel()
     
-    @StateObject private var effectEntriesListViewModel = EffectEntriesListViewModel()
     @StateObject private var abilityEffectChangesListViewModel = AbilityEffectChangesListViewModel()
     @StateObject private var flavorTextEntriesListViewModel = FlavorTextEntriesListViewModel()
     @StateObject private var pokemonListViewModel: PokemonListViewModel
@@ -52,10 +51,8 @@ struct AbilityDetail: View {
             .sheet(isPresented: $viewModel.showingEffectEntriesListView) {
                 EffectEntriesListView(
                     title: ability.localizedName(languageCode: language),
-                    id: ability.id,
                     description: "Effect entries for this ability",
-                    entries: ability.effectEntries.localizedItems(for: language),
-                    viewModel: effectEntriesListViewModel
+                    entries: ability.effectEntries.localizedItems(for: language)
                 )
             }
             .sheet(isPresented: $viewModel.showingEffectChangesListView) {

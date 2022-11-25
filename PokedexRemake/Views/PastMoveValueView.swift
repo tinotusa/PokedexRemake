@@ -12,7 +12,7 @@ struct PastMoveValueView: View {
     let pastValue: PastMoveStatValues
     @StateObject private var viewModel = PastMoveValueViewModel()
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
-    @StateObject private var effectEntriesListViewModel = EffectEntriesListViewModel()
+    
     var body: some View {
         switch viewModel.viewLoadingState {
         case .loading:
@@ -50,9 +50,8 @@ struct PastMoveValueView: View {
                                     NavigationLink {
                                         EffectEntriesListView(
                                             title: "Past entries",
-                                            id: 0,
                                             description: "Past entries for this move",
-                                            entries: pastValue.effectEntries, viewModel: effectEntriesListViewModel
+                                            entries: pastValue.effectEntries
                                         )
                                     } label: {
                                         NavigationLabel(title: value)

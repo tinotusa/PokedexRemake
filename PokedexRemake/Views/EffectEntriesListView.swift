@@ -10,12 +10,9 @@ import SwiftPokeAPI
 
 struct EffectEntriesListView: View {
     let title: String
-    let id: Int
     let description: LocalizedStringKey
     let entries: [VerboseEffect]
-    
-    @ObservedObject var viewModel: EffectEntriesListViewModel
-    
+        
     var body: some View {
         DetailListView(title: title, description: description) {
             VStack(alignment: .leading) {
@@ -38,10 +35,8 @@ struct EffectEntriesListView_Previews: PreviewProvider {
     static var previews: some View {
         EffectEntriesListView(
             title: "some title",
-            id: 999,
             description: "some description here.",
-            entries: [],
-            viewModel: EffectEntriesListViewModel()
+            entries: []
         )
     }
 }

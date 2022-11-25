@@ -13,7 +13,6 @@ struct MoveDetail: View {
     @StateObject private var viewModel = MoveDetailViewModel()
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     @StateObject private var pokemonListViewModel: PokemonListViewModel
-    @StateObject private var effectEntriesListViewModel = EffectEntriesListViewModel()
     @StateObject private var abilityEffectChangesListViewModel = AbilityEffectChangesListViewModel()
     @StateObject private var flavorTextEntriesListViewModel = FlavorTextEntriesListViewModel()
     
@@ -99,10 +98,8 @@ private extension MoveDetail {
         .sheet(isPresented: $showingEffectEntries) {
             EffectEntriesListView(
                 title: move.localizedName(languageCode: language),
-                id: move.id,
                 description: "Effect entries for this moe",
-                entries: move.effectEntries,
-                viewModel: effectEntriesListViewModel
+                entries: move.effectEntries
             )
         }
         .sheet(isPresented: $showingEffectChanges) {

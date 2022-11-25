@@ -23,7 +23,9 @@ struct GenerationCard: View {
                     }
                 }
         case .loaded:
-            NavigationLink(value: generation) {
+            NavigationLink {
+                GenerationDetail(generation: generation)
+            } label: {
                 VStack {
                     Text(generation.localizedName(languageCode: language))
                         .title2Style()
@@ -75,6 +77,7 @@ private extension GenerationCard {
         
         static let dividerHeight = 20.0
     }
+    
     var versionsList: some View {
         ForEach(viewModel.sortedVersions()) { version in
             Text(version.localizedName(languageCode: language))

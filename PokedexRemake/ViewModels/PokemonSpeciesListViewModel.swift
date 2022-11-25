@@ -51,7 +51,7 @@ extension PokemonSpeciesListViewModel {
             let pokemonDataArray = try await getPokemonSpecies().sorted { $0.pokemon.id < $1.pokemon.id }
             pageInfo.updateOffset()
             pageInfo.hasNextPage = pokemonDataArray.count == pageInfo.limit
-            self.pokemonDataArray = pokemonDataArray
+            self.pokemonDataArray.append(contentsOf: pokemonDataArray)
             
             viewLoadingState = .loaded
         } catch {

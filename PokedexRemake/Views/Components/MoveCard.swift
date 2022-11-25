@@ -28,7 +28,9 @@ struct MoveCard: View {
                     }
                 }
         case .loaded:
-            NavigationLink(value: move) {
+            NavigationLink {
+                MoveDetail(move: move)
+            } label: {
                 VStack(alignment: .leading) {
                     HStack {
                         Text(viewModel.localizedMoveName)

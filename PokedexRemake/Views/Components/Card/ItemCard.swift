@@ -23,7 +23,9 @@ struct ItemCard: View {
                     }
                 }
         case .loaded:
-            NavigationLink(value: item) {
+            NavigationLink {
+                ItemDetail(item: item)
+            } label: {
                 HStack {
                     PokemonImage(url: item.sprites.default, imageSize: Constants.imageSize)
                     VStack(alignment: .leading) {

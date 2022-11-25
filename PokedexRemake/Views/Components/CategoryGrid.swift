@@ -16,8 +16,6 @@ struct CategoryGrid: View {
     @ObservedObject var locationsCategoryViewModel: CategoryViewModel<Location>
     @ObservedObject var generationsCategoryViewModel: CategoryViewModel<Generation>
     
-    @StateObject private var test = CategoryViewModel<Move>()
-    
     var body: some View {
         Grid(horizontalSpacing: 20, verticalSpacing: 10) {
             GridRow {

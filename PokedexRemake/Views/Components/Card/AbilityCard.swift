@@ -23,7 +23,9 @@ struct AbilityCard: View {
                     }
                 }
         case .loaded:
-            NavigationLink(value: ability) {
+            NavigationLink {
+                AbilityDetail(ability: ability)
+            } label: {
                 VStack(alignment: .leading) {
                     HStack {
                         Text(ability.localizedName(languageCode: language))

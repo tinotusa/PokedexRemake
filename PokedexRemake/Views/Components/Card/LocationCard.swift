@@ -23,7 +23,9 @@ struct LocationCard: View {
                     }
                 }
         case .loaded:
-            NavigationLink(value: location) {
+            NavigationLink {
+                LocationDetail(location: location)
+            } label: {
                 VStack(alignment: .leading) {
                     HStack {
                         Text(location.localizedName(languageCode: language))

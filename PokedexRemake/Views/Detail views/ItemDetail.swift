@@ -83,9 +83,8 @@ struct ItemDetail: View {
             .sheet(isPresented: $viewModel.showingMachinesList) {
                 MachinesListView(
                     title: item.localizedName(languageCode: language),
-                    id: item.id,
                     description: "Machines related to this item.",
-                    machineURLs: item.machines.map { $0.machine.url }
+                    urls: item.machines.map { $0.machine.url }
                 )
             }
             .sheet(isPresented: $viewModel.showingPokemonList) {

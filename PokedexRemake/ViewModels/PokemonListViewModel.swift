@@ -11,7 +11,7 @@ import os
 import SwiftUI
 
 /// View model for PokemonList.
-final class PokemonListViewModel: ObservableObject {
+final class PokemonListViewModel: ObservableObject, Pageable {
     /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     /// The pokemon urls to fetch Pokemon from.
@@ -30,12 +30,7 @@ final class PokemonListViewModel: ObservableObject {
     }
 }
 
-extension PokemonListViewModel {
-    /// A Boolean value indicating whether or not there is a next page.
-    var hasNextPage: Bool {
-        pageInfo.hasNextPage
-    }
-    
+extension PokemonListViewModel {    
     @MainActor
     /// Uses the pageInfo to fetch the the current page.
     func loadPage() async {

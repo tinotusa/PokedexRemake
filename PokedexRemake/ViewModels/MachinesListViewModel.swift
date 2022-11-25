@@ -9,79 +9,40 @@ import Foundation
 import SwiftPokeAPI
 import os
 
-final class MachinesListViewModel: ObservableObject {
+/// View model for MachinesList.
+final class MachinesListViewModel: ObservableObject, Pageable {
+    /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
-    @Published private var machines = Set<Machine>() {
-        willSet {
-            if abs(newValue.count - machines.count) < limit {
-                hasNextPage = false
-            }
-        }
-    }
-    @Published private(set) var hasNextPage = true
-    private var urls = [URL]()
-    private var offset = 0
-    private let limit = 20
-    private var page = 0 {
-        didSet {
-            offset = page * limit
-        }
-    }
+    /// The machines to be displayed.
+    @Published private(set) var machines = [Machine]()
+    /// The current pages information.
+    @Published private(set) var pageInfo = PageInfo()
+    /// The urls of the machines to fetch.
+    private var urls: [URL]
+    
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "MachinesListViewModel")
+    
+    /// Creates the view model.
+    /// - Parameter urls: The machine urls to load from.
+    init(urls: [URL]) {
+        self.urls = urls
+    }
 }
 
 extension MachinesListViewModel {
-    func sortedMachines() -> [Machine] {
-        self.machines.sorted()
-    }
-    
     @MainActor
-    func loadData(urls: [URL]) async {
+    /// Loads the page data from the pageInfo.
+    func loadPage() async {
         logger.debug("Loading data.")
-        self.urls = urls
         do {
-            self.machines = try await getMachines()
-            page += 1
+            let machines = try await Globals.getItems(Machine.self, urls: urls, limit: pageInfo.limit, offset: pageInfo.offset)
+            self.machines.append(contentsOf: machines.sorted())
+            pageInfo.updateOffset()
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")
         } catch {
             logger.error("Failed to load data. \(error)")
             viewLoadingState = .error(error: error)
-        }
-    }
-    
-    @MainActor
-    func getNextPage() async {
-        logger.debug("Getting next page.")
-        guard hasNextPage else {
-            logger.error("Failed to get next page. hasNextPage is false.")
-            return
-        }
-        do {
-            let machines = try await getMachines()
-            self.machines.formUnion(machines)
-            page += 1
-            logger.debug("Successfully got next page.")
-        } catch {
-            logger.error("Failed to get next page: \(error)")
-        }
-    }
-}
-
-private extension MachinesListViewModel {
-    func getMachines() async throws -> Set<Machine>{
-        try await withThrowingTaskGroup(of: Machine.self) { group in
-            for (i, url) in self.urls.enumerated() where i >= offset && i < offset + limit {
-                group.addTask {
-                    return try await Machine(url)
-                }
-            }
-            
-            var machines = Set<Machine>()
-            for try await machine in group {
-                machines.insert(machine)
-            }
-            return machines
         }
     }
 }

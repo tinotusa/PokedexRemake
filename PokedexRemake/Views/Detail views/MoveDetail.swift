@@ -132,9 +132,8 @@ private extension MoveDetail {
         .sheet(isPresented: $showingMachinesListView) {
             MachinesListView(
                 title: move.localizedName(languageCode: language),
-                id: move.id,
                 description: "Machines that teach this move.",
-                machineURLs: move.machines.map { $0.machine.url}
+                urls: move.machines.map { $0.machine.url}
             )
         }
         .sheet(isPresented: $showingPastValuesView) {

@@ -18,7 +18,7 @@ struct AbilityExpandableTab: View {
         case .loading:
             ProgressView()
                 .task {
-                    await viewModel.loadData(ability: ability, language: language)
+                    await viewModel.loadData(ability: ability, languageCode: language)
                 }
         case .loaded:
             VStack(alignment: .leading) {
@@ -29,7 +29,7 @@ struct AbilityExpandableTab: View {
                         .foregroundColor(.gray)
                 }
                 .subtitleStyle()
-                Text(viewModel.generation.localizedName(languageCode: language))
+                Text(viewModel.localizedGenerationName)
                     .foregroundColor(.gray)
                 if ability.effectEntries.isEmpty {
                     Text("No description.")

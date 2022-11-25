@@ -29,7 +29,7 @@ struct AbilityEffectChangesList: View {
                 case .loading:
                     ProgressView()
                         .task {
-                            await viewModel.loadData(effectChanges: effectChanges, language: language)
+                            await viewModel.loadData(effectChanges: effectChanges, languageCode: language)
                         }
                 case .loaded:
                     VStack(alignment: .leading) {

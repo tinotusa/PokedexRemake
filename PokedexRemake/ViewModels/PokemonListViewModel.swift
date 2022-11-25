@@ -9,10 +9,18 @@ import Foundation
 import SwiftPokeAPI
 import os
 
+#warning("last here")
+// TODO: Use pagination protocol? (can i think of something better?)
+// TODO: look into using a generic list view and keeping the view models as loaders?
+
+/// View model for PokemonList.
 final class PokemonListViewModel: ObservableObject, Identifiable  {
     let id = UUID().uuidString
+    /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
+    /// The pokemon urls to fetch Pokemon from.
     @Published private var urls = [URL]()
+    /// The Pokemon for the list.
     @Published private(set) var pokemon = [Pokemon]()
     @Published private(set) var hasNextPage = true
     private var page = 0 {
@@ -40,11 +48,11 @@ extension PokemonListViewModel {
     func loadData(urls: [URL]) async {
         self.urls = urls
         do {
-            let pokemon = try await getPokemon(urls: urls)
+            let pokemon = try await Globals.getItems(Pokemon.self, urls: urls)
             if pokemon.count < limit {
                 hasNextPage = false
             }
-            self.pokemon = pokemon
+            self.pokemon = pokemon.sorted()
             page += 1
             viewLoadingState = .loaded
         } catch {
@@ -56,7 +64,7 @@ extension PokemonListViewModel {
     func loadNextPage() async {
         logger.debug("Loading next page.")
         do {
-            let newPokemon = try await getNextPokemonPage()
+            let newPokemon = try await Globals.getItems(Pokemon.self, urls: urls, limit: limit, offset: offset)
             if newPokemon.count < limit {
                 hasNextPage = false
             }
@@ -64,40 +72,6 @@ extension PokemonListViewModel {
             page += 1
         } catch {
             logger.error("Failed to load next pokemon page. \(error)")
-        }
-    }
-    
-}
-
-private extension PokemonListViewModel {
-    func getPokemon(urls: [URL]) async throws -> [Pokemon] {
-        try await withThrowingTaskGroup(of: Pokemon.self) { group in
-            for (i, url) in urls.enumerated() where i < limit {
-                group.addTask {
-                    return try await Pokemon(url)
-                }
-            }
-            
-            var pokemonArray = [Pokemon]()
-            for try await pokemon in group {
-                pokemonArray.append(pokemon)
-            }
-            return pokemonArray
-        }
-    }
-    
-    func getNextPokemonPage() async throws -> [Pokemon] {
-        try await withThrowingTaskGroup(of: Pokemon.self) { group in
-            for (i, url) in urls.enumerated() where i > offset && i < offset + limit {
-                group.addTask {
-                    return try await Pokemon(url)
-                }
-            }
-            var pokemonArray = [Pokemon]()
-            for try await pokemon in group {
-                pokemonArray.append(pokemon)
-            }
-            return pokemonArray
         }
     }
 }

@@ -11,34 +11,33 @@ import SwiftPokeAPI
 struct MoveCard: View {
     let move: Move
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
-    @StateObject private var viewModel = MoveCardViewModel()
+    @StateObject private var viewModel: MoveCardViewModel
+    
+    init(move: Move) {
+        self.move = move
+        _viewModel = StateObject(wrappedValue: MoveCardViewModel(move: move))
+    }
     
     var body: some View {
         switch viewModel.viewLoadingState {
         case .loading:
-            redactedLoadingView
+            placeholderLoadingView
                 .onAppear {
                     Task {
-                        await viewModel.loadData(move: move, languageCode: language)
+                        await viewModel.loadData(languageCode: language)
                     }
                 }
         case .loaded:
             NavigationLink(value: move) {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text(move.localizedName(languageCode: language))
+                        Text(viewModel.localizedMoveName)
                         Spacer()
                         Text(Globals.formattedID(move.id))
                             .foregroundColor(.gray)
                     }
                     .subtitleStyle()
-                    Text(
-                        move.localizedEffectEntry(
-                            for: language,
-                            shortVersion: true,
-                            effectChance: move.effectChance
-                        )
-                    )
+                    Text(viewModel.localizedEffectEntry)
                     .lineLimit(1)
                     .foregroundColor(.gray)
                     if let type = viewModel.type {
@@ -57,7 +56,7 @@ struct MoveCard: View {
 }
 
 private extension MoveCard {
-    var redactedLoadingView: some View {
+    var placeholderLoadingView: some View {
         VStack(alignment: .leading) {
             HStack {
                 Text("Some title here")

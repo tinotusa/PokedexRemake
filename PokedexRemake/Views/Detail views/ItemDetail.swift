@@ -28,7 +28,12 @@ struct ItemDetail: View {
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     @StateObject private var viewModel = ItemDetailViewModel()
     @StateObject private var flavorTextEntriesListViewModel = FlavorTextEntriesListViewModel()
-    @StateObject private var pokemonListViewModel = PokemonListViewModel()
+    @StateObject private var pokemonListViewModel: PokemonListViewModel
+    
+    init(item: Item) {
+        self.item = item
+        _pokemonListViewModel = StateObject(wrappedValue: PokemonListViewModel(urls: item.heldByPokemon.map { $0.pokemon.url }))
+    }
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -86,9 +91,7 @@ struct ItemDetail: View {
             .sheet(isPresented: $viewModel.showingPokemonList) {
                 PokemonListView(
                     title: item.localizedName(languageCode: language),
-                    id: item.id,
                     description: "Pokemon that hold this item",
-                    pokemonURLs: item.heldByPokemon.map { $0.pokemon.url },
                     viewModel: pokemonListViewModel
                 )
             }

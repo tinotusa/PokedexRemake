@@ -15,7 +15,12 @@ struct AbilityDetail: View {
     @StateObject private var effectEntriesListViewModel = EffectEntriesListViewModel()
     @StateObject private var abilityEffectChangesListViewModel = AbilityEffectChangesListViewModel()
     @StateObject private var flavorTextEntriesListViewModel = FlavorTextEntriesListViewModel()
-    @StateObject private var pokemonListViewModel = PokemonListViewModel()
+    @StateObject private var pokemonListViewModel: PokemonListViewModel
+    
+    init(ability: Ability) {
+        self.ability = ability
+        _pokemonListViewModel = StateObject(wrappedValue: PokemonListViewModel(urls: ability.pokemon.map { $0.pokemon.url }))
+    }
     
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     
@@ -82,9 +87,7 @@ struct AbilityDetail: View {
             .sheet(isPresented: $viewModel.showingPokemonListView) {
                 PokemonListView(
                     title: ability.localizedName(languageCode: language),
-                    id: ability.id,
                     description: "Pokemon with this ability",
-                    pokemonURLs: ability.pokemon.map { $0.pokemon.url },
                     viewModel: pokemonListViewModel
                 )
             }

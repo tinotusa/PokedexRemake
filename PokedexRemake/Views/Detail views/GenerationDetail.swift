@@ -13,8 +13,12 @@ struct GenerationDetail: View {
     @StateObject private var viewModel = GenerationDetailViewModel()
     @AppStorage(SettingsKey.language) private var languageCode = SettingsKey.defaultLanguage
     @StateObject private var movesListViewModel = MovesListViewModel()
-    @StateObject private var pokemonListViewModel = PokemonListViewModel()
     @StateObject private var pokemonSpeciesListViewModel = PokemonSpeciesListViewModel()
+    
+    init(generation: Generation) {
+        self.generation = generation
+        
+    }
     
     var body: some View {
         switch viewModel.viewLoadingState {

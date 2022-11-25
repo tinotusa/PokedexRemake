@@ -12,7 +12,7 @@ struct MoveDetail: View {
     let move: Move
     @StateObject private var viewModel = MoveDetailViewModel()
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
-    @StateObject private var pokemonListViewModel = PokemonListViewModel()
+    @StateObject private var pokemonListViewModel: PokemonListViewModel
     @StateObject private var effectEntriesListViewModel = EffectEntriesListViewModel()
     @StateObject private var abilityEffectChangesListViewModel = AbilityEffectChangesListViewModel()
     @StateObject private var flavorTextEntriesListViewModel = FlavorTextEntriesListViewModel()
@@ -24,6 +24,11 @@ struct MoveDetail: View {
     @State private var showingMachinesListView = false
     @State private var showingPastValuesView = false
     @State private var showingStatChanges = false
+    
+    init(move: Move) {
+        self.move = move
+        _pokemonListViewModel = StateObject(wrappedValue: PokemonListViewModel(urls: move.learnedByPokemon.urls()))
+    }
     
     var body: some View {
         switch viewModel.viewLoadingState {
@@ -87,9 +92,7 @@ private extension MoveDetail {
         .sheet(isPresented: $showingPokemonListView) {
             PokemonListView(
                 title: move.localizedName(languageCode: language),
-                id: move.id,
                 description: "Pokemon that can learn this move.",
-                pokemonURLs: move.learnedByPokemon.map { $0.url },
                 viewModel: pokemonListViewModel
             )
         }

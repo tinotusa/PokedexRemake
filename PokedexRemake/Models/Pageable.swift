@@ -8,12 +8,10 @@
 import Foundation
 import SwiftPokeAPI
 
+// TODO: Update me
 /// A type that can be paginated.
 protocol Pageable {
     associatedtype Value: Codable & SearchableByURL
-    
-    /// The values of the page.
-    var values: [Value] { get }
     
     /// The current pages information.
     var pageInfo: PageInfo { get }
@@ -27,6 +25,7 @@ protocol Pageable {
     func loadPage(pageInfo: PageInfo) async throws -> (items: [Value], pageInfo: PageInfo)
 }
 
+// TODO: Remove me
 /// The value that represents the state of the pagination.
 enum PaginationState {
     case loadingFirstPage

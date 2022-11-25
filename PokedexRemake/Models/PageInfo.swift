@@ -22,4 +22,9 @@ struct PageInfo {
         self.offset = offset
         self.hasNextPage = hasNextPage
     }
+    
+    /// Adds the limit amount to the offset.
+    mutating func updateOffset() {
+        self.offset += self.limit
+    }
 }

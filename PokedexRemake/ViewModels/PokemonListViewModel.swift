@@ -8,70 +8,49 @@
 import Foundation
 import SwiftPokeAPI
 import os
-
-#warning("last here")
-// TODO: Use pagination protocol? (can i think of something better?)
-// TODO: look into using a generic list view and keeping the view models as loaders?
+import SwiftUI
 
 /// View model for PokemonList.
-final class PokemonListViewModel: ObservableObject, Identifiable  {
-    let id = UUID().uuidString
+final class PokemonListViewModel: ObservableObject {
     /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     /// The pokemon urls to fetch Pokemon from.
-    @Published private var urls = [URL]()
+    @Published private var urls: [URL]
     /// The Pokemon for the list.
     @Published private(set) var pokemon = [Pokemon]()
-    @Published private(set) var hasNextPage = true
-    private var page = 0 {
-        didSet {
-            offset = page * limit
-        }
-    }
-    private var limit = 20
-    private var offset = 0
-    private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonListViewModel")
-}
-
-extension PokemonListViewModel: Hashable {
-    static func == (lhs: PokemonListViewModel, rhs: PokemonListViewModel) -> Bool {
-        lhs.id == rhs.id
-    }
+    /// The current page information.
+    @Published private(set) var pageInfo = PageInfo()
     
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(self.id)
+    private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "PokemonListViewModel")
+    
+    /// Creates the view model.
+    /// - Parameter urls: The urls to load pokemon from.
+    init(urls: [URL]) {
+        self.urls = urls
     }
 }
 
 extension PokemonListViewModel {
-    @MainActor
-    func loadData(urls: [URL]) async {
-        self.urls = urls
-        do {
-            let pokemon = try await Globals.getItems(Pokemon.self, urls: urls)
-            if pokemon.count < limit {
-                hasNextPage = false
-            }
-            self.pokemon = pokemon.sorted()
-            page += 1
-            viewLoadingState = .loaded
-        } catch {
-            viewLoadingState = .error(error: error)
-        }
+    /// A Boolean value indicating whether or not there is a next page.
+    var hasNextPage: Bool {
+        pageInfo.hasNextPage
     }
     
     @MainActor
-    func loadNextPage() async {
-        logger.debug("Loading next page.")
+    /// Uses the pageInfo to fetch the the current page.
+    func loadPage() async {
+        logger.debug("Loading page.")
         do {
-            let newPokemon = try await Globals.getItems(Pokemon.self, urls: urls, limit: limit, offset: offset)
-            if newPokemon.count < limit {
-                hasNextPage = false
-            }
-            self.pokemon.append(contentsOf: newPokemon)
-            page += 1
+            logger.debug("Loading page.")
+            let pokemon = try await Globals.getItems(Pokemon.self, urls: urls, limit: pageInfo.limit, offset: pageInfo.offset)
+            self.pokemon.append(contentsOf: pokemon.sorted())
+            pageInfo.updateOffset()
+            pageInfo.hasNextPage = pokemon.count == pageInfo.limit
+            viewLoadingState = .loaded
+            logger.debug("Successfully loaded the page.")
         } catch {
-            logger.error("Failed to load next pokemon page. \(error)")
+            viewLoadingState = .error(error: error)
+            logger.error("Failed to load the page. \(error)")
         }
     }
 }

@@ -10,9 +10,7 @@ import SwiftPokeAPI
 
 struct PokemonListView: View {
     let title: String
-    let id: Int
     let description: LocalizedStringKey
-    let pokemonURLs: [URL]
     @ObservedObject var viewModel: PokemonListViewModel
     
     var body: some View {
@@ -26,7 +24,7 @@ struct PokemonListView: View {
                     ProgressView()
                         .onAppear {
                             Task {
-                                await viewModel.loadData(urls: pokemonURLs)
+                                await viewModel.loadPage()
                             }
                         }
                 case .loaded:
@@ -37,7 +35,7 @@ struct PokemonListView: View {
                         if viewModel.hasNextPage {
                             ProgressView()
                                 .task {
-                                    await viewModel.loadNextPage()
+                                    await viewModel.loadPage()
                                 }
                         }
                     }
@@ -53,10 +51,8 @@ struct PokemonListView_Previews: PreviewProvider {
     static var previews: some View {
         PokemonListView(
             title: "Title here",
-            id: 123,
             description: "A list of pokemon for this particular thing.",
-            pokemonURLs: Move.example.learnedByPokemon.map { $0.url },
-            viewModel: PokemonListViewModel()
+            viewModel: PokemonListViewModel(urls: Move.example.learnedByPokemon.urls())
         )
     }
 }

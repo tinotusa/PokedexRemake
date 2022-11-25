@@ -16,12 +16,3 @@ protocol Pageable {
     /// Fetches some page info.
     func loadPage() async
 }
-
-// TODO: Remove me
-/// The value that represents the state of the pagination.
-enum PaginationState {
-    case loadingFirstPage
-    case loaded
-    case loadingNextPage
-    case error(error: Error)
-}

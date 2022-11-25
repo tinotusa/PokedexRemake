@@ -16,7 +16,7 @@ final class CategoryViewModel<T: Codable & Hashable & Identifiable & SearchableB
     /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     
-    private var logger = Logger(subsystem: "com.tinotusa.Pokedex", category: "CategoryViewViewModel")
+    private var logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "CategoryViewViewModel")
     
     enum CategoryError: Error {
         case noNextPage
@@ -28,13 +28,18 @@ final class CategoryViewModel<T: Codable & Hashable & Identifiable & SearchableB
         logger.debug("Loading first page.")
         do {
             let items = try await Resource<T>(limit: pageInfo.limit, offset: pageInfo.offset)
-            self.values = items.items.sorted()
+            self.values.append(contentsOf: items.items.sorted())
             self.pageInfo.updateOffset()
             self.pageInfo.hasNextPage = items.items.count == pageInfo.limit
-            viewLoadingState = .loaded
+            if !hasLoadedFirstPage {
+                viewLoadingState = .loaded
+                pageInfo.hasLoadedFirstPage = true
+            }
         } catch {
             logger.error("Failed to load page. \(error)")
-            viewLoadingState = .error(error: error)
+            if !hasLoadedFirstPage {
+                viewLoadingState = .error(error: error)
+            }
         }
     }
 }

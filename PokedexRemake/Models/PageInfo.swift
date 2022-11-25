@@ -15,12 +15,13 @@ struct PageInfo {
     var offset: Int
     /// Whether or not there is a next page.
     var hasNextPage: Bool = true
+    /// A Boolean value indicating whether or not the first page has been loaded.
+    var hasLoadedFirstPage = false
     
     /// Creates a PageInfo with the given arguments.
-    init(limit: Int = 20, offset: Int = 0, hasNextPage: Bool = true) {
+    init(limit: Int = 20, offset: Int = 0) {
         self.limit = limit
         self.offset = offset
-        self.hasNextPage = hasNextPage
     }
     
     /// Adds the limit amount to the offset.

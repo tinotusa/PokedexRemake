@@ -12,7 +12,6 @@ struct AbilitiesListView: View {
     let title: String
     let description: LocalizedStringKey
     @ObservedObject var viewModel: AbilitiesListViewModel
-    let pokemon: Pokemon
     
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     
@@ -24,11 +23,11 @@ struct AbilitiesListView: View {
                     ProgressView()
                         .onAppear {
                             Task {
-                                await viewModel.loadData(pokemon: pokemon)
+                                await viewModel.loadPage()
                             }
                         }
                 case .loaded:
-                    ForEach(viewModel.sortedAbilities()) { ability in
+                    ForEach(viewModel.abilities) { ability in
                         AbilityExpandableTab(ability: ability)
                     }
                     .bodyStyle()
@@ -45,6 +44,7 @@ struct AbilitiesListView_Preveiws: PreviewProvider {
         AbilitiesListView(
             title: "some title",
             description: "Some description here",
-            viewModel: AbilitiesListViewModel(), pokemon: .example)
+            viewModel: AbilitiesListViewModel(pokemon: .example)
+        )
     }
 }

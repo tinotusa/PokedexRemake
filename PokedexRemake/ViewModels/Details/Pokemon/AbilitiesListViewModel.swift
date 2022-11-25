@@ -10,35 +10,45 @@ import SwiftPokeAPI
 import os
 
 /// View model for AbilitiesList.
-final class AbilitiesListViewModel: ObservableObject {
+final class AbilitiesListViewModel: ObservableObject, Pageable {
     /// The abilities of the pokemon.
-    @Published private var abilities = Set<Ability>()
+    @Published private(set) var abilities = [Ability]()
     /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
-    
+    @Published private(set) var pageInfo = PageInfo()
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "AbilitiesViewModel")
+    private let pokemon: Pokemon
     
+    init(pokemon: Pokemon) {
+        self.pokemon = pokemon
+    }
 }
 
 extension AbilitiesListViewModel {
     /// Loads the relevant data for the given Pokemon.
-    /// - Parameter pokemon: The Pokemon to load data from.
     @MainActor
-    func loadData(pokemon: Pokemon) async {
-        logger.debug("Loading data.")
+    func loadPage() async {
+        logger.debug("Loading page.")
         do {
-            self.abilities = try await Globals.getItems(Ability.self, urls: pokemon.abilities.map { $0.ability.url })
-            viewLoadingState = .loaded
+            let abilities = try await Globals.getItems(
+                Ability.self,
+                urls: pokemon.abilities.map { $0.ability.url },
+                limit: pageInfo.limit,
+                offset: pageInfo.offset
+            )
+            self.abilities.append(contentsOf: abilities.sorted())
+            pageInfo.updateOffset()
+            pageInfo.hasNextPage = abilities.count == pageInfo.limit
+            if !hasLoadedFirstPage {
+                viewLoadingState = .loaded
+                pageInfo.hasLoadedFirstPage = true
+            }
             logger.debug("Successfully loaded data.")
         } catch {
-            viewLoadingState = .error(error: error)
+            if !hasLoadedFirstPage {
+                viewLoadingState = .error(error: error)
+            }
             logger.error("Failed to load data. \(error)")
         }
-    }
-    
-    /// Returns a sorted array of abilities.
-    /// - Returns: A sorted array of abilities.
-    func sortedAbilities() -> [Ability] {
-        self.abilities.sorted()
     }
 }

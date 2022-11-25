@@ -38,11 +38,12 @@ struct PokemonDetail: View {
     @StateObject private var statsTabViewModel = StatsTabViewModel()
     @StateObject private var evolutionsTabViewModel = EvolutionsTabViewModel()
     @StateObject private var movesListViewModel: MovesListViewModel
-    @StateObject private var abilitiesListViewModel = AbilitiesListViewModel()
+    @StateObject private var abilitiesListViewModel: AbilitiesListViewModel
     
     init(pokemon: Pokemon) {
         self.pokemon = pokemon
         _movesListViewModel = StateObject(wrappedValue: MovesListViewModel(urls: pokemon.moves.map { $0.move.url }))
+        _abilitiesListViewModel = StateObject(wrappedValue: AbilitiesListViewModel(pokemon: pokemon))
     }
     
     var body: some View {
@@ -95,8 +96,7 @@ struct PokemonDetail: View {
             AbilitiesListView(
                 title: viewModel.localizedName,
                 description: "Abilities this pokemon has.",
-                viewModel: abilitiesListViewModel,
-                pokemon: pokemon
+                viewModel: abilitiesListViewModel
             )
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)

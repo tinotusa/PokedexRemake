@@ -43,10 +43,16 @@ extension AbilityListViewModel {
             self.abilities.append(contentsOf: abilities.sorted())
             self.pageInfo.updateOffset()
             self.pageInfo.hasNextPage = abilities.count == pageInfo.limit
-            viewLoadingState = .loaded
+            if !hasLoadedFirstPage {
+                viewLoadingState = .loaded
+            } else {
+                pageInfo.hasNextPage = true
+            }
             logger.debug("Successfully loaded the page. loaded \(abilities.count) items.")
         } catch {
-            viewLoadingState = .error(error: error)
+            if !hasLoadedFirstPage {
+                viewLoadingState = .error(error: error)
+            }
             logger.error("Failed to load page. \(error)")
         }
     }

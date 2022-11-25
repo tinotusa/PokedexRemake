@@ -22,4 +22,8 @@ extension  Pageable {
     var hasNextPage: Bool {
         pageInfo.hasNextPage
     }
+    /// A Boolean value indicating whether or not the first page has been loaded.
+    var hasLoadedFirstPage: Bool {
+        pageInfo.hasLoadedFirstPage
+    }
 }

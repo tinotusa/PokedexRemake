@@ -9,8 +9,9 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct MoveDetail: View {
-    let move: Move
-    @StateObject private var viewModel = MoveDetailViewModel()
+    private let move: Move
+    
+    @StateObject private var viewModel: MoveDetailViewModel
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     @StateObject private var pokemonListViewModel: PokemonListViewModel
     @StateObject private var abilityEffectChangesListViewModel = AbilityEffectChangesListViewModel()
@@ -26,6 +27,7 @@ struct MoveDetail: View {
     
     init(move: Move) {
         self.move = move
+        _viewModel = StateObject(wrappedValue: MoveDetailViewModel(move: move))
         _pokemonListViewModel = StateObject(wrappedValue: PokemonListViewModel(urls: move.learnedByPokemon.urls()))
     }
     
@@ -34,14 +36,14 @@ struct MoveDetail: View {
         case .loading:
             LoadingView()
                 .task {
-                    await viewModel.loadData(move: move, languageCode: language)
+                    await viewModel.loadData(languageCode: language)
                 }
         case .loaded:
             moveDetailsGrid
         case .error(let error):
             ErrorView(text: error.localizedDescription) {
                 Task {
-                    await viewModel.loadData(move: move, languageCode: language)
+                    await viewModel.loadData(languageCode: language)
                 }
             }
         }
@@ -90,18 +92,18 @@ private extension MoveDetail {
             .padding()
             .bodyStyle()
         }
-        .navigationTitle(move.localizedName(languageCode: language))
+        .navigationTitle(viewModel.moveName)
         .background(Color.background)
         .sheet(isPresented: $showingPokemonListView) {
             PokemonListView(
-                title: move.localizedName(languageCode: language),
+                title: viewModel.moveName,
                 description: "Pokemon that can learn this move.",
                 viewModel: pokemonListViewModel
             )
         }
         .sheet(isPresented: $showingEffectEntries) {
             EffectEntriesListView(
-                title: move.localizedName(languageCode: language),
+                title: viewModel.moveName,
                 description: "Effect entries for this move",
                 effectChance: move.effectChance,
                 entries: move.effectEntries
@@ -109,7 +111,7 @@ private extension MoveDetail {
         }
         .sheet(isPresented: $showingEffectChanges) {
             AbilityEffectChangesList(
-                title: move.localizedName(languageCode: language),
+                title: viewModel.moveName,
                 id: move.id,
                 description: "Effect changes for this move.",
                 effectChanges: move.effectChanges,
@@ -119,31 +121,24 @@ private extension MoveDetail {
         }
         .sheet(isPresented: $showingFlavorTextEntries) {
             FlavorTextEntriesList(
-                title: move.localizedName(languageCode: language),
+                title: viewModel.moveName,
                 id: move.id,
                 description: "Flavor text entries for this move.",
                 language: language,
-                // TODO: does it make more sense/ is more efficient to do this in the view model (the mapping).
-                abilityFlavorTexts: viewModel.localizedFlavorTextEntries.map { entry in
-                    CustomFlavorText(
-                        flavorText: entry.flavorText,
-                        language: entry.language,
-                        versionGroup: entry.versionGroup
-                    )
-                },
+                abilityFlavorTexts: viewModel.customFlavorTexts,
                 viewModel: flavorTextEntriesListViewModel
             )
         }
         .sheet(isPresented: $showingMachinesListView) {
             MachinesListView(
-                title: move.localizedName(languageCode: language),
+                title: viewModel.moveName,
                 description: "Machines that teach this move.",
                 urls: move.machines.map { $0.machine.url}
             )
         }
         .sheet(isPresented: $showingPastValuesView) {
             PastMoveValuesListView(
-                title: move.localizedName(languageCode: language),
+                title: viewModel.moveName,
                 id: move.id,
                 description: "This move's changed stat values from different games.",
                 pastValues: move.pastValues
@@ -151,7 +146,7 @@ private extension MoveDetail {
         }
         .sheet(isPresented: $showingStatChanges) {
             MoveStatChangeListView(
-                title: move.localizedName(languageCode: language),
+                title: viewModel.moveName,
                 id: move.id,
                 description: "The stats this moves changes.",
                 statChanges: move.statChanges

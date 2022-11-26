@@ -12,6 +12,8 @@ import os
 
 /// View model for MoveDetail.
 final class MoveDetailViewModel: ObservableObject {
+    /// The move to be displayed.
+    private var move: Move
     /// The loading state for the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     /// The type of the Move to be displayed.
@@ -32,8 +34,17 @@ final class MoveDetailViewModel: ObservableObject {
     @Published private(set) var moveDetails = [MoveDetails: String]()
     /// The metaDetails of the Move.
     @Published private(set) var metaDetails = [MoveMetaDetails: String]()
-    
+    /// The localised name of the move.
+    @Published private(set) var moveName = "Error"
+    /// The flavour texts of the move.
+    @Published private(set) var customFlavorTexts = [CustomFlavorText]()
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "MoveDetailViewModel")
+    
+    /// Creates the view model.
+    /// - Parameter move: The move to be displayed.
+    init(move: Move) {
+        self.move = move
+    }
     
     /// The move detail keys.
     enum MoveDetails: String, CaseIterable, Identifiable {
@@ -94,30 +105,36 @@ extension MoveDetailViewModel {
     ///   - move: The move to load data from.
     ///   - languageCode: The language code used for localisation.
     @MainActor
-    func loadData(move: Move, languageCode: String) async {
+    func loadData(languageCode: String) async {
         logger.debug("Loading data.")
         do {
             try await withThrowingTaskGroup(of: Void.self) { (group) -> Void in
-                group.addTask { @MainActor in
-                    self.type = try await `Type`(move.type.url)
+                group.addTask { @MainActor [weak self] in
+                    guard let self else { return }
+                    self.type = try await `Type`(self.move.type.url)
                 }
-                group.addTask { @MainActor in
-                    self.damageClass = try await MoveDamageClass(move.damageClass.url)
+                group.addTask { @MainActor [weak self] in
+                    guard let self else { return }
+                    self.damageClass = try await MoveDamageClass(self.move.damageClass.url)
                 }
-                group.addTask { @MainActor in
-                    self.moveTarget = try await MoveTarget(move.target.url)
+                group.addTask { @MainActor [weak self] in
+                    guard let self else { return }
+                    self.moveTarget = try await MoveTarget(self.move.target.url)
                 }
-                group.addTask { @MainActor in
-                    self.generation = try await Generation(move.generation.url)
+                group.addTask { @MainActor [weak self] in
+                    guard let self else { return }
+                    self.generation = try await Generation(self.move.generation.url)
                 }
                 
-                group.addTask { @MainActor in
-                    if let meta = move.meta {
+                group.addTask { @MainActor [weak self] in
+                    guard let self else { return }
+                    if let meta = self.move.meta {
                         self.ailment = try await MoveAilment(meta.ailment.url)
                     }
                 }
-                group.addTask { @MainActor in
-                    if let meta = move.meta {
+                group.addTask { @MainActor [weak self] in
+                    guard let self else { return }
+                    if let meta = self.move.meta {
                         self.category = try await MoveCategory(meta.category.url)
                     }
                 }
@@ -128,7 +145,14 @@ extension MoveDetailViewModel {
             self.localizedFlavorTextEntries = move.flavorTextEntries.localizedItems(for: languageCode)
             self.moveDetails = getMoveDetails(move: move, languageCode: languageCode)
             self.metaDetails = getMoveMetaDetails(move: move, languageCode: languageCode)
-       
+            self.moveName = move.localizedName(languageCode: languageCode)
+            self.customFlavorTexts = localizedFlavorTextEntries.map { entry in
+                CustomFlavorText(
+                    flavorText: entry.flavorText,
+                    language: entry.language,
+                    versionGroup: entry.versionGroup
+                )
+            }
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")
         } catch {

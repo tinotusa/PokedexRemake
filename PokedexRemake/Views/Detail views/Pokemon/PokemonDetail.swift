@@ -8,26 +8,6 @@
 import SwiftUI
 import SwiftPokeAPI
 
-// TODO: Move me
-struct DropdownButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        HStack {
-            configuration.label
-            Spacer()
-            Image(systemName: "chevron.down")
-                .foregroundColor(.accentColor)
-        }
-        .title2Style()
-        .fontWeight(.light)
-    }
-}
-
-extension ButtonStyle where Self == DropdownButtonStyle {
-    static var dropDownButtonStyle: DropdownButtonStyle {
-        DropdownButtonStyle()
-    }
-}
-
 struct PokemonDetail: View {
     let pokemon: Pokemon
     @StateObject private var viewModel = PokemonDetailViewModel()
@@ -64,15 +44,13 @@ struct PokemonDetail: View {
                         StatsTab(viewModel: statsTabViewModel, pokemon: pokemon)
                         EvolutionsTab(viewModel: evolutionsTabViewModel, pokemon: pokemon)
                         
-                        Button("Moves") {
+                        DropdownButton(label: "Moves") {
                             viewModel.showingMovesSheet = true
                         }
-                        .buttonStyle(.dropDownButtonStyle)
                         
-                        Button("Abilities") {
+                        DropdownButton(label: "Abilities") {
                             viewModel.showingAbilitiesSheet = true
                         }
-                        .buttonStyle(.dropDownButtonStyle)
                     }
                     .padding()
                 }

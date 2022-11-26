@@ -161,6 +161,7 @@
 		21F3CA1328F1730F000BD757 /* PokemonImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F3CA1228F1730F000BD757 /* PokemonImage.swift */; };
 		21F3CA1528F18B14000BD757 /* EvolutionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F3CA1428F18B14000BD757 /* EvolutionDetailView.swift */; };
 		21F3CA1728F18B75000BD757 /* EvolutionDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F3CA1628F18B75000BD757 /* EvolutionDetailViewModel.swift */; };
+		21F517192931B799009FBA0A /* DropdownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F517182931B799009FBA0A /* DropdownButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -337,6 +338,7 @@
 		21F3CA1228F1730F000BD757 /* PokemonImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonImage.swift; sourceTree = "<group>"; };
 		21F3CA1428F18B14000BD757 /* EvolutionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvolutionDetailView.swift; sourceTree = "<group>"; };
 		21F3CA1628F18B75000BD757 /* EvolutionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvolutionDetailViewModel.swift; sourceTree = "<group>"; };
+		21F517182931B799009FBA0A /* DropdownButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -583,6 +585,7 @@
 				2193D51528FD5352006A686B /* EmptySearchHistoryView.swift */,
 				217BA59529023906009FCFAD /* NavigationLabel.swift */,
 				217BA59B29024010009FCFAD /* HeaderBar.swift */,
+				21F517182931B799009FBA0A /* DropdownButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1005,6 +1008,7 @@
 				212AB02528F2F8E5004067ED /* MovesListViewModel.swift in Sources */,
 				212AB02328F2F87A004067ED /* MovesListView.swift in Sources */,
 				2164042F28F2FE7700E6A13F /* MoveCard.swift in Sources */,
+				21F517192931B799009FBA0A /* DropdownButton.swift in Sources */,
 				21B9D1A028F3D6CC007C1270 /* AbilityEffectChangesListViewModel.swift in Sources */,
 				2100FCAE2910CC6600B59DCF /* LocationArea+Extensions.swift in Sources */,
 				2144A5472900F77C009846AB /* MoveDetail.swift in Sources */,

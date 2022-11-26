@@ -9,31 +9,35 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct MoveStatChangeView: View {
-    let statChange: MoveStatChange
-    @StateObject private var viewModel = MoveStatChangeViewModel()
+    private let moveStatChange: MoveStatChange
+    @StateObject private var viewModel: MoveStatChangeViewModel
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
+    
+    init(moveStatChange: MoveStatChange) {
+        self.moveStatChange = moveStatChange
+        _viewModel = StateObject(wrappedValue: MoveStatChangeViewModel(moveStatChange: moveStatChange))
+    }
     
     var body: some View {
         switch viewModel.viewLoadingState {
         case .loading:
             loadingPlaceholder
                 .task {
-                    await viewModel.loadData(statChange: statChange)
+                    await viewModel.loadData(languageCode: language)
                 }
         case .loaded:
-            if let stat = viewModel.stat {
-                Grid(alignment: .leading) {
-                    GridRow {
-                        Text(stat.localizedName(languageCode: language))
-                            .foregroundColor(.gray)
-                        Text(formatNumber(statChange.change))
-                    }
+            Grid(alignment: .leading) {
+                GridRow {
+                    Text(viewModel.statName)
+                        .foregroundColor(.gray)
+                    Text(formatNumber(moveStatChange.change))
                 }
             }
+            .bodyStyle()
         case .error(let error):
             ErrorView(text: error.localizedDescription) {
                 Task {
-                    await viewModel.loadData(statChange: statChange)
+                    await viewModel.loadData(languageCode: language)
                 }
             }
         }
@@ -58,6 +62,6 @@ private extension MoveStatChangeView {
 
 struct MoveStatChangeView_Previews: PreviewProvider {
     static var previews: some View {
-        MoveStatChangeView(statChange: Move.flashExample.statChanges.first!)
+        MoveStatChangeView(moveStatChange: Move.flashExample.statChanges.first!)
     }
 }

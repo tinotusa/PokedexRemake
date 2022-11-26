@@ -20,7 +20,7 @@ struct MoveStatChangeListView: View {
             description: description
         ) {
             ForEach(statChanges, id: \.self) { statChange in
-                MoveStatChangeView(statChange: statChange)
+                MoveStatChangeView(moveStatChange: statChange)
             }
         }
     }

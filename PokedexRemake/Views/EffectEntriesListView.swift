@@ -11,8 +11,9 @@ import SwiftPokeAPI
 struct EffectEntriesListView: View {
     let title: String
     let description: LocalizedStringKey
+    var effectChance: Int? = nil
     let entries: [VerboseEffect]
-        
+    
     var body: some View {
         DetailListView(title: title, description: description) {
             VStack(alignment: .leading) {
@@ -21,7 +22,7 @@ struct EffectEntriesListView: View {
                 } else {
                     ForEach(entries, id: \.self) { entry in
                         VStack {
-                            Text(entry.shortEffect)
+                            Text(entry.filteredEffect(.short, effectChance: effectChance))
                         }
                     }
                 }
@@ -36,6 +37,7 @@ struct EffectEntriesListView_Previews: PreviewProvider {
         EffectEntriesListView(
             title: "some title",
             description: "some description here.",
+            effectChance: 12,
             entries: []
         )
     }

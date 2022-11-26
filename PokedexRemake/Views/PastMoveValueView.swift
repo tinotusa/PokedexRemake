@@ -51,6 +51,7 @@ struct PastMoveValueView: View {
                                         EffectEntriesListView(
                                             title: "Past entries",
                                             description: "Past entries for this move",
+                                            effectChance: pastValue.effectChance,
                                             entries: pastValue.effectEntries
                                         )
                                     } label: {

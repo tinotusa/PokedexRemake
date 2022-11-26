@@ -102,7 +102,8 @@ private extension MoveDetail {
         .sheet(isPresented: $showingEffectEntries) {
             EffectEntriesListView(
                 title: move.localizedName(languageCode: language),
-                description: "Effect entries for this moe",
+                description: "Effect entries for this move",
+                effectChance: move.effectChance,
                 entries: move.effectEntries
             )
         }

@@ -162,6 +162,7 @@
 		21F3CA1528F18B14000BD757 /* EvolutionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F3CA1428F18B14000BD757 /* EvolutionDetailView.swift */; };
 		21F3CA1728F18B75000BD757 /* EvolutionDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F3CA1628F18B75000BD757 /* EvolutionDetailViewModel.swift */; };
 		21F517192931B799009FBA0A /* DropdownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F517182931B799009FBA0A /* DropdownButton.swift */; };
+		21F5171B2931C000009FBA0A /* VerboseEffect+filteredEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F5171A2931C000009FBA0A /* VerboseEffect+filteredEffect.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -339,6 +340,7 @@
 		21F3CA1428F18B14000BD757 /* EvolutionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvolutionDetailView.swift; sourceTree = "<group>"; };
 		21F3CA1628F18B75000BD757 /* EvolutionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvolutionDetailViewModel.swift; sourceTree = "<group>"; };
 		21F517182931B799009FBA0A /* DropdownButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownButton.swift; sourceTree = "<group>"; };
+		21F5171A2931C000009FBA0A /* VerboseEffect+filteredEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VerboseEffect+filteredEffect.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -636,6 +638,7 @@
 				2153D66C2903830B009CB897 /* Machine+Extensions.swift */,
 				2120B489290FBF840085C360 /* LocationArea+Extension.swift */,
 				2100FCAD2910CC6600B59DCF /* LocationArea+Extensions.swift */,
+				21F5171A2931C000009FBA0A /* VerboseEffect+filteredEffect.swift */,
 			);
 			path = SwiftPokeAPI;
 			sourceTree = "<group>";
@@ -899,6 +902,7 @@
 				217B3B7028FBAE1400201BEC /* Location+Extensions.swift in Sources */,
 				212AB02028F2F4EE004067ED /* PokemonCardViewModel.swift in Sources */,
 				217E7CE228EE708F005B3A05 /* PokemonDetail.swift in Sources */,
+				21F5171B2931C000009FBA0A /* VerboseEffect+filteredEffect.swift in Sources */,
 				2108709229126FD900489A2B /* PokemonSpeciesListView.swift in Sources */,
 				21B9D19C28F3CA8C007C1270 /* FlavorTextEntiresListViewModel.swift in Sources */,
 				21CD84A228ED2081008B2611 /* Array+Extensions.swift in Sources */,

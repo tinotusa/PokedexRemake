@@ -60,7 +60,6 @@ private extension MoveDetail {
     var moveDetailsGrid: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                
                 Grid(alignment: .leading, verticalSpacing: Constants.verticalSpacing) {
                     ForEach(MoveDetailViewModel.MoveDetails.allCases) { moveDetailKey in
                         let value = viewModel.moveDetails[moveDetailKey, default: "N/A"]
@@ -154,48 +153,19 @@ private extension MoveDetail {
         }
     }
     
-    func learnedByPokemonNavigationLink(value: String) -> some View {
-        Button {
-            showingPokemonListView = true
-        } label: {
-            NavigationLabel(title: value)
-        }
-    }
-    
-    func effectEntriesNavigationLink(value: String) -> some View {
-        Button {
-            showingEffectEntries = true
-        } label: {
-            NavigationLabel(title: value)
-        }
-    }
-    
     @ViewBuilder
-    func effectChangesNavigationLink(value: String) -> some View {
-        if move.effectChanges.isEmpty {
-            Text(value)
+    func navigationRow(value: String, isEmpty: Bool = false, action: @escaping () -> Void) -> some View {
+        if isEmpty {
+           Text(value)
         } else {
             Button {
-                showingEffectChanges = true
+                action()
             } label: {
                 NavigationLabel(title: value)
             }
         }
     }
-    
-    @ViewBuilder
-    func flavorTextEntriesNavigationLink(value: String) -> some View {
-        if viewModel.localizedFlavorTextEntries.isEmpty {
-            Text(value)
-        } else {
-            Button {
-                showingFlavorTextEntries = true
-            } label: {
-                NavigationLabel(title: value)
-            }
-        }
-    }
-    
+
     @ViewBuilder
     func gridRowValue(for moveDetailKey: MoveDetailViewModel.MoveDetails) -> some View {
         let value = viewModel.moveDetails[moveDetailKey, default: "N/A"]
@@ -205,60 +175,35 @@ private extension MoveDetail {
                 TypeTag(type: type)
             }
         case .learnedByPokemon:
-            learnedByPokemonNavigationLink(value: value)
+            navigationRow(value: value) {
+                showingPokemonListView = true
+            }
         case .effectEntries:
-            effectEntriesNavigationLink(value: value)
+            navigationRow(value: value) {
+                showingEffectEntries = true
+            }
         case .effectChanges:
-            effectChangesNavigationLink(value: value)
+            navigationRow(value: value, isEmpty: move.effectChanges.isEmpty) {
+                showingEffectChanges = true
+            }
         case .flavorTextEntries:
-            flavorTextEntriesNavigationLink(value: value)
+            navigationRow(value: value, isEmpty: viewModel.localizedFlavorTextEntries.isEmpty) {
+                showingFlavorTextEntries = true
+            }
         case .machines:
-            machinesNavigationLink(value: value)
+            navigationRow(value: value, isEmpty: move.machines.isEmpty) {
+                showingMachinesListView = true
+            }
         case .pastValues:
-            pastValuesNavigationLink(value: value)
+            navigationRow(value: value, isEmpty: move.pastValues.isEmpty) {
+                showingPastValuesView = true
+            }
         case .statChanges:
-            statChangesNavigationLink(value: value)
+            navigationRow(value: value, isEmpty: move.statChanges.isEmpty) {
+                showingStatChanges = true
+            }
         default:
             Text(value)
-        }
-    }
-    
-    @ViewBuilder
-    func machinesNavigationLink(value: String) -> some View {
-        if move.machines.isEmpty {
-            Text(value)
-        } else {
-            Button {
-                showingMachinesListView = true
-            } label: {
-                NavigationLabel(title: value)
-            }
-        }
-    }
-    
-    @ViewBuilder
-    func pastValuesNavigationLink(value: String) -> some View {
-        if move.pastValues.isEmpty {
-            Text(value)
-        } else {
-            Button {
-                showingPastValuesView = true
-            } label: {
-                NavigationLabel(title: value)
-            }
-        }
-    }
-    
-    @ViewBuilder
-    func statChangesNavigationLink(value: String) -> some View {
-        if move.statChanges.isEmpty {
-            Text(value)
-        } else {
-            Button {
-                showingStatChanges = true
-            } label: {
-                NavigationLabel(title: value)
-            }
         }
     }
 }

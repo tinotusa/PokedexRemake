@@ -116,7 +116,6 @@
 		21B9D18E28F3BC4E007C1270 /* AbilitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B9D18D28F3BC4E007C1270 /* AbilitiesListViewModel.swift */; };
 		21B9D19028F3BCF4007C1270 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B9D18F28F3BCF4007C1270 /* Globals.swift */; };
 		21B9D19228F3BE9E007C1270 /* Ability+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B9D19128F3BE9E007C1270 /* Ability+Extensions.swift */; };
-		21B9D19428F3C2F0007C1270 /* AbilityExpandableTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B9D19328F3C2F0007C1270 /* AbilityExpandableTab.swift */; };
 		21B9D19628F3C358007C1270 /* ability.json in Resources */ = {isa = PBXBuildFile; fileRef = 21B9D19528F3C358007C1270 /* ability.json */; };
 		21B9D19828F3C3D4007C1270 /* AbilityExpandableTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B9D19728F3C3D4007C1270 /* AbilityExpandableTabViewModel.swift */; };
 		21B9D19A28F3C92F007C1270 /* FlavorTextEntriesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B9D19928F3C92F007C1270 /* FlavorTextEntriesList.swift */; };
@@ -295,7 +294,6 @@
 		21B9D18D28F3BC4E007C1270 /* AbilitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilitiesListViewModel.swift; sourceTree = "<group>"; };
 		21B9D18F28F3BCF4007C1270 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		21B9D19128F3BE9E007C1270 /* Ability+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ability+Extensions.swift"; sourceTree = "<group>"; };
-		21B9D19328F3C2F0007C1270 /* AbilityExpandableTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilityExpandableTab.swift; sourceTree = "<group>"; };
 		21B9D19528F3C358007C1270 /* ability.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ability.json; sourceTree = "<group>"; };
 		21B9D19728F3C3D4007C1270 /* AbilityExpandableTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilityExpandableTabViewModel.swift; sourceTree = "<group>"; };
 		21B9D19928F3C92F007C1270 /* FlavorTextEntriesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavorTextEntriesList.swift; sourceTree = "<group>"; };
@@ -580,7 +578,6 @@
 				217E7CE828EEC428005B3A05 /* ExpandableTab.swift */,
 				21F3CA1228F1730F000BD757 /* PokemonImage.swift */,
 				2164042E28F2FE7700E6A13F /* MoveCard.swift */,
-				21B9D19328F3C2F0007C1270 /* AbilityExpandableTab.swift */,
 				21B9D19928F3C92F007C1270 /* FlavorTextEntriesList.swift */,
 				21B9D19D28F3D667007C1270 /* AbilityEffectChangesList.swift */,
 				217B3B8828FBD2E600201BEC /* RecentlySearchedBar.swift */,
@@ -893,7 +890,6 @@
 				2120B48C290FC1A80085C360 /* LocationAreaDetailViewModel.swift in Sources */,
 				2153D679290396C4009CB897 /* PastMoveValueViewModel.swift in Sources */,
 				21B9D18C28F3BB61007C1270 /* AbilitiesListView.swift in Sources */,
-				21B9D19428F3C2F0007C1270 /* AbilityExpandableTab.swift in Sources */,
 				21CD84B428ED4E39008B2611 /* CategoryView.swift in Sources */,
 				21261E38290A90B800FA2FF6 /* NameLocalizable.swift in Sources */,
 				2153D67129039150009CB897 /* PastMoveValuesListView.swift in Sources */,

@@ -27,10 +27,12 @@ struct AbilitiesListView: View {
                             }
                         }
                 case .loaded:
-                    ForEach(viewModel.abilities) { ability in
-                        AbilityExpandableTab(ability: ability)
+                    LazyVStack {
+                        ForEach(viewModel.abilities) { ability in
+                            AbilityCard(ability: ability)
+                        }
+                        .bodyStyle()
                     }
-                    .bodyStyle()
                 case .error(let error):
                     ErrorView(text: error.localizedDescription) {
                         Task {

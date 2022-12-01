@@ -80,7 +80,7 @@ struct PokemonDetail: View {
                 description: "Abilities this pokemon has.",
                 viewModel: abilitiesListViewModel
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.large])
             .presentationDragIndicator(.visible)
             .presentationDragIndicator(.visible)
         }

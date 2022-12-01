@@ -37,16 +37,22 @@ struct FlavorTextEntriesList: View {
                         }
                 case .loaded:
                     VStack(alignment: .leading) {
-                        ForEach(abilityFlavorTexts, id: \.self) { abilityFlavorText in
-                            if let versions = viewModel.versions(named: abilityFlavorText.versionGroup.name) {
+                        ForEach(viewModel.flavorTexts, id: \.self) { flavorText in
+                            let flavorTextVersionGroup = viewModel.flavorTextVersionGroups[flavorText, default: []]
+                            ScrollView(.horizontal, showsIndicators: false) {
                                 HStack {
-                                    ForEach(versions) { version in
-                                        Text(version.localizedName(languageCode: language))
+                                    ForEach(flavorTextVersionGroup, id: \.self) { versionGroup in
+                                        if let name = versionGroup.name {
+                                            let versions = viewModel.versions(named: name)
+                                            ForEach(versions) { version in
+                                                Text(version.localizedName(languageCode: language))
+                                            }
+                                        }
                                     }
                                 }
                                 .foregroundColor(.gray)
                             }
-                            Text(abilityFlavorText.filteredFlavorText())
+                            Text(flavorText)
                         }
                     }
                     .bodyStyle()
@@ -69,7 +75,13 @@ struct FlavorTextEntriesList_Previews: PreviewProvider {
             id: 999,
             description: "some description",
             language: SettingsKey.defaultLanguage,
-            abilityFlavorTexts: [],
+            abilityFlavorTexts: Ability.example.flavorTextEntries.map {
+                CustomFlavorText(
+                    flavorText: $0.flavorText,
+                    language: $0.language,
+                    versionGroup: $0.versionGroup
+                )
+            },
             viewModel: FlavorTextEntriesListViewModel()
         )
     }

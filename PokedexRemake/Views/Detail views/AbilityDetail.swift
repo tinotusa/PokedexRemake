@@ -71,9 +71,9 @@ struct AbilityDetail: View {
                     id: ability.id,
                     description: "Flavor text entries for this ability.",
                     language: language,
-                    abilityFlavorTexts: ability.flavorTextEntries.localizedItems(for: language).map { entry in
+                    abilityFlavorTexts: viewModel.flavorTextEntries.map { entry in
                         CustomFlavorText(
-                            flavorText: entry.flavorText,
+                            flavorText: entry.filteredFlavorText(),
                             language: entry.language,
                             versionGroup: entry.versionGroup
                         )

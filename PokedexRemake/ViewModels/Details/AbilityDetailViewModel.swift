@@ -20,6 +20,7 @@ final class AbilityDetailViewModel: ObservableObject {
     @Published private(set) var abilityDetails = [AbilityDetailKey: String]()
     /// The localised verbose effect of the Ability.
     @Published private(set) var localizedEffectEntries = [VerboseEffect]()
+    @Published private(set) var flavorTextEntries = [AbilityFlavorText]()
     /// A Boolean value indicating whether or not the EffectEntriesListView is showing.
     @Published var showingEffectEntriesListView = false
     /// A Boolean value indicating whether or not the EffectChangesListView is showing.
@@ -62,6 +63,13 @@ extension AbilityDetailViewModel {
         do {
             self.generation = try await Generation(ability.generation.url)
             self.localizedEffectEntries = ability.effectEntries.localizedItems(for: languageCode)
+            let flavorTexts = ability.flavorTextEntries.localizedItems(for: languageCode)
+            flavorTexts.forEach { flavorText in
+                if self.flavorTextEntries.contains(where: { $0.filteredFlavorText() == flavorText.filteredFlavorText()}) {
+                    return
+                }
+                self.flavorTextEntries.append(flavorText)
+            }
             abilityDetails = getAbilityDetails(ability: ability, languageCode: languageCode)
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data for ability with id: \(ability.id).")
@@ -86,7 +94,7 @@ private extension AbilityDetailViewModel {
         }
         details[.effectEntries] = "\(localizedEffectEntries.count)"
         details[.effectChanges] = "\(ability.effectChanges.count)"
-        details[.flavorTextEntries] = "\(ability.flavorTextEntries.localizedItems(for: languageCode).count)"
+        details[.flavorTextEntries] = "\(flavorTextEntries.count)"
         details[.pokemon] = "\(ability.pokemon.count)"
         
         return details

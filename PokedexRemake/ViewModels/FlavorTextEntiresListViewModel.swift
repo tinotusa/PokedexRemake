@@ -17,7 +17,8 @@ final class FlavorTextEntriesListViewModel: ObservableObject {
     @Published private(set) var versionGroups = Set<VersionGroup>()
     /// The Versions of the FlavorTexts.
     @Published private(set) var versions = Set<Version>()
-    
+    @Published private(set) var flavorTextVersionGroups = [String: [NamedAPIResource]]()
+    @Published private(set) var flavorTexts = [String]()
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "FlavorTextEntriesListViewModel")
 }
 
@@ -27,6 +28,17 @@ extension FlavorTextEntriesListViewModel {
     /// - Parameter abilityFlavorTexts: The array of flavor texts to load data from.
     func loadData(abilityFlavorTexts: [CustomFlavorText]) async {
         logger.debug("Loading data.")
+        abilityFlavorTexts.forEach { abilityFlavorText in
+            let text = abilityFlavorText.flavorText
+            if flavorTexts.contains(text) {
+                return
+            }
+            flavorTexts.append(text)
+        }
+        abilityFlavorTexts.forEach { flavorText in
+            flavorTextVersionGroups[flavorText.flavorText, default: []].append(flavorText.versionGroup)
+        }
+        
         do {
             self.versionGroups = try await Globals.getItems(VersionGroup.self, urls: abilityFlavorTexts.compactMap { $0.versionGroup.url })
             self.versions = try await Globals.getItems(Version.self, urls: versionGroups.flatMap { $0.versions.urls() })

@@ -148,7 +148,7 @@ extension MoveDetailViewModel {
             self.moveName = move.localizedName(languageCode: languageCode)
             self.customFlavorTexts = localizedFlavorTextEntries.map { entry in
                 CustomFlavorText(
-                    flavorText: entry.flavorText,
+                    flavorText: entry.filteredFlavorText(),
                     language: entry.language,
                     versionGroup: entry.versionGroup
                 )

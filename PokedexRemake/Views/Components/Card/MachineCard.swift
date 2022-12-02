@@ -13,9 +13,9 @@ struct MachineCard: View {
     @StateObject private var viewModel: MachineCardViewModel
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage
     
-    init(machine: Machine) {
+    init(machine: Machine, versionGroups: [NamedAPIResource]) {
         self.machine = machine
-        _viewModel = StateObject(wrappedValue: MachineCardViewModel(machine: machine))
+        _viewModel = StateObject(wrappedValue: MachineCardViewModel(machine: machine, versionGroups: versionGroups))
     }
     
     var body: some View {
@@ -36,15 +36,7 @@ struct MachineCard: View {
                             .subtitleStyle()
                         Text(viewModel.moveName)
                         
-                        ViewThatFits(in: .horizontal) {
-                            HStack {
-                                versionsList()
-                            }
-                            VStack(alignment: .leading, spacing: 0) {
-                                versionsList(showDivider: false)
-                            }
-                        }
-                        .foregroundColor(.gray)
+                        versionsList
                     }
                 }
                 .subtitle2Style()
@@ -84,19 +76,23 @@ extension MachineCard {
         .redacted(reason: .placeholder)
     }
     
-    @ViewBuilder
-    func versionsList(showDivider: Bool = true) -> some View {
-        ForEach(viewModel.versions) { version in
-            Text(version.localizedName(languageCode: language))
-            if showDivider && version != viewModel.versions.last {
-                Divider()
+    var versionsList: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(viewModel.versions) { version in
+                    Text(version.localizedName(languageCode: language))
+                    if version != viewModel.versions.last {
+                        Divider()
+                    }
+                }
             }
+            .foregroundColor(.gray)
         }
     }
 }
 
 struct MachineCard_Previews: PreviewProvider {
     static var previews: some View {
-        MachineCard(machine: .example)
+        MachineCard(machine: .example, versionGroups: [])
     }
 }

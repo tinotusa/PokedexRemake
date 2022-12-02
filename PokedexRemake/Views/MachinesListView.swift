@@ -36,7 +36,10 @@ struct MachinesListView: View {
                 case .loaded:
                     LazyVStack {
                         ForEach(viewModel.machines) { machine in
-                            MachineCard(machine: machine)
+                            if let name = machine.item.name {
+                                let versionGroups = viewModel.machineVersions[name, default: []]
+                                MachineCard(machine: machine, versionGroups: versionGroups)
+                            }
                         }
                         if viewModel.hasNextPage {
                             ProgressView()

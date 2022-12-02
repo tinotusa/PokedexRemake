@@ -28,7 +28,9 @@ final class MoveDetailViewModel: ObservableObject {
     @Published private(set) var ailment: MoveAilment?
     /// The category of the Move to be displayed.
     @Published private(set) var category: MoveCategory?
-    
+    /// The machines that teach this move.
+    @Published private var machines = [Machine]()
+    /// The localized flavor text entries of the Move.
     @Published private(set) var localizedFlavorTextEntries = [MoveFlavorText]()
     /// The moveDetails of the Move.
     @Published private(set) var moveDetails = [MoveDetails: String]()
@@ -139,12 +141,18 @@ extension MoveDetailViewModel {
                     }
                 }
                 
+                for machine in move.machines {
+                    group.addTask { @MainActor [weak self] in
+                        guard let self else { return }
+                        let machine = try await Machine(machine.machine.url)
+                        self.machines.append(machine)
+                    }
+                }
+                
                 try await group.waitForAll()
             }
             
             self.localizedFlavorTextEntries = move.flavorTextEntries.localizedItems(for: languageCode)
-            self.moveDetails = getMoveDetails(move: move, languageCode: languageCode)
-            self.metaDetails = getMoveMetaDetails(move: move, languageCode: languageCode)
             self.moveName = move.localizedName(languageCode: languageCode)
             self.customFlavorTexts = localizedFlavorTextEntries.map { entry in
                 CustomFlavorText(
@@ -153,6 +161,17 @@ extension MoveDetailViewModel {
                     versionGroup: entry.versionGroup
                 )
             }
+            // TODO: is there an easier(simpler) way to do this (get the unique elements based on a property of the struct)?
+            var uniqueMachines = [Machine]()
+            machines.forEach { machine in
+                if uniqueMachines.contains(where: { $0.item.name == machine.item.name }) {
+                    return
+                }
+                uniqueMachines.append(machine)
+            }
+            self.machines = uniqueMachines
+            self.moveDetails = getMoveDetails(move: move, languageCode: languageCode)
+            self.metaDetails = getMoveMetaDetails(move: move, languageCode: languageCode)
             viewLoadingState = .loaded
             logger.debug("Successfully loaded data.")
         } catch {
@@ -197,7 +216,7 @@ private extension MoveDetailViewModel {
         moveDetails[.effectEntries] = "\(move.effectEntries.count)"
         moveDetails[.effectChanges] = "\(move.effectChanges.count)"
         moveDetails[.flavorTextEntries] = "\(localizedFlavorTextEntries.count)"
-        moveDetails[.machines] = "\(move.machines.count)"
+        moveDetails[.machines] = "\(self.machines.count)"
         moveDetails[.pastValues] = "\(move.pastValues.count)"
         moveDetails[.statChanges] = "\(move.statChanges.count)"
         

@@ -20,9 +20,11 @@ final class MachineCardViewModel: ObservableObject {
     /// The machines move.
     @Published private(set) var move: Move?
     /// The machines VersionGroup.
-    @Published private(set) var versionGroup: VersionGroup?
+    @Published private(set) var versionGroups = [VersionGroup]()
     /// The machines Versions.
     @Published private(set) var versions = [Version]()
+    /// The api VersionGroups
+    @Published private(set) var apiVersionGroups = [NamedAPIResource]()
     
     /// The localised name for the Machine's Item.
     @Published private(set) var itemName = "Error"
@@ -33,8 +35,9 @@ final class MachineCardViewModel: ObservableObject {
     
     /// Creates the view model/
     /// - Parameter machine: The Machine to display.
-    init(machine: Machine) {
+    init(machine: Machine, versionGroups: [NamedAPIResource]) {
         self.machine = machine
+        self.apiVersionGroups = versionGroups
     }
     
     /// Errors for the MachineCard
@@ -69,21 +72,19 @@ extension MachineCardViewModel {
                     self.move = move
                     self.moveName = move.localizedName(languageCode: languageCode)
                 }
-                group.addTask { @MainActor [weak self] in
-                    guard let self else { return }
-                    self.versionGroup = try await VersionGroup(self.machine.versionGroup.url)
+                
+                for apiVersionGroup in self.apiVersionGroups {
+                    group.addTask { @MainActor [weak self] in
+                        guard let self else { return }
+                        let versionGroup = try await VersionGroup(apiVersionGroup.url)
+                        self.versionGroups.append(versionGroup)
+                    }
                 }
                 
                 try await group.waitForAll()
             }
-            
-            if let versionGroup {
-                self.versions = try await Globals.getItems(Version.self, urls: versionGroup.versions.map { $0.url } ).sorted()
-            } else {
-                logger.error("Failed to get version group from machine \(self.machine.id).")
-                viewLoadingState = .error(error: MachineCardError.noVersionGroup)
-                return
-            }
+
+            self.versions = try await Globals.getItems(Version.self, urls: versionGroups.flatMap { $0.versions.urls() } ).sorted()
 
             viewLoadingState = .loaded
             logger.debug("Successfully loaded machine card data.")

@@ -370,6 +370,13 @@
 		211B21BE293860AE00E8C27C /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				21261E35290A34A500FA2FF6 /* Localizable+Extensions.swift */,
+				21261E39290A922D00FA2FF6 /* NameLocalizable+Extensions.swift */,
+				2153D680290406A7009CB897 /* SearchResultsList.swift */,
+				21261E33290A345100FA2FF6 /* Localizable.swift */,
+				21261E37290A90B800FA2FF6 /* NameLocalizable.swift */,
+				217017672915FE1500D2A402 /* Pageable.swift */,
+				21B936762927A96700AC750F /* SearchableByName.swift */,
 				211B21BF293860C400E8C27C /* FlavorText.swift */,
 			);
 			path = Protocols;
@@ -607,8 +614,6 @@
 				21CD84A128ED2081008B2611 /* Array+Extensions.swift */,
 				21F3CA0E28F169AB000BD757 /* Bundle+loadJSON.swift */,
 				2193D51D28FD9CB9006A686B /* FileManager+documentsURL.swift */,
-				21261E35290A34A500FA2FF6 /* Localizable+Extensions.swift */,
-				21261E39290A922D00FA2FF6 /* NameLocalizable+Extensions.swift */,
 				21D8F1F2292A0F8400497F2B /* Sequence+urls.swift */,
 			);
 			path = Extensions;
@@ -655,12 +660,7 @@
 				21CD84A628ED26DD008B2611 /* SettingsKey.swift */,
 				21B9D18F28F3BCF4007C1270 /* Globals.swift */,
 				217B3B8028FBCC6C00201BEC /* SearchScope.swift */,
-				2153D680290406A7009CB897 /* SearchResultsList.swift */,
-				21261E33290A345100FA2FF6 /* Localizable.swift */,
-				21261E37290A90B800FA2FF6 /* NameLocalizable.swift */,
 				217017652915FDFC00D2A402 /* PageInfo.swift */,
-				217017672915FE1500D2A402 /* Pageable.swift */,
-				21B936762927A96700AC750F /* SearchableByName.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

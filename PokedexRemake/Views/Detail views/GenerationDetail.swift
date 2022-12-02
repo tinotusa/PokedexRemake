@@ -101,6 +101,8 @@ private extension GenerationDetail {
                 viewModel.showingPokemonSpeciesList = true
             }
         case .types:
+            // Putting a LazyVGrid inside a grid gives it weird spacing.
+            // Don't know how to fix this (without removing the grid)
             LazyVGrid(columns: [.init(.adaptive(minimum: 100))], alignment: .leading, spacing: 5) {
                 if viewModel.types.isEmpty {
                     Text("N/A")

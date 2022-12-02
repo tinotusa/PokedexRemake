@@ -12,6 +12,8 @@ import os
 
 /// View model for AbilityDetail.
 final class AbilityDetailViewModel: ObservableObject {
+    /// The Ability to be displayed.
+    private var ability: Ability
     /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
     /// The generation of the Ability.
@@ -20,7 +22,13 @@ final class AbilityDetailViewModel: ObservableObject {
     @Published private(set) var abilityDetails = [AbilityDetailKey: String]()
     /// The localised verbose effect of the Ability.
     @Published private(set) var localizedEffectEntries = [VerboseEffect]()
-    @Published private(set) var flavorTextEntries = [AbilityFlavorText]()
+    /// The flavor text entries of the Ability.
+    @Published private var flavorTextEntries = [AbilityFlavorText]()
+    /// The custom flavor text entries for the list view.
+    @Published private(set) var customFlavorTexts = [CustomFlavorText]()
+    /// The localized name of the Ability.
+    @Published private(set) var abilityName = "Error"
+    
     /// A Boolean value indicating whether or not the EffectEntriesListView is showing.
     @Published var showingEffectEntriesListView = false
     /// A Boolean value indicating whether or not the EffectChangesListView is showing.
@@ -31,6 +39,10 @@ final class AbilityDetailViewModel: ObservableObject {
     @Published var showingPokemonListView = false
     
     private let logger = Logger(subsystem: "com.tinotusa.PokedexRemake", category: "AbilityDetailViewModel")
+    
+    init(ability: Ability) {
+        self.ability = ability
+    }
     
     /// Keys for the ability details.
     enum AbilityDetailKey: String, CaseIterable, Identifiable {
@@ -49,7 +61,6 @@ final class AbilityDetailViewModel: ObservableObject {
             LocalizedStringKey(self.rawValue.localizedCapitalized)
         }
     }
-    
 }
 
 extension AbilityDetailViewModel {
@@ -58,7 +69,7 @@ extension AbilityDetailViewModel {
     ///   - ability: The Ability to load data from.
     ///   - languageCode: The language code used for localisations.
     @MainActor
-    func loadData(ability: Ability, languageCode: String) async {
+    func loadData(languageCode: String) async {
         logger.debug("Loading data.")
         do {
             self.generation = try await Generation(ability.generation.url)
@@ -70,12 +81,20 @@ extension AbilityDetailViewModel {
                 }
                 self.flavorTextEntries.append(flavorText)
             }
+            abilityName = ability.localizedName(languageCode: languageCode)
+            customFlavorTexts = flavorTextEntries.map { entry in
+                CustomFlavorText(
+                    flavorText: entry.flavorText,
+                    language: entry.language,
+                    versionGroup: entry.versionGroup
+                )
+            }
             abilityDetails = getAbilityDetails(ability: ability, languageCode: languageCode)
             viewLoadingState = .loaded
-            logger.debug("Successfully loaded data for ability with id: \(ability.id).")
+            logger.debug("Successfully loaded data for ability with id: \(self.ability.id).")
         } catch {
             viewLoadingState = .error(error: error)
-            logger.error("Failed to load data for ability with id: \(ability.id). \(error)")
+            logger.error("Failed to load data for ability with id: \(self.ability.id). \(error)")
         }
     }
 }

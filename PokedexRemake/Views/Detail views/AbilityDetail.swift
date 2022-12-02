@@ -9,8 +9,8 @@ import SwiftUI
 import SwiftPokeAPI
 
 struct AbilityDetail: View {
-    let ability: Ability
-    @StateObject private var viewModel = AbilityDetailViewModel()
+    private let ability: Ability
+    @StateObject private var viewModel: AbilityDetailViewModel
     
     @StateObject private var abilityEffectChangesListViewModel = AbilityEffectChangesListViewModel()
     @StateObject private var flavorTextEntriesListViewModel = FlavorTextEntriesListViewModel()
@@ -18,6 +18,7 @@ struct AbilityDetail: View {
     
     init(ability: Ability) {
         self.ability = ability
+        _viewModel = StateObject(wrappedValue: AbilityDetailViewModel(ability: ability))
         _pokemonListViewModel = StateObject(wrappedValue: PokemonListViewModel(urls: ability.pokemon.map { $0.pokemon.url }))
     }
     
@@ -28,7 +29,7 @@ struct AbilityDetail: View {
         case .loading:
             LoadingView()
                 .task {
-                    await viewModel.loadData(ability: ability, languageCode: language)
+                    await viewModel.loadData(languageCode: language)
                 }
         case .loaded:
             ScrollView {
@@ -45,19 +46,19 @@ struct AbilityDetail: View {
                 }
                 .padding()
             }
-            .navigationTitle(ability.localizedName(languageCode: language))
+            .navigationTitle(viewModel.abilityName)
             .background(Color.background)
             .bodyStyle()
             .sheet(isPresented: $viewModel.showingEffectEntriesListView) {
                 EffectEntriesListView(
-                    title: ability.localizedName(languageCode: language),
+                    title: viewModel.abilityName,
                     description: "Effect entries for this ability",
                     entries: ability.effectEntries.localizedItems(for: language)
                 )
             }
             .sheet(isPresented: $viewModel.showingEffectChangesListView) {
                 AbilityEffectChangesList(
-                    title: ability.localizedName(languageCode: language),
+                    title: viewModel.abilityName,
                     id: ability.id,
                     description: "Effect changes for this ability.",
                     effectChanges: ability.effectChanges,
@@ -67,23 +68,17 @@ struct AbilityDetail: View {
             }
             .sheet(isPresented: $viewModel.showingFlavorTextEntriesListView) {
                 FlavorTextEntriesList(
-                    title: ability.localizedName(languageCode: language),
+                    title: viewModel.abilityName,
                     id: ability.id,
                     description: "Flavor text entries for this ability.",
                     language: language,
-                    abilityFlavorTexts: viewModel.flavorTextEntries.map { entry in
-                        CustomFlavorText(
-                            flavorText: entry.filteredFlavorText(),
-                            language: entry.language,
-                            versionGroup: entry.versionGroup
-                        )
-                    },
+                    abilityFlavorTexts: viewModel.customFlavorTexts,
                     viewModel: flavorTextEntriesListViewModel
                 )
             }
             .sheet(isPresented: $viewModel.showingPokemonListView) {
                 PokemonListView(
-                    title: ability.localizedName(languageCode: language),
+                    title: viewModel.abilityName,
                     description: "Pokemon with this ability",
                     viewModel: pokemonListViewModel
                 )
@@ -91,7 +86,7 @@ struct AbilityDetail: View {
         case .error(let error):
             ErrorView(text: error.localizedDescription) {
                 Task {
-                    await viewModel.loadData(ability: ability, languageCode: language)
+                    await viewModel.loadData(languageCode: language)
                 }
             }
         }

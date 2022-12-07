@@ -8,21 +8,6 @@
 import SwiftUI
 import SwiftPokeAPI
 
-extension VerboseEffect {
-    enum EffectType {
-        case short
-        case long
-    }
-    
-    func filteredEffect(_ effectType: EffectType = .short) -> String {
-        var text = self.effect
-        if effectType == .short {
-            text = self.shortEffect
-        }
-        return text.replacingOccurrences(of: "[\\s\\n]+", with: " ", options: .regularExpression)
-    }
-}
-
 struct ItemDetail: View {
     let item: Item
     @AppStorage(SettingsKey.language) private var language = SettingsKey.defaultLanguage

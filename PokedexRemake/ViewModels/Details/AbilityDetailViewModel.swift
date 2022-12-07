@@ -84,7 +84,7 @@ extension AbilityDetailViewModel {
             abilityName = ability.localizedName(languageCode: languageCode)
             customFlavorTexts = flavorTextEntries.map { entry in
                 CustomFlavorText(
-                    flavorText: entry.flavorText,
+                    flavorText: entry.filteredFlavorText(),
                     language: entry.language,
                     versionGroup: entry.versionGroup
                 )

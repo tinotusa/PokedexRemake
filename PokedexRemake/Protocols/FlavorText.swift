@@ -16,7 +16,7 @@ extension FlavorTextProtocol {
     /// Filters the flavor text by removing any spaces and new lines.
     /// - Returns: A filtered version of the flavor text.
     func filteredFlavorText() -> String {
-        self.flavorText.replacingOccurrences(of: "[\\s\n]+", with: " ", options: .regularExpression)
+        self.flavorText.replacingOccurrences(of: "[\\s\\n]+", with: " ", options: .regularExpression)
     }
 }
 

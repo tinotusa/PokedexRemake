@@ -26,7 +26,12 @@ final class ItemDetailViewModel: ObservableObject {
     @Published private(set) var itemDetails: [ItemDetailKey: String] = [:]
     /// The loading state of the view.
     @Published private(set) var viewLoadingState = ViewLoadingState.loading
-    
+    /// The custom flavor texts of the item.
+    @Published private(set) var customFlavorTexts = [CustomFlavorText]()
+    /// The short effect entry of the item.
+    @Published private(set) var shortEffectEntry = "Error"
+    /// The long effect entry of the item.
+    @Published private(set) var longEffectEntry = "Error"
     /// A Boolean value indicating whether or not the flavorText list is showing.
     @Published var showingFlavorTextList = false
     /// A Boolean value indicating whether or not the machines list is showing.
@@ -76,7 +81,17 @@ extension ItemDetailViewModel {
             }
             self.attributes = try await Globals.getItems(ItemAttribute.self, urls: item.attributes.map { $0.url }).sorted()
             
+            self.shortEffectEntry = item.effectEntries.localizedEntry(language: languageCode, shortVersion: true)
+            self.longEffectEntry = item.effectEntries.localizedEntry(language: languageCode)
+            
             self.localizedFlavorTextEntries = item.flavorTextEntries.localizedItems(for: languageCode)
+            self.customFlavorTexts = localizedFlavorTextEntries.map { entry in
+                CustomFlavorText(
+                    flavorText: entry.text.replacingOccurrences(of: "[\\n\\s]+", with: " ", options: .regularExpression),
+                    language: entry.language,
+                    versionGroup: entry.versionGroup
+                )
+            }
             self.itemDetails = getItemDetails(item: item, languageCode: languageCode)
             
             viewLoadingState = .loaded

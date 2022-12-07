@@ -48,8 +48,8 @@ struct ItemDetail: View {
                     PokemonImage(url: item.sprites.default, imageSize: Constants.imageSize)
                         .frame(maxWidth: .infinity, alignment: .center)
                     Group {
-                        Text(item.effectEntries.localizedEntry(language: language, shortVersion: true))
-                        Text(item.effectEntries.localizedEntry(language: language))
+                        Text(viewModel.shortEffectEntry)
+                        Text(viewModel.longEffectEntry)
                     }
                     .padding(.bottom)
                     
@@ -74,9 +74,7 @@ struct ItemDetail: View {
                     id: item.id,
                     description: "Flavor texts for this item",
                     language: language,
-                    abilityFlavorTexts: viewModel.localizedFlavorTextEntries.map { entry in
-                        CustomFlavorText (flavorText: entry.text, language: entry.language, versionGroup: entry.versionGroup)
-                    },
+                    abilityFlavorTexts: viewModel.customFlavorTexts,
                     viewModel: flavorTextEntriesListViewModel
                 )
             }
